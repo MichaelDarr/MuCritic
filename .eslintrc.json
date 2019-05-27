@@ -1,0 +1,27 @@
+{
+    "extends": ["airbnb-base", "plugin:@typescript-eslint/recommended"],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 2018,
+        "sourceType": "module",
+        "project": "./api/tsconfig.json"
+    },
+    "plugins": ["@typescript-eslint"],
+    "rules": {
+        "no-console": "off",
+        "keyword-spacing": "off",
+        "no-continue": "off",
+        "semi": "off",
+        "no-await-in-loop": "off",
+        "@typescript-eslint/semi": ["error"],
+        "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"]
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "paths": ["src"],
+                "extensions": [".js", ".jsx", ".ts", ".tsx"]
+            }
+        }
+    }
+}

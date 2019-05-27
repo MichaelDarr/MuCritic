@@ -1,0 +1,53 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node built/index",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "one": "tsc && node built/index resources/one.txt",
+    "two": "tsc && node built/index resources/two.txt",
+    "three": "tsc && node built/index resources/three.txt",
+    "four": "tsc && node built/index resources/four.txt",
+    "five": "tsc && node built/index resources/five.txt"
+  },
+  "author": "Michael Darr",
+  "license": "ISC",
+  "dependencies": {
+    "@types/dotenv": "^6.1.1",
+    "@types/jsdom": "^12.2.3",
+    "@types/node": "^11.12.0",
+    "@types/puppeteer": "^1.12.4",
+    "@types/request": "^2.48.1",
+    "axios": "^0.18.0",
+    "chalk": "^2.4.2",
+    "csv-writer": "^1.2.0",
+    "disconnect": "^1.2.1",
+    "dotenv": "^7.0.0",
+    "jsdom": "^15.1.0",
+    "node-html-parser": "^1.1.15",
+    "pg": "^7.11.0",
+    "progress": "^2.0.3",
+    "puppeteer": "^1.16.0",
+    "reflect-metadata": "^0.1.13",
+    "request": "^2.88.0",
+    "sanitize-filename": "^1.6.1",
+    "sqlite": "^3.0.2",
+    "sqlite3": "^4.0.6",
+    "table": "^5.2.3",
+    "typeorm": "^0.2.17",
+    "typescript": "^3.4.5"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^1.9.0",
+    "@typescript-eslint/parser": "^1.9.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-node": "^9.0.1",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-standard": "^4.0.0"
+  }
+}

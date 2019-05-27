@@ -1,0 +1,1 @@
+SELECT label, COUNT (*) from reviews LEFT JOIN labels ON reviews.reviewid = labels.reviewid group by label ORDER BY COUNT(*) DESC
