@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "tsc && node built/index",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "spotify": "tsc && node built/spotify",
     "one": "tsc && node built/index resources/one.txt",
     "two": "tsc && node built/index resources/two.txt",
     "three": "tsc && node built/index resources/three.txt",
