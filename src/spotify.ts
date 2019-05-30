@@ -6,9 +6,8 @@
 
 // external dependencies
 import * as dontenv from 'dotenv';
-import { createConnection } from 'typeorm';
+import { createConnection, getConnection } from 'typeorm';
 import { resolve } from 'path';
-import { getConnection } from 'typeorm';
 
 // internal class dependencies
 import Log from './logger';
@@ -52,18 +51,18 @@ Log.notify('\nmuCritic spotify scraper\n\n');
     Log.success('Database Connection Successful');
 
     const connection = getConnection();
-    let albumRepository = connection.getRepository(AlbumEntity);
-    let albums = await albumRepository.find({ relations: ["artist"] });
+    const albumRepository = connection.getRepository(AlbumEntity);
+    const albums = await albumRepository.find({ relations: ['artist'] });
 
     const spotifyHelper = new SpotifyHelper(
         process.env.SPOTIFY_CLIENT_ID,
-        process.env.SPOTIFY_CLIENT_SECRET
+        process.env.SPOTIFY_CLIENT_SECRET,
     );
 
     for await(const album of albums) {
         const apiResult = await spotifyHelper.searchAlbum(
             album.name,
-            album.artist.name
+            album.artist.name,
         );
         console.log(apiResult);
     }

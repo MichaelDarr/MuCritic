@@ -2,14 +2,13 @@ import * as request from 'request';
 import Log from './logger';
 
 export default class SpotifyHelper {
-
     private clientId: string;
 
     private clientSecret: string;
 
     private accessToken: string;
 
-    constructor(clientId, clientSecret) {
+    public constructor(clientId: string, clientSecret: string) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
     }
@@ -20,12 +19,11 @@ export default class SpotifyHelper {
             const body: string = await this.searchRequest(queryString, 'album');
             console.log(body);
         } catch(e) {
-            console.log(e)
+            console.log(e);
         }
     }
 
     private async requestAccessToken(): Promise<boolean> {
-        process.env.SPOTIFY_CLIENT_SECRET
         return new Promise((resolve, reject): void => {
             request(
                 'https://accounts.spotify.com/api/token',
@@ -34,9 +32,10 @@ export default class SpotifyHelper {
                 },
                 (error, _, body): void => {
                     if(error) {
-                        reject(new Error(`failed to get spotify token`));
+                        reject(new Error('failed to get spotify token'));
                     }
                     console.log(body);
+                    this.accessToken = 'blah';
                     resolve(true);
                 },
             );
@@ -46,6 +45,7 @@ export default class SpotifyHelper {
     private async searchRequest(query: string, type: string): Promise<string> {
         if(!this.accessToken) {
             await this.requestAccessToken();
+            process.exit(0);
         }
         const url = `https://api.spotify.com/v1/search?q=${query}&type=${type}`;
         return new Promise((resolve, reject): void => {
