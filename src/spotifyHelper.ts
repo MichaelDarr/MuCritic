@@ -1,65 +1,41 @@
 import * as request from 'request';
+
+import SpotifyAccessToken from './spotifyAccessToken';
 import Log from './logger';
 
 export default class SpotifyHelper {
-    private clientId: string;
-
-    private clientSecret: string;
-
-    private accessToken: string;
+    private accessToken: SpotifyAccessToken;
 
     public constructor(clientId: string, clientSecret: string) {
-        this.clientId = clientId;
-        this.clientSecret = clientSecret;
+        this.accessToken = new SpotifyAccessToken(clientId, clientSecret);
     }
 
     public async searchAlbum(album: string, artist: string): Promise<any> {
         try {
-            const queryString = `name:${album}%20artist:${artist}`;
+            let queryString = `album:${album} artist:${artist}`;
+            queryString = encodeURIComponent(queryString);
             const body: string = await this.searchRequest(queryString, 'album');
-            console.log(body);
+            return body;
         } catch(e) {
-            console.log(e);
+            return e;
         }
-    }
-
-    private async requestAccessToken(): Promise<boolean> {
-        return new Promise((resolve, reject): void => {
-            request(
-                'https://accounts.spotify.com/api/token',
-                {
-                    timeout: 3000,
-                },
-                (error, _, body): void => {
-                    if(error) {
-                        reject(new Error('failed to get spotify token'));
-                    }
-                    console.log(body);
-                    this.accessToken = 'blah';
-                    resolve(true);
-                },
-            );
-        });
     }
 
     private async searchRequest(query: string, type: string): Promise<string> {
-        if(!this.accessToken) {
-            await this.requestAccessToken();
-            process.exit(0);
-        }
-        const url = `https://api.spotify.com/v1/search?q=${query}&type=${type}`;
+        const token: string = await this.accessToken.get();
         return new Promise((resolve, reject): void => {
-            request(
-                url,
-                {
-                    timeout: 10000,
-                    auth: {
-                        bearer: '',
-                    },
+            const requestOptions = {
+                url: `https://api.spotify.com/v1/search?q=${query}&type=${type}`,
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`,
                 },
+            };
+            request(
+                requestOptions,
                 (error, _, body): void => {
                     if(error) {
-                        reject(new Error(`request failed for ${url}`));
+                        reject(new Error(`request failed for ${query}`));
                     }
                     resolve(body);
                 },

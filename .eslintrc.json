@@ -14,6 +14,13 @@
         "semi": "off",
         "no-await-in-loop": "off",
         "@typescript-eslint/semi": ["error"],
+        "@typescript-eslint/camelcase": [
+            "error", {
+                "allow": [
+                    "grant_type"
+                ]
+            }
+        ],
         "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"]
     },
     "settings": {
