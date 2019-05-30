@@ -9,7 +9,6 @@
         "types" : ["node"]
     },
     "include": [
-        "src/index.ts",
-        "src/spotify.ts"
+        "src/index.ts"
     ]
 }

@@ -12,6 +12,7 @@ import { getConnection } from 'typeorm';
 
 // internal class dependencies
 import Log from './logger';
+import SpotifyHelper from './spotifyHelper';
 import { ScrapingResultBatch } from './scrapingResult';
 
 // database dependencies
@@ -54,9 +55,18 @@ Log.notify('\nmuCritic spotify scraper\n\n');
     let albumRepository = connection.getRepository(AlbumEntity);
     let albums = await albumRepository.find({ relations: ["artist"] });
 
-    albums.forEach((album): void => {
-        Log.success(`${album.name}: ${album.artist.name}`);
-    })
+    const spotifyHelper = new SpotifyHelper(
+        process.env.SPOTIFY_CLIENT_ID,
+        process.env.SPOTIFY_CLIENT_SECRET
+    );
+
+    for await(const album of albums) {
+        const apiResult = await spotifyHelper.searchAlbum(
+            album.name,
+            album.artist.name
+        );
+        console.log(apiResult);
+    }
 
     Log.success('Scrape Complete');
 })();

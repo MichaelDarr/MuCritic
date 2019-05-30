@@ -4,7 +4,7 @@
     "parserOptions": {
         "ecmaVersion": 2018,
         "sourceType": "module",
-        "project": "./api/tsconfig.json"
+        "project": "./rym-data/tsconfig.json"
     },
     "plugins": ["@typescript-eslint"],
     "rules": {

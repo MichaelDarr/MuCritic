@@ -1,8 +1,8 @@
 {
-  "name": "api",
+  "name": "rym-data",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "built/index.js",
   "scripts": {
     "start": "tsc && node built/index",
     "spotify": "tsc && node built/spotify",
@@ -28,6 +28,7 @@
     "puppeteer": "^1.16.0",
     "reflect-metadata": "^0.1.13",
     "request": "^2.88.0",
+    "spotify-web-api-node": "^4.0.0",
     "sqlite": "^3.0.2",
     "sqlite3": "^4.0.6",
     "typeorm": "^0.2.17",
