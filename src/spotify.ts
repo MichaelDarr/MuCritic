@@ -1,5 +1,5 @@
 /**
- * @fileOverview Main File - lays out scraping workflow
+ * @fileOverview Main Sptofiy Scrape File
  *
  * @author  Michael Darr
  */
@@ -8,7 +8,6 @@
 import * as dontenv from 'dotenv';
 import { createConnection, getConnection } from 'typeorm';
 import { resolve } from 'path';
-import { AllHtmlEntities } from 'html-entities';
 
 // internal class dependencies
 import Log from './logger';
@@ -60,15 +59,17 @@ Log.notify('\nmuCritic spotify scraper\n\n');
         process.env.SPOTIFY_CLIENT_SECRET,
     );
 
-    const entities = new AllHtmlEntities();
-
     for await(const album of albums) {
-        const apiResult = await spotifyHelper.searchAlbum(
-            album.name,
-            album.artist.name,
-        );
-        Log.log(apiResult);
-        process.exit(0);
+        try {
+            if(!album.spotifyId) {
+                const spotifyId = await spotifyHelper.getAlbumId(album);
+                album.spotifyId = spotifyId;
+                await albumRepository.save(album);
+            }
+            Log.success(`${album.name} by ${album.artist.name}: ${album.spotifyId}`);
+        } catch(e) {
+            Log.err(e.message);
+        }
     }
 
     Log.success('Scrape Complete');

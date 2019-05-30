@@ -56,6 +56,11 @@ export default class Album {
     @Column()
     public issueCountRYM: number;
 
+    @Column({
+        nullable: true,
+    })
+    public spotifyId: string;
+
     @ManyToOne(type => Artist, (artist): Album[] => artist.albums)
     public artist: Artist;
 
