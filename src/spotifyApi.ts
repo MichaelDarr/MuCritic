@@ -1,7 +1,7 @@
 import * as request from 'request';
 import { Base64 } from 'js-base64';
 
-export default class SpotifyAccessToken {
+export default class SpotifyApi {
     private clientId: string;
 
     private clientSecret: string;
@@ -15,7 +15,41 @@ export default class SpotifyAccessToken {
         this.clientSecret = clientSecret;
     }
 
-    public async get(): Promise<string> {
+    public async searchRequest(
+        query: string,
+        type: string,
+        limit: number,
+    ): Promise<any> {
+        const url = `https://api.spotify.com/v1/search?q=${query}&type=${type}&limit=${limit}`;
+        return this.request(url);
+    }
+
+    private async request(
+        url: string,
+    ): Promise<any> {
+        const token: string = await this.getAccessToken();
+        return new Promise((resolve, reject): void => {
+            const requestOptions = {
+                url,
+                method: 'GET',
+                json: true,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            };
+            request(
+                requestOptions,
+                (error, _, body): void => {
+                    if(error) {
+                        reject(new Error(`request failed for ${url}`));
+                    }
+                    resolve(body);
+                },
+            );
+        });
+    }
+
+    private async getAccessToken(): Promise<string> {
         if(!this.accessToken || this.tokenExpiration < new Date()) {
             await this.requestNewAccessToken();
         }

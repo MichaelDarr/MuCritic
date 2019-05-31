@@ -3,7 +3,7 @@ import * as request from 'request';
 import { Repository } from 'typeorm';
 
 // internal class dependencies
-import SpotifyAccessToken from './spotifyAccessToken';
+import SpotifyApi from './spotifyApi';
 import { ResultBatch, ApiResult } from './result';
 import Log from './logger';
 import { Api } from './enums';
@@ -12,11 +12,11 @@ import { Api } from './enums';
 import AlbumEntity from './entity/Album';
 import ArtistEntity from './entity/Artist';
 
-export default class SpotifyHelper {
-    private accessToken: SpotifyAccessToken;
+export default class SpotifyIdHelper {
+    private spotifyApi: SpotifyApi;
 
     public constructor(clientId: string, clientSecret: string) {
-        this.accessToken = new SpotifyAccessToken(clientId, clientSecret);
+        this.spotifyApi = new SpotifyApi(clientId, clientSecret);
     }
 
     public async attatchIdsToAllEntries(
@@ -71,7 +71,7 @@ export default class SpotifyHelper {
         }
 
         queryString = encodeURIComponent(queryString);
-        const body = await this.searchRequest(queryString, assetType, 3);
+        const body = await this.spotifyApi.searchRequest(queryString, assetType, 3);
         let responseList: any[];
         if(asset instanceof AlbumEntity) {
             if(!body.albums || body.albums.total === 0 || !body.albums.items) {
@@ -85,7 +85,7 @@ export default class SpotifyHelper {
             responseList = body.artists.items;
         }
 
-        const spotifyId: string = SpotifyHelper.extractCorrectItem(asset, responseList);
+        const spotifyId: string = SpotifyIdHelper.extractCorrectItem(asset, responseList);
         if(!spotifyId) {
             throw new Error(`Unable to extract Spotify ID for ${assetType}: ${asset.name}`);
         }
@@ -111,32 +111,5 @@ export default class SpotifyHelper {
             }
         }
         return responseList[0].id;
-    }
-
-    private async searchRequest(
-        query: string,
-        type: string,
-        limit: number,
-    ): Promise<any> {
-        const token: string = await this.accessToken.get();
-        return new Promise((resolve, reject): void => {
-            const requestOptions = {
-                url: `https://api.spotify.com/v1/search?q=${query}&type=${type}&limit=${limit}`,
-                method: 'GET',
-                json: true,
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            };
-            request(
-                requestOptions,
-                (error, _, body): void => {
-                    if(error) {
-                        reject(new Error(`request failed for ${query}`));
-                    }
-                    resolve(body);
-                },
-            );
-        });
     }
 }

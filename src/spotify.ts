@@ -11,7 +11,7 @@ import { resolve } from 'path';
 
 // internal class dependencies
 import Log from './logger';
-import SpotifyHelper from './spotifyHelper';
+import SpotifyIdHelper from './spotifyIdHelper';
 import { ResultBatch } from './result';
 
 // database dependencies
@@ -50,7 +50,7 @@ Log.notify('\nmuCritic spotify scraper\n\n');
     });
     Log.success('Database Connection Successful');
 
-    const spotifyHelper = new SpotifyHelper(
+    const spotifyHelper = new SpotifyIdHelper(
         process.env.SPOTIFY_CLIENT_ID,
         process.env.SPOTIFY_CLIENT_SECRET,
     );
