@@ -1,6 +1,5 @@
 import * as request from 'request';
 import * as jsdom from 'jsdom';
-import { SpotifyWebApi } from 'spotify-web-api-node';
 import Log from './logger';
 
 const { JSDOM } = jsdom;

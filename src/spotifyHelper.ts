@@ -27,9 +27,9 @@ export default class SpotifyHelper {
         for await(const entity of entities) {
             let paramDescription: string;
             if(entity instanceof AlbumEntity) {
-                paramDescription = `album: ${entity.name}, artist: ${entity.artist.name}`
+                paramDescription = `album: ${entity.name}, artist: ${entity.artist.name}`;
             } if(entity instanceof ArtistEntity) {
-                paramDescription =  `artist: ${entity.name}`;
+                paramDescription = `artist: ${entity.name}`;
             }
             try {
                 if(!entity.spotifyId) {

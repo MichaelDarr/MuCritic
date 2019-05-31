@@ -1,8 +1,6 @@
 import * as request from 'request';
 import { Base64 } from 'js-base64';
 
-import Log from './logger';
-
 export default class SpotifyAccessToken {
     private clientId: string;
 

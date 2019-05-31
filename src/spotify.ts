@@ -1,5 +1,5 @@
 /**
- * @fileOverview Main Sptofiy Scrape File
+ * @fileOverview Main Spotify Scrape File
  *
  * @author  Michael Darr
  */
@@ -56,15 +56,17 @@ Log.notify('\nmuCritic spotify scraper\n\n');
     );
 
     const connection = getConnection();
+    /*
     const albumRepository = connection.getRepository(AlbumEntity);
     const albums = await albumRepository.find({ relations: ['artist'] });
     const albumIdScrape: ResultBatch = (
         await spotifyHelper.attatchIdsToAllEntries(albumRepository, albums)
     );
     albumIdScrape.logErrors();
+    */
 
     const artistRepository = connection.getRepository(ArtistEntity);
-    const artists = await albumRepository.find();
+    const artists = await artistRepository.find();
     const artistIdScrape: ResultBatch = (
         await spotifyHelper.attatchIdsToAllEntries(artistRepository, artists)
     );
