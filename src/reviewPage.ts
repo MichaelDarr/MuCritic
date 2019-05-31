@@ -8,7 +8,7 @@
 import { getManager, EntityManager } from 'typeorm';
 
 // internal class dependencies
-import { ScrapingResult, ScrapingResultBatch } from './scrapingResult';
+import { ScrapingResult, ResultBatch } from './result';
 import Review from './review';
 import Album from './album';
 import Date from './date';
@@ -43,14 +43,14 @@ export default class ReviewPage implements ScraperInterface {
         this.profile = profile;
     }
 
-    public async scrape(): Promise<ScrapingResultBatch> {
-        const results = new ScrapingResultBatch();
+    public async scrape(): Promise<ResultBatch> {
+        const results = new ResultBatch();
         const entityManager = getManager();
         try {
             let moreRecordsExist = true;
             while(moreRecordsExist) {
                 const root: HTMLElement = await requestScrape(`${this.urlRYM}/${this.currentPage}`);
-                const reviewScrapeResult: ScrapingResultBatch = await this.extractAllReviews(root);
+                const reviewScrapeResult: ResultBatch = await this.extractAllReviews(root);
                 if(reviewScrapeResult.success()) {
                     Log.success(`Successfully scraped review page ${this.currentPage}, user ${this.urlUserameRYM}`);
                 } else {
@@ -80,8 +80,8 @@ export default class ReviewPage implements ScraperInterface {
         return results.push(new ScrapingResult(true, this.urlRYM));
     }
 
-    public async saveToDB(entityManager: EntityManager): Promise<ScrapingResultBatch> {
-        const results = new ScrapingResultBatch();
+    public async saveToDB(entityManager: EntityManager): Promise<ResultBatch> {
+        const results = new ResultBatch();
         for await(const review of this.reviews) {
             try {
                 let reviewEntity = await entityManager.findOne(ReviewEntity, {
@@ -127,8 +127,8 @@ export default class ReviewPage implements ScraperInterface {
         return reviewEntities;
     }
 
-    private async extractAllReviews(root: HTMLElement): Promise<ScrapingResultBatch> {
-        const results = new ScrapingResultBatch();
+    private async extractAllReviews(root: HTMLElement): Promise<ResultBatch> {
+        const results = new ResultBatch();
         const parsedReviewArr: string[][] = [];
         const reviewElementArr = root.querySelectorAll('table.mbgen > tbody > tr');
         let isHeading = true;
@@ -185,7 +185,7 @@ export default class ReviewPage implements ScraperInterface {
             const reviewScore = Number(singleReview[3]);
             const album = new Album(singleReview[4]);
             const identifierRYM = singleReview[5];
-            const albumScrapeResults: ScrapingResultBatch = await album.scrape();
+            const albumScrapeResults: ResultBatch = await album.scrape();
             results.concat(albumScrapeResults);
             if(albumScrapeResults.success()) {
                 const newReview = new Review(

@@ -8,7 +8,7 @@
 import { EntityManager } from 'typeorm';
 
 // internal class dependencies
-import { ScrapingResultBatch } from './scrapingResult';
+import { ResultBatch } from './result';
 
 export default interface ScraperInterface {
     /**
@@ -17,7 +17,7 @@ export default interface ScraperInterface {
      * @param page puppeteer profile page
      * @return ScrapingResult
      */
-    scrape(): Promise<ScrapingResultBatch>;
+    scrape(): Promise<ResultBatch>;
 
     /**
      * Find the saved database entity for an object

@@ -12,7 +12,7 @@ import { resolve } from 'path';
 // internal class dependencies
 import Log from './logger';
 import SpotifyHelper from './spotifyHelper';
-import { ScrapingResultBatch } from './scrapingResult';
+import { ResultBatch } from './result';
 
 // database dependencies
 import ProfileEntity from './entity/Profile';
@@ -50,27 +50,25 @@ Log.notify('\nmuCritic spotify scraper\n\n');
     });
     Log.success('Database Connection Successful');
 
-    const connection = getConnection();
-    const albumRepository = connection.getRepository(AlbumEntity);
-    const albums = await albumRepository.find({ relations: ['artist'] });
-
     const spotifyHelper = new SpotifyHelper(
         process.env.SPOTIFY_CLIENT_ID,
         process.env.SPOTIFY_CLIENT_SECRET,
     );
 
-    for await(const album of albums) {
-        try {
-            if(!album.spotifyId) {
-                const spotifyId = await spotifyHelper.getAlbumId(album);
-                album.spotifyId = spotifyId;
-                await albumRepository.save(album);
-            }
-            Log.success(`${album.name} by ${album.artist.name}: ${album.spotifyId}`);
-        } catch(e) {
-            Log.err(e.message);
-        }
-    }
+    const connection = getConnection();
+    const albumRepository = connection.getRepository(AlbumEntity);
+    const albums = await albumRepository.find({ relations: ['artist'] });
+    const albumIdScrape: ResultBatch = (
+        await spotifyHelper.attatchIdsToAllEntries(albumRepository, albums)
+    );
+    albumIdScrape.logErrors();
+
+    const artistRepository = connection.getRepository(ArtistEntity);
+    const artists = await albumRepository.find();
+    const artistIdScrape: ResultBatch = (
+        await spotifyHelper.attatchIdsToAllEntries(artistRepository, artists)
+    );
+    artistIdScrape.logErrors();
 
     Log.success('Scrape Complete');
 })();

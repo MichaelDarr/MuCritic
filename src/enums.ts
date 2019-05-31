@@ -9,5 +9,6 @@ export enum Gender {
     Female
 }
 
-// for now, only enum is gender. eslint likes a default export
-export default Gender;
+export enum Api {
+    Spotify
+}

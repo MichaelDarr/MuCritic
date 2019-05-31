@@ -14,7 +14,7 @@ import { readFileSync } from 'fs';
 // internal class dependencies
 import Log from './logger';
 import Profile from './profile';
-import { ScrapingResultBatch } from './scrapingResult';
+import { ResultBatch } from './result';
 
 // database dependencies
 import ProfileEntity from './entity/Profile';
@@ -70,7 +70,7 @@ Log.notify('\nmuCritic data aggregator\n\n');
         Log.log(`Scraping profile: ${profileURL}`);
 
         const user = new Profile(profileURL);
-        const profileScrape: ScrapingResultBatch = await user.scrape();
+        const profileScrape: ResultBatch = await user.scrape();
         if(profileScrape.success()) {
             user.printSuccess();
         } else {

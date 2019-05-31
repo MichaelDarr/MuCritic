@@ -8,7 +8,7 @@
 import { getManager, EntityManager } from 'typeorm';
 
 // internal class dependencies
-import { ScrapingResult, ScrapingResultBatch } from './scrapingResult';
+import { ScrapingResult, ResultBatch } from './result';
 import Artist from './artist';
 import Genre from './genre';
 import Log from './logger';
@@ -67,8 +67,8 @@ export default class Album implements ScraperInterface {
      * @param page puppeteer profile page
      * @return ScrapingResult
      */
-    public async scrape(): Promise<ScrapingResultBatch> {
-        const results = new ScrapingResultBatch();
+    public async scrape(): Promise<ResultBatch> {
+        const results = new ResultBatch();
         if(this.urlRYM.indexOf('various_artists') !== -1 || this.urlRYM.indexOf('various-artists') !== -1) {
             return results.push(new ScrapingResult(false, this.urlRYM, 'Album by various artists'));
         }
@@ -166,8 +166,8 @@ export default class Album implements ScraperInterface {
      * @param page puppeteer profile page
      * @returns a group of all scrape results resulting from this call
      */
-    private async extractMainInfo(root: HTMLElement): Promise<ScrapingResultBatch> {
-        const results: ScrapingResultBatch = new ScrapingResultBatch();
+    private async extractMainInfo(root: HTMLElement): Promise<ResultBatch> {
+        const results: ResultBatch = new ResultBatch();
 
         // album name block
         const albumNameElement: HTMLElement = root.querySelector('div.album_title');
@@ -230,7 +230,7 @@ export default class Album implements ScraperInterface {
         }
 
         this.artist = new Artist(artistURL);
-        const artistScrapeResult: ScrapingResultBatch = await this.artist.scrape();
+        const artistScrapeResult: ResultBatch = await this.artist.scrape();
         results.concat(artistScrapeResult);
         if(!results.success()) {
             results.push(new ScrapingResult(false, this.urlRYM, 'album\'s artist scrape failed'));
@@ -253,8 +253,8 @@ export default class Album implements ScraperInterface {
      * @param page puppeteer profile page
      * @returns a group of all scrape results resulting from this call
      */
-    private async extractExtraInfo(root: HTMLElement): Promise<ScrapingResultBatch> {
-        const results: ScrapingResultBatch = new ScrapingResultBatch();
+    private async extractExtraInfo(root: HTMLElement): Promise<ResultBatch> {
+        const results: ResultBatch = new ResultBatch();
 
         let issueCount = '';
         let reviewCount = '';

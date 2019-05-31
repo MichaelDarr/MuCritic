@@ -10,7 +10,7 @@ import { getManager, EntityManager } from 'typeorm';
 // internal class dependencies
 import Artist from './artist';
 import ReviewPage from './reviewPage';
-import { ScrapingResult, ScrapingResultBatch } from './scrapingResult';
+import { ScrapingResult, ResultBatch } from './result';
 import Log from './logger';
 
 // other internal dependencies
@@ -59,8 +59,8 @@ export default class Profile implements ScraperInterface {
      * @param page puppeteer profile page
      * @return ScrapingResult
      */
-    public async scrape(): Promise<ScrapingResultBatch> {
-        const profileScrapeResults = new ScrapingResultBatch();
+    public async scrape(): Promise<ResultBatch> {
+        const profileScrapeResults = new ResultBatch();
         try {
             const entityManager = getManager();
             const savedProfile = await entityManager.findOne(
@@ -82,7 +82,7 @@ export default class Profile implements ScraperInterface {
 
                 // scrape page for reviewer info
                 await this.extractUserInfo(root);
-                const artistResults: ScrapingResultBatch = await this.extractArtists(root);
+                const artistResults: ResultBatch = await this.extractArtists(root);
                 profileScrapeResults.concat(artistResults);
             }
 
@@ -156,7 +156,7 @@ export default class Profile implements ScraperInterface {
         return entityManager.findOne(ProfileEntity, { id: this.databaseID });
     }
 
-    private async scrapeReviewPages(): Promise<ScrapingResultBatch> {
+    private async scrapeReviewPages(): Promise<ResultBatch> {
         this.reviewPageScraper = new ReviewPage(this.urlUsernameRYM, this);
         const reviewScrapeResults = await this.reviewPageScraper.scrape();
         return reviewScrapeResults;
@@ -185,8 +185,8 @@ export default class Profile implements ScraperInterface {
      * @param page puppeteer profile page
      * @returns An array of artist objects, with keys "name" and "url"
      */
-    private async extractArtists(root: HTMLElement): Promise<ScrapingResultBatch> {
-        const favoriteArtistsScrape = new ScrapingResultBatch();
+    private async extractArtists(root: HTMLElement): Promise<ResultBatch> {
+        const favoriteArtistsScrape = new ResultBatch();
         // extracts all content blocks from the page
         const allBlocks: NodeListOf<Element> = root.querySelectorAll('#content > table > tbody > tr > td > div');
 
@@ -209,7 +209,7 @@ export default class Profile implements ScraperInterface {
 
         for await(const artist of artists) {
             const newArtist = new Artist(artist);
-            const artistScrapeResults: ScrapingResultBatch = await newArtist.scrape();
+            const artistScrapeResults: ResultBatch = await newArtist.scrape();
             if(artistScrapeResults.success()) {
                 this.favoriteArtists.push(newArtist);
                 newArtist.printSuccess();

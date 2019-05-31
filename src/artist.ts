@@ -8,7 +8,7 @@
 import { getManager, EntityManager } from 'typeorm';
 
 // internal class dependencies
-import { ScrapingResult, ScrapingResultBatch } from './scrapingResult';
+import { ScrapingResult, ResultBatch } from './result';
 import Genre from './genre';
 import Log from './logger';
 
@@ -61,8 +61,8 @@ export default class Artist implements ScraperInterface {
      * @param page puppeteer profile page
      * @return ScrapingResult
      */
-    public async scrape(): Promise<ScrapingResultBatch> {
-        const results = new ScrapingResultBatch();
+    public async scrape(): Promise<ResultBatch> {
+        const results = new ResultBatch();
         try {
             const entityManager = getManager();
             let savedArtist = await entityManager.findOne(ArtistEntity, { urlRYM: this.urlRYM });
@@ -120,8 +120,8 @@ export default class Artist implements ScraperInterface {
      *
      * @param page puppeteer profile page
      */
-    private async extractExtraInfo(root: HTMLElement): Promise<ScrapingResultBatch> {
-        const results: ScrapingResultBatch = new ScrapingResultBatch();
+    private async extractExtraInfo(root: HTMLElement): Promise<ResultBatch> {
+        const results: ResultBatch = new ResultBatch();
         // Discography Count
         const totalDiscographyElement: HTMLElement = root.querySelector('div.artist_page_section_active_music > span.subtext');
         if(totalDiscographyElement !== null) {
@@ -183,8 +183,8 @@ export default class Artist implements ScraperInterface {
      *
      * @param page puppeteer profile page
      */
-    private async extractMainInfo(root: HTMLElement): Promise<ScrapingResultBatch> {
-        const results: ScrapingResultBatch = new ScrapingResultBatch();
+    private async extractMainInfo(root: HTMLElement): Promise<ResultBatch> {
+        const results: ResultBatch = new ResultBatch();
         // set up temporary vars to hold raw props
         let members: string;
         const genres: string[] = [];
