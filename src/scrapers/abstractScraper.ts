@@ -14,6 +14,7 @@ import AlbumEntity from '../entities/Album';
 import ArtistEntity from '../entities/Artist';
 import GenreEntity from '../entities/Genre';
 import ProfileEntity from '../entities/Profile';
+import ReviewEntity from '../entities/Review';
 
 export default abstract class AbstractScraper {
     public results: ResultBatch;

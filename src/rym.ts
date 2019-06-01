@@ -70,14 +70,7 @@ Log.notify('\nmuCritic data aggregator\n\n');
         Log.log(`Scraping profile: ${profileURL}`);
 
         const user = new Profile(profileURL);
-        const profileScrape: ResultBatch = await user.scrape();
-        if(profileScrape.success()) {
-            user.printSuccess();
-        } else {
-            user.printErr();
-            profileScrape.logErrors();
-            continue;
-        }
+        await user.scrape();
     }
 
     Log.success('Scrape Complete');
