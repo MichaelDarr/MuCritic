@@ -10,16 +10,17 @@ import { createConnection, getConnection } from 'typeorm';
 import { resolve } from 'path';
 
 // internal class dependencies
-import Log from './logger';
-import SpotifyIdHelper from './spotifyIdHelper';
-import { ResultBatch } from './result';
+import Log from './helpers/helperClasses/logger';
+import { attatchIdsToEntries } from './helpers/helperFunctions/spotifyId';
+import SpotifyApi from './helpers/helperClasses/spotifyApi';
+import { ResultBatch } from './helpers/helperClasses/result';
 
 // database dependencies
-import ProfileEntity from './entity/Profile';
-import ReviewEntity from './entity/Review';
-import ArtistEntity from './entity/Artist';
-import AlbumEntity from './entity/Album';
-import GenreEntity from './entity/Genre';
+import ProfileEntity from './entities/Profile';
+import ReviewEntity from './entities/Review';
+import ArtistEntity from './entities/Artist';
+import AlbumEntity from './entities/Album';
+import GenreEntity from './entities/Genre';
 
 // set up environment variables
 dontenv.config({ path: resolve(__dirname, '../.env') });
@@ -50,7 +51,7 @@ Log.notify('\nmuCritic spotify scraper\n\n');
     });
     Log.success('Database Connection Successful');
 
-    const spotifyHelper = new SpotifyIdHelper(
+    const spotifyApi = new SpotifyApi(
         process.env.SPOTIFY_CLIENT_ID,
         process.env.SPOTIFY_CLIENT_SECRET,
     );
@@ -60,14 +61,14 @@ Log.notify('\nmuCritic spotify scraper\n\n');
     const albumRepository = connection.getRepository(AlbumEntity);
     const albums = await albumRepository.find({ relations: ['artist'] });
     const albumIdScrape: ResultBatch = (
-        await spotifyHelper.attatchIdsToAllEntries(albumRepository, albums)
+        await attatchIdsToEntries(albumRepository, albums, spotifyApi)
     );
     albumIdScrape.logErrors();
 
     const artistRepository = connection.getRepository(ArtistEntity);
     const artists = await artistRepository.find();
     const artistIdScrape: ResultBatch = (
-        await spotifyHelper.attatchIdsToAllEntries(artistRepository, artists)
+        await attatchIdsToEntries(artistRepository, artists, spotifyApi)
     );
     artistIdScrape.logErrors();
 

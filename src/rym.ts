@@ -12,16 +12,16 @@ import { resolve } from 'path';
 import { readFileSync } from 'fs';
 
 // internal class dependencies
-import Log from './logger';
-import Profile from './profile';
-import { ResultBatch } from './result';
+import Log from './helpers/helperClasses/logger';
+import Profile from './scrapers/profile';
+import { ResultBatch } from './helpers/helperClasses/result';
 
 // database dependencies
-import ProfileEntity from './entity/Profile';
-import ReviewEntity from './entity/Review';
-import ArtistEntity from './entity/Artist';
-import AlbumEntity from './entity/Album';
-import GenreEntity from './entity/Genre';
+import ProfileEntity from './entities/Profile';
+import ReviewEntity from './entities/Review';
+import ArtistEntity from './entities/Artist';
+import AlbumEntity from './entities/Album';
+import GenreEntity from './entities/Genre';
 
 // set up environment variables
 dontenv.config({ path: resolve(__dirname, '../.env') });

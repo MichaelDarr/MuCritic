@@ -8,19 +8,19 @@
 import { getManager, EntityManager } from 'typeorm';
 
 // internal class dependencies
-import Artist from './scrapers/artistScraper';
+import Artist from './artistScraper';
 import ReviewPage from './reviewPage';
-import { ScrapeResult, ResultBatch } from './result';
-import Log from './logger';
+import { ScrapeResult, ResultBatch } from '../helpers/helperClasses/result';
+import Log from '../helpers/helperClasses/logger';
 
 // other internal dependencies
-import { Gender } from './enums';
+import { Gender } from '../helpers/enums';
 import ScraperInterface from './interface';
-import { requestRawScrape } from './helpers/scraping';
+import { requestRawScrape } from '../helpers/helperFunctions/scraping';
 
 // database dependencies
-import ProfileEntity from './entity/Profile';
-import ArtistEntity from './entity/Artist';
+import ProfileEntity from '../entities/Profile';
+import ArtistEntity from '../entities/Artist';
 
 
 export default class Profile implements ScraperInterface {

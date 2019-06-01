@@ -13,6 +13,14 @@
         "no-continue": "off",
         "semi": "off",
         "no-await-in-loop": "off",
+        "class-methods-use-this": [
+            "on", {
+                "exceptMethods": [
+                    "extractInfo",
+                    "scrapeDependencies"
+                ]
+            }
+        ],
         "@typescript-eslint/semi": ["error"],
         "@typescript-eslint/camelcase": [
             "error", {

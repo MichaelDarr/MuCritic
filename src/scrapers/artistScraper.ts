@@ -8,22 +8,22 @@
 import { getManager } from 'typeorm';
 
 // internal dependencies
-import Genre from '../genre';
-import Log from '../logger';
-import Scraper from './abstractScraper';
+import Genre from './genreScraper';
+import Log from '../helpers/helperClasses/logger';
+import AbstractScraper from './abstractScraper';
 import {
     extractInnerHtml,
     getMemberCountFromRawString,
     decodeHtmlText,
     extractInnerHtmlOfGroup,
     extractHeaderNumberPair,
-} from '../helpers/parsing';
+} from '../helpers/helperFunctions/parsing';
 
 // database dependencies
-import ArtistEntity from '../entity/Artist';
-import GenreEntity from '../entity/Genre';
+import ArtistEntity from '../entities/Artist';
+import GenreEntity from '../entities/Genre';
 
-export default class ArtistScraperRym extends Scraper {
+export default class ArtistScraperRym extends AbstractScraper {
     public name: string;
 
     public active: boolean;
@@ -34,7 +34,7 @@ export default class ArtistScraperRym extends Scraper {
 
     public soloPerformer: boolean;
 
-    public genresRYM: Genre[];
+    public genreScrapersRYM: Genre[];
 
     public genreEntities: GenreEntity[];
 
@@ -46,7 +46,7 @@ export default class ArtistScraperRym extends Scraper {
 
     public constructor(
         url: string,
-        verbose?: boolean,
+        verbose = false,
     ) {
         super(url, 'RYM Artist', verbose);
         this.soloPerformer = false;
@@ -116,7 +116,7 @@ export default class ArtistScraperRym extends Scraper {
 
         // use following methods to parse this info and sort it into class props
         this.memberCount = getMemberCountFromRawString(members, 1);
-        this.genresRYM = Genre.createGenreInstances(genres);
+        this.genreScrapersRYM = Genre.createScrapers(genres);
     }
 
     private extractDiscographyCount(root: HTMLElement): void {
@@ -141,7 +141,7 @@ export default class ArtistScraperRym extends Scraper {
      *
      * @param page puppeteer profile page
      */
-    private async extractListCount(root: HTMLElement): Promise<void> {
+    private extractListCount(root: HTMLElement): void {
         this.listCountRYM = extractHeaderNumberPair(
             root,
             'div.section_lists > div.release_page_header > h2',
@@ -150,7 +150,7 @@ export default class ArtistScraperRym extends Scraper {
         );
     }
 
-    private async extractPastShowCount(root: HTMLElement): Promise<void> {
+    private extractPastShowCount(root: HTMLElement): void {
         // Total show count - format: "Show past shows [28]"
         try {
             let showString = extractInnerHtml(
@@ -170,9 +170,9 @@ export default class ArtistScraperRym extends Scraper {
     }
 
     protected async scrapeDependencies(): Promise<void> {
-        for await(const genre of this.genresRYM) {
-            await genre.scrape();
-            this.results.concat(genre.results);
+        for await(const genreScraper of this.genreScrapersRYM) {
+            await genreScraper.scrape();
+            this.results.concat(genreScraper.results);
         }
     }
 
@@ -185,7 +185,7 @@ export default class ArtistScraperRym extends Scraper {
      */
     public async saveToDB(): Promise<ArtistEntity> {
         const genreEntities: GenreEntity[] = [];
-        for await(const genre of this.genresRYM) {
+        for await(const genre of this.genreScrapersRYM) {
             const genreEntity: GenreEntity = await genre.getEntity();
             genreEntities.push(genreEntity);
         }
@@ -206,18 +206,6 @@ export default class ArtistScraperRym extends Scraper {
         return artist;
     }
 
-    /**
-     * FORMATTING/PRINTING METHODS
-     * used for reporting
-     */
-    public printSuccess(): void {
-        if(this.dataReadFromDB) {
-            Log.success(`Found Artist ${this.name} in database\nID: ${this.databaseID}`);
-        } else {
-            Log.success(`Artist Scrape Successful: ${this.name}`);
-        }
-    }
-
     public printInfo(): void {
         if(this.dataReadFromDB) {
             Log.success(`Found Artist ${this.name} in database\nID: ${this.databaseID}`);
@@ -227,7 +215,7 @@ export default class ArtistScraperRym extends Scraper {
         Log.log(`Type: ${this.soloPerformer ? 'Solo Performer' : 'Band'}`);
         Log.log(`Status: ${this.active ? 'active' : 'disbanded'}`);
         Log.log(`Members: ${this.memberCount}`);
-        Log.log(`Genre Count: ${this.genresRYM.length}`);
+        Log.log(`Genre Count: ${this.genreScrapersRYM.length}`);
         Log.log(`RYM List Features: ${this.listCountRYM}`);
         Log.log(`Discography Count: ${this.discographyCountRYM}`);
         Log.log(`Live Shows: ${this.showCountRYM}`);

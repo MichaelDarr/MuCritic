@@ -6,7 +6,7 @@
 
 // internal dependencies
 import Log from './logger';
-import { ApiService, ScrapingSite } from './enums';
+import { ApiService, ScrapingSite } from '../enums';
 
 /**
  * Result for a single scraped page

@@ -5,14 +5,15 @@
  */
 
 // internal class dependencies
-import { requestRawScrape } from '../helpers/scraping';
-import { ScrapeResult, ResultBatch } from '../result';
-import Log from '../logger';
+import { requestRawScrape } from '../helpers/helperFunctions/scraping';
+import { ScrapeResult, ResultBatch } from '../helpers/helperClasses/result';
+import Log from '../helpers/helperClasses/logger';
 
 // database dependencies
-import AlbumEntity from '../entity/Album';
-import ArtistEntity from '../entity/Artist';
-import ProfileEntity from '../entity/Profile';
+import AlbumEntity from '../entities/Album';
+import ArtistEntity from '../entities/Artist';
+import GenreEntity from '../entities/Genre';
+import ProfileEntity from '../entities/Profile';
 
 export default abstract class AbstractScraper {
     public results: ResultBatch;
@@ -79,9 +80,9 @@ export default abstract class AbstractScraper {
 
     protected abstract async scrapeDependencies(): Promise<void>;
 
-    protected abstract async saveToDB(): Promise<AlbumEntity | ArtistEntity | ProfileEntity>;
+    protected abstract async saveToDB(): Promise<AlbumEntity | ArtistEntity | GenreEntity | ProfileEntity>;
 
     public abstract printInfo(): void;
 
-    public abstract getEntity(): Promise<AlbumEntity | ArtistEntity | ProfileEntity>;
+    public abstract getEntity(): Promise<AlbumEntity | ArtistEntity | GenreEntity | ProfileEntity>;
 }

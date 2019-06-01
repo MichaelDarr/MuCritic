@@ -8,19 +8,19 @@
 import { getManager, EntityManager } from 'typeorm';
 
 // internal class dependencies
-import { ScrapeResult, ResultBatch } from './result';
+import { ScrapeResult, ResultBatch } from '../helpers/helperClasses/result';
 import Review from './review';
-import Album from './scrapers/albumScraper';
-import Date from './date';
+import Album from './albumScraper';
+import Date from '../helpers/helperClasses/date';
 import Profile from './profile';
-import Log from './logger';
+import Log from '../helpers/helperClasses/logger';
 
 // other internal dependencies
 import ScraperInterface from './interface';
-import { requestRawScrape } from './helpers/scraping';
+import { requestRawScrape } from '../helpers/helperFunctions/scraping';
 
 // database dependencies
-import ReviewEntity from './entity/Review';
+import ReviewEntity from '../entities/Review';
 
 export default class ReviewPage implements ScraperInterface {
     public databaseID: number;

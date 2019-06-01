@@ -4,13 +4,13 @@
   "description": "",
   "main": "built/index.js",
   "scripts": {
-    "start": "tsc && node built/index",
+    "start": "tsc && node built/rym",
     "spotify": "tsc && node built/spotify",
-    "one": "tsc && node built/index resources/one.txt",
-    "two": "tsc && node built/index resources/two.txt",
-    "three": "tsc && node built/index resources/three.txt",
-    "four": "tsc && node built/index resources/four.txt",
-    "five": "tsc && node built/index resources/five.txt"
+    "one": "tsc && node built/rym resources/one.txt",
+    "two": "tsc && node built/rym resources/two.txt",
+    "three": "tsc && node built/rym resources/three.txt",
+    "four": "tsc && node built/rym resources/four.txt",
+    "five": "tsc && node built/rym resources/five.txt"
   },
   "author": "Michael Darr",
   "license": "ISC",

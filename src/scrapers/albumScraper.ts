@@ -8,10 +8,10 @@
 import { getManager } from 'typeorm';
 
 // internal dependencies
-import Scraper from './abstractScraper';
+import AbstractScraper from './abstractScraper';
 import Artist from './artistScraper';
-import Genre from '../genre';
-import Log from '../logger';
+import Genre from './genreScraper';
+import Log from '../helpers/helperClasses/logger';
 import {
     extractHeaderNumberPair,
     extractInnerHtml,
@@ -19,14 +19,14 @@ import {
     extractInnerHTMLFromGroupElement,
     extractInnerHtmlOfGroup,
     decodeHtmlText,
-} from '../helpers/parsing';
+} from '../helpers/helperFunctions/parsing';
 
 // database dependencies
-import GenreEntity from '../entity/Genre';
-import AlbumEntity from '../entity/Album';
-import ArtistEntity from '../entity/Artist';
+import GenreEntity from '../entities/Genre';
+import AlbumEntity from '../entities/Album';
+import ArtistEntity from '../entities/Artist';
 
-export default class AlbumScraperRym extends Scraper {
+export default class AlbumScraperRym extends AbstractScraper {
     public name: string;
 
     public artist: Artist;
@@ -51,7 +51,7 @@ export default class AlbumScraperRym extends Scraper {
 
     public constructor(
         url: string,
-        verbose?: boolean,
+        verbose = false,
     ) {
         if(url.indexOf('various_artists') !== -1 || url.indexOf('various-artists') !== -1) {
             throw new Error('Album by various artists');
@@ -218,7 +218,7 @@ export default class AlbumScraperRym extends Scraper {
         this.ratingCountRYM = Number(ratingCount.replace(/,/g, ''));
         this.yearRankRYM = (yearRank === null) ? 0 : Number(yearRank.replace(/,/g, ''));
         this.overallRankRYM = (overallRank === null) ? 0 : Number(overallRank.replace(/,/g, ''));
-        this.genresRYM = Genre.createGenreInstances(genres);
+        this.genresRYM = Genre.createScrapers(genres);
     }
 
     /**
@@ -248,10 +248,6 @@ export default class AlbumScraperRym extends Scraper {
         );
     }
 
-    /**
-     * FORMATTING/PRINTING METHODS
-     * used for reporting
-     */
     public printInfo(): void {
         if(this.dataReadFromDB) {
             this.printResult();
