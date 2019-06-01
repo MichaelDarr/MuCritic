@@ -32,7 +32,7 @@ function extractCorrectItem(
     return responseList[0].id;
 }
 
-async function getAssetId(
+export async function getAssetId(
     asset: AlbumEntity | ArtistEntity,
     spotifyApi: SpotifyApi,
 ): Promise<string> {
@@ -69,7 +69,6 @@ async function getAssetId(
     }
     return spotifyId;
 }
-
 
 export async function attatchIdsToEntries(
     repository: Repository<AlbumEntity | ArtistEntity>,

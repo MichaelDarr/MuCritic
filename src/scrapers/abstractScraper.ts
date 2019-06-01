@@ -14,7 +14,6 @@ import AlbumEntity from '../entities/Album';
 import ArtistEntity from '../entities/Artist';
 import GenreEntity from '../entities/Genre';
 import ProfileEntity from '../entities/Profile';
-import ReviewEntity from '../entities/Review';
 
 export default abstract class AbstractScraper {
     public results: ResultBatch;
@@ -81,9 +80,19 @@ export default abstract class AbstractScraper {
 
     protected abstract async scrapeDependencies(): Promise<void>;
 
-    protected abstract async saveToDB(): Promise<AlbumEntity | ArtistEntity | GenreEntity | ProfileEntity>;
+    protected abstract async saveToDB(): Promise<
+    AlbumEntity
+    | ArtistEntity
+    | GenreEntity
+    | ProfileEntity
+    >;
 
     public abstract printInfo(): void;
 
-    public abstract getEntity(): Promise<AlbumEntity | ArtistEntity | GenreEntity | ProfileEntity>;
+    public abstract getEntity(): Promise<
+    AlbumEntity
+    | ArtistEntity
+    | GenreEntity
+    | ProfileEntity
+    >;
 }

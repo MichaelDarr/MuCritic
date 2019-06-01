@@ -8,7 +8,6 @@
 import { getManager } from 'typeorm';
 
 // internal class dependencies
-import { encodeHtmlText } from '../helpers/functions/parsing';
 import AbstractScraper from './abstractScraper';
 import GenreEntity from '../entities/Genre';
 import Log from '../helpers/classes/logger';
@@ -20,7 +19,7 @@ export default class GenreScraper extends AbstractScraper {
         name: string,
         verbose = false,
     ) {
-        const urlEncodedName = encodeHtmlText(name);
+        const urlEncodedName = encodeURIComponent(name);
         const url = `https://rateyourmusic.com/genre/${urlEncodedName}`;
         super(url, 'RYM genre', verbose);
         this.name = name;
@@ -37,11 +36,10 @@ export default class GenreScraper extends AbstractScraper {
 
     protected extractInfo(root: HTMLElement): void {
         // TODO: extract genre info from page. As of now, does not seem necessary
-        return;
     }
 
     protected async scrapeDependencies(): Promise<void> {
-        return;
+        return Promise.resolve();
     }
 
     protected async saveToDB(): Promise<GenreEntity> {

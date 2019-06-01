@@ -14,7 +14,7 @@
         "semi": "off",
         "no-await-in-loop": "off",
         "class-methods-use-this": [
-            "on", {
+            1, {
                 "exceptMethods": [
                     "extractInfo",
                     "scrapeDependencies"

@@ -24,8 +24,7 @@ export async function requestRawScrape(
     attempts = 1,
 ): Promise<any> {
     try {
-        Log.log(`Request: ${url}`);
-        Log.log('Requesting...');
+        Log.log(`Requesting ${url}`);
         const body: string = await getRequestBody(`http://api.scraperapi.com?api_key=${process.env.SCRAPER_API_KEY}&url=${url}`);
         Log.success('Loaded!');
         const { document } = (new JSDOM(body)).window;

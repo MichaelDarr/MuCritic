@@ -175,7 +175,7 @@ export default class ArtistScraperRym extends AbstractScraper {
             this.results.concat(genreScraper.results);
         }
     }
-    
+
     public async saveToDB(): Promise<ArtistEntity> {
         const genreEntities: GenreEntity[] = [];
         for await(const genre of this.genreScrapersRYM) {

@@ -12,6 +12,7 @@ import Date from '../helpers/classes/date';
 import Log from '../helpers/classes/logger';
 import Review from '../helpers/classes/review';
 import { ScrapeResult } from '../helpers/classes/result';
+import { extractInnerHtml, extractHrefLink } from '../helpers/functions/parsing';
 
 // scrapers
 import AbstractScraper from './abstractScraper';
@@ -25,24 +26,46 @@ import ReviewEntity from '../entities/Review';
 export default class ReviewPageScraper extends AbstractScraper {
     public name: string;
 
+    public urlBase: string;
+
     public currentPage: number;
 
     public reviews: Review[];
 
     public profile: ProfileScraper;
 
+    public pageReviewCount: number;
+
+    public sequentialFailureCount: number;
+
     public constructor(
         profile: ProfileScraper,
         verbose = false,
     ) {
+        const urlBase = `https://rateyourmusic.com/collection/${profile.name}/r0.0-5.0/`;
         super(
-            `https://rateyourmusic.com/collection/${profile.name}/r0.0-5.0`,
+            `${urlBase}1`,
             'RYM Review Page',
             verbose,
         );
+        this.urlBase = urlBase;
         this.currentPage = 1;
         this.reviews = [];
         this.profile = profile;
+        this.pageReviewCount = 25;
+        this.sequentialFailureCount = 0;
+    }
+
+    public async scrapePage(): Promise<void> {
+        try {
+            this.url = `${this.urlBase}${this.currentPage}`;
+            this.reviews = [];
+            await this.scrape();
+            this.currentPage += 1;
+            this.sequentialFailureCount = 0;
+        } catch(e) {
+            this.sequentialFailureCount += 1;
+        }
     }
 
     public async getAllReviews(): Promise<ReviewEntity[]> {
@@ -71,7 +94,7 @@ export default class ReviewPageScraper extends AbstractScraper {
                 const failedReviewIndex = this.reviews.indexOf(review);
                 if(failedReviewIndex > -1) this.reviews.splice(failedReviewIndex, 1);
                 this.results.push(
-                    new ScrapeResult(false, this.url, e.message)
+                    new ScrapeResult(false, this.url, e.message),
                 );
             }
         }
@@ -83,7 +106,7 @@ export default class ReviewPageScraper extends AbstractScraper {
             try {
                 let reviewEntity = await entityManager.findOne(
                     ReviewEntity,
-                    { identifierRYM: review.identifierRYM }
+                    { identifierRYM: review.identifierRYM },
                 );
                 if(reviewEntity) continue;
                 reviewEntity = new ReviewEntity();
@@ -105,49 +128,66 @@ export default class ReviewPageScraper extends AbstractScraper {
     protected extractInfo(root: HTMLElement): void {
         const parsedReviewArr: string[][] = [];
         const reviewElementArr = root.querySelectorAll('table.mbgen > tbody > tr');
+        this.pageReviewCount = reviewElementArr.length;
         let isHeading = true;
-        reviewElementArr.forEach((reviewElement): void => {
+        reviewElementArr.forEach((reviewElement: HTMLElement): void => {
             if(isHeading) {
                 isHeading = false;
                 return;
             }
 
-            const dateElement = reviewElement.querySelector('td.or_q_rating_date_d');
-            let month = '';
-            let day = '0';
-            let year = '0';
-            if(dateElement !== null) {
-                const monthElement: HTMLElement = dateElement.querySelector('div.date_element_month');
-                if(monthElement !== null) month = monthElement.innerHTML;
-                const dayElement: HTMLElement = dateElement.querySelector('div.date_element_day');
-                if(dayElement !== null) day = dayElement.innerHTML;
-                const yearElement: HTMLElement = dateElement.querySelector('div.date_element_year');
-                if(yearElement !== null) year = yearElement.innerHTML;
-            } else {
-                return;
+            try {
+                const dateElement: HTMLElement = reviewElement.querySelector('td.or_q_rating_date_d');
+                const month: string = extractInnerHtml(
+                    dateElement,
+                    'div.date_element_month',
+                    true,
+                    'RYM review month',
+                );
+                const day: string = extractInnerHtml(
+                    dateElement,
+                    'div.date_element_day',
+                    true,
+                    'RYM review day',
+                );
+                const year: string = extractInnerHtml(
+                    dateElement,
+                    'div.date_element_year',
+                    true,
+                    'RYM review year',
+                );
+
+                const starsElement: HTMLElement = reviewElement.querySelector('td.or_q_rating_date_s > img');
+                if(starsElement === null) return;
+                const starsText: string = starsElement.title;
+                const starsTextArr: string[] = starsText.split(' ');
+                const starsCount: string = starsTextArr[0];
+
+                const identifierRYM = extractInnerHtml(
+                    reviewElement,
+                    'td.or_q_rating_date_s > span',
+                    true,
+                    'RYM review unique identifier',
+                );
+
+                const albumLinkPartial: string = extractHrefLink(
+                    reviewElement,
+                    'td.or_q_albumartist_td > div.or_q_albumartist > i > a.album',
+                    true,
+                    'RYM review album link',
+                );
+
+                parsedReviewArr.push([
+                    month,
+                    day,
+                    year,
+                    starsCount,
+                    `https://rateyourmusic.com${encodeURI(albumLinkPartial)}`,
+                    identifierRYM,
+                ]);
+            } catch(e) {
+                Log.err('Failed to extract data from review element.');
             }
-
-            const starsElement: HTMLElement = reviewElement.querySelector('td.or_q_rating_date_s > img');
-            if(starsElement === null) return;
-            const starsText: string = starsElement.title;
-            const starsTextArr: string[] = starsText.split(' ');
-            const starsCount: string = starsTextArr[0];
-
-            const idElement: HTMLElement = reviewElement.querySelector('td.or_q_rating_date_s > span');
-            if(idElement === null) return;
-            const identifierRYM = idElement.innerHTML;
-
-            const albumLinkElement: HTMLElement = reviewElement.querySelector('td.or_q_albumartist_td > div.or_q_albumartist > i > a.album');
-            if(albumLinkElement == null) return;
-            const albumLinkPartial: string = (albumLinkElement as any).href;
-            parsedReviewArr.push([
-                month,
-                day,
-                year,
-                starsCount,
-                `https://rateyourmusic.com${encodeURI(albumLinkPartial)}`,
-                identifierRYM,
-            ]);
         });
 
         for (const singleReview of parsedReviewArr) {

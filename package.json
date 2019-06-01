@@ -4,13 +4,8 @@
   "description": "",
   "main": "built/index.js",
   "scripts": {
-    "start": "tsc && node built/rym",
-    "spotify": "tsc && node built/spotify",
-    "one": "tsc && node built/rym resources/one.txt",
-    "two": "tsc && node built/rym resources/two.txt",
-    "three": "tsc && node built/rym resources/three.txt",
-    "four": "tsc && node built/rym resources/four.txt",
-    "five": "tsc && node built/rym resources/five.txt"
+    "rym": "tsc && node built/rym",
+    "spotify": "tsc && node built/spotify"
   },
   "author": "Michael Darr",
   "license": "ISC",

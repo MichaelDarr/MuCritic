@@ -5,11 +5,11 @@
  */
 
 // library dependencies
-import { getManager, EntityManager } from 'typeorm';
+import { getManager } from 'typeorm';
 
 // internal class dependencies
 import Artist from './artistScraper';
-import { ScrapeResult, ResultBatch } from '../helpers/classes/result';
+import { ScrapeResult } from '../helpers/classes/result';
 import Log from '../helpers/classes/logger';
 
 // other internal dependencies
@@ -92,7 +92,7 @@ export default class ProfileScraper extends AbstractScraper {
                 this.results.concat(artist.results);
             } catch(e) {
                 this.results.push(
-                    new ScrapeResult(false, artist.url, e)
+                    new ScrapeResult(false, artist.url, e),
                 );
             }
         }
@@ -110,7 +110,7 @@ export default class ProfileScraper extends AbstractScraper {
             '.profilehii > table > tbody > tr:nth-child(2) > td',
             true,
             'RYM Profile age/gender',
-        )
+        );
         const splitUserInfo: string[] = userAgeAndGenderConcat.split(' / ');
         this.age = Number(splitUserInfo[0]);
         this.gender = Gender[splitUserInfo[1]];

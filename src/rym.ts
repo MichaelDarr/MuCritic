@@ -13,8 +13,8 @@ import { readFileSync } from 'fs';
 
 // internal class dependencies
 import Log from './helpers/classes/logger';
-import Profile from './scrapers/profileScraper';
-import { ResultBatch } from './helpers/classes/result';
+import ProfileScraper from './scrapers/profileScraper';
+import ReviewPageScraper from './scrapers/reviewPageScraper';
 
 // database dependencies
 import ProfileEntity from './entities/Profile';
@@ -27,7 +27,7 @@ import GenreEntity from './entities/Genre';
 dontenv.config({ path: resolve(__dirname, '../.env') });
 
 // CLI header
-Log.notify('\nmuCritic data aggregator\n\n');
+Log.notify('\nmuCritic RYM Scraper\n\n');
 
 // program wrapped in this method to use await/async structure
 (async (): Promise<void> => {
@@ -39,7 +39,7 @@ Log.notify('\nmuCritic data aggregator\n\n');
         port: 5432,
         username: 'muCritic',
         password: '',
-        database: 'muCriticData',
+        database: 'muCriticDataTest',
         entities: [
             ProfileEntity,
             ReviewEntity,
@@ -66,11 +66,27 @@ Log.notify('\nmuCritic data aggregator\n\n');
 
     // iterate through all profile URLs - need for...of instead of forEach b/c async/await
     for await(const profileURL of profileURLList) {
-        // Profile Scrape
-        Log.log(`Scraping profile: ${profileURL}`);
+        let profileScraper: ProfileScraper;
+        let reviewPageScraper: ReviewPageScraper;
+        try {
+            profileScraper = new ProfileScraper(profileURL);
+            await profileScraper.scrape();
+        } catch(e) {
+            Log.err(`Error scraping user: ${e}`);
+        }
 
-        const user = new Profile(profileURL);
-        await user.scrape();
+        try {
+            reviewPageScraper = new ReviewPageScraper(profileScraper);
+        } catch(e) {
+            Log.err('error initializing ');
+        }
+
+        while(
+            reviewPageScraper.pageReviewCount > 0
+            && reviewPageScraper.sequentialFailureCount < 3
+        ) {
+            await reviewPageScraper.scrapePage();
+        }
     }
 
     Log.success('Scrape Complete');
