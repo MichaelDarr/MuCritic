@@ -12,9 +12,9 @@ import { resolve } from 'path';
 import { readFileSync } from 'fs';
 
 // internal class dependencies
-import Log from './helpers/helperClasses/logger';
-import Profile from './scrapers/profile';
-import { ResultBatch } from './helpers/helperClasses/result';
+import Log from './helpers/classes/logger';
+import Profile from './scrapers/profileScraper';
+import { ResultBatch } from './helpers/classes/result';
 
 // database dependencies
 import ProfileEntity from './entities/Profile';

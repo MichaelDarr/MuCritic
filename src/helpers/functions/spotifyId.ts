@@ -2,9 +2,9 @@
 import { Repository } from 'typeorm';
 
 // internal class dependencies
-import SpotifyApi from '../helperClasses/spotifyApi';
-import { ResultBatch, ApiResult } from '../helperClasses/result';
-import Log from '../helperClasses/logger';
+import SpotifyApi from '../classes/spotifyApi';
+import { ResultBatch, ApiResult } from '../classes/result';
+import Log from '../classes/logger';
 import { ApiService } from '../enums';
 
 // database dependencies

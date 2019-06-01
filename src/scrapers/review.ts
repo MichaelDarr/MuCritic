@@ -5,9 +5,9 @@
  */
 
 // library internal class dependencies
-import Date from '../helpers/helperClasses/date';
+import Date from '../helpers/classes/date';
 import Album from './albumScraper';
-import Profile from './profile';
+import Profile from './profileScraper';
 
 export default class Review {
     public album: Album;

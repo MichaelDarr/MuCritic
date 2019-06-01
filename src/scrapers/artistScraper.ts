@@ -8,8 +8,8 @@
 import { getManager } from 'typeorm';
 
 // internal dependencies
-import Genre from './genreScraper';
-import Log from '../helpers/helperClasses/logger';
+import GenreScraper from './genreScraper';
+import Log from '../helpers/classes/logger';
 import AbstractScraper from './abstractScraper';
 import {
     extractInnerHtml,
@@ -17,7 +17,7 @@ import {
     decodeHtmlText,
     extractInnerHtmlOfGroup,
     extractHeaderNumberPair,
-} from '../helpers/helperFunctions/parsing';
+} from '../helpers/functions/parsing';
 
 // database dependencies
 import ArtistEntity from '../entities/Artist';
@@ -34,7 +34,7 @@ export default class ArtistScraperRym extends AbstractScraper {
 
     public soloPerformer: boolean;
 
-    public genreScrapersRYM: Genre[];
+    public genreScrapersRYM: GenreScraper[];
 
     public genreEntities: GenreEntity[];
 
@@ -116,7 +116,7 @@ export default class ArtistScraperRym extends AbstractScraper {
 
         // use following methods to parse this info and sort it into class props
         this.memberCount = getMemberCountFromRawString(members, 1);
-        this.genreScrapersRYM = Genre.createScrapers(genres);
+        this.genreScrapersRYM = GenreScraper.createScrapers(genres);
     }
 
     private extractDiscographyCount(root: HTMLElement): void {
@@ -175,14 +175,7 @@ export default class ArtistScraperRym extends AbstractScraper {
             this.results.concat(genreScraper.results);
         }
     }
-
-    /**
-     * Used to insert an artist into the database. In addition, upserts genre records
-     * Creates records for artist-genre pivot table
-     *
-     * @param entityManager database connection manager, typeORM
-     * @returns an ArtistEntity, the saved database record for an artist
-     */
+    
     public async saveToDB(): Promise<ArtistEntity> {
         const genreEntities: GenreEntity[] = [];
         for await(const genre of this.genreScrapersRYM) {

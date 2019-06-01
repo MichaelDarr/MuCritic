@@ -8,10 +8,10 @@
 import { getManager } from 'typeorm';
 
 // internal class dependencies
-import { encodeHtmlText } from '../helpers/helperFunctions/parsing';
+import { encodeHtmlText } from '../helpers/functions/parsing';
 import AbstractScraper from './abstractScraper';
 import GenreEntity from '../entities/Genre';
-import Log from '../helpers/helperClasses/logger';
+import Log from '../helpers/classes/logger';
 
 export default class GenreScraper extends AbstractScraper {
     public name: string;

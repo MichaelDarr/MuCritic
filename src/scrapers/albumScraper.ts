@@ -9,9 +9,9 @@ import { getManager } from 'typeorm';
 
 // internal dependencies
 import AbstractScraper from './abstractScraper';
-import Artist from './artistScraper';
-import Genre from './genreScraper';
-import Log from '../helpers/helperClasses/logger';
+import ArtistScraper from './artistScraper';
+import GenreScraper from './genreScraper';
+import Log from '../helpers/classes/logger';
 import {
     extractHeaderNumberPair,
     extractInnerHtml,
@@ -19,7 +19,7 @@ import {
     extractInnerHTMLFromGroupElement,
     extractInnerHtmlOfGroup,
     decodeHtmlText,
-} from '../helpers/helperFunctions/parsing';
+} from '../helpers/functions/parsing';
 
 // database dependencies
 import GenreEntity from '../entities/Genre';
@@ -29,7 +29,7 @@ import ArtistEntity from '../entities/Artist';
 export default class AlbumScraperRym extends AbstractScraper {
     public name: string;
 
-    public artist: Artist;
+    public artist: ArtistScraper;
 
     public releaseYear: number;
 
@@ -41,7 +41,7 @@ export default class AlbumScraperRym extends AbstractScraper {
 
     public ratingCountRYM: number;
 
-    public genresRYM: Genre[];
+    public genresRYM: GenreScraper[];
 
     public reviewCountRYM: number;
 
@@ -213,12 +213,12 @@ export default class AlbumScraperRym extends AbstractScraper {
             throw new Error('Album scrape yielded incomplete data');
         }
 
-        this.artist = new Artist(artistUrl);
+        this.artist = new ArtistScraper(artistUrl);
         this.ratingRYM = Number(rating);
         this.ratingCountRYM = Number(ratingCount.replace(/,/g, ''));
         this.yearRankRYM = (yearRank === null) ? 0 : Number(yearRank.replace(/,/g, ''));
         this.overallRankRYM = (overallRank === null) ? 0 : Number(overallRank.replace(/,/g, ''));
-        this.genresRYM = Genre.createScrapers(genres);
+        this.genresRYM = GenreScraper.createScrapers(genres);
     }
 
     /**

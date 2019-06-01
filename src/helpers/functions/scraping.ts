@@ -1,6 +1,6 @@
 import * as request from 'request';
 import * as jsdom from 'jsdom';
-import Log from '../helperClasses/logger';
+import Log from '../classes/logger';
 
 const { JSDOM } = jsdom;
 

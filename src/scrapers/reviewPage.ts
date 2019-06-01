@@ -8,16 +8,16 @@
 import { getManager, EntityManager } from 'typeorm';
 
 // internal class dependencies
-import { ScrapeResult, ResultBatch } from '../helpers/helperClasses/result';
+import { ScrapeResult, ResultBatch } from '../helpers/classes/result';
 import Review from './review';
 import Album from './albumScraper';
-import Date from '../helpers/helperClasses/date';
-import Profile from './profile';
-import Log from '../helpers/helperClasses/logger';
+import Date from '../helpers/classes/date';
+import Profile from './profileScraper';
+import Log from '../helpers/classes/logger';
 
 // other internal dependencies
 import ScraperInterface from './interface';
-import { requestRawScrape } from '../helpers/helperFunctions/scraping';
+import { requestRawScrape } from '../helpers/functions/scraping';
 
 // database dependencies
 import ReviewEntity from '../entities/Review';

@@ -10,10 +10,10 @@ import { createConnection, getConnection } from 'typeorm';
 import { resolve } from 'path';
 
 // internal class dependencies
-import Log from './helpers/helperClasses/logger';
-import { attatchIdsToEntries } from './helpers/helperFunctions/spotifyId';
-import SpotifyApi from './helpers/helperClasses/spotifyApi';
-import { ResultBatch } from './helpers/helperClasses/result';
+import Log from './helpers/classes/logger';
+import { attatchIdsToEntries } from './helpers/functions/spotifyId';
+import SpotifyApi from './helpers/classes/spotifyApi';
+import { ResultBatch } from './helpers/classes/result';
 
 // database dependencies
 import ProfileEntity from './entities/Profile';

@@ -5,9 +5,9 @@
  */
 
 // internal class dependencies
-import { requestRawScrape } from '../helpers/helperFunctions/scraping';
-import { ScrapeResult, ResultBatch } from '../helpers/helperClasses/result';
-import Log from '../helpers/helperClasses/logger';
+import { requestRawScrape } from '../helpers/functions/scraping';
+import { ScrapeResult, ResultBatch } from '../helpers/classes/result';
+import Log from '../helpers/classes/logger';
 
 // database dependencies
 import AlbumEntity from '../entities/Album';
