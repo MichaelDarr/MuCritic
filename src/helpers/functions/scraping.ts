@@ -26,15 +26,14 @@ export async function requestRawScrape(
     try {
         Log.log(`Requesting ${url}`);
         const body: string = await getRequestBody(`http://api.scraperapi.com?api_key=${process.env.SCRAPER_API_KEY}&url=${url}`);
-        Log.success('Loaded!');
+        Log.success(`Loaded ${url}`);
         const { document } = (new JSDOM(body)).window;
         return document;
     } catch(e) {
         Log.err(`Attempt ${attempts}: page load failed: ${e}`);
     }
 
-    if(attempts <= 3) {
-        Log.log('Retrying...');
+    if(attempts <= Number(process.env.MAX_REQUEST_ATTEMPTS)) {
         return requestRawScrape(url, attempts + 1);
     }
     return false;

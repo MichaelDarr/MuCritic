@@ -43,13 +43,15 @@ export default abstract class AbstractScraper {
         this.scrapeSucceeded = false;
     }
 
-    public async scrape(): Promise<void> {
+    public async scrape(forceScrape = false): Promise<void> {
+        Log.notify(`Beginning Scrape of ${this.scrapeContentDescription}`);
         let saved = await this.getEntity();
-        if(saved) {
+        if(saved && !forceScrape) {
             this.dataReadFromDB = true;
             this.databaseID = saved.id;
             this.results.push(new ScrapeResult(true, this.url));
             this.scrapeSucceeded = true;
+            Log.success(`Local Record Found for ${this.scrapeContentDescription}`);
             return;
         }
         const root: HTMLElement = await requestRawScrape(this.url);
@@ -60,6 +62,7 @@ export default abstract class AbstractScraper {
         this.databaseID = saved.id;
         this.results.push(new ScrapeResult(true, this.url));
         this.scrapeSucceeded = true;
+        Log.success(`Finished Scrape of ${this.scrapeContentDescription}`);
     }
 
     public printResult(): void {

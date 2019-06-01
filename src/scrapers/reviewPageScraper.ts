@@ -57,12 +57,14 @@ export default class ReviewPageScraper extends AbstractScraper {
     }
 
     public async scrapePage(): Promise<void> {
+        Log.notify(`Scraping page ${this.currentPage} for user ${this.profile.name}`);
         try {
             this.url = `${this.urlBase}${this.currentPage}`;
             this.reviews = [];
-            await this.scrape();
+            await this.scrape(true);
             this.currentPage += 1;
             this.sequentialFailureCount = 0;
+            Log.notify(`\nReview page scrape Successful!\nPage: ${this.currentPage}\nUser: ${this.profile.name}\n`);
         } catch(e) {
             this.sequentialFailureCount += 1;
         }
@@ -117,6 +119,12 @@ export default class ReviewPageScraper extends AbstractScraper {
                 reviewEntity.month = review.date.month;
                 reviewEntity.day = review.date.day;
                 reviewEntity.identifierRYM = review.identifierRYM;
+                if(!reviewEntity.album) {
+                    throw new Error(`Album not found for review: ${this.name}`);
+                }
+                if(!reviewEntity.profile) {
+                    throw new Error(`Profile not found for album: ${this.name}`);
+                }
                 reviewEntity = await entityManager.save(reviewEntity);
             } catch(e) {
                 this.results.push(new ScrapeResult(false, this.url, `${e.name}: ${e.message}`));

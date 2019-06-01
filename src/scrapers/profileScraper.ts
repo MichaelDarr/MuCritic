@@ -77,7 +77,7 @@ export default class ProfileScraper extends AbstractScraper {
      * @returns an ArtistEntity, the saved database record for an artist
      */
     public async getEntity(): Promise<ProfileEntity> {
-        return getManager().findOne(ProfileEntity, { id: this.databaseID });
+        return getManager().findOne(ProfileEntity, { name: this.name });
     }
 
     protected extractInfo(root: HTMLElement): void {
