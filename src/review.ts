@@ -6,7 +6,7 @@
 
 // library internal class dependencies
 import Date from './date';
-import Album from './album';
+import Album from './scrapers/albumScraper';
 import Profile from './profile';
 
 export default class Review {

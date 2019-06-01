@@ -8,15 +8,15 @@
 import { getManager, EntityManager } from 'typeorm';
 
 // internal class dependencies
-import Artist from './artist';
+import Artist from './scrapers/artistScraper';
 import ReviewPage from './reviewPage';
-import { ScrapingResult, ResultBatch } from './result';
+import { ScrapeResult, ResultBatch } from './result';
 import Log from './logger';
 
 // other internal dependencies
 import { Gender } from './enums';
 import ScraperInterface from './interface';
-import { requestScrape } from './connectionHelpers';
+import { requestRawScrape } from './helpers/scraping';
 
 // database dependencies
 import ProfileEntity from './entity/Profile';
@@ -74,11 +74,11 @@ export default class Profile implements ScraperInterface {
                 this.age = savedProfile.age;
                 this.gender = savedProfile.gender ? Gender.Male : Gender.Female;
                 profileScrapeResults.push(
-                    new ScrapingResult(true, this.urlRYM),
+                    new ScrapeResult(true, this.urlRYM),
                 );
             } else {
                 // enter url in page
-                const root: HTMLElement = await requestScrape(this.urlRYM);
+                const root: HTMLElement = await requestRawScrape(this.urlRYM);
 
                 // scrape page for reviewer info
                 await this.extractUserInfo(root);
@@ -86,14 +86,14 @@ export default class Profile implements ScraperInterface {
                 profileScrapeResults.concat(artistResults);
             }
 
-            profileScrapeResults.push(new ScrapingResult(true, this.urlRYM));
+            profileScrapeResults.push(new ScrapeResult(true, this.urlRYM));
 
             await this.saveToDB(entityManager);
 
             const reviewPagesResults = await this.scrapeReviewPages();
             profileScrapeResults.concat(reviewPagesResults);
         } catch(e) {
-            profileScrapeResults.push(new ScrapingResult(false, this.urlRYM, `${e.name}: ${e.message}`));
+            profileScrapeResults.push(new ScrapeResult(false, this.urlRYM, `${e.name}: ${e.message}`));
         }
         return profileScrapeResults;
     }

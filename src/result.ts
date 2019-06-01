@@ -6,15 +6,19 @@
 
 // internal dependencies
 import Log from './logger';
-import { Api } from './enums';
+import { ApiService, ScrapingSite } from './enums';
 
 /**
  * Result for a single scraped page
  */
-export class ScrapingResult {
+export class ScrapeResult {
     public success: boolean;
 
-    public scrapingURL: string;
+    public scrapingSite: ScrapingSite;
+
+    public url: string;
+
+    public pageDescription: string;
 
     public error: string;
 
@@ -24,16 +28,19 @@ export class ScrapingResult {
      */
     public constructor(
         success: boolean,
-        scrapingURL: string,
+        url: string,
         error?: string,
     ) {
         this.success = success;
-        this.scrapingURL = scrapingURL;
+        this.url = url;
         this.error = error;
     }
 
     public logError(): void {
-        Log.err(this.error);
+        if(this.success) return;
+        Log.err(
+            `Scrape error:\nURL: ${this.url}\nError: ${this.error}`,
+        );
     }
 }
 
@@ -43,7 +50,7 @@ export class ScrapingResult {
 export class ApiResult {
     public success: boolean;
 
-    public api: Api;
+    public apiService: ApiService;
 
     public route: string;
 
@@ -57,21 +64,22 @@ export class ApiResult {
      */
     public constructor(
         success: boolean,
-        api: Api,
+        apiService: ApiService,
         route: string,
         paramDescription: string,
         error?: string,
     ) {
         this.success = success;
-        this.api = api;
+        this.apiService = apiService;
         this.route = route;
         this.paramDescription = paramDescription;
         this.error = error;
     }
 
     public logError(): void {
+        if(this.success) return;
         Log.err(
-            `Scrape error:\nAPI: ${this.api}\nRoute: ${this.route}\nParams: ${this.paramDescription}\nError: ${this.error}`,
+            `Api error:\nAPI: ${this.apiService}\nRoute: ${this.route}\nParams: ${this.paramDescription}\nError: ${this.error}`,
         );
     }
 }
@@ -80,12 +88,12 @@ export class ApiResult {
  * Result for a batch of scraped pages
  */
 export class ResultBatch {
-    public scrapingResults: ScrapingResult[];
+    public scrapeResults: ScrapeResult[];
 
     public apiResults: ApiResult[];
 
     public constructor() {
-        this.scrapingResults = [];
+        this.scrapeResults = [];
         this.apiResults = [];
     }
 
@@ -94,9 +102,9 @@ export class ResultBatch {
      *
      * @param scrapingResult single scraping result
      */
-    public push(result: ScrapingResult | ApiResult): ResultBatch {
-        if(result instanceof ScrapingResult) {
-            this.scrapingResults.push(result);
+    public push(result: ScrapeResult | ApiResult): ResultBatch {
+        if(result instanceof ScrapeResult) {
+            this.scrapeResults.push(result);
         } if(result instanceof ApiResult) {
             this.apiResults.push(result);
         }
@@ -109,7 +117,7 @@ export class ResultBatch {
      * @param moreResults batch of results
      */
     public concat(moreResults: ResultBatch): ResultBatch {
-        moreResults.scrapingResults.forEach((result): void => {
+        moreResults.scrapeResults.forEach((result): void => {
             this.push(result);
         });
         moreResults.apiResults.forEach((result): void => {
@@ -125,7 +133,7 @@ export class ResultBatch {
      */
     public success(): boolean {
         let requestsSuccessful = true;
-        this.scrapingResults.forEach((scrapingResult): void => {
+        this.scrapeResults.forEach((scrapingResult): void => {
             if(!scrapingResult.success) requestsSuccessful = false;
         });
         this.apiResults.forEach((apiResult): void => {
@@ -140,9 +148,9 @@ export class ResultBatch {
      * @return boolean, if every scrape in batch succeeded
      */
     public logErrors(): void {
-        this.scrapingResults.forEach((scrapingResult): void => {
-            if(!scrapingResult.success) {
-                scrapingResult.logError();
+        this.scrapeResults.forEach((scrapeResult): void => {
+            if(!scrapeResult.success) {
+                scrapeResult.logError();
             }
         });
         this.apiResults.forEach((apiResult): void => {

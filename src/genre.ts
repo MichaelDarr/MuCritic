@@ -35,24 +35,7 @@ export default class Genre {
         return savedGenre;
     }
 
-    /**
-     * Extract genre info from a comma-separated string
-     *
-     * @param genres genre info string. ex: Film Score, Horror Synth, Halloween Music...
-     */
-    public static parse(genres: string): Genre[] {
-        const genreArr: Genre[] = [];
-        if(genres !== null && genres !== undefined) {
-            const genreStringArr = genres.split(', ');
-            genreStringArr.forEach((genre): void => {
-                const genreEntity = new Genre(genre);
-                genreArr.push(genreEntity);
-            });
-        }
-        return genreArr;
-    }
-
-    public static createGenres(genres: string[]): Genre[] {
+    public static createGenreInstances(genres: string[]): Genre[] {
         const genreArr: Genre[] = [];
         genres.forEach((genre): void => {
             const genreEntity = new Genre(genre);

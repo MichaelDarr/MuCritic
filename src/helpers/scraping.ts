@@ -1,6 +1,6 @@
 import * as request from 'request';
 import * as jsdom from 'jsdom';
-import Log from './logger';
+import Log from '../logger';
 
 const { JSDOM } = jsdom;
 
@@ -19,7 +19,7 @@ export async function getRequestBody(url: string): Promise<string> {
     });
 }
 
-export async function requestScrape(
+export async function requestRawScrape(
     url: string,
     attempts = 1,
 ): Promise<any> {
@@ -36,7 +36,7 @@ export async function requestScrape(
 
     if(attempts <= 3) {
         Log.log('Retrying...');
-        return requestScrape(url, attempts + 1);
+        return requestRawScrape(url, attempts + 1);
     }
     return false;
 }

@@ -9,6 +9,10 @@ export enum Gender {
     Female
 }
 
-export enum Api {
+export enum ApiService {
     Spotify
+}
+
+export enum ScrapingSite {
+    RYM
 }

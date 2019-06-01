@@ -1,5 +1,4 @@
 // external dependencies
-import * as request from 'request';
 import { Repository } from 'typeorm';
 
 // internal class dependencies

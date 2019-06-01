@@ -8,16 +8,16 @@
 import { getManager, EntityManager } from 'typeorm';
 
 // internal class dependencies
-import { ScrapingResult, ResultBatch } from './result';
+import { ScrapeResult, ResultBatch } from './result';
 import Review from './review';
-import Album from './album';
+import Album from './scrapers/albumScraper';
 import Date from './date';
 import Profile from './profile';
 import Log from './logger';
 
 // other internal dependencies
 import ScraperInterface from './interface';
-import { requestScrape } from './connectionHelpers';
+import { requestRawScrape } from './helpers/scraping';
 
 // database dependencies
 import ReviewEntity from './entity/Review';
@@ -49,7 +49,7 @@ export default class ReviewPage implements ScraperInterface {
         try {
             let moreRecordsExist = true;
             while(moreRecordsExist) {
-                const root: HTMLElement = await requestScrape(`${this.urlRYM}/${this.currentPage}`);
+                const root: HTMLElement = await requestRawScrape(`${this.urlRYM}/${this.currentPage}`);
                 const reviewScrapeResult: ResultBatch = await this.extractAllReviews(root);
                 if(reviewScrapeResult.success()) {
                     Log.success(`Successfully scraped review page ${this.currentPage}, user ${this.urlUserameRYM}`);
@@ -57,7 +57,7 @@ export default class ReviewPage implements ScraperInterface {
                     Log.err(`Scraping errors for review page ${this.currentPage}, user ${this.urlUserameRYM}`);
                     reviewScrapeResult.logErrors();
                 }
-                if(reviewScrapeResult.scrapingResults.length > 0) {
+                if(reviewScrapeResult.scrapeResults.length > 0) {
                     const dbSaveResults = await this.saveToDB(entityManager);
                     if(dbSaveResults.success()) {
                         Log.success(`Successfully saved review page ${this.currentPage}, user ${this.urlUserameRYM}`);
@@ -74,10 +74,10 @@ export default class ReviewPage implements ScraperInterface {
         } catch(e) {
             this.currentPage = 0;
             Log.err(`Failed review scrape: ${this.urlRYM}`);
-            return results.push(new ScrapingResult(false, this.urlRYM, `${e.name}: ${e.message}`));
+            return results.push(new ScrapeResult(false, this.urlRYM, `${e.name}: ${e.message}`));
         }
         this.currentPage = 0;
-        return results.push(new ScrapingResult(true, this.urlRYM));
+        return results.push(new ScrapeResult(true, this.urlRYM));
     }
 
     public async saveToDB(entityManager: EntityManager): Promise<ResultBatch> {
@@ -101,7 +101,7 @@ export default class ReviewPage implements ScraperInterface {
                 reviewEntity = await entityManager.save(reviewEntity);
             } catch(e) {
                 Log.err(`Failed to save album review: ${review.identifierRYM}`);
-                results.push(new ScrapingResult(false, this.urlRYM, `${e.name}: ${e.message}`));
+                results.push(new ScrapeResult(false, this.urlRYM, `${e.name}: ${e.message}`));
             }
         }
         return results;
