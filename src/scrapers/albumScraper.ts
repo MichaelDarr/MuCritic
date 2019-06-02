@@ -8,10 +8,10 @@
 import { getManager } from 'typeorm';
 
 // internal dependencies
-import AbstractScraper from './abstractScraper';
-import ArtistScraper from './artistScraper';
-import GenreScraper from './genreScraper';
-import Log from '../helpers/classes/logger';
+import { AbstractScraper } from './abstractScraper';
+import { ArtistScraper } from './artistScraper';
+import { GenreScraper } from './genreScraper';
+import { Log } from '../helpers/classes/log';
 import {
     extractHeaderNumberPair,
     extractInnerHtml,
@@ -22,11 +22,11 @@ import {
 } from '../helpers/functions/parsing';
 
 // database dependencies
-import GenreEntity from '../entities/Genre';
-import AlbumEntity from '../entities/Album';
-import ArtistEntity from '../entities/Artist';
+import { AlbumEntity } from '../entities/AlbumEntity';
+import { ArtistEntity } from '../entities/ArtistEntity';
+import { GenreEntity } from '../entities/GenreEntity';
 
-export default class AlbumScraperRym extends AbstractScraper {
+export class AlbumScraper extends AbstractScraper {
     public name: string;
 
     public artist: ArtistScraper;

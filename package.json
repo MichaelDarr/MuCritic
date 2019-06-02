@@ -6,7 +6,7 @@
   "scripts": {
     "rym": "tsc && node built/rym",
     "spotify": "tsc && node built/spotify",
-    "docgen": "typedoc --experimentalDecorators --target 'es5' --module 'commonjs' --out docs/ src/",
+    "docgen": "typedoc --experimentalDecorators src/",
     "docserve": "tsc && node built/serveDocs"
   },
   "author": "Michael Darr",

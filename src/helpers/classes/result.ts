@@ -5,7 +5,7 @@
  */
 
 // internal dependencies
-import Log from './logger';
+import { Log } from './log';
 import { ApiService, ScrapingSite } from '../enums';
 
 /**

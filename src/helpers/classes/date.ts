@@ -4,7 +4,7 @@
  * @author  Michael Darr
  */
 
-export default class Date {
+export class Date {
     public month: number;
 
     public day: number;

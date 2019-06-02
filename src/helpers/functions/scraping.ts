@@ -1,8 +1,6 @@
 import * as request from 'request';
-import * as jsdom from 'jsdom';
-import Log from '../classes/logger';
-
-const { JSDOM } = jsdom;
+import { JSDOM } from 'jsdom';
+import { Log } from '../classes/log';
 
 export async function getRequestBody(url: string): Promise<string> {
     return new Promise((resolve, reject): void => {

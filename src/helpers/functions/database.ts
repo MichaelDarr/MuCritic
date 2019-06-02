@@ -2,14 +2,14 @@
 import { createConnection } from 'typeorm';
 
 // helpers
-import Log from '../classes/logger';
+import { Log } from '../classes/log';
 
 // entities
-import AlbumEntity from '../../entities/Album';
-import ArtistEntity from '../../entities/Artist';
-import GenreEntity from '../../entities/Genre';
-import ProfileEntity from '../../entities/Profile';
-import ReviewEntity from '../../entities/Review';
+import { AlbumEntity } from '../../entities/AlbumEntity';
+import { ArtistEntity } from '../../entities/ArtistEntity';
+import { GenreEntity } from '../../entities/GenreEntity';
+import { ProfileEntity } from '../../entities/ProfileEntity';
+import { ReviewEntity } from '../../entities/ReviewEntity';
 
 // database entities
 /**

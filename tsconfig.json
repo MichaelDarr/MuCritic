@@ -12,5 +12,11 @@
         "src/rym.ts",
         "src/spotifyIdScraper.ts",
         "src/serveDocs.ts"
-    ]
+    ],
+    "typedocOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "mode": "file",
+        "out": "docs/"
+    }
 }

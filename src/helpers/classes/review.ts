@@ -5,12 +5,12 @@
  */
 
 // library internal class dependencies
-import Date from './date';
-import Album from '../../scrapers/albumScraper';
-import Profile from '../../scrapers/profileScraper';
+import { Date } from './date';
+import { AlbumScraper } from '../../scrapers/albumScraper';
+import { ProfileScraper } from '../../scrapers/profileScraper';
 
-export default class Review {
-    public album: Album;
+export class Review {
+    public album: AlbumScraper;
 
     public score: number;
 
@@ -18,7 +18,7 @@ export default class Review {
 
     public identifierRYM: string;
 
-    public profile: Profile;
+    public profile: ProfileScraper;
 
     /**
      *
@@ -27,8 +27,8 @@ export default class Review {
      * @param date date when the album was reviewed
      */
     public constructor(
-        album: Album,
-        profile: Profile,
+        album: AlbumScraper,
+        profile: ProfileScraper,
         score: number,
         identifierRYM: string,
         date: Date,

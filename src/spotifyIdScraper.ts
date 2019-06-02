@@ -1,7 +1,5 @@
 /**
- * @fileOverview Spotify ID Scraper. Adds ID values to artists and albums
- *
- * @author  Michael Darr
+ * Spotify ID Scraper. Adds ID values to artists and albums
  */
 
 // external dependencies
@@ -12,13 +10,13 @@ import { getConnection } from 'typeorm';
 // helpers
 import { connectToDatabase } from './helpers/functions/database';
 import { attatchIdsToEntries } from './helpers/functions/spotifyId';
-import Log from './helpers/classes/logger';
+import { Log } from './helpers/classes/log';
 import { ResultBatch } from './helpers/classes/result';
-import SpotifyApi from './helpers/classes/spotifyApi';
+import { SpotifyApi } from './helpers/classes/spotifyApi';
 
 // database entities
-import AlbumEntity from './entities/Album';
-import ArtistEntity from './entities/Artist';
+import { AlbumEntity } from './entities/AlbumEntity';
+import { ArtistEntity } from './entities/ArtistEntity';
 
 // environment variables
 dontenv.config({ path: resolve(__dirname, '../.env') });

@@ -6,7 +6,7 @@
 import { readFile } from 'fs';
 
 // helpers
-import Log from '../classes/logger';
+import { Log } from '../classes/log';
 
 /**
  * Returns the contents of a file

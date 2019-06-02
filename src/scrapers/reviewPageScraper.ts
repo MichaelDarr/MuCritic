@@ -8,22 +8,22 @@
 import { getManager } from 'typeorm';
 
 // helpers
-import Date from '../helpers/classes/date';
-import Log from '../helpers/classes/logger';
-import Review from '../helpers/classes/review';
+import { Date } from '../helpers/classes/date';
+import { Log } from '../helpers/classes/log';
+import { Review } from '../helpers/classes/review';
 import { ScrapeResult } from '../helpers/classes/result';
 import { extractInnerHtml, extractHrefLink } from '../helpers/functions/parsing';
 
 // scrapers
-import AbstractScraper from './abstractScraper';
-import AlbumScraper from './albumScraper';
-import ProfileScraper from './profileScraper';
+import { AbstractScraper } from './abstractScraper';
+import { AlbumScraper } from './albumScraper';
+import { ProfileScraper } from './profileScraper';
 
 // database dependencies
-import ProfileEntity from '../entities/Profile';
-import ReviewEntity from '../entities/Review';
+import { ProfileEntity } from '../entities/ProfileEntity';
+import { ReviewEntity } from '../entities/ReviewEntity';
 
-export default class ReviewPageScraper extends AbstractScraper {
+export class ReviewPageScraper extends AbstractScraper {
     public name: string;
 
     public urlBase: string;

@@ -2,14 +2,14 @@
 import { Repository } from 'typeorm';
 
 // internal class dependencies
-import SpotifyApi from '../classes/spotifyApi';
+import { SpotifyApi } from '../classes/spotifyApi';
 import { ResultBatch, ApiResult } from '../classes/result';
-import Log from '../classes/logger';
+import { Log } from '../classes/log';
 import { ApiService } from '../enums';
 
 // database dependencies
-import AlbumEntity from '../../entities/Album';
-import ArtistEntity from '../../entities/Artist';
+import { AlbumEntity } from '../../entities/AlbumEntity';
+import { ArtistEntity } from '../../entities/ArtistEntity';
 
 function extractCorrectItem(
     asset: AlbumEntity | ArtistEntity,

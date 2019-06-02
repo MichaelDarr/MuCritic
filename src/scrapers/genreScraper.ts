@@ -8,11 +8,11 @@
 import { getManager } from 'typeorm';
 
 // internal class dependencies
-import AbstractScraper from './abstractScraper';
-import GenreEntity from '../entities/Genre';
-import Log from '../helpers/classes/logger';
+import { AbstractScraper } from './abstractScraper';
+import { GenreEntity } from '../entities/GenreEntity';
+import { Log } from '../helpers/classes/log';
 
-export default class GenreScraper extends AbstractScraper {
+export class GenreScraper extends AbstractScraper {
     public name: string;
 
     public constructor(

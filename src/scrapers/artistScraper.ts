@@ -4,13 +4,13 @@
  * @author  Michael Darr
  */
 
-// library dependencies
+// external
 import { getManager } from 'typeorm';
 
-// internal dependencies
-import GenreScraper from './genreScraper';
-import Log from '../helpers/classes/logger';
-import AbstractScraper from './abstractScraper';
+// internal
+import { AbstractScraper } from './abstractScraper';
+import { GenreScraper } from './genreScraper';
+import { Log } from '../helpers/classes/log';
 import {
     extractInnerHtml,
     getMemberCountFromRawString,
@@ -20,10 +20,10 @@ import {
 } from '../helpers/functions/parsing';
 
 // database dependencies
-import ArtistEntity from '../entities/Artist';
-import GenreEntity from '../entities/Genre';
+import { ArtistEntity } from '../entities/ArtistEntity';
+import { GenreEntity } from '../entities/GenreEntity';
 
-export default class ArtistScraperRym extends AbstractScraper {
+export class ArtistScraper extends AbstractScraper {
     public name: string;
 
     public active: boolean;

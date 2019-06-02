@@ -7,29 +7,27 @@
 // library dependencies
 import { getManager } from 'typeorm';
 
-// internal class dependencies
-import Artist from './artistScraper';
+// internal
+import { AbstractScraper } from './abstractScraper';
+import { ArtistScraper } from './artistScraper';
 import { ScrapeResult } from '../helpers/classes/result';
-import Log from '../helpers/classes/logger';
-
-// other internal dependencies
+import { Log } from '../helpers/classes/log';
 import { Gender } from '../helpers/enums';
-import AbstractScraper from './abstractScraper';
 import { extractInnerHtml } from '../helpers/functions/parsing';
 
 // database dependencies
-import ProfileEntity from '../entities/Profile';
-import ArtistEntity from '../entities/Artist';
+import { ArtistEntity } from '../entities/ArtistEntity';
+import { ProfileEntity } from '../entities/ProfileEntity';
 
 
-export default class ProfileScraper extends AbstractScraper {
+export class ProfileScraper extends AbstractScraper {
     public name: string;
 
     public age: number;
 
     public gender: Gender;
 
-    public favoriteArtists: Artist[];
+    public favoriteArtists: ArtistScraper[];
 
     public constructor(
         name: string,
@@ -133,7 +131,7 @@ export default class ProfileScraper extends AbstractScraper {
                 block
                     .querySelectorAll('div > a')
                     .forEach((artistElement: HTMLElement): void => {
-                        this.favoriteArtists.push(new Artist(`https://rateyourmusic.com${encodeURI((artistElement as any).href)}`));
+                        this.favoriteArtists.push(new ArtistScraper(`https://rateyourmusic.com${encodeURI((artistElement as any).href)}`));
                     });
                 artistTitleBlockFound = false;
             } else if(block.innerHTML === 'favorite artists') {

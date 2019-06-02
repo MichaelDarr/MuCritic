@@ -1,7 +1,5 @@
 /**
- * @fileOverview Rate Your Music scraper main file
- *
- * @author  Michael Darr
+ * Rate Your Music scraper main file
  */
 
 // external
@@ -12,11 +10,11 @@ import 'reflect-metadata';
 // helpers
 import { connectToDatabase } from './helpers/functions/database';
 import { readFileToArray } from './helpers/functions/fileSystem';
-import Log from './helpers/classes/logger';
+import { Log } from './helpers/classes/log';
 
 // scrapers
-import ProfileScraper from './scrapers/profileScraper';
-import ReviewPageScraper from './scrapers/reviewPageScraper';
+import { ProfileScraper } from './scrapers/profileScraper';
+import { ReviewPageScraper } from './scrapers/reviewPageScraper';
 
 // environment variables
 dontenv.config({ path: resolve(__dirname, '../.env') });

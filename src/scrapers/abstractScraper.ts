@@ -10,15 +10,15 @@
 // internal class dependencies
 import { requestRawScrape } from '../helpers/functions/scraping';
 import { ScrapeResult, ResultBatch } from '../helpers/classes/result';
-import Log from '../helpers/classes/logger';
+import { Log } from '../helpers/classes/log';
 
 // database dependencies
-import AlbumEntity from '../entities/Album';
-import ArtistEntity from '../entities/Artist';
-import GenreEntity from '../entities/Genre';
-import ProfileEntity from '../entities/Profile';
+import { AlbumEntity } from '../entities/AlbumEntity';
+import { ArtistEntity } from '../entities/ArtistEntity';
+import { GenreEntity } from '../entities/GenreEntity';
+import { ProfileEntity } from '../entities/ProfileEntity';
 
-export default abstract class AbstractScraper {
+export abstract class AbstractScraper {
     public results: ResultBatch;
 
     public url: string;
