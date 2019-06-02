@@ -10,6 +10,7 @@
     },
     "include": [
         "src/rym.ts",
-        "src/spotifyIdScraper.ts"
+        "src/spotifyIdScraper.ts",
+        "src/serveDocs.ts"
     ]
 }

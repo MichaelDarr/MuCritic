@@ -23,6 +23,7 @@ dontenv.config({ path: resolve(__dirname, '../.env') });
 
 Log.notify('\nmuCritic RYM Scraper\n\n');
 
+// await/async wrap
 (async (): Promise<void> => {
     try {
         await connectToDatabase();

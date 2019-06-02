@@ -13,7 +13,7 @@ import ReviewEntity from '../../entities/Review';
 
 // database entities
 /**
- * Creates a database connection
+ * Initializes a database connection
  */
 export async function connectToDatabase(): Promise<void> {
     Log.notify('connecting to database');

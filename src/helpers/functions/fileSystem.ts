@@ -32,10 +32,11 @@ export function readFileToArray(
                         resolve(readFileToArray(defaultFile));
                         return;
                     }
-                    Log.err(`Failed to read ${fileName}`);
+                    Log.err(`${fileName} does not exist`);
                     reject(new Error(`${fileName} does not exist`));
                     return;
                 }
+                Log.err(`Failed to read ${fileName}`);
                 reject(err);
                 return;
             }

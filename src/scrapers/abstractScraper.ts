@@ -1,5 +1,8 @@
 /**
- * @fileOverview Manages scraping and storage of a single album on Rate Your Music
+ * @fileOverview Abstract superclass for all "scrapers"
+ *
+ * @remarks
+ * This standarizes
  *
  * @author  Michael Darr
  */
