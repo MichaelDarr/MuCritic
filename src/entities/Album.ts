@@ -1,10 +1,10 @@
 /**
- * @fileOverview ORM description of "album" database table
+ * @fileOverview TypeORM description of "album" table
  *
  * @author  Michael Darr
  */
 
-// library dependencies
+// decorators
 import {
     Entity,
     Column,
@@ -15,7 +15,7 @@ import {
     JoinTable,
 } from 'typeorm';
 
-// other database model dependencies
+// entities
 import Genre from './Genre';
 import Artist from './Artist';
 import Review from './Review';
@@ -37,14 +37,10 @@ export default class Album {
     })
     public ratingRYM: number;
 
-    @Column({
-        nullable: true,
-    })
+    @Column()
     public yearRankRYM: number;
 
-    @Column({
-        nullable: true,
-    })
+    @Column()
     public overallRankRYM: number;
 
     @Column()
@@ -67,7 +63,6 @@ export default class Album {
     @OneToMany(type => Review, (review): Album => review.album)
     public reviews: Review[];
 
-    // artist/genre pivot table
     @ManyToMany(type => Genre, (genre): Album[] => genre.albums)
     @JoinTable()
     public genres: Genre[];

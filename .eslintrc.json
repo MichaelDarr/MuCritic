@@ -13,6 +13,7 @@
         "no-continue": "off",
         "semi": "off",
         "no-await-in-loop": "off",
+        "import/prefer-default-export": "off",
         "class-methods-use-this": [
             1, {
                 "exceptMethods": [
