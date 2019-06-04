@@ -8,13 +8,22 @@ import { getManager } from 'typeorm';
 // internal
 import { AbstractScraper } from './abstractScraper';
 import { GenreScraper } from './genreScraper';
+import { stringToNum } from '../helpers/functions/typeManips';
 import { Log } from '../helpers/classes/log';
 import {
-    extractInnerHtml,
+    extractInnerHtmlFromElement,
+    extractInnerHtmlOfElementFromElement,
+} from '../helpers/functions/parsing/base';
+import {
+    extractInnerHtmlOfElementFromList,
+    extractInnerHtmlOfAllElementsOfListFromElement,
+    extractListFromElement,
+} from '../helpers/functions/parsing/list';
+import { extractNumberOfElementFromElement } from '../helpers/functions/parsing/number';
+import { decodeHtmlText } from '../helpers/functions/parsing/encoding';
+import {
     getMemberCountFromRawString,
-    decodeHtmlText,
-    extractInnerHtmlOfGroup,
-    extractHeaderNumberPair,
+    extractNumberFromHeaderNumberPair,
 } from '../helpers/functions/parsing/rym';
 import { requestRawScrape } from '../helpers/functions/scraping';
 
@@ -67,7 +76,7 @@ export class ArtistScraper extends AbstractScraper {
     }
 
     private extractArtistName(): void {
-        const rawName = extractInnerHtml(
+        const rawName = extractInnerHtmlOfElementFromElement(
             this.scrapedHtmlElement,
             'h1.artist_name_hdr',
             true,
@@ -76,76 +85,88 @@ export class ArtistScraper extends AbstractScraper {
         this.name = decodeHtmlText(rawName);
     }
 
+    /**
+     * Scrapes artist discograph count into [[ArtistScraper.discographyCountRYM]]. Called  by
+     * [[AbstractScraper.extractInfo]]
+     *
+     * **Example of element text:** ```lists 20```
+     */
     private extractMainInfoBlocks(): void {
-        // set up temporary vars to hold raw props
-        let members: string;
-        let genres: string[] = [];
-
-        // interate through the main artist info blocks, "switch" on preceeding header block
-        const infoBlocks: NodeListOf<Element> = (
-            this.scrapedHtmlElement.querySelectorAll('.artist_info > div')
+        // iterate through the main artist info blocks, "switch" on preceeding header bloc
+        const infoBlocks = extractListFromElement(
+            this.scrapedHtmlElement,
+            '.artist_info > div',
+            false,
+            'RYM artist main info blocks scrape',
         );
         infoBlocks.forEach((block: HTMLElement, i): void => {
-            if(block !== null && block.className === 'info_content') {
-                const headerBlock: Element = infoBlocks.item(i - 1);
-                if(headerBlock !== null) {
-                    switch(headerBlock.innerHTML) {
-                        case 'Members':
-                            members = block.innerHTML;
-                            break;
-                        case 'Genres':
-                            genres = extractInnerHtmlOfGroup(
-                                block,
-                                'a',
-                                false,
-                                'RYM artist genres',
-                            );
-                            break;
-                        case 'Disbanded':
-                            this.active = false;
-                            break;
-                        case 'Born':
-                            this.soloPerformer = true;
-                            break;
-                        case 'Died':
-                            this.soloPerformer = true;
-                            this.active = false;
-                            break;
-                        default:
-                    }
+            if(block == null || block.className !== 'info_content') return;
+            const headerBlockText = extractInnerHtmlOfElementFromList(
+                infoBlocks,
+                i - 1,
+                false,
+                'RYM Artist scrape block header',
+                null,
+            );
+            switch(headerBlockText) {
+                case 'Members': {
+                    const members = extractInnerHtmlFromElement(
+                        block,
+                        false,
+                        'RYM Artist member scrape',
+                    );
+                    this.memberCount = getMemberCountFromRawString(members, 1);
+                    break;
                 }
+                case 'Genres': {
+                    const genres = extractInnerHtmlOfAllElementsOfListFromElement(
+                        block,
+                        'a',
+                        false,
+                        'RYM artist genres',
+                    );
+                    this.genreScrapersRYM = GenreScraper.createScrapers(genres);
+                    break;
+                }
+                case 'Disbanded':
+                    this.active = false;
+                    break;
+                case 'Born':
+                    this.soloPerformer = true;
+                    break;
+                case 'Died':
+                    this.soloPerformer = true;
+                    this.active = false;
+                    break;
+                default:
             }
         });
-
-        // use following methods to parse this info and sort it into class props
-        this.memberCount = getMemberCountFromRawString(members, 1);
-        this.genreScrapersRYM = GenreScraper.createScrapers(genres);
-    }
-
-    private extractDiscographyCount(): void {
-        try {
-            let countString = extractInnerHtml(
-                this.scrapedHtmlElement,
-                'div.artist_page_section_active_music > span.subtext',
-                true,
-                'RYM artist discography count',
-            );
-            countString = countString.replace(/,/g, '');
-            const parsedCount = Number(countString);
-            if(!parsedCount || Number.isNaN(parsedCount)) throw new Error();
-            this.discographyCountRYM = parsedCount;
-        } catch(e) {
-            this.discographyCountRYM = 0;
-        }
     }
 
     /**
-     * Extracts information from various sections of artist page
+     * Scrapes artist discograph count into [[ArtistScraper.discographyCountRYM]]. Called  by
+     * [[AbstractScraper.extractInfo]]
      *
-     * @param page puppeteer profile page
+     * **Example of element text:** ```lists 20```
+     */
+    private extractDiscographyCount(): void {
+        this.discographyCountRYM = extractNumberOfElementFromElement(
+            this.scrapedHtmlElement,
+            'div.artist_page_section_active_music > span.subtext',
+            false,
+            'RYM artist discography count',
+            0,
+        );
+    }
+
+    /**
+     * Scrapes number of artist list appearences into [[ArtistScraper.listCountRYM]]. Called by
+     * [[AbstractScraper.extractInfo]]
+     *
+     * **Example of element text:** ```lists 20```
      */
     private extractListCount(): void {
-        this.listCountRYM = extractHeaderNumberPair(
+        this.listCountRYM = extractNumberFromHeaderNumberPair(
             this.scrapedHtmlElement,
             'div.section_lists > div.release_page_header > h2',
             false,
@@ -153,10 +174,15 @@ export class ArtistScraper extends AbstractScraper {
         );
     }
 
+    /**
+     * Scrapes of shows an artist has performed into [[ArtistScraper.showCountRYM]]. Called  by
+     * [[AbstractScraper.extractInfo]]
+     *
+     * **Example of element text:** ```Show past shows [28]```
+     */
     private extractPastShowCount(): void {
-        // Total show count - format: "Show past shows [28]"
         try {
-            let showString = extractInnerHtml(
+            let showString = extractInnerHtmlOfElementFromElement(
                 this.scrapedHtmlElement,
                 '#disco_expand_prev',
                 true,
@@ -164,9 +190,7 @@ export class ArtistScraper extends AbstractScraper {
             );
             showString = showString.replace(/^.+\[/, '');
             showString = showString.substring(0, showString.length - 1);
-            const parsedShowCount = Number(showString.replace(/,/g, ''));
-            if(!parsedShowCount || Number.isNaN(parsedShowCount)) throw new Error();
-            this.showCountRYM = parsedShowCount;
+            this.showCountRYM = stringToNum(showString, false, 0);
         } catch(e) {
             this.showCountRYM = 0;
         }

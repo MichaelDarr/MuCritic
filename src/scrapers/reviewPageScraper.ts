@@ -1,7 +1,5 @@
 /**
- * @fileOverview Manages scraping of a user's review pages
- *
- * @author  Michael Darr
+ * Manages scraping of a user's review pages
  */
 
 // library dependencies
@@ -12,8 +10,12 @@ import { Date } from '../helpers/classes/date';
 import { Log } from '../helpers/classes/log';
 import { Review } from '../helpers/classes/review';
 import { ScrapeResult } from '../helpers/classes/result';
-import { extractInnerHtml, extractHrefLink } from '../helpers/functions/parsing/rym';
 import { requestRawScrape } from '../helpers/functions/scraping';
+import {
+    extractElementFromElement,
+    extractInnerHtmlOfElementFromElement,
+} from '../helpers/functions/parsing/base';
+import { extractListFromElement } from '../helpers/functions/parsing/list';
 
 // scrapers
 import { AbstractScraper } from './abstractScraper';
@@ -25,6 +27,8 @@ import { ProfileEntity } from '../entities/ProfileEntity';
 import { ReviewEntity } from '../entities/ReviewEntity';
 
 export class ReviewPageScraper extends AbstractScraper {
+    private scrapedHtmlElement: HTMLElement;
+
     public name: string;
 
     public urlBase: string;
@@ -134,12 +138,17 @@ export class ReviewPageScraper extends AbstractScraper {
         return this.profile.getEntity();
     }
 
-    protected extractInfo(root: HTMLElement): void {
+    protected extractInfo(): void {
         const parsedReviewArr: string[][] = [];
-        const reviewElementArr = root.querySelectorAll('table.mbgen > tbody > tr');
-        this.pageReviewCount = reviewElementArr.length;
+        const reviewElements = extractListFromElement(
+            this.scrapedHtmlElement,
+            'table.mbgen > tbody > tr',
+            false,
+            'RYM review table',
+        );
+        this.pageReviewCount = reviewElements.length;
         let isHeading = true;
-        reviewElementArr.forEach((reviewElement: HTMLElement): void => {
+        reviewElements.forEach((reviewElement: HTMLElement): void => {
             if(isHeading) {
                 isHeading = false;
                 return;
@@ -147,39 +156,42 @@ export class ReviewPageScraper extends AbstractScraper {
 
             try {
                 const dateElement: HTMLElement = reviewElement.querySelector('td.or_q_rating_date_d');
-                const month: string = extractInnerHtml(
+                const month: string = extractInnerHtmlOfElementFromElement(
                     dateElement,
                     'div.date_element_month',
                     true,
                     'RYM review month',
                 );
-                const day: string = extractInnerHtml(
+                const day: string = extractInnerHtmlOfElementFromElement(
                     dateElement,
                     'div.date_element_day',
                     true,
                     'RYM review day',
                 );
-                const year: string = extractInnerHtml(
+                const year: string = extractInnerHtmlOfElementFromElement(
                     dateElement,
                     'div.date_element_year',
                     true,
                     'RYM review year',
                 );
 
-                const starsElement: HTMLElement = reviewElement.querySelector('td.or_q_rating_date_s > img');
-                if(starsElement === null) return;
+                const starsElement = extractElementFromElement(
+                    this.scrapedHtmlElement,
+                    'td.or_q_rating_date_s > img',
+                    true,
+                );
                 const starsText: string = starsElement.title;
                 const starsTextArr: string[] = starsText.split(' ');
                 const starsCount: string = starsTextArr[0];
 
-                const identifierRYM = extractInnerHtml(
+                const identifierRYM = extractInnerHtmlOfElementFromElement(
                     reviewElement,
                     'td.or_q_rating_date_s > span',
                     true,
                     'RYM review unique identifier',
                 );
 
-                const albumLinkPartial: string = extractHrefLink(
+                const albumLinkPartial: string = extractInnerHtmlOfElementFromElement(
                     reviewElement,
                     'td.or_q_albumartist_td > div.or_q_albumartist > i > a.album',
                     true,
@@ -217,6 +229,10 @@ export class ReviewPageScraper extends AbstractScraper {
             );
             this.reviews.push(newReview);
         }
+    }
+
+    public async requestScrape(): Promise<void> {
+        this.scrapedHtmlElement = await requestRawScrape(this.url);
     }
 
     public printInfo(): void {

@@ -13,7 +13,8 @@ import { ArtistScraper } from './artistScraper';
 import { ScrapeResult } from '../helpers/classes/result';
 import { Log } from '../helpers/classes/log';
 import { Gender } from '../helpers/enums';
-import { extractInnerHtml } from '../helpers/functions/parsing/rym';
+import { extractInnerHtmlOfElementFromElement } from '../helpers/functions/parsing/base';
+import { extractListFromElement } from '../helpers/functions/parsing/list';
 import { requestRawScrape } from '../helpers/functions/scraping';
 
 // database dependencies
@@ -106,7 +107,7 @@ export class ProfileScraper extends AbstractScraper {
      * @param profile username for a RYM user
      */
     private extractUserInfo(): void {
-        const userAgeAndGenderConcat = extractInnerHtml(
+        const userAgeAndGenderConcat = extractInnerHtmlOfElementFromElement(
             this.scrapedHtmlElement,
             '.profilehii > table > tbody > tr:nth-child(2) > td',
             true,
@@ -119,13 +120,15 @@ export class ProfileScraper extends AbstractScraper {
 
     /**
      * Extracts an array of favorite artists from a Rate Your Music profile page
-     *
-     * @param page puppeteer profile page
-     * @returns An array of artist objects, with keys "name" and "url"
      */
     private extractArtists(): void {
         // extracts all content blocks from the page
-        const allBlocks: NodeListOf<Element> = this.scrapedHtmlElement.querySelectorAll('#content > table > tbody > tr > td > div');
+        const allBlocks = extractListFromElement(
+            this.scrapedHtmlElement,
+            '#content > table > tbody > tr > td > div',
+            true,
+            'RYM profile favorite artists',
+        );
         let artistTitleBlockFound = false;
 
         // iterate through content blocks, detect favorite artists header, grab artists

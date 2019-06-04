@@ -160,7 +160,7 @@ export class AlbumScraper extends AbstractScraper {
                 false,
                 'RYM album info row content element',
             );
-            switch(headerText.trim()) {
+            switch(headerText) {
                 case 'Artist': {
                     const artistLink = extractLinkOfAnchorElementFromElement(
                         contentElement,
