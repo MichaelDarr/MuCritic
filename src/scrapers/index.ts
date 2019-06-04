@@ -1,4 +1,4 @@
-export * from './abstractScraper';
+export * from './scraper';
 export * from './albumScraper';
 export * from './artistScraper';
 export * from './genreScraper';

@@ -1,15 +1,15 @@
 /**
  * Manages the scraping and storage of a genre from [Rate Your Music](https://rateyourmusic.com/).
- * See [[AbstractScraper]] for more details.
+ * See [[Scraper]] for more details.
  */
 
 import { getManager } from 'typeorm';
 
-import { AbstractScraper } from './index';
+import { Scraper } from './index';
 import { GenreEntity } from '../entities/index';
 import { Log } from '../helpers/classes/index';
 
-export class GenreScraper extends AbstractScraper {
+export class GenreScraper extends Scraper {
     public name: string;
 
     public constructor(

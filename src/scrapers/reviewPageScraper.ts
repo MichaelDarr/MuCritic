@@ -1,5 +1,6 @@
 /**
- * Manages scraping of a user's review pages
+ * Manages the scraping and storage of a user's review pages from
+ * [Rate Your Music](https://rateyourmusic.com/). See [[Scraper]] for more details.
  */
 
 import { getManager } from 'typeorm';
@@ -21,12 +22,12 @@ import {
     extractListFromElement,
 } from '../helpers/parsing/index';
 import {
-    AbstractScraper,
     AlbumScraper,
     ProfileScraper,
+    Scraper,
 } from './index';
 
-export class ReviewPageScraper extends AbstractScraper {
+export class ReviewPageScraper extends Scraper {
     private scrapedHtmlElement: HTMLElement;
 
     public name: string;

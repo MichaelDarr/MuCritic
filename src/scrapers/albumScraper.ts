@@ -1,6 +1,6 @@
 /**
  * Manages the scraping and storage of an album from [Rate Your Music](https://rateyourmusic.com/).
- * See [[AbstractScraper]] for more details.
+ * See [[Scraper]] for more details.
  */
 
 import { getManager } from 'typeorm';
@@ -27,12 +27,12 @@ import {
     extractNumberOfElementFromElement,
 } from '../helpers/parsing/index';
 import {
-    AbstractScraper,
     ArtistScraper,
     GenreScraper,
+    Scraper,
 } from './index';
 
-export class AlbumScraper extends AbstractScraper {
+export class AlbumScraper extends Scraper {
     private scrapedHtmlElement: HTMLElement;
 
     public name: string;

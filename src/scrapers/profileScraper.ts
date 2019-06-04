@@ -1,6 +1,6 @@
 /**
  * Manages the scraping and storage of a profile from [Rate Your Music](https://rateyourmusic.com/).
- * See [[AbstractScraper]] for more details.
+ * See [[Scraper]] for more details.
  */
 
 import { getManager } from 'typeorm';
@@ -10,8 +10,8 @@ import {
     ProfileEntity,
 } from '../entities/index';
 import {
-    AbstractScraper,
     ArtistScraper,
+    Scraper,
 } from './index';
 import {
     Log,
@@ -24,7 +24,7 @@ import {
     extractListFromElement,
 } from '../helpers/parsing/index';
 
-export class ProfileScraper extends AbstractScraper {
+export class ProfileScraper extends Scraper {
     public scrapedHtmlElement: HTMLElement;
 
     public name: string;

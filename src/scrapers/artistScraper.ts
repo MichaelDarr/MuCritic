@@ -1,6 +1,6 @@
 /**
  * Manages the scraping and storage of artists from [Rate Your Music](https://rateyourmusic.com/).
- * See [[AbstractScraper]] for more details.
+ * See [[Scraper]] for more details.
  */
 
 import { getManager } from 'typeorm';
@@ -29,11 +29,11 @@ import {
     extractNumberOfElementFromElement,
 } from '../helpers/parsing/index';
 import {
-    AbstractScraper,
     GenreScraper,
+    Scraper,
 } from './index';
 
-export class ArtistScraper extends AbstractScraper {
+export class ArtistScraper extends Scraper {
     private scrapedHtmlElement: HTMLElement;
 
     public name: string;
@@ -89,7 +89,7 @@ export class ArtistScraper extends AbstractScraper {
 
     /**
      * Scrapes artist discograph count into [[ArtistScraper.discographyCountRYM]]. Called  by
-     * [[AbstractScraper.extractInfo]]
+     * [[Scraper.extractInfo]]
      *
      * **Example of element text:** ```lists 20```
      */
@@ -147,7 +147,7 @@ export class ArtistScraper extends AbstractScraper {
 
     /**
      * Scrapes artist discograph count into [[ArtistScraper.discographyCountRYM]]. Called  by
-     * [[AbstractScraper.extractInfo]]
+     * [[Scraper.extractInfo]]
      *
      * **Example of element text:** ```lists 20```
      */
@@ -163,7 +163,7 @@ export class ArtistScraper extends AbstractScraper {
 
     /**
      * Scrapes number of artist list appearences into [[ArtistScraper.listCountRYM]]. Called by
-     * [[AbstractScraper.extractInfo]]
+     * [[Scraper.extractInfo]]
      *
      * **Example of element text:** ```lists 20```
      */
@@ -178,7 +178,7 @@ export class ArtistScraper extends AbstractScraper {
 
     /**
      * Scrapes of shows an artist has performed into [[ArtistScraper.showCountRYM]]. Called  by
-     * [[AbstractScraper.extractInfo]]
+     * [[Scraper.extractInfo]]
      *
      * **Example of element text:** ```Show past shows [28]```
      */
