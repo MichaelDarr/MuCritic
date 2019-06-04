@@ -1,35 +1,34 @@
 /**
- * Manages scraping and storage of a single artist on Rate Your Music
+ * Manages the scraping and storage of artists from [Rate Your Music](https://rateyourmusic.com/).
+ * See [[AbstractScraper]] for more details.
  */
 
-// external
 import { getManager } from 'typeorm';
 
-// internal
-import { AbstractScraper } from './abstractScraper';
-import { GenreScraper } from './genreScraper';
-import { stringToNum } from '../helpers/functions/typeManips';
-import { Log } from '../helpers/classes/log';
 import {
+    ArtistEntity,
+    GenreEntity,
+} from '../entities/index';
+import { Log } from '../helpers/classes/index';
+import {
+    requestRawScrape,
+    stringToNum,
+} from '../helpers/functions/index';
+import {
+    decodeHtmlText,
     extractInnerHtmlFromElement,
-    extractInnerHtmlOfElementFromElement,
-} from '../helpers/functions/parsing/base';
-import {
-    extractInnerHtmlOfElementFromList,
     extractInnerHtmlOfAllElementsOfListFromElement,
+    extractInnerHtmlOfElementFromElement,
+    extractInnerHtmlOfElementFromList,
     extractListFromElement,
-} from '../helpers/functions/parsing/list';
-import { extractNumberOfElementFromElement } from '../helpers/functions/parsing/number';
-import { decodeHtmlText } from '../helpers/functions/parsing/encoding';
-import {
-    getMemberCountFromRawString,
+    extractMemberCountFromString,
     extractNumberFromHeaderNumberPair,
-} from '../helpers/functions/parsing/rym';
-import { requestRawScrape } from '../helpers/functions/scraping';
-
-// database dependencies
-import { ArtistEntity } from '../entities/ArtistEntity';
-import { GenreEntity } from '../entities/GenreEntity';
+    extractNumberOfElementFromElement,
+} from '../helpers/parsing/index';
+import {
+    AbstractScraper,
+    GenreScraper,
+} from './index';
 
 export class ArtistScraper extends AbstractScraper {
     private scrapedHtmlElement: HTMLElement;
@@ -115,7 +114,7 @@ export class ArtistScraper extends AbstractScraper {
                         false,
                         'RYM Artist member scrape',
                     );
-                    this.memberCount = getMemberCountFromRawString(members, 1);
+                    this.memberCount = extractMemberCountFromString(members, 1);
                     break;
                 }
                 case 'Genres': {

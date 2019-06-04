@@ -1,8 +1,6 @@
-// external
 import { JSDOM } from 'jsdom';
 
-// internal
-import { isNullOrUndef } from '../typeManips';
+import { isNullOrUndef } from '../functions/typeManips';
 
 export function generateBlankElement(): HTMLElement {
     const { body } = (new JSDOM('')).window.document;

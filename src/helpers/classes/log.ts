@@ -1,7 +1,5 @@
 /**
- * @fileOverview Unified simple string logging, useful for future-proofing CLI UX
- *
- * @author  Michael Darr
+ * Unified simple string logging, useful for future-proofing CLI UX
  */
 
 import chalk from 'chalk';

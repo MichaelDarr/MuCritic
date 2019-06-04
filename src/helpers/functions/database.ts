@@ -1,17 +1,14 @@
-// external dependencies
 import { createConnection } from 'typeorm';
 
-// helpers
-import { Log } from '../classes/log';
+import { Log } from '../classes/index';
+import {
+    AlbumEntity,
+    ArtistEntity,
+    GenreEntity,
+    ProfileEntity,
+    ReviewEntity,
+} from '../../entities/index';
 
-// entities
-import { AlbumEntity } from '../../entities/AlbumEntity';
-import { ArtistEntity } from '../../entities/ArtistEntity';
-import { GenreEntity } from '../../entities/GenreEntity';
-import { ProfileEntity } from '../../entities/ProfileEntity';
-import { ReviewEntity } from '../../entities/ReviewEntity';
-
-// database entities
 /**
  * Initializes a database connection
  */

@@ -2,7 +2,6 @@
  * TypeORM description of "profile" table
  */
 
-// decorators
 import {
     Entity,
     Column,
@@ -12,11 +11,14 @@ import {
     JoinTable,
 } from 'typeorm';
 
-// database entities
-import { ArtistEntity } from './ArtistEntity';
-import { ReviewEntity } from './ReviewEntity';
+import {
+    ArtistEntity,
+    ReviewEntity,
+} from './index';
 
-// table description
+/**
+ * Describes layout and relationships for "profile" database table
+ */
 @Entity({ name: 'profile' })
 export class ProfileEntity {
     @PrimaryGeneratedColumn()

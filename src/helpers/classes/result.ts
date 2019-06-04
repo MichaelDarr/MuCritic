@@ -1,12 +1,12 @@
 /**
- * @fileOverview Unified reporting of scrape results
- *
- * @author  Michael Darr
+ * Unified reporting of scrape results
  */
 
-// internal dependencies
-import { Log } from './log';
-import { ApiService, ScrapingSite } from '../enums';
+import { Log } from './index';
+import {
+    ApiService,
+    ScrapingSite,
+} from '../enums';
 
 /**
  * Result for a single scraped page
@@ -23,8 +23,7 @@ export class ScrapeResult {
     public error: string;
 
     /**
-     *
-     * @param urlRYM link to artist profile on Rate Your Music
+     * @param url attemped scraping url
      */
     public constructor(
         success: boolean,
@@ -58,10 +57,6 @@ export class ApiResult {
 
     public error: string;
 
-    /**
-     *
-     * @param urlRYM link to artist profile on Rate Your Music
-     */
     public constructor(
         success: boolean,
         apiService: ApiService,
@@ -100,7 +95,7 @@ export class ResultBatch {
     /**
      * Add single scraping result into this one
      *
-     * @param scrapingResult single scraping result
+     * @param result single scraping result
      */
     public push(result: ScrapeResult | ApiResult): ResultBatch {
         if(result instanceof ScrapeResult) {
@@ -143,9 +138,7 @@ export class ResultBatch {
     }
 
     /**
-     * Determine if every scrape in batch succeeded
-     *
-     * @return boolean, if every scrape in batch succeeded
+     * Log every nonsucessful result in the batch
      */
     public logErrors(): void {
         this.scrapeResults.forEach((scrapeResult): void => {

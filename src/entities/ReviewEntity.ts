@@ -2,7 +2,6 @@
  * ORM description of "review" database table
  */
 
-// decorators
 import {
     Entity,
     Column,
@@ -10,12 +9,13 @@ import {
     ManyToOne,
 } from 'typeorm';
 
-// database entities
-import { AlbumEntity } from './AlbumEntity';
-import { ProfileEntity } from './ProfileEntity';
+import {
+    AlbumEntity,
+    ProfileEntity,
+} from './index';
 
 /**
- * Class describing layout and relationships for "review" database table
+ * Describes layout and relationships for "review" database table
  */
 @Entity({ name: 'review' })
 export class ReviewEntity {

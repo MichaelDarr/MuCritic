@@ -1,7 +1,5 @@
 /**
- * @fileOverview Standardized, simplified date management
- *
- * @author  Michael Darr
+ * Simplified date management with only month, year, and day
  */
 
 export class Date {

@@ -1,5 +1,5 @@
-import * as request from 'request';
 import { Base64 } from 'js-base64';
+import * as request from 'request';
 
 export class SpotifyApi {
     private clientId: string;

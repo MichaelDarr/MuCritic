@@ -2,15 +2,17 @@
  * Abstract superclass for all "scrapers"
  */
 
-// internal class dependencies
-import { ScrapeResult, ResultBatch } from '../helpers/classes/result';
-import { Log } from '../helpers/classes/log';
-
-// database dependencies
-import { AlbumEntity } from '../entities/AlbumEntity';
-import { ArtistEntity } from '../entities/ArtistEntity';
-import { GenreEntity } from '../entities/GenreEntity';
-import { ProfileEntity } from '../entities/ProfileEntity';
+import {
+    AlbumEntity,
+    ArtistEntity,
+    GenreEntity,
+    ProfileEntity,
+} from '../entities/index';
+import {
+    Log,
+    ResultBatch,
+    ScrapeResult,
+} from '../helpers/classes/index';
 
 /**
  * Abstract superclass for all "scrapers"

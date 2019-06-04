@@ -2,7 +2,6 @@
  * TypeORM description of "artist" table
  */
 
-// decorators
 import {
     Entity,
     Column,
@@ -12,12 +11,15 @@ import {
     JoinTable,
 } from 'typeorm';
 
-// database entities
-import { ProfileEntity } from './ProfileEntity';
-import { AlbumEntity } from './AlbumEntity';
-import { GenreEntity } from './GenreEntity';
+import {
+    AlbumEntity,
+    GenreEntity,
+    ProfileEntity,
+} from './index';
 
-// table description
+/**
+ * Describes layout and relationships for "artist" database table
+ */
 @Entity({ name: 'artist' })
 export class ArtistEntity {
     @PrimaryGeneratedColumn()

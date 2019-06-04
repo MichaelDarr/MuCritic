@@ -2,29 +2,29 @@
  * Manages scraping of a user's review pages
  */
 
-// library dependencies
 import { getManager } from 'typeorm';
 
-// helpers
-import { Date } from '../helpers/classes/date';
-import { Log } from '../helpers/classes/log';
-import { Review } from '../helpers/classes/review';
-import { ScrapeResult } from '../helpers/classes/result';
-import { requestRawScrape } from '../helpers/functions/scraping';
+import {
+    ProfileEntity,
+    ReviewEntity,
+} from '../entities/index';
+import {
+    Date,
+    Log,
+    Review,
+    ScrapeResult,
+} from '../helpers/classes/index';
+import { requestRawScrape } from '../helpers/functions/index';
 import {
     extractElementFromElement,
     extractInnerHtmlOfElementFromElement,
-} from '../helpers/functions/parsing/base';
-import { extractListFromElement } from '../helpers/functions/parsing/list';
-
-// scrapers
-import { AbstractScraper } from './abstractScraper';
-import { AlbumScraper } from './albumScraper';
-import { ProfileScraper } from './profileScraper';
-
-// database dependencies
-import { ProfileEntity } from '../entities/ProfileEntity';
-import { ReviewEntity } from '../entities/ReviewEntity';
+    extractListFromElement,
+} from '../helpers/parsing/index';
+import {
+    AbstractScraper,
+    AlbumScraper,
+    ProfileScraper,
+} from './index';
 
 export class ReviewPageScraper extends AbstractScraper {
     private scrapedHtmlElement: HTMLElement;

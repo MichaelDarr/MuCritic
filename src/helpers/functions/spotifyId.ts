@@ -1,15 +1,16 @@
-// external dependencies
 import { Repository } from 'typeorm';
 
-// internal class dependencies
-import { SpotifyApi } from '../classes/spotifyApi';
-import { ResultBatch, ApiResult } from '../classes/result';
-import { Log } from '../classes/log';
+import {
+    ApiResult,
+    Log,
+    ResultBatch,
+    SpotifyApi,
+} from '../classes/index';
+import {
+    AlbumEntity,
+    ArtistEntity,
+} from '../../entities/index';
 import { ApiService } from '../enums';
-
-// database dependencies
-import { AlbumEntity } from '../../entities/AlbumEntity';
-import { ArtistEntity } from '../../entities/ArtistEntity';
 
 function extractCorrectItem(
     asset: AlbumEntity | ArtistEntity,

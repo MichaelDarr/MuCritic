@@ -2,11 +2,9 @@
  * helpers functions related to the host file system
  */
 
-// external
 import { readFile } from 'fs';
 
-// helpers
-import { Log } from '../classes/log';
+import { Log } from '../classes/index';
 
 /**
  * Returns the contents of a file

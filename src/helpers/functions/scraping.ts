@@ -1,6 +1,7 @@
 import * as request from 'request';
 import { JSDOM } from 'jsdom';
-import { Log } from '../classes/log';
+
+import { Log } from '../classes/index';
 
 export async function getRequestBody(url: string): Promise<string> {
     return new Promise((resolve, reject): void => {

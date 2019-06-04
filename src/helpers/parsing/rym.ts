@@ -2,8 +2,8 @@
  * Parsing methods specific to the rate-your-music parsing project
  */
 
-import { extractInnerHtmlOfElementFromElement } from './base';
-import { stringToNum } from '../typeManips';
+import { extractInnerHtmlOfElementFromElement } from './index';
+import { stringToNum } from '../functions/index';
 
 /**
  * Simple method to separate and number-ify a combined number-header element on a page
@@ -22,10 +22,8 @@ export function extractNumberFromHeaderNumberPair(
         strict,
         targetDescription,
     );
-
     const separatedVals: string[] = infoPairText.split(' ');
     const rawStringNum = separatedVals.shift();
-
     const finalNum = stringToNum(
         rawStringNum,
         strict,
@@ -38,7 +36,7 @@ export function extractNumberFromHeaderNumberPair(
  * Extract current band info from a string, such as:
  * ```Kevin Shields (guitar, vocals, sampler), Colm O'Ciosoig (drums, sampler, 1983-95, 2007-...```
  */
-export function getMemberCountFromRawString(members: string, defaultVal = 1): number {
+export function extractMemberCountFromString(members: string, defaultVal = 1): number {
     if(members == null || members === '') {
         return defaultVal;
     }

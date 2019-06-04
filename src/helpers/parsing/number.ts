@@ -1,10 +1,10 @@
 import {
-    extractInnerHtmlFromElement,
     extractElementFromElement,
-} from './base';
+    extractInnerHtmlFromElement,
+} from './index';
 import {
     stringToNum,
-} from '../typeManips';
+} from '../functions/index';
 
 export function extractNumberFromElement(
     contextElement: HTMLElement,
@@ -24,7 +24,6 @@ export function extractNumberFromElement(
         strict,
         defaultNum,
     );
-
     return innerNum;
 }
 
@@ -47,6 +46,5 @@ export function extractNumberOfElementFromElement(
         targetDescription,
         defaultNum,
     );
-
     return innerNum;
 }

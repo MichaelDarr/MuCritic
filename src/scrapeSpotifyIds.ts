@@ -2,21 +2,23 @@
  * Spotify ID scraper entry point
  */
 
-// external dependencies
 import * as dontenv from 'dotenv';
 import { resolve } from 'path';
 import { getConnection } from 'typeorm';
 
-// helpers
-import { connectToDatabase } from './helpers/functions/database';
-import { attatchIdsToEntries } from './helpers/functions/spotifyId';
-import { Log } from './helpers/classes/log';
-import { ResultBatch } from './helpers/classes/result';
-import { SpotifyApi } from './helpers/classes/spotifyApi';
-
-// database entities
-import { AlbumEntity } from './entities/AlbumEntity';
-import { ArtistEntity } from './entities/ArtistEntity';
+import {
+    AlbumEntity,
+    ArtistEntity,
+} from './entities/index';
+import {
+    attatchIdsToEntries,
+    connectToDatabase,
+} from './helpers/functions/index';
+import {
+    Log,
+    ResultBatch,
+    SpotifyApi,
+} from './helpers/classes/index';
 
 // environment variables
 dontenv.config({ path: resolve(__dirname, '../.env') });

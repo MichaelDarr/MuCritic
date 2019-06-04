@@ -2,7 +2,6 @@
  * TypeORM description of "genre" table
  */
 
-// decorators
 import {
     Entity,
     Column,
@@ -10,11 +9,14 @@ import {
     ManyToMany,
 } from 'typeorm';
 
-// database entities
-import { ArtistEntity } from './ArtistEntity';
-import { AlbumEntity } from './AlbumEntity';
+import {
+    AlbumEntity,
+    ArtistEntity,
+} from './index';
 
-// table description
+/**
+ * Describes layout and relationships for "genre" database table
+ */
 @Entity({ name: 'genre' })
 export class GenreEntity {
     @PrimaryGeneratedColumn()

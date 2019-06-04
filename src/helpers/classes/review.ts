@@ -1,13 +1,12 @@
 /**
- * @fileOverview Manages a single user review on RYM. Used by Profile class
- *
- * @author  Michael Darr
+ * Holds review information for [[ReviewPageScraper]]
  */
 
-// library internal class dependencies
-import { Date } from './date';
-import { AlbumScraper } from '../../scrapers/albumScraper';
-import { ProfileScraper } from '../../scrapers/profileScraper';
+import { Date } from './index';
+import {
+    AlbumScraper,
+    ProfileScraper,
+} from '../../scrapers/index';
 
 export class Review {
     public album: AlbumScraper;
@@ -21,7 +20,6 @@ export class Review {
     public profile: ProfileScraper;
 
     /**
-     *
      * @param album album which the review refers to
      * @param score numeric representation of user score
      * @param date date when the album was reviewed

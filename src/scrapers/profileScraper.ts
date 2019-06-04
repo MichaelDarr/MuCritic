@@ -1,26 +1,28 @@
 /**
- * @fileOverview Manages scraping and storage of a single user profile on Rate Your Music
- *
- * @author  Michael Darr
+ * Manages the scraping and storage of a profile from [Rate Your Music](https://rateyourmusic.com/).
+ * See [[AbstractScraper]] for more details.
  */
 
-// library dependencies
 import { getManager } from 'typeorm';
 
-// internal
-import { AbstractScraper } from './abstractScraper';
-import { ArtistScraper } from './artistScraper';
-import { ScrapeResult } from '../helpers/classes/result';
-import { Log } from '../helpers/classes/log';
+import {
+    ArtistEntity,
+    ProfileEntity,
+} from '../entities/index';
+import {
+    AbstractScraper,
+    ArtistScraper,
+} from './index';
+import {
+    Log,
+    ScrapeResult,
+} from '../helpers/classes/index';
 import { Gender } from '../helpers/enums';
-import { extractInnerHtmlOfElementFromElement } from '../helpers/functions/parsing/base';
-import { extractListFromElement } from '../helpers/functions/parsing/list';
-import { requestRawScrape } from '../helpers/functions/scraping';
-
-// database dependencies
-import { ArtistEntity } from '../entities/ArtistEntity';
-import { ProfileEntity } from '../entities/ProfileEntity';
-
+import { requestRawScrape } from '../helpers/functions/index';
+import {
+    extractInnerHtmlOfElementFromElement,
+    extractListFromElement,
+} from '../helpers/parsing/index';
 
 export class ProfileScraper extends AbstractScraper {
     public scrapedHtmlElement: HTMLElement;

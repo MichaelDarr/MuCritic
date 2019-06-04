@@ -1,36 +1,33 @@
 /**
- * Manages scraping and storage of a single album on Rate Your Music
+ * Manages the scraping and storage of an album from [Rate Your Music](https://rateyourmusic.com/).
+ * See [[AbstractScraper]] for more details.
  */
 
-// library dependencies
 import { getManager } from 'typeorm';
 
-// internal dependencies
-import { AbstractScraper } from './abstractScraper';
-import { ArtistScraper } from './artistScraper';
-import { GenreScraper } from './genreScraper';
-import { Log } from '../helpers/classes/log';
-import { requestRawScrape } from '../helpers/functions/scraping';
 import {
+    AlbumEntity,
+    ArtistEntity,
+    GenreEntity,
+} from '../entities/index';
+import { Log } from '../helpers/classes/index';
+import { requestRawScrape } from '../helpers/functions/index';
+import {
+    decodeHtmlText,
     extractElementFromElement,
-    extractInnerHtmlOfElementFromElement,
-} from '../helpers/functions/parsing/base';
-import {
     extractElementOfListFromElement,
     extractInnerHtmlOfAllElementsOfListFromElement,
-} from '../helpers/functions/parsing/list';
-import {
-    extractNumberOfElementFromElement,
+    extractInnerHtmlOfElementFromElement,
+    extractLinkOfAnchorElementFromElement,
     extractNumberFromElement,
-} from '../helpers/functions/parsing/number';
-import { extractNumberFromHeaderNumberPair } from '../helpers/functions/parsing/rym';
-
-// database dependencies
-import { AlbumEntity } from '../entities/AlbumEntity';
-import { ArtistEntity } from '../entities/ArtistEntity';
-import { GenreEntity } from '../entities/GenreEntity';
-import { decodeHtmlText } from '../helpers/functions/parsing/encoding';
-import { extractLinkOfAnchorElementFromElement } from '../helpers/functions/parsing/anchor';
+    extractNumberFromHeaderNumberPair,
+    extractNumberOfElementFromElement,
+} from '../helpers/parsing/index';
+import {
+    AbstractScraper,
+    ArtistScraper,
+    GenreScraper,
+} from './index';
 
 export class AlbumScraper extends AbstractScraper {
     private scrapedHtmlElement: HTMLElement;

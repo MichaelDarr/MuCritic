@@ -2,19 +2,19 @@
  * Rate Your Music scraper entry point
  */
 
-// external
 import * as dontenv from 'dotenv';
 import { resolve } from 'path';
 import 'reflect-metadata';
 
-// helpers
-import { connectToDatabase } from './helpers/functions/database';
-import { readFileToArray } from './helpers/functions/fileSystem';
-import { Log } from './helpers/classes/log';
-
-// scrapers
-import { ProfileScraper } from './scrapers/profileScraper';
-import { ReviewPageScraper } from './scrapers/reviewPageScraper';
+import { Log } from './helpers/classes/index';
+import {
+    connectToDatabase,
+    readFileToArray,
+} from './helpers/functions/index';
+import {
+    ProfileScraper,
+    ReviewPageScraper,
+} from './scrapers/index';
 
 // environment variables
 dontenv.config({ path: resolve(__dirname, '../.env') });

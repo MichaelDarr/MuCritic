@@ -1,7 +1,5 @@
 /**
- * @fileOverview Unified place to store any necessary enums
- *
- * @author  Michael Darr
+ * Unified enum storage
  */
 
 export enum Gender {

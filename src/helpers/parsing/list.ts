@@ -1,9 +1,9 @@
+import { isNullOrUndef } from '../functions/typeManips';
 import {
     extractInnerHtmlFromElement,
     generateBlankNodeList,
     generateBlankElement,
-} from './base';
-import { isNullOrUndef } from '../typeManips';
+} from './index';
 
 export function extractListFromElement(
     contextElement: HTMLElement,
@@ -24,6 +24,7 @@ export function extractListFromElement(
         strict,
         `Nested element not found: ${targetDescription}`,
     )) return defaultVal;
+
     return innerElementList;
 }
 
@@ -191,7 +192,6 @@ export function extractInnerHtmlOfAllElementsOfListFromElement(
         strict,
         targetDescription,
     );
-
     const innerHtmlOfAll = extractInnerHtmlOfAllElementsFromList(
         innerNodeList,
         strict,
@@ -201,6 +201,5 @@ export function extractInnerHtmlOfAllElementsOfListFromElement(
         insertEmpty,
         insertNull,
     );
-
     return innerHtmlOfAll;
 }

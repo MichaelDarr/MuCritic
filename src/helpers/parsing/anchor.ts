@@ -1,5 +1,5 @@
-import { generateBlankElement } from './base';
-import { isNullOrUndef } from '../typeManips';
+import { isNullOrUndef } from '../functions/index';
+import { generateBlankElement } from './index';
 
 export function generateBlankAnchorElement(): HTMLAnchorElement {
     const blankElement = generateBlankElement();
@@ -25,6 +25,7 @@ export function extractAnchorElementFromElement(
         strict,
         `Nested anchor element not found: ${targetDescription}`,
     )) return defaultVal;
+
     return innerAnchorElement;
 }
 
@@ -39,12 +40,14 @@ export function extractLinkFromAnchorElement(
         strict,
         `Tried to get href of nonexistant anchor element: ${targetDescription}`,
     )) return defaultVal;
+
     const hrefLink = contextElement.href;
     if(isNullOrUndef(
         hrefLink,
         strict,
         `No link found on anchor element: ${targetDescription}`,
     )) return defaultVal;
+
     return hrefLink;
 }
 
@@ -59,12 +62,14 @@ export function extractLinkFromElement(
         strict,
         `Tried to get href of nonexistant element: ${targetDescription}`,
     )) return defaultVal;
+
     const hrefLink = (contextElement as HTMLAnchorElement).href;
     if(isNullOrUndef(
         hrefLink,
         strict,
         `Href property not found on element: ${targetDescription}`,
     )) return defaultVal;
+
     return hrefLink;
 }
 
@@ -87,6 +92,5 @@ export function extractLinkOfAnchorElementFromElement(
         targetDescription,
         defaultVal,
     );
-
     return innerText;
 }

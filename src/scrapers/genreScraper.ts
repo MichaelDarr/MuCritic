@@ -1,14 +1,13 @@
 /**
- * Manages storage of a single genre string
+ * Manages the scraping and storage of a genre from [Rate Your Music](https://rateyourmusic.com/).
+ * See [[AbstractScraper]] for more details.
  */
 
-// library dependencies
 import { getManager } from 'typeorm';
 
-// internal class dependencies
-import { AbstractScraper } from './abstractScraper';
-import { GenreEntity } from '../entities/GenreEntity';
-import { Log } from '../helpers/classes/log';
+import { AbstractScraper } from './index';
+import { GenreEntity } from '../entities/index';
+import { Log } from '../helpers/classes/index';
 
 export class GenreScraper extends AbstractScraper {
     public name: string;

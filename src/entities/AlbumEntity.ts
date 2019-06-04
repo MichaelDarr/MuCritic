@@ -2,7 +2,6 @@
  * TypeORM description of "album" table
  */
 
-// decorators
 import {
     Entity,
     Column,
@@ -13,13 +12,14 @@ import {
     JoinTable,
 } from 'typeorm';
 
-// database entities
-import { GenreEntity } from './GenreEntity';
-import { ArtistEntity } from './ArtistEntity';
-import { ReviewEntity } from './ReviewEntity';
+import {
+    ArtistEntity,
+    ReviewEntity,
+    GenreEntity,
+} from './index';
 
 /**
- * Describes entries for the 'album' postgres table
+ * Describes layout and relationships for "album" database table
  */
 @Entity({ name: 'album' })
 export class AlbumEntity {
