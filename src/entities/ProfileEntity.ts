@@ -17,10 +17,14 @@ import {
 } from './index';
 
 /**
- * Describes layout and relationships for "profile" database table
+ * Describes layout and relationships for "profile" database table, containing profile information
+ * scraped from [Rate Your Music](https://rateyourmusic.com/).
  */
 @Entity({ name: 'profile' })
 export class ProfileEntity {
+    /**
+     * Primary Key
+     */
     @PrimaryGeneratedColumn()
     public id: number;
 
@@ -30,6 +34,9 @@ export class ProfileEntity {
     @Column()
     public age: number;
 
+    /**
+     * True for male, false for female
+     */
     @Column()
     public gender: boolean;
 

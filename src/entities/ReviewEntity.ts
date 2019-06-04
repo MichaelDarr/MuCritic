@@ -15,13 +15,21 @@ import {
 } from './index';
 
 /**
- * Describes layout and relationships for "review" database table
+ * Describes layout and relationships for "review" database table, containing review information
+ * scraped from [Rate Your Music](https://rateyourmusic.com/).
  */
 @Entity({ name: 'review' })
 export class ReviewEntity {
+    /**
+     * Primary Key
+     */
     @PrimaryGeneratedColumn()
     public id: number;
 
+    /**
+     * @remarks
+     * float
+     */
     @Column({
         type: 'float',
     })

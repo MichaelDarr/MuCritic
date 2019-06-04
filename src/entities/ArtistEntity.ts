@@ -18,19 +18,29 @@ import {
 } from './index';
 
 /**
- * Describes layout and relationships for "artist" database table
+ * Describes layout and relationships for "artist" database table, containing artist information
+ * from [Rate Your Music](https://rateyourmusic.com/).
  */
 @Entity({ name: 'artist' })
 export class ArtistEntity {
+    /**
+     * Primary Key
+     */
     @PrimaryGeneratedColumn()
     public id: number;
 
     @Column()
     public name: string;
 
+    /**
+     * Count of members in a given group
+     */
     @Column()
     public memberCount: number;
 
+    /**
+     * Whether the group is still active (or solo performer is alive)
+     */
     @Column()
     public active: boolean;
 
@@ -49,6 +59,10 @@ export class ArtistEntity {
     @Column()
     public showCountRYM: number;
 
+    /**
+     * @remarks
+     * nullable
+     */
     @Column({
         nullable: true,
     })

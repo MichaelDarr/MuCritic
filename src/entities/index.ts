@@ -1,3 +1,7 @@
+/**
+ * Exports all database entities
+ */
+
 export * from './AlbumEntity';
 export * from './ArtistEntity';
 export * from './GenreEntity';

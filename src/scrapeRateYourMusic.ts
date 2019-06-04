@@ -20,13 +20,16 @@ import {
 dontenv.config({ path: resolve(__dirname, '../.env') });
 
 /**
- * Scrapes information from Rate Your Music directly into a local Postgres database
+ * Scrapes information from [Rate Your Music] directly into a local Postgres database.
  *
  * @remarks
- * This is a top-level function, mean to be run directly in the command line:
- * ```
- * npm run rymScrape
- * ```
+ * - Top-level function generally called directly by npm: ```npm run rymScrape```
+ * - A single instance of this function will never make more than one request at a time.
+ * - "Root" of the scraper is an array of RYM usernames. This is read from a file - first, the
+ * program tries to read a filename from the first additional CLI argument, i.e.
+ * ```npm run rymScrape ./path/to/FILENAME.txt```. If this is not supplied or the file cannot be
+ * found, it looks for a file at the location indicated by the ```DEFAULT_PROFILE_URI```
+ * environment variable.
  */
 export async function scrapeRateYourMusic(): Promise<void> {
     try {

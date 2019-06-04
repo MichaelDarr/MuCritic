@@ -15,10 +15,14 @@ import {
 } from './index';
 
 /**
- * Describes layout and relationships for "genre" database table
+ * Describes layout and relationships for "genre" database table, containing genre information
+ * scraped from [Rate Your Music](https://rateyourmusic.com/).
  */
 @Entity({ name: 'genre' })
 export class GenreEntity {
+    /**
+     * Primary Key
+     */
     @PrimaryGeneratedColumn()
     public id: number;
 

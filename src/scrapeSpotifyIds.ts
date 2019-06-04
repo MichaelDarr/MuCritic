@@ -24,13 +24,11 @@ import {
 dontenv.config({ path: resolve(__dirname, '../.env') });
 
 /**
- * Fills in the 'SpotifyId' column for both albums and artists
+ * Uses the Spotify API to search for all albums and artists in database. For found records,
+ * populates the 'SpotifyId' column for both albums and artists
  *
  * @remarks
- * This is a top-level function, mean to be run directly in the command line:
- * ```
- * npm run spotifyIdScrape
- * ```
+ * npm call: ```npm run spotifyIdScrape```
  */
 export async function scrapeSpotifyIds(): Promise<void> {
     try {
