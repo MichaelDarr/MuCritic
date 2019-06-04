@@ -10,7 +10,10 @@ import {
     ArtistEntity,
     GenreEntity,
 } from '../entities/index';
-import { Log } from '../helpers/classes/index';
+import {
+    Log,
+    ScrapeResult,
+} from '../helpers/classes/index';
 import { requestRawScrape } from '../helpers/functions/index';
 import {
     decodeHtmlText,
@@ -46,7 +49,7 @@ export class AlbumScraper extends AbstractScraper {
 
     public ratingCountRYM: number;
 
-    public genresRYM: GenreScraper[];
+    public genreScrapersRYM: GenreScraper[];
 
     public reviewCountRYM: number;
 
@@ -62,7 +65,7 @@ export class AlbumScraper extends AbstractScraper {
         if(url.indexOf('various_artists') !== -1 || url.indexOf('various-artists') !== -1) {
             throw new Error('Album by various artists');
         }
-        this.genresRYM = [];
+        this.genreScrapersRYM = [];
         this.listCountRYM = 0;
         this.issueCountRYM = 1;
     }
@@ -89,7 +92,7 @@ export class AlbumScraper extends AbstractScraper {
         }
 
         const genreEntities: GenreEntity[] = [];
-        for await(const genre of this.genresRYM) {
+        for await(const genre of this.genreScrapersRYM) {
             const genreEntity: GenreEntity = await genre.getEntity();
             genreEntities.push(genreEntity);
         }
@@ -115,10 +118,21 @@ export class AlbumScraper extends AbstractScraper {
         await this.artist.scrape();
         this.results.concat(this.artist.results);
 
-        for await(const genre of this.genresRYM) {
-            await genre.scrape();
-            this.results.concat(genre.results);
+        const successfullyScrapedGenres: GenreScraper[] = [];
+        for await(const genreScraper of this.genreScrapersRYM) {
+            try {
+                await genreScraper.scrape();
+                successfullyScrapedGenres.push(genreScraper);
+                this.results.concat(genreScraper.results);
+            } catch(err) {
+                this.results.push(new ScrapeResult(
+                    false,
+                    genreScraper.url,
+                    err,
+                ));
+            }
         }
+        this.genreScrapersRYM = successfullyScrapedGenres;
     }
 
     protected extractInfo(): void {
@@ -218,7 +232,7 @@ export class AlbumScraper extends AbstractScraper {
                         false,
                         'RYM album genre string',
                     );
-                    this.genresRYM = GenreScraper.createScrapers(genres);
+                    this.genreScrapersRYM = GenreScraper.createScrapers(genres);
                     break;
                 }
                 default:
@@ -272,7 +286,7 @@ export class AlbumScraper extends AbstractScraper {
         Log.log(`${this.releaseYear} Rank: ${this.yearRankRYM}`);
         Log.log(`Overall Rank: ${this.overallRankRYM}`);
         Log.log(`RYM Ratings: ${this.ratingCountRYM}`);
-        Log.log(`Genres: ${this.genresRYM.length}`);
+        Log.log(`Genres: ${this.genreScrapersRYM.length}`);
         Log.log(`RYM Reviews: ${this.reviewCountRYM}`);
         Log.log(`RYM Lists: ${this.listCountRYM}`);
         Log.log(`RYM Issues: ${this.issueCountRYM}`);

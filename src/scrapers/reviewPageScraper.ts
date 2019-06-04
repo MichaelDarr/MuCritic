@@ -93,18 +93,19 @@ export class ReviewPageScraper extends AbstractScraper {
     }
 
     protected async scrapeDependencies(): Promise<void> {
+        const successfullyScrapedReviews: Review[] = [];
         for await(const review of this.reviews) {
             try {
                 await review.album.scrape();
+                successfullyScrapedReviews.push(review);
                 this.results.concat(review.album.results);
             } catch(e) {
-                const failedReviewIndex = this.reviews.indexOf(review);
-                if(failedReviewIndex > -1) this.reviews.splice(failedReviewIndex, 1);
                 this.results.push(
                     new ScrapeResult(false, this.url, e.message),
                 );
             }
         }
+        this.reviews = successfullyScrapedReviews;
     }
 
     protected async saveToDB(): Promise<ProfileEntity> {

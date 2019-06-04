@@ -1,3 +1,7 @@
+/**
+ * Exports **everything**
+ */
+
 export * from './entities/index';
 export * from './helpers/classes/index';
 export * from './helpers/parsing/index';

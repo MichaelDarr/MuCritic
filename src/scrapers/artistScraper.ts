@@ -9,7 +9,10 @@ import {
     ArtistEntity,
     GenreEntity,
 } from '../entities/index';
-import { Log } from '../helpers/classes/index';
+import {
+    Log,
+    ScrapeResult,
+} from '../helpers/classes/index';
 import {
     requestRawScrape,
     stringToNum,
@@ -196,10 +199,21 @@ export class ArtistScraper extends AbstractScraper {
     }
 
     protected async scrapeDependencies(): Promise<void> {
+        const successfullyScrapedGenres: GenreScraper[] = [];
         for await(const genreScraper of this.genreScrapersRYM) {
-            await genreScraper.scrape();
-            this.results.concat(genreScraper.results);
+            try {
+                await genreScraper.scrape();
+                successfullyScrapedGenres.push(genreScraper);
+                this.results.concat(genreScraper.results);
+            } catch(err) {
+                this.results.push(new ScrapeResult(
+                    false,
+                    genreScraper.url,
+                    err,
+                ));
+            }
         }
+        this.genreScrapersRYM = successfullyScrapedGenres;
     }
 
     public async saveToDB(): Promise<ArtistEntity> {

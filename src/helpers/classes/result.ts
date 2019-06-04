@@ -20,7 +20,7 @@ export class ScrapeResult {
 
     public pageDescription: string;
 
-    public error: string;
+    public error: string | Error;
 
     /**
      * @param url attemped scraping url
@@ -28,7 +28,7 @@ export class ScrapeResult {
     public constructor(
         success: boolean,
         url: string,
-        error?: string,
+        error?: string | Error,
     ) {
         this.success = success;
         this.url = url;
@@ -55,14 +55,14 @@ export class ApiResult {
 
     public paramDescription: string;
 
-    public error: string;
+    public error: string | Error;
 
     public constructor(
         success: boolean,
         apiService: ApiService,
         route: string,
         paramDescription: string,
-        error?: string,
+        error?: string | Error,
     ) {
         this.success = success;
         this.apiService = apiService;

@@ -86,17 +86,26 @@ export abstract class AbstractScraper {
     /**
      * Entry point for initiating an asset scrape. General scrape outline/method order:
      *
-     * 1. **[[AbstractScraper.getEntity]]**
+     * 1. [[AbstractScraper.getEntity]]
+     * 2. If local entity was found, update class props and return.
+     * 3. [[AbstractScraper.requestScrape]]
+     * 4. [[AbstractScraper.extractInfo]]
+     * 5. [[AbstractScraper.scrapeDependencies]]
+     * 6. [[AbstractScraper.saveToDB]]
+     * 7. Update class props and return
      *
-     *    Attempt to retrieve a local copy. If found, update class props and return.
-     *
-     * 2. **[[requestRawScrape]]**
-     *
-     *    Initialize a request for some asset you want to scrape
-     *
-     * 3. **[[AbstractScraper.extractInfo]]**
-     *
-     *    Extract information from the requested resource, and store it in local props
+     * @remarks
+     * This method should be considered **unsafe** - there are several points where this can throw
+     * errors. This is intentional, and allows easier support for **relational data storage**.
+     * Scraped assets may have a mixture of required and non-required dependencies (scraped in
+     * [[AbstractScraper.scrapeDependencies]]). For example, when [[AlbumScraper.scrape]] is
+     * called, it must find an artist, but not necessarily a genre. In this case,
+     * [[AlbumScraper]]'s execution of [[ArtistScraper.scrape]] **should not** be wrapped in a
+     * try/catch block - an error thrown by [[ArtistScraper.scrape]] should propogate through the
+     * [[AlbumScraper]], resulting in the original call to [[AlbumScraper.scrape]] throwing an
+     * error. However, [[AlbumScraper]]'s the execution of [[GenreScraper.scrape]] **should** be
+     * wrapped in a try/catch block, as the entirety of [[AlbumScraper.scrape]] shouldn't fail
+     * because of one unsuccessful genre scrape.
      *
      * @param forceScrape If set to true, scrapes the external resource regardless of any existing
      * local records
@@ -115,7 +124,6 @@ export abstract class AbstractScraper {
         await this.requestScrape();
         this.extractInfo();
         await this.scrapeDependencies();
-
         saved = await this.saveToDB();
         this.databaseID = saved.id;
         this.results.push(new ScrapeResult(true, this.url));
@@ -123,6 +131,9 @@ export abstract class AbstractScraper {
         Log.success(`Finished Scrape of ${this.scrapeContentDescription}`);
     }
 
+    /**
+     * Simple CLI reporting tool for debugging unsuccessful scrapes
+     */
     public printResult(): void {
         if(this.scrapeSucceeded === false) {
             Log.err(`Scrape failed for album url:\n${this.url}`);
@@ -137,8 +148,23 @@ export abstract class AbstractScraper {
         }
     }
 
+    /**
+     * Extracts information from a scraped resource **synchronously**
+     *
+     * @remarks
+     * Must be called after [[AbstractScraper.requestScrape]].
+     *
+     * Extracted info should be stored into class properties, to be
+     * saved later by [[AbstractScraper.saveToDB]]. Stores constructed (**but not .scrape()'ed**)
+     * instances of any more recursive scrapes extracted from this one, to later be scraped by
+     * [[AbstractScraper.scrapeDependencies]].
+     */
     protected abstract extractInfo(): void;
 
+    /**
+     * Gets the local stored record corresponding to a given scraper. Should return null if no
+     * local record is found
+     */
     public abstract getEntity(): Promise<
     AlbumEntity
     | ArtistEntity
@@ -146,10 +172,27 @@ export abstract class AbstractScraper {
     | ProfileEntity
     >;
 
+    /**
+     * Requests and stores an external resource, to be parsed later by
+     * [[AbstractScraper.extractInfo]].
+     */
     public abstract requestScrape(): Promise<void>;
 
+    /**
+     * Prints a detailed report of local properties for a scraper, used for debugging
+     */
     public abstract printInfo(): void;
 
+    /**
+     * Saves scraped, extracted, and parsed information into a local record, which can be retrieved
+     * later by [[AbstractScraper.getEntity]]
+     *
+     * @remarks
+     * This method must be called after [[AbstractScraper.requestScrape]],
+     * [[AbstractScraper.extractInfo]], and [[AbstractScraper.scrapeDependencies]]
+     *
+     * @returns the entity that was saved
+     */
     protected abstract async saveToDB(): Promise<
     AlbumEntity
     | ArtistEntity
@@ -157,5 +200,15 @@ export abstract class AbstractScraper {
     | ProfileEntity
     >;
 
+    /**
+     * Executes [[AbstractScraper.scrape]] on any recursive scrapes found in the initial scrape.
+     * See [[AbstractScraper.scrape]] for more information on implementation.
+     *
+     * @remarks
+     * This method must be called after [[AbstractScraper.requestScrape]] and
+     * [[AbstractScraper.extractInfo]]
+     *
+     * @returns the entity that was saved
+     */
     protected abstract async scrapeDependencies(): Promise<void>;
 }

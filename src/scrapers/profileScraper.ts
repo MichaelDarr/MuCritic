@@ -50,14 +50,10 @@ export class ProfileScraper extends AbstractScraper {
         const artistEntities: ArtistEntity[] = [];
         const artistEntityIds: number[] = [];
         for await(const artist of this.favoriteArtists) {
-            try {
-                const artistEntity = await artist.getEntity();
-                if(artistEntityIds.indexOf(artistEntity.id) === -1) {
-                    artistEntities.push(artistEntity);
-                    artistEntityIds.push(artistEntity.id);
-                }
-            } catch(e) {
-                Log.err(`Artist not found - nonfatal: ${e}`);
+            const artistEntity = await artist.getEntity();
+            if(artistEntity != null && artistEntityIds.indexOf(artistEntity.id) === -1) {
+                artistEntities.push(artistEntity);
+                artistEntityIds.push(artistEntity.id);
             }
         }
 
@@ -90,9 +86,11 @@ export class ProfileScraper extends AbstractScraper {
     }
 
     protected async scrapeDependencies(): Promise<void> {
+        const successfullyScrapedArtists: ArtistScraper[] = [];
         for await(const artist of this.favoriteArtists) {
             try {
                 await artist.scrape();
+                successfullyScrapedArtists.push(artist);
                 this.results.concat(artist.results);
             } catch(e) {
                 this.results.push(
@@ -100,6 +98,7 @@ export class ProfileScraper extends AbstractScraper {
                 );
             }
         }
+        this.favoriteArtists = successfullyScrapedArtists;
     }
 
     /**
