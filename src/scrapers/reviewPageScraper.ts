@@ -12,7 +12,8 @@ import { Date } from '../helpers/classes/date';
 import { Log } from '../helpers/classes/log';
 import { Review } from '../helpers/classes/review';
 import { ScrapeResult } from '../helpers/classes/result';
-import { extractInnerHtml, extractHrefLink } from '../helpers/functions/parsing';
+import { extractInnerHtml, extractHrefLink } from '../helpers/functions/parsing/rym';
+import { requestRawScrape } from '../helpers/functions/scraping';
 
 // scrapers
 import { AbstractScraper } from './abstractScraper';

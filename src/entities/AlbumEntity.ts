@@ -18,7 +18,9 @@ import { GenreEntity } from './GenreEntity';
 import { ArtistEntity } from './ArtistEntity';
 import { ReviewEntity } from './ReviewEntity';
 
-// table description
+/**
+ * Describes entries for the 'album' postgres table
+ */
 @Entity({ name: 'album' })
 export class AlbumEntity {
     @PrimaryGeneratedColumn()
@@ -55,13 +57,13 @@ export class AlbumEntity {
     })
     public spotifyId: string;
 
-    @ManyToOne(type => ArtistEntity, (artist): AlbumEntity[] => artist.albums)
+    @ManyToOne(() => ArtistEntity, (artist): AlbumEntity[] => artist.albums)
     public artist: ArtistEntity;
 
-    @OneToMany(type => ReviewEntity, (review): AlbumEntity => review.album)
+    @OneToMany(() => ReviewEntity, (review): AlbumEntity => review.album)
     public reviews: ReviewEntity[];
 
-    @ManyToMany(type => GenreEntity, (genre): AlbumEntity[] => genre.albums)
+    @ManyToMany(() => GenreEntity, (genre): AlbumEntity[] => genre.albums)
     @JoinTable()
     public genres: GenreEntity[];
 }

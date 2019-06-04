@@ -52,13 +52,13 @@ export class ArtistEntity {
     })
     public spotifyId: string;
 
-    @OneToMany(type => AlbumEntity, (album): ArtistEntity => album.artist)
+    @OneToMany(() => AlbumEntity, (album): ArtistEntity => album.artist)
     public albums: AlbumEntity[];
 
-    @ManyToMany(type => ProfileEntity, (profile): ArtistEntity[] => profile.favoriteArtists)
+    @ManyToMany(() => ProfileEntity, (profile): ArtistEntity[] => profile.favoriteArtists)
     public profiles: ProfileEntity[];
 
-    @ManyToMany(type => GenreEntity, (genre): ArtistEntity[] => genre.artists)
+    @ManyToMany(() => GenreEntity, (genre): ArtistEntity[] => genre.artists)
     @JoinTable()
     public genres: GenreEntity[];
 }

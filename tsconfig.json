@@ -9,8 +9,8 @@
         "types" : ["node"]
     },
     "include": [
-        "src/rym.ts",
-        "src/spotifyIdScraper.ts",
+        "src/scrapeRateYourMusic.ts",
+        "src/scrapeSpotifyIds.ts",
         "src/serveDocs.ts"
     ],
     "typedocOptions": {

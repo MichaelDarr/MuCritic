@@ -143,7 +143,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="abstractscraper.html">AbstractScraper</a>.<a href="abstractscraper.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/albumScraper.ts#L50">scrapers/albumScraper.ts:50</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/albumScraper.ts#L50">scrapers/albumScraper.ts:50</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -168,7 +168,7 @@
 					<div class="tsd-signature tsd-kind-icon">artist<span class="tsd-signature-symbol">:</span> <a href="artistscraper.html" class="tsd-signature-type">ArtistScraper</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/albumScraper.ts#L32">scrapers/albumScraper.ts:32</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/albumScraper.ts#L32">scrapers/albumScraper.ts:32</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -179,9 +179,16 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="abstractscraper.html">AbstractScraper</a>.<a href="abstractscraper.html#datareadfromdb">dataReadFromDB</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/abstractScraper.ts#L30">scrapers/abstractScraper.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/abstractScraper.ts#L37">scrapers/abstractScraper.ts:37</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Scrapers always check for a local copy of the target resource (using
+								<a href="abstractscraper.html#getentity">AbstractScraper.getEntity</a>) before executing a scrape from an external resource. If the
+							resource was found (and therefore no external calls made), this flag is set to true.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="databaseid" class="tsd-anchor"></a>
@@ -190,9 +197,15 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="abstractscraper.html">AbstractScraper</a>.<a href="abstractscraper.html#databaseid">databaseID</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/abstractScraper.ts#L32">scrapers/abstractScraper.ts:32</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/abstractScraper.ts#L30">scrapers/abstractScraper.ts:30</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Primary key of the database record corresponding to a given scraper instance. This will
+							always be set after <a href="abstractscraper.html#scrape">AbstractScraper.scrape</a> is called, provided that no error was thrown.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="genresrym" class="tsd-anchor"></a>
@@ -200,7 +213,7 @@
 					<div class="tsd-signature tsd-kind-icon">genresRYM<span class="tsd-signature-symbol">:</span> <a href="genrescraper.html" class="tsd-signature-type">GenreScraper</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/albumScraper.ts#L44">scrapers/albumScraper.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/albumScraper.ts#L44">scrapers/albumScraper.ts:44</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -210,7 +223,7 @@
 					<div class="tsd-signature tsd-kind-icon">issue<wbr>CountRYM<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/albumScraper.ts#L50">scrapers/albumScraper.ts:50</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/albumScraper.ts#L50">scrapers/albumScraper.ts:50</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -220,7 +233,7 @@
 					<div class="tsd-signature tsd-kind-icon">list<wbr>CountRYM<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/albumScraper.ts#L48">scrapers/albumScraper.ts:48</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/albumScraper.ts#L48">scrapers/albumScraper.ts:48</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -230,7 +243,7 @@
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/albumScraper.ts#L30">scrapers/albumScraper.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/albumScraper.ts#L30">scrapers/albumScraper.ts:30</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -240,7 +253,7 @@
 					<div class="tsd-signature tsd-kind-icon">overall<wbr>RankRYM<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/albumScraper.ts#L40">scrapers/albumScraper.ts:40</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/albumScraper.ts#L40">scrapers/albumScraper.ts:40</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -250,7 +263,7 @@
 					<div class="tsd-signature tsd-kind-icon">rating<wbr>CountRYM<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/albumScraper.ts#L42">scrapers/albumScraper.ts:42</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/albumScraper.ts#L42">scrapers/albumScraper.ts:42</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -260,7 +273,7 @@
 					<div class="tsd-signature tsd-kind-icon">ratingRYM<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/albumScraper.ts#L36">scrapers/albumScraper.ts:36</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/albumScraper.ts#L36">scrapers/albumScraper.ts:36</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -270,7 +283,7 @@
 					<div class="tsd-signature tsd-kind-icon">release<wbr>Year<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/albumScraper.ts#L34">scrapers/albumScraper.ts:34</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/albumScraper.ts#L34">scrapers/albumScraper.ts:34</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -281,9 +294,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="abstractscraper.html">AbstractScraper</a>.<a href="abstractscraper.html#results">results</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/abstractScraper.ts#L22">scrapers/abstractScraper.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/abstractScraper.ts#L42">scrapers/abstractScraper.ts:42</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Contains all results generated by <a href="abstractscraper.html#scrape">AbstractScraper.scrape</a>, including recursive calls.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="reviewcountrym" class="tsd-anchor"></a>
@@ -291,7 +309,7 @@
 					<div class="tsd-signature tsd-kind-icon">review<wbr>CountRYM<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/albumScraper.ts#L46">scrapers/albumScraper.ts:46</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/albumScraper.ts#L46">scrapers/albumScraper.ts:46</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -302,9 +320,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="abstractscraper.html">AbstractScraper</a>.<a href="abstractscraper.html#scrapecontentdescription">scrapeContentDescription</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/abstractScraper.ts#L26">scrapers/abstractScraper.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/abstractScraper.ts#L47">scrapers/abstractScraper.ts:47</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>A simple, human-readble description of <em>what</em> is being scraped. Used for logging.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="scrapesucceeded" class="tsd-anchor"></a>
@@ -313,9 +336,15 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="abstractscraper.html">AbstractScraper</a>.<a href="abstractscraper.html#scrapesucceeded">scrapeSucceeded</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/abstractScraper.ts#L34">scrapers/abstractScraper.ts:34</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/abstractScraper.ts#L63">scrapers/abstractScraper.ts:63</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Flag indicating a sucessful scrape, set to true after non-error-throwing call to
+							<a href="abstractscraper.html#scrape">AbstractScraper.scrape</a>.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="url" class="tsd-anchor"></a>
@@ -324,9 +353,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="abstractscraper.html">AbstractScraper</a>.<a href="abstractscraper.html#url">url</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/abstractScraper.ts#L24">scrapers/abstractScraper.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/abstractScraper.ts#L52">scrapers/abstractScraper.ts:52</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>External url indicating the scraper&#39;s target resource.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="verbose" class="tsd-anchor"></a>
@@ -335,9 +369,14 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="abstractscraper.html">AbstractScraper</a>.<a href="abstractscraper.html#verbose">verbose</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/abstractScraper.ts#L28">scrapers/abstractScraper.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/abstractScraper.ts#L57">scrapers/abstractScraper.ts:57</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Used to override .env settings and force-log the output of a given scraper.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="yearrankrym" class="tsd-anchor"></a>
@@ -345,7 +384,7 @@
 					<div class="tsd-signature tsd-kind-icon">year<wbr>RankRYM<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/albumScraper.ts#L38">scrapers/albumScraper.ts:38</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/albumScraper.ts#L38">scrapers/albumScraper.ts:38</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -362,7 +401,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/albumScraper.ts#L230">scrapers/albumScraper.ts:230</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/albumScraper.ts#L230">scrapers/albumScraper.ts:230</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -392,7 +431,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="abstractscraper.html">AbstractScraper</a>.<a href="abstractscraper.html#extractinfo">extractInfo</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/albumScraper.ts#L118">scrapers/albumScraper.ts:118</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/albumScraper.ts#L118">scrapers/albumScraper.ts:118</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -415,7 +454,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/albumScraper.ts#L135">scrapers/albumScraper.ts:135</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/albumScraper.ts#L135">scrapers/albumScraper.ts:135</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -438,7 +477,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/albumScraper.ts#L124">scrapers/albumScraper.ts:124</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/albumScraper.ts#L124">scrapers/albumScraper.ts:124</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -462,7 +501,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="abstractscraper.html">AbstractScraper</a>.<a href="abstractscraper.html#getentity">getEntity</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/albumScraper.ts#L70">scrapers/albumScraper.ts:70</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/albumScraper.ts#L70">scrapers/albumScraper.ts:70</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -486,7 +525,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="abstractscraper.html">AbstractScraper</a>.<a href="abstractscraper.html#printinfo">printInfo</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/albumScraper.ts#L251">scrapers/albumScraper.ts:251</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/albumScraper.ts#L251">scrapers/albumScraper.ts:251</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -504,7 +543,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="abstractscraper.html">AbstractScraper</a>.<a href="abstractscraper.html#printresult">printResult</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/abstractScraper.ts#L71">scrapers/abstractScraper.ts:71</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/abstractScraper.ts#L123">scrapers/abstractScraper.ts:123</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -522,7 +561,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="abstractscraper.html">AbstractScraper</a>.<a href="abstractscraper.html#savetodb">saveToDB</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/albumScraper.ts#L79">scrapers/albumScraper.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/albumScraper.ts#L79">scrapers/albumScraper.ts:79</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -546,13 +585,33 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="abstractscraper.html">AbstractScraper</a>.<a href="abstractscraper.html#scrape">scrape</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/abstractScraper.ts#L49">scrapers/abstractScraper.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/abstractScraper.ts#L101">scrapers/abstractScraper.ts:101</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Entry point for initiating an asset scrape. General scrape outline/method order:</p>
+								</div>
+								<ol>
+									<li><p><strong><a href="abstractscraper.html#getentity">AbstractScraper.getEntity</a></strong></p>
+										<p>Attempt to retrieve a local copy. If found, update class props and return.</p>
+									</li>
+									<li><p><strong>[[requestRawScrape(AbstractScraper.url)]]</strong></p>
+										<p>oiuabds</p>
+									</li>
+									<li><p><strong><a href="abstractscraper.html#extractinfo">AbstractScraper.extractInfo</a></strong></p>
+										<p>TEST 2</p>
+									</li>
+								</ol>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> forceScrape: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>If set to true, scrapes the external resource regardless of any existing
+										local records</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -570,7 +629,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="abstractscraper.html">AbstractScraper</a>.<a href="abstractscraper.html#scrapedependencies">scrapeDependencies</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/476a335/rym-data/src/scrapers/albumScraper.ts#L108">scrapers/albumScraper.ts:108</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/e02600c/rym-data/src/scrapers/albumScraper.ts#L108">scrapers/albumScraper.ts:108</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -775,7 +834,7 @@
 					<li class=" tsd-kind-function">
 						<a href="../globals.html#extractinnerhtmlofgroup" class="tsd-kind-icon">extract<wbr>Inner<wbr>Html<wbr>OfGroup</a>
 					</li>
-					<li class=" tsd-kind-function">
+					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="../globals.html#falseywithstrict" class="tsd-kind-icon">falsey<wbr>With<wbr>Strict</a>
 					</li>
 					<li class=" tsd-kind-function">
@@ -792,6 +851,15 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="../globals.html#requestrawscrape" class="tsd-kind-icon">request<wbr>Raw<wbr>Scrape</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#scraperateyourmusic" class="tsd-kind-icon">scrape<wbr>Rate<wbr>Your<wbr>Music</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#scrapespotifyids" class="tsd-kind-icon">scrape<wbr>Spotify<wbr>Ids</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#servedocumentation" class="tsd-kind-icon">serve<wbr>Documentation</a>
 					</li>
 				</ul>
 			</nav>

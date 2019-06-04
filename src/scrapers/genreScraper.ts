@@ -1,7 +1,5 @@
 /**
- * @fileOverview Manages storage of a single genre string
- *
- * @author  Michael Darr
+ * Manages storage of a single genre string
  */
 
 // library dependencies
@@ -34,8 +32,7 @@ export class GenreScraper extends AbstractScraper {
         return getManager().findOne(GenreEntity, { name: this.name });
     }
 
-    protected extractInfo(root: HTMLElement): void {
-        // TODO: extract genre info from page. As of now, does not seem necessary
+    protected extractInfo(): void {
     }
 
     protected async scrapeDependencies(): Promise<void> {
@@ -57,6 +54,10 @@ export class GenreScraper extends AbstractScraper {
             genreArr.push(genreEntity);
         });
         return genreArr;
+    }
+
+    public requestScrape(): Promise<void> {
+        return Promise.resolve();
     }
 
     public printInfo(): void {

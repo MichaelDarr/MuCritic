@@ -1,7 +1,5 @@
 /**
- * @fileOverview Manages scraping and storage of a single album on Rate Your Music
- *
- * @author  Michael Darr
+ * Manages scraping and storage of a single album on Rate Your Music
  */
 
 // library dependencies
@@ -12,21 +10,31 @@ import { AbstractScraper } from './abstractScraper';
 import { ArtistScraper } from './artistScraper';
 import { GenreScraper } from './genreScraper';
 import { Log } from '../helpers/classes/log';
+import { requestRawScrape } from '../helpers/functions/scraping';
 import {
-    extractHeaderNumberPair,
-    extractInnerHtml,
-    extractHrefLink,
-    extractInnerHTMLFromGroupElement,
-    extractInnerHtmlOfGroup,
-    decodeHtmlText,
-} from '../helpers/functions/parsing';
+    extractElementFromElement,
+    extractInnerHtmlOfElementFromElement,
+} from '../helpers/functions/parsing/base';
+import {
+    extractElementOfListFromElement,
+    extractInnerHtmlOfAllElementsOfListFromElement,
+} from '../helpers/functions/parsing/list';
+import {
+    extractNumberOfElementFromElement,
+    extractNumberFromElement,
+} from '../helpers/functions/parsing/number';
+import { extractNumberFromHeaderNumberPair } from '../helpers/functions/parsing/rym';
 
 // database dependencies
 import { AlbumEntity } from '../entities/AlbumEntity';
 import { ArtistEntity } from '../entities/ArtistEntity';
 import { GenreEntity } from '../entities/GenreEntity';
+import { decodeHtmlText } from '../helpers/functions/parsing/encoding';
+import { extractLinkOfAnchorElementFromElement } from '../helpers/functions/parsing/anchor';
 
 export class AlbumScraper extends AbstractScraper {
+    private scrapedHtmlElement: HTMLElement;
+
     public name: string;
 
     public artist: ArtistScraper;
@@ -53,10 +61,11 @@ export class AlbumScraper extends AbstractScraper {
         url: string,
         verbose = false,
     ) {
+        super(url, 'RYM Album', verbose);
         if(url.indexOf('various_artists') !== -1 || url.indexOf('various-artists') !== -1) {
             throw new Error('Album by various artists');
         }
-        super(url, 'RYM Album', verbose);
+        this.genresRYM = [];
         this.listCountRYM = 0;
         this.issueCountRYM = 1;
     }
@@ -115,15 +124,15 @@ export class AlbumScraper extends AbstractScraper {
         }
     }
 
-    protected extractInfo(root: HTMLElement): void {
-        this.extractName(root);
-        this.extractMainInfoBlocks(root);
-        this.extractCountInfo(root);
+    protected extractInfo(): void {
+        this.extractName();
+        this.extractMainInfoBlocks();
+        this.extractCountInfo();
     }
 
-    private extractName(root: HTMLElement): void {
-        let rawNameText: string = extractInnerHtml(
-            root,
+    private extractName(): void {
+        let rawNameText: string = extractInnerHtmlOfElementFromElement(
+            this.scrapedHtmlElement,
             'div.album_title',
             true,
             'RYM album title',
@@ -132,93 +141,96 @@ export class AlbumScraper extends AbstractScraper {
         this.name = decodeHtmlText(rawNameText);
     }
 
-    private extractMainInfoBlocks(root: HTMLElement): void {
-        // set up string vars for temporary unformatted prop storage
-        let artistUrl: string;
-        let rating: string;
-        let ratingCount: string;
-        let yearRank = '0';
-        let overallRank = '0';
-        let genres: string[] = [];
-
+    private extractMainInfoBlocks(): void {
         // interate through the main artist info blocks, "switch" on preceeding header block
-        const infoRows: NodeListOf<Element> = root.querySelectorAll('.album_info > tbody > tr');
+        const infoRows: NodeListOf<Element> = (
+            this.scrapedHtmlElement.querySelectorAll('.album_info > tbody > tr')
+        );
         infoRows.forEach((rowElement: HTMLElement): void => {
-            const headerText = extractInnerHtml(
+            const headerText = extractInnerHtmlOfElementFromElement(
                 rowElement,
                 'th',
                 false,
-                'RYM album info row',
+                'RYM album info row header text',
                 '',
             );
-            const contentElement: HTMLElement = rowElement.querySelector('td');
+            const contentElement: HTMLElement = extractElementFromElement(
+                rowElement,
+                'td',
+                false,
+                'RYM album info row content element',
+            );
             switch(headerText.trim()) {
-                case 'Artist':
-                    artistUrl = (
-                        `https://rateyourmusic.com${extractHrefLink(
-                            contentElement,
-                            'a.artist',
-                            true,
-                            'RYM artist URL',
-                        )}`
+                case 'Artist': {
+                    const artistLink = extractLinkOfAnchorElementFromElement(
+                        contentElement,
+                        'a.artist',
+                        true,
                     );
+                    this.artist = new ArtistScraper(`https://rateyourmusic.com${artistLink}`);
                     break;
+                }
                 case 'RYM Rating':
-                    rating = extractInnerHtml(
+                    this.ratingRYM = extractNumberOfElementFromElement(
                         contentElement,
                         'span.avg_rating',
                         true,
                         'RYM album rating',
                     );
-                    ratingCount = extractInnerHtml(
+                    this.ratingCountRYM = extractNumberOfElementFromElement(
                         contentElement,
                         'span.num_ratings > b > span',
                         false,
                         'RYM album rating count',
-                        '0',
+                        0,
                     );
                     break;
-                case 'Ranked':
-                    yearRank = extractInnerHTMLFromGroupElement(
+                case 'Ranked': {
+                    const yearElement = extractElementOfListFromElement(
                         contentElement,
                         'b',
                         0,
                         false,
                         'RYM year rank',
-                        '0',
                     );
-                    overallRank = extractInnerHTMLFromGroupElement(
+                    this.yearRankRYM = extractNumberFromElement(
+                        yearElement,
+                        false,
+                        'RYM year rank',
+                        0,
+                    );
+                    const overallElement = extractElementOfListFromElement(
                         contentElement,
                         'b',
                         1,
                         false,
                         'RYM overall rank',
-                        '0',
+                    );
+                    this.overallRankRYM = extractNumberFromElement(
+                        overallElement,
+                        false,
+                        'RYM overall rank',
+                        0,
                     );
                     break;
-                case 'Genres':
-                    genres = extractInnerHtmlOfGroup(
+                }
+                case 'Genres': {
+                    const genres = extractInnerHtmlOfAllElementsOfListFromElement(
                         contentElement,
                         'span.release_pri_genres > a',
                         false,
                         'RYM album genre string',
-                        '0',
                     );
+                    this.genresRYM = GenreScraper.createScrapers(genres);
                     break;
+                }
                 default:
             }
         });
 
-        if(!artistUrl || !rating || !ratingCount) {
+        if(!this.artist || !this.ratingRYM) {
             throw new Error('Album scrape yielded incomplete data');
         }
-
-        this.artist = new ArtistScraper(artistUrl);
-        this.ratingRYM = Number(rating);
-        this.ratingCountRYM = Number(ratingCount.replace(/,/g, ''));
-        this.yearRankRYM = (yearRank === null) ? 0 : Number(yearRank.replace(/,/g, ''));
-        this.overallRankRYM = (overallRank === null) ? 0 : Number(overallRank.replace(/,/g, ''));
-        this.genresRYM = GenreScraper.createScrapers(genres);
     }
 
     /**
@@ -227,25 +239,29 @@ export class AlbumScraper extends AbstractScraper {
      * @param page puppeteer profile page
      * @returns a group of all scrape results resulting from this call
      */
-    private extractCountInfo(root: HTMLElement): void {
-        this.issueCountRYM = extractHeaderNumberPair(
-            root,
+    private extractCountInfo(): void {
+        this.issueCountRYM = extractNumberFromHeaderNumberPair(
+            this.scrapedHtmlElement,
             'div.section_issues > div.page_section > h2.release_page_header',
             false,
             'RYM album issue count',
         );
-        this.reviewCountRYM = extractHeaderNumberPair(
-            root,
+        this.reviewCountRYM = extractNumberFromHeaderNumberPair(
+            this.scrapedHtmlElement,
             'div.section_reviews > div.page_section > h2.release_page_header',
             false,
             'RYM album review count',
         );
-        this.listCountRYM = extractHeaderNumberPair(
-            root,
+        this.listCountRYM = extractNumberFromHeaderNumberPair(
+            this.scrapedHtmlElement,
             'div.section_lists > div.release_page_header > h2',
             false,
             'RYM album list count',
         );
+    }
+
+    public async requestScrape(): Promise<void> {
+        this.scrapedHtmlElement = await requestRawScrape(this.url);
     }
 
     public printInfo(): void {

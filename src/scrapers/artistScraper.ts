@@ -1,7 +1,5 @@
 /**
- * @fileOverview Manages scraping and storage of a single artist on Rate Your Music
- *
- * @author  Michael Darr
+ * Manages scraping and storage of a single artist on Rate Your Music
  */
 
 // external
@@ -17,13 +15,16 @@ import {
     decodeHtmlText,
     extractInnerHtmlOfGroup,
     extractHeaderNumberPair,
-} from '../helpers/functions/parsing';
+} from '../helpers/functions/parsing/rym';
+import { requestRawScrape } from '../helpers/functions/scraping';
 
 // database dependencies
 import { ArtistEntity } from '../entities/ArtistEntity';
 import { GenreEntity } from '../entities/GenreEntity';
 
 export class ArtistScraper extends AbstractScraper {
+    private scrapedHtmlElement: HTMLElement;
+
     public name: string;
 
     public active: boolean;
@@ -57,17 +58,17 @@ export class ArtistScraper extends AbstractScraper {
         return getManager().findOne(ArtistEntity, { urlRYM: this.url });
     }
 
-    protected extractInfo(root: HTMLElement): void {
-        this.extractArtistName(root);
-        this.extractMainInfoBlocks(root);
-        this.extractDiscographyCount(root);
-        this.extractListCount(root);
-        this.extractPastShowCount(root);
+    protected extractInfo(): void {
+        this.extractArtistName();
+        this.extractMainInfoBlocks();
+        this.extractDiscographyCount();
+        this.extractListCount();
+        this.extractPastShowCount();
     }
 
-    private extractArtistName(root: HTMLElement): void {
+    private extractArtistName(): void {
         const rawName = extractInnerHtml(
-            root,
+            this.scrapedHtmlElement,
             'h1.artist_name_hdr',
             true,
             'RYM Artist name',
@@ -75,13 +76,15 @@ export class ArtistScraper extends AbstractScraper {
         this.name = decodeHtmlText(rawName);
     }
 
-    private extractMainInfoBlocks(root: HTMLElement): void {
+    private extractMainInfoBlocks(): void {
         // set up temporary vars to hold raw props
         let members: string;
         let genres: string[] = [];
 
         // interate through the main artist info blocks, "switch" on preceeding header block
-        const infoBlocks: NodeListOf<Element> = root.querySelectorAll('.artist_info > div');
+        const infoBlocks: NodeListOf<Element> = (
+            this.scrapedHtmlElement.querySelectorAll('.artist_info > div')
+        );
         infoBlocks.forEach((block: HTMLElement, i): void => {
             if(block !== null && block.className === 'info_content') {
                 const headerBlock: Element = infoBlocks.item(i - 1);
@@ -119,10 +122,10 @@ export class ArtistScraper extends AbstractScraper {
         this.genreScrapersRYM = GenreScraper.createScrapers(genres);
     }
 
-    private extractDiscographyCount(root: HTMLElement): void {
+    private extractDiscographyCount(): void {
         try {
             let countString = extractInnerHtml(
-                root,
+                this.scrapedHtmlElement,
                 'div.artist_page_section_active_music > span.subtext',
                 true,
                 'RYM artist discography count',
@@ -141,20 +144,20 @@ export class ArtistScraper extends AbstractScraper {
      *
      * @param page puppeteer profile page
      */
-    private extractListCount(root: HTMLElement): void {
+    private extractListCount(): void {
         this.listCountRYM = extractHeaderNumberPair(
-            root,
+            this.scrapedHtmlElement,
             'div.section_lists > div.release_page_header > h2',
             false,
             'RYM artist list count',
         );
     }
 
-    private extractPastShowCount(root: HTMLElement): void {
+    private extractPastShowCount(): void {
         // Total show count - format: "Show past shows [28]"
         try {
             let showString = extractInnerHtml(
-                root,
+                this.scrapedHtmlElement,
                 '#disco_expand_prev',
                 true,
                 'RYM artist past show count',
@@ -197,6 +200,10 @@ export class ArtistScraper extends AbstractScraper {
         artist = await getManager().save(artist);
         this.databaseID = artist.id;
         return artist;
+    }
+
+    public async requestScrape(): Promise<void> {
+        this.scrapedHtmlElement = await requestRawScrape(this.url);
     }
 
     public printInfo(): void {

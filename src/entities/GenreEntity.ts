@@ -23,9 +23,9 @@ export class GenreEntity {
     @Column()
     public name: string;
 
-    @ManyToMany(type => ArtistEntity, (artist): GenreEntity[] => artist.genres)
+    @ManyToMany(() => ArtistEntity, (artist): GenreEntity[] => artist.genres)
     public artists: ArtistEntity[];
 
-    @ManyToMany(type => AlbumEntity, (album): GenreEntity[] => album.genres)
+    @ManyToMany(() => AlbumEntity, (album): GenreEntity[] => album.genres)
     public albums: AlbumEntity[];
 }

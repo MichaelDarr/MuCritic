@@ -20,13 +20,13 @@ export async function getRequestBody(url: string): Promise<string> {
 export async function requestRawScrape(
     url: string,
     attempts = 1,
-): Promise<any> {
+): Promise<HTMLElement> {
     try {
         Log.log(`Requesting ${url}`);
-        const body: string = await getRequestBody(`http://api.scraperapi.com?api_key=${process.env.SCRAPER_API_KEY}&url=${url}`);
+        const bodyString: string = await getRequestBody(`http://api.scraperapi.com?api_key=${process.env.SCRAPER_API_KEY}&url=${url}`);
         Log.success(`Loaded ${url}`);
-        const { document } = (new JSDOM(body)).window;
-        return document;
+        const { body } = (new JSDOM(bodyString)).window.document;
+        return body;
     } catch(e) {
         Log.err(`Attempt ${attempts}: page load failed: ${e}`);
     }
@@ -34,5 +34,5 @@ export async function requestRawScrape(
     if(attempts <= Number(process.env.MAX_REQUEST_ATTEMPTS)) {
         return requestRawScrape(url, attempts + 1);
     }
-    return false;
+    throw new Error(`Page load for ${url} failed ${attempts} times`);
 }

@@ -1,5 +1,5 @@
 /**
- * Rate Your Music scraper main file
+ * Rate Your Music scraper entry point
  */
 
 // external
@@ -19,11 +19,18 @@ import { ReviewPageScraper } from './scrapers/reviewPageScraper';
 // environment variables
 dontenv.config({ path: resolve(__dirname, '../.env') });
 
-Log.notify('\nmuCritic RYM Scraper\n\n');
-
-// await/async wrap
-(async (): Promise<void> => {
+/**
+ * Scrapes information from Rate Your Music directly into a local Postgres database
+ *
+ * @remarks
+ * This is a top-level function, mean to be run directly in the command line:
+ * ```
+ * npm run rymScrape
+ * ```
+ */
+export async function scrapeRateYourMusic(): Promise<void> {
     try {
+        Log.notify('\nmuCritic RYM Scraper\n\n');
         await connectToDatabase();
 
         const profileURLList: string[] = await readFileToArray(
@@ -53,4 +60,6 @@ Log.notify('\nmuCritic RYM Scraper\n\n');
     } catch(err) {
         Log.err(`\n\nmuCritic RYM Scraper Failed!\n\nError:\n${err.message}`);
     }
-})();
+}
+
+scrapeRateYourMusic();

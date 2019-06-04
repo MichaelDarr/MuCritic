@@ -18,7 +18,8 @@
             1, {
                 "exceptMethods": [
                     "extractInfo",
-                    "scrapeDependencies"
+                    "scrapeDependencies",
+                    "requestScrape"
                 ]
             }
         ],

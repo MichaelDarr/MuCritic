@@ -13,7 +13,8 @@ import { ArtistScraper } from './artistScraper';
 import { ScrapeResult } from '../helpers/classes/result';
 import { Log } from '../helpers/classes/log';
 import { Gender } from '../helpers/enums';
-import { extractInnerHtml } from '../helpers/functions/parsing';
+import { extractInnerHtml } from '../helpers/functions/parsing/rym';
+import { requestRawScrape } from '../helpers/functions/scraping';
 
 // database dependencies
 import { ArtistEntity } from '../entities/ArtistEntity';
@@ -21,6 +22,8 @@ import { ProfileEntity } from '../entities/ProfileEntity';
 
 
 export class ProfileScraper extends AbstractScraper {
+    public scrapedHtmlElement: HTMLElement;
+
     public name: string;
 
     public age: number;
@@ -78,9 +81,9 @@ export class ProfileScraper extends AbstractScraper {
         return getManager().findOne(ProfileEntity, { name: this.name });
     }
 
-    protected extractInfo(root: HTMLElement): void {
-        this.extractUserInfo(root);
-        this.extractArtists(root);
+    protected extractInfo(): void {
+        this.extractUserInfo();
+        this.extractArtists();
     }
 
     protected async scrapeDependencies(): Promise<void> {
@@ -102,9 +105,9 @@ export class ProfileScraper extends AbstractScraper {
      * @param page puppeteer profile page
      * @param profile username for a RYM user
      */
-    private extractUserInfo(root: HTMLElement): void {
+    private extractUserInfo(): void {
         const userAgeAndGenderConcat = extractInnerHtml(
-            root,
+            this.scrapedHtmlElement,
             '.profilehii > table > tbody > tr:nth-child(2) > td',
             true,
             'RYM Profile age/gender',
@@ -120,9 +123,9 @@ export class ProfileScraper extends AbstractScraper {
      * @param page puppeteer profile page
      * @returns An array of artist objects, with keys "name" and "url"
      */
-    private extractArtists(root: HTMLElement): void {
+    private extractArtists(): void {
         // extracts all content blocks from the page
-        const allBlocks: NodeListOf<Element> = root.querySelectorAll('#content > table > tbody > tr > td > div');
+        const allBlocks: NodeListOf<Element> = this.scrapedHtmlElement.querySelectorAll('#content > table > tbody > tr > td > div');
         let artistTitleBlockFound = false;
 
         // iterate through content blocks, detect favorite artists header, grab artists
@@ -130,14 +133,24 @@ export class ProfileScraper extends AbstractScraper {
             if(artistTitleBlockFound) {
                 block
                     .querySelectorAll('div > a')
-                    .forEach((artistElement: HTMLElement): void => {
-                        this.favoriteArtists.push(new ArtistScraper(`https://rateyourmusic.com${encodeURI((artistElement as any).href)}`));
+                    .forEach((artistElement: HTMLAnchorElement): void => {
+                        this.favoriteArtists.push(
+                            new ArtistScraper(
+                                `https://rateyourmusic.com${
+                                    encodeURI(artistElement.href)
+                                }`,
+                            ),
+                        );
                     });
                 artistTitleBlockFound = false;
             } else if(block.innerHTML === 'favorite artists') {
                 artistTitleBlockFound = true;
             }
         });
+    }
+
+    public async requestScrape(): Promise<void> {
+        this.scrapedHtmlElement = await requestRawScrape(this.url);
     }
 
     public formattedGender(): string {
