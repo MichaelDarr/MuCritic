@@ -137,7 +137,7 @@ export class AlbumScraper extends Scraper {
     private extractName(): void {
         this.name = this.scrapeRoot
             .element('div.album_title', 'title', true)
-            .innerText(true, null, true, true);
+            .text(true, null, true, true);
     }
 
     private extractMainInfoBlocks(): void {
@@ -146,18 +146,18 @@ export class AlbumScraper extends Scraper {
             .list('.album_info > tbody > tr', 'info rows', false)
             .allElements();
         infoRowParsers.forEach((rowParser: ParseElement): void => {
-            const headerText = rowParser.element('th', 'header', false).innerText(false, '');
+            const headerText = rowParser.element('th', 'header', false).text(false, '');
             const contentParser = rowParser.element('td', 'content', false);
             switch(headerText) {
                 case 'Artist': {
-                    const artistLink = contentParser.anchor('a.artist', 'artist', true).href();
+                    const artistLink = contentParser.element('a.artist', 'artist', true).href();
                     this.artist = new ArtistScraper(`https://rateyourmusic.com${artistLink}`);
                     break;
                 }
                 case 'RYM Rating':
                     this.ratingRYM = contentParser
                         .element('span.avg_rating', 'average rating', true)
-                        .number(true);
+                        .number();
                     this.ratingCountRYM = contentParser
                         .element('span.num_ratings > b > span', 'rating count', false)
                         .number(false, 0);
@@ -165,11 +165,11 @@ export class AlbumScraper extends Scraper {
                 case 'Ranked': {
                     this.yearRankRYM = contentParser
                         .list('b', 'rankings list', false)
-                        .element(0, false, 'year rank')
+                        .element(0, 'year rank')
                         .number(false, 0);
                     this.overallRankRYM = contentParser
                         .list('b', 'rankings list', false)
-                        .element(1, false, 'overall rank')
+                        .element(1, 'overall rank')
                         .number(false, 0);
                     break;
                 }
@@ -177,9 +177,9 @@ export class AlbumScraper extends Scraper {
                     const allGenres: string[] = [];
                     contentParser
                         .list('span.release_pri_genres > a', 'genre links', false)
-                        .allAnchors(false, 'individual genre')
+                        .allElements('individual genre')
                         .forEach((genreParser): void => {
-                            const genreString = genreParser.innerText(false, null);
+                            const genreString = genreParser.text(false, null);
                             if(genreString != null) allGenres.push(genreString);
                         });
                     this.genreScrapersRYM = GenreScraper.createScrapers(allGenres);
@@ -202,14 +202,23 @@ export class AlbumScraper extends Scraper {
      */
     private extractCountInfo(): void {
         const issueCountText = this.scrapeRoot
-            .element('div.section_issues > div.page_section > h2.release_page_header', 'issues')
-            .innerText(false, '');
+            .element(
+                'div.section_issues > div.page_section > h2.release_page_header',
+                'issues',
+                false,
+            ).text();
         const reviewCountText = this.scrapeRoot
-            .element('div.section_reviews > div.page_section > h2.release_page_header', 'reviews')
-            .innerText(false, '');
+            .element(
+                'div.section_reviews > div.page_section > h2.release_page_header',
+                'reviews',
+                false,
+            ).text();
         const listCountText = this.scrapeRoot
-            .element('div.section_lists > div.release_page_header > h2', 'lists')
-            .innerText(false, '');
+            .element(
+                'div.section_lists > div.release_page_header > h2',
+                'lists',
+                false,
+            ).text();
 
         this.issueCountRYM = extractCountFromPair(issueCountText, false, 0);
         this.reviewCountRYM = extractCountFromPair(reviewCountText, false, 0);

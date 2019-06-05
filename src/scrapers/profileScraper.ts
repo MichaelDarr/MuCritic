@@ -109,7 +109,7 @@ export class ProfileScraper extends Scraper {
     private extractUserInfo(): void {
         const userAgeAndGenderRaw = this.scrapeRoot
             .element('.profilehii > table > tbody > tr:nth-child(2) > td', 'age/gender', true)
-            .innerText();
+            .text();
         const splitUserInfo: string[] = userAgeAndGenderRaw.split(' / ');
         this.age = Number(splitUserInfo[0]);
         this.gender = Gender[splitUserInfo[1]];
@@ -132,16 +132,16 @@ export class ProfileScraper extends Scraper {
                 artistParser = blockParser;
                 artistTitleBlockFound = false;
             }
-            if(blockParser.innerText() === 'favorite artists') {
+            if(blockParser.text() === 'favorite artists') {
                 artistTitleBlockFound = true;
             }
         }
         if(artistParser) {
             artistParser
                 .list('div > a', 'favorite artists', true)
-                .allAnchors()
+                .allElements('artists')
                 .forEach((artist): void => {
-                    let artistLink = artist.href(false, '');
+                    let artistLink = artist.href(false);
                     artistLink = encodeURI(artistLink);
                     if(artistLink != null && artistLink !== '') {
                         this.favoriteArtists.push(

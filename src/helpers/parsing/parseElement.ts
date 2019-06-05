@@ -6,7 +6,6 @@ import {
 } from '../functions/index';
 import {
     decodeHtmlText,
-    ParseAnchor,
     ParseList,
 } from './index';
 
@@ -19,7 +18,7 @@ export class ParseElement {
 
     public constructor(
         element: HTMLElement,
-        description = 'html element',
+        description = 'element',
         strict = false,
     ) {
         if(isNullOrUndef(
@@ -39,7 +38,7 @@ export class ParseElement {
 
     public element(
         htmlQuery: string,
-        targetDescription: string,
+        targetDescription = 'element',
         strict = this.strict,
     ): ParseElement {
         const innerElement: HTMLElement = this.raw.querySelector(htmlQuery);
@@ -51,23 +50,9 @@ export class ParseElement {
         );
     }
 
-    public anchor(
-        htmlQuery: string,
-        targetDescription: string,
-        strict = this.strict,
-    ): ParseAnchor {
-        const innerElement: HTMLAnchorElement = this.raw.querySelector(htmlQuery);
-        const newDescription = `${this.description} > ${targetDescription}`;
-        return new ParseAnchor(
-            innerElement,
-            newDescription,
-            strict,
-        );
-    }
-
     public list(
         htmlQuery: string,
-        targetDescription: string,
+        targetDescription = 'list',
         strict = this.strict,
     ): ParseList {
         const innerList = this.raw.querySelectorAll(htmlQuery);
@@ -94,22 +79,36 @@ export class ParseElement {
         return innerHTML;
     }
 
-    public innerText(
+    public text(
         strict = this.strict,
         defaultVal = '',
         trim = true,
         decode = false,
     ): string {
-        let { innerText } = this.raw;
+        let { textContent } = this.raw;
         if(isNullOrUndef(
-            innerText,
+            textContent,
             strict,
             `No inner text found for element: ${this.description}`,
         )) return defaultVal;
-        if(trim) innerText = innerText.trim();
-        if(decode) innerText = decodeHtmlText(innerText);
+        if(trim) textContent = textContent.trim();
+        if(decode) textContent = decodeHtmlText(textContent);
 
-        return innerText;
+        return textContent;
+    }
+
+    public href(
+        strict = this.strict,
+        defaultVal = '',
+    ): string {
+        const elementAsLink = this.raw as HTMLAnchorElement;
+        const { href } = elementAsLink;
+        if(isNullOrUndef(
+            href,
+            strict,
+            `No href found for element: ${this.description}`,
+        )) return defaultVal;
+        return href;
     }
 
     public title(
@@ -129,7 +128,7 @@ export class ParseElement {
         strict = this.strict,
         defaultNum = 0,
     ): number {
-        const innerText = this.innerText(strict);
+        const innerText = this.text(strict);
         return stringToNum(innerText, strict, defaultNum);
     }
 }

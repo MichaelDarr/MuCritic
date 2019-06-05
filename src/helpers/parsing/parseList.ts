@@ -1,7 +1,6 @@
 import { isNullOrUndef } from '../functions/index';
 import {
     ParseElement,
-    ParseAnchor,
 } from './index';
 
 export class ParseList {
@@ -13,7 +12,7 @@ export class ParseList {
 
     public constructor(
         listElement: NodeListOf<Element>,
-        description = 'Node List',
+        description = 'list',
         strict = false,
     ) {
         isNullOrUndef(
@@ -28,54 +27,28 @@ export class ParseList {
 
     public element(
         index = 0,
+        targetDescription = 'element',
         strict = this.strict,
-        targetDescription = this.description,
     ): ParseElement {
         const innerElement = this.raw.item(index);
+        const newDescription = `${this.description} > ${targetDescription}`;
         return new ParseElement(
             innerElement as HTMLElement,
-            targetDescription,
+            newDescription,
             strict,
         );
     }
 
     public allElements(
+        targetDescription = 'element',
         strict = this.strict,
-        targetDescription = this.description,
     ): ParseElement[] {
         const innerElements: ParseElement[] = [];
+        const newDescription = `${this.description} > ${targetDescription}`;
         this.raw.forEach((innerElement): void => {
             innerElements.push(new ParseElement(
                 innerElement as HTMLElement,
-                targetDescription,
-                strict,
-            ));
-        });
-        return innerElements;
-    }
-
-    public anchor(
-        index = 0,
-        strict = this.strict,
-        targetDescription = this.description,
-    ): ParseAnchor {
-        const innerElement = this.raw.item(index);
-        return new ParseAnchor(
-            innerElement as HTMLAnchorElement,
-            targetDescription,
-            strict,
-        );
-    }
-
-    public allAnchors(
-        strict = this.strict,
-        targetDescription = this.description,
-    ): ParseAnchor[] {
-        const innerElements: ParseAnchor[] = [];
-        this.raw.forEach((innerElement): void => {
-            innerElements.push(new ParseAnchor(
-                innerElement as HTMLAnchorElement,
-                targetDescription,
+                newDescription,
                 strict,
             ));
         });

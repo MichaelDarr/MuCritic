@@ -29,7 +29,7 @@ export async function requestRawScrape(
         const bodyString: string = await getRequestBody(`http://api.scraperapi.com?api_key=${process.env.SCRAPER_API_KEY}&url=${url}`);
         Log.success(`Loaded ${url}`);
         const { body } = (new JSDOM(bodyString)).window.document;
-        return new ParseElement(body, 'Scraped page body', true);
+        return new ParseElement(body, description, true);
     } catch(e) {
         Log.err(`Attempt ${attempts}: page load failed: ${e}`);
     }

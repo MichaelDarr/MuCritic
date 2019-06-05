@@ -118,22 +118,23 @@ export class ReviewPageScraper extends Scraper {
                     ReviewEntity,
                     { identifierRYM: review.identifierRYM },
                 );
-                if(reviewEntity) continue;
-                reviewEntity = new ReviewEntity();
-                reviewEntity.album = await review.album.getEntity();
-                reviewEntity.profile = await this.profile.getEntity();
-                reviewEntity.score = review.score;
-                reviewEntity.year = review.date.year;
-                reviewEntity.month = review.date.month;
-                reviewEntity.day = review.date.day;
-                reviewEntity.identifierRYM = review.identifierRYM;
-                if(!reviewEntity.album) {
-                    throw new Error(`Album not found for review: ${this.name}`);
+                if(reviewEntity == null) {
+                    reviewEntity = new ReviewEntity();
+                    reviewEntity.album = await review.album.getEntity();
+                    reviewEntity.profile = await this.profile.getEntity();
+                    reviewEntity.score = review.score;
+                    reviewEntity.year = review.date.year;
+                    reviewEntity.month = review.date.month;
+                    reviewEntity.day = review.date.day;
+                    reviewEntity.identifierRYM = review.identifierRYM;
+                    if(!reviewEntity.album) {
+                        throw new Error(`Album not found for review: ${this.name}`);
+                    }
+                    if(!reviewEntity.profile) {
+                        throw new Error(`Profile not found for album: ${this.name}`);
+                    }
+                    reviewEntity = await entityManager.save(reviewEntity);
                 }
-                if(!reviewEntity.profile) {
-                    throw new Error(`Profile not found for album: ${this.name}`);
-                }
-                reviewEntity = await entityManager.save(reviewEntity);
             } catch(e) {
                 this.results.push(new ScrapeResult(false, this.url, `${e.name}: ${e.message}`));
             }
@@ -152,31 +153,31 @@ export class ReviewPageScraper extends Scraper {
 
             try {
                 const albumLinkPartial = reviewParser
-                    .anchor(
+                    .element(
                         'td.or_q_albumartist_td > div.or_q_albumartist > i > a.album',
                         'album link',
                         true,
-                    ).href(true);
+                    ).href();
                 const album = new AlbumScraper(
                     `https://rateyourmusic.com${encodeURI(albumLinkPartial)}`,
                 );
 
                 const starsText = reviewParser
                     .element('td.or_q_rating_date_s > img', 'star image', true)
-                    .title(true);
+                    .title();
                 const starsNumberText: string = starsText.split(' ')[0];
                 const reviewScore = stringToNum(starsNumberText);
 
                 const identifierRYM = reviewParser
                     .element('td.or_q_rating_date_s > span', 'identifier')
-                    .innerText();
+                    .text();
 
                 const dateParse = reviewParser.element(
                     'td.or_q_rating_date_d',
                     'date element',
                     true,
                 );
-                const month = dateParse.element('div.date_element_month', 'month').innerText();
+                const month = dateParse.element('div.date_element_month', 'month').text();
                 const day = dateParse.element('div.date_element_day', 'day').number();
                 const year = dateParse.element('div.date_element_year', 'year').number();
                 const reviewDate = new SimpleDate(month, day, year);

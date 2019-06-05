@@ -37,29 +37,29 @@ export async function scrapeRateYourMusic(): Promise<void> {
         await connectToDatabase();
 
         const profileURLList: string[] = await readFileToArray(
-            process.argv[2],
-            process.env.DEFAULT_PROFILE_URI,
+            process.argv[2] || process.env.DEFAULT_PROFILE_URI,
         );
         Log.log('Beginning scrape...');
 
         // iterate through all profile URLs
         for await(const profileURL of profileURLList) {
-            if(!profileURL) continue;
-            // create and scrape user
-            const profileScraper = new ProfileScraper(profileURL);
-            await profileScraper.scrape();
+            if(profileURL != null && profileURL !== '') {
+                // create and scrape user
+                const profileScraper = new ProfileScraper(profileURL);
+                await profileScraper.scrape();
 
-            // scrape all review pages for a user
-            const reviewPageScraper = new ReviewPageScraper(profileScraper);
-            while(
-                reviewPageScraper.pageReviewCount > 0
-                && reviewPageScraper.sequentialFailureCount < 3
-            ) {
-                await reviewPageScraper.scrapePage();
+                // scrape all review pages for a user
+                const reviewPageScraper = new ReviewPageScraper(profileScraper);
+                while(
+                    reviewPageScraper.pageReviewCount > 0
+                    && reviewPageScraper.sequentialFailureCount < 3
+                ) {
+                    await reviewPageScraper.scrapePage();
+                }
             }
         }
-
         Log.success('Scrape Complete');
+        process.exit(0);
     } catch(err) {
         Log.err(`\n\nmuCritic RYM Scraper Failed!\n\nError:\n${err.message}`);
     }
