@@ -17,14 +17,13 @@ import {
     Log,
     ScrapeResult,
 } from '../helpers/classes/index';
-import { Gender } from '../helpers/enums';
+import { Gender } from '../helpers/types';
 import { requestRawScrape } from '../helpers/functions/index';
-import {
-    extractInnerHtmlOfElementFromElement,
-    extractListFromElement,
-} from '../helpers/parsing/index';
+import { ParseElement } from '../helpers/parsing/index';
 
 export class ProfileScraper extends Scraper {
+    private scrapeRoot: ParseElement;
+
     public scrapedHtmlElement: HTMLElement;
 
     public name: string;
@@ -108,13 +107,10 @@ export class ProfileScraper extends Scraper {
      * @param profile username for a RYM user
      */
     private extractUserInfo(): void {
-        const userAgeAndGenderConcat = extractInnerHtmlOfElementFromElement(
-            this.scrapedHtmlElement,
-            '.profilehii > table > tbody > tr:nth-child(2) > td',
-            true,
-            'RYM Profile age/gender',
-        );
-        const splitUserInfo: string[] = userAgeAndGenderConcat.split(' / ');
+        const userAgeAndGenderRaw = this.scrapeRoot
+            .element('.profilehii > table > tbody > tr:nth-child(2) > td', 'age/gender', true)
+            .innerText();
+        const splitUserInfo: string[] = userAgeAndGenderRaw.split(' / ');
         this.age = Number(splitUserInfo[0]);
         this.gender = Gender[splitUserInfo[1]];
     }
@@ -124,37 +120,40 @@ export class ProfileScraper extends Scraper {
      */
     private extractArtists(): void {
         // extracts all content blocks from the page
-        const allBlocks = extractListFromElement(
-            this.scrapedHtmlElement,
-            '#content > table > tbody > tr > td > div',
-            true,
-            'RYM profile favorite artists',
-        );
         let artistTitleBlockFound = false;
+        const unserInfoBlockParsers = this.scrapeRoot
+            .list('#content > table > tbody > tr > td > div', 'info blocks', true)
+            .allElements();
 
+        let artistParser: ParseElement;
         // iterate through content blocks, detect favorite artists header, grab artists
-        allBlocks.forEach((block: HTMLElement): void => {
+        for (const blockParser of unserInfoBlockParsers) {
             if(artistTitleBlockFound) {
-                block
-                    .querySelectorAll('div > a')
-                    .forEach((artistElement: HTMLAnchorElement): void => {
-                        this.favoriteArtists.push(
-                            new ArtistScraper(
-                                `https://rateyourmusic.com${
-                                    encodeURI(artistElement.href)
-                                }`,
-                            ),
-                        );
-                    });
+                artistParser = blockParser;
                 artistTitleBlockFound = false;
-            } else if(block.innerHTML === 'favorite artists') {
+            }
+            if(blockParser.innerText() === 'favorite artists') {
                 artistTitleBlockFound = true;
             }
-        });
+        }
+        if(artistParser) {
+            artistParser
+                .list('div > a', 'favorite artists', true)
+                .allAnchors()
+                .forEach((artist): void => {
+                    let artistLink = artist.href(false, '');
+                    artistLink = encodeURI(artistLink);
+                    if(artistLink != null && artistLink !== '') {
+                        this.favoriteArtists.push(
+                            new ArtistScraper(`https://rateyourmusic.com${artistLink}`),
+                        );
+                    }
+                });
+        }
     }
 
     public async requestScrape(): Promise<void> {
-        this.scrapedHtmlElement = await requestRawScrape(this.url);
+        this.scrapeRoot = await requestRawScrape(this.url, 'RYM profile scrape');
     }
 
     public formattedGender(): string {

@@ -6,7 +6,7 @@ import { Log } from './index';
 import {
     ApiService,
     ScrapingSite,
-} from '../enums';
+} from '../types';
 
 /**
  * Result for a single scraped page

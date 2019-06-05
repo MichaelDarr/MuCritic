@@ -1,4 +1,4 @@
-export * from './date';
+export * from './simpleDate';
 export * from './log';
 export * from './result';
 export * from './review';

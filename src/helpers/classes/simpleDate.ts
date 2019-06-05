@@ -2,7 +2,7 @@
  * Simplified date management with only month, year, and day
  */
 
-export class Date {
+export class SimpleDate {
     public month: number;
 
     public day: number;
@@ -10,7 +10,7 @@ export class Date {
     public year: number;
 
     public constructor(monthString: string, day: number, year: number) {
-        this.month = Date.monthToNum(monthString);
+        this.month = SimpleDate.monthToNum(monthString);
         this.day = day;
         this.year = year;
     }

@@ -18,15 +18,9 @@ import {
     stringToNum,
 } from '../helpers/functions/index';
 import {
-    decodeHtmlText,
-    extractInnerHtmlFromElement,
-    extractInnerHtmlOfAllElementsOfListFromElement,
-    extractInnerHtmlOfElementFromElement,
-    extractInnerHtmlOfElementFromList,
-    extractListFromElement,
     extractMemberCountFromString,
-    extractNumberFromHeaderNumberPair,
-    extractNumberOfElementFromElement,
+    extractCountFromPair,
+    ParseElement,
 } from '../helpers/parsing/index';
 import {
     GenreScraper,
@@ -34,7 +28,7 @@ import {
 } from './index';
 
 export class ArtistScraper extends Scraper {
-    private scrapedHtmlElement: HTMLElement;
+    private scrapeRoot: ParseElement;
 
     public name: string;
 
@@ -78,13 +72,9 @@ export class ArtistScraper extends Scraper {
     }
 
     private extractArtistName(): void {
-        const rawName = extractInnerHtmlOfElementFromElement(
-            this.scrapedHtmlElement,
-            'h1.artist_name_hdr',
-            true,
-            'RYM Artist name',
-        );
-        this.name = decodeHtmlText(rawName);
+        this.name = this.scrapeRoot
+            .element('h1.artist_name_hdr', 'artist', true)
+            .innerText(true, null, true, true);
     }
 
     /**
@@ -94,40 +84,29 @@ export class ArtistScraper extends Scraper {
      * **Example of element text:** ```lists 20```
      */
     private extractMainInfoBlocks(): void {
-        // iterate through the main artist info blocks, "switch" on preceeding header bloc
-        const infoBlocks = extractListFromElement(
-            this.scrapedHtmlElement,
-            '.artist_info > div',
-            false,
-            'RYM artist main info blocks scrape',
-        );
-        infoBlocks.forEach((block: HTMLElement, i): void => {
-            if(block == null || block.className !== 'info_content') return;
-            const headerBlockText = extractInnerHtmlOfElementFromList(
-                infoBlocks,
-                i - 1,
-                false,
-                'RYM Artist scrape block header',
-                null,
-            );
+        // iterate through the main artist info blocks, "switch" on preceeding header block
+        const infoBlockParsers = this.scrapeRoot
+            .list('.artist_info > div', 'main info blocks', false)
+            .allElements(false, 'info block');
+        infoBlockParsers.forEach((blockParser: ParseElement, i): void => {
+            if(blockParser.raw == null || blockParser.raw.className !== 'info_content') return;
+            const headerBlockText = infoBlockParsers[i - 1].innerText(false, '');
             switch(headerBlockText) {
                 case 'Members': {
-                    const members = extractInnerHtmlFromElement(
-                        block,
-                        false,
-                        'RYM Artist member scrape',
-                    );
+                    const members = blockParser.innerText(false);
                     this.memberCount = extractMemberCountFromString(members, 1);
                     break;
                 }
                 case 'Genres': {
-                    const genres = extractInnerHtmlOfAllElementsOfListFromElement(
-                        block,
-                        'a',
-                        false,
-                        'RYM artist genres',
-                    );
-                    this.genreScrapersRYM = GenreScraper.createScrapers(genres);
+                    const allGenres: string[] = [];
+                    blockParser
+                        .list('a', 'genre links', false)
+                        .allAnchors(false, 'individual genre')
+                        .forEach((genreParser): void => {
+                            const genreString = genreParser.innerText(false, null);
+                            if(genreString != null) allGenres.push(genreString);
+                        });
+                    this.genreScrapersRYM = GenreScraper.createScrapers(allGenres);
                     break;
                 }
                 case 'Disbanded':
@@ -152,13 +131,9 @@ export class ArtistScraper extends Scraper {
      * **Example of element text:** ```lists 20```
      */
     private extractDiscographyCount(): void {
-        this.discographyCountRYM = extractNumberOfElementFromElement(
-            this.scrapedHtmlElement,
-            'div.artist_page_section_active_music > span.subtext',
-            false,
-            'RYM artist discography count',
-            0,
-        );
+        this.discographyCountRYM = this.scrapeRoot
+            .element('div.artist_page_section_active_music > span.subtext', 'discog count', false)
+            .number(false, 0);
     }
 
     /**
@@ -168,12 +143,10 @@ export class ArtistScraper extends Scraper {
      * **Example of element text:** ```lists 20```
      */
     private extractListCount(): void {
-        this.listCountRYM = extractNumberFromHeaderNumberPair(
-            this.scrapedHtmlElement,
-            'div.section_lists > div.release_page_header > h2',
-            false,
-            'RYM artist list count',
-        );
+        const listCountText = this.scrapeRoot
+            .element('div.section_lists > div.release_page_header > h2', 'list count', false)
+            .innerText();
+        this.listCountRYM = extractCountFromPair(listCountText, false);
     }
 
     /**
@@ -184,12 +157,10 @@ export class ArtistScraper extends Scraper {
      */
     private extractPastShowCount(): void {
         try {
-            let showString = extractInnerHtmlOfElementFromElement(
-                this.scrapedHtmlElement,
-                '#disco_expand_prev',
-                true,
-                'RYM artist past show count',
-            );
+            let showString = this.scrapeRoot
+                .element('#disco_expand_prev', 'past show count')
+                .innerText();
+
             showString = showString.replace(/^.+\[/, '');
             showString = showString.substring(0, showString.length - 1);
             this.showCountRYM = stringToNum(showString, false, 0);
@@ -240,7 +211,7 @@ export class ArtistScraper extends Scraper {
     }
 
     public async requestScrape(): Promise<void> {
-        this.scrapedHtmlElement = await requestRawScrape(this.url);
+        this.scrapeRoot = await requestRawScrape(this.url, 'RYM artist scrape');
     }
 
     public printInfo(): void {

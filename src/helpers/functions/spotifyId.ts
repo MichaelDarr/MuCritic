@@ -10,7 +10,7 @@ import {
     AlbumEntity,
     ArtistEntity,
 } from '../../entities/index';
-import { ApiService } from '../enums';
+import { ApiService } from '../types';
 
 function extractCorrectItem(
     asset: AlbumEntity | ArtistEntity,

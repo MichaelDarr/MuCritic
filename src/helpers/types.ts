@@ -1,7 +1,3 @@
-/**
- * Unified enum storage
- */
-
 export enum Gender {
     Male,
     Female

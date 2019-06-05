@@ -2,7 +2,7 @@
  * Holds review information for [[ReviewPageScraper]]
  */
 
-import { Date } from './index';
+import { SimpleDate } from './index';
 import {
     AlbumScraper,
     ProfileScraper,
@@ -13,7 +13,7 @@ export class Review {
 
     public score: number;
 
-    public date: Date;
+    public date: SimpleDate;
 
     public identifierRYM: string;
 
@@ -29,7 +29,7 @@ export class Review {
         profile: ProfileScraper,
         score: number,
         identifierRYM: string,
-        date: Date,
+        date: SimpleDate,
     ) {
         this.album = album;
         this.profile = profile;

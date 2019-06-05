@@ -1,28 +1,23 @@
 /**
- * Parsing methods specific to the rate-your-music parsing project
+ * Text parsing methods specific to the rate-your-music parsing project
  */
 
-import { extractInnerHtmlOfElementFromElement } from './index';
 import { stringToNum } from '../functions/index';
 
 /**
  * Simple method to separate and number-ify a combined number-header element on a page
  * For example, the element could contain: ```Discography 12``` and we want to extract ```12```
  */
-export function extractNumberFromHeaderNumberPair(
-    contextElement: HTMLElement,
-    htmlQuery: string,
+export function extractCountFromPair(
+    pairText: string,
     strict = false,
-    targetDescription: string = null,
     defaultNum = 0,
 ): number {
-    const infoPairText = extractInnerHtmlOfElementFromElement(
-        contextElement,
-        htmlQuery,
-        strict,
-        targetDescription,
-    );
-    const separatedVals: string[] = infoPairText.split(' ');
+    if(pairText == null || pairText === '') {
+        if(strict) throw new Error('tried to get count from empty string');
+        return defaultNum;
+    }
+    const separatedVals: string[] = pairText.split(' ');
     const rawStringNum = separatedVals.shift();
     const finalNum = stringToNum(
         rawStringNum,

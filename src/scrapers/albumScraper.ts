@@ -16,15 +16,8 @@ import {
 } from '../helpers/classes/index';
 import { requestRawScrape } from '../helpers/functions/index';
 import {
-    decodeHtmlText,
-    extractElementFromElement,
-    extractElementOfListFromElement,
-    extractInnerHtmlOfAllElementsOfListFromElement,
-    extractInnerHtmlOfElementFromElement,
-    extractLinkOfAnchorElementFromElement,
-    extractNumberFromElement,
-    extractNumberFromHeaderNumberPair,
-    extractNumberOfElementFromElement,
+    extractCountFromPair,
+    ParseElement,
 } from '../helpers/parsing/index';
 import {
     ArtistScraper,
@@ -33,7 +26,7 @@ import {
 } from './index';
 
 export class AlbumScraper extends Scraper {
-    private scrapedHtmlElement: HTMLElement;
+    private scrapeRoot: ParseElement;
 
     public name: string;
 
@@ -142,97 +135,54 @@ export class AlbumScraper extends Scraper {
     }
 
     private extractName(): void {
-        let rawNameText: string = extractInnerHtmlOfElementFromElement(
-            this.scrapedHtmlElement,
-            'div.album_title',
-            true,
-            'RYM album title',
-        );
-        rawNameText = rawNameText.substring(0, rawNameText.indexOf('<'));
-        this.name = decodeHtmlText(rawNameText);
+        this.name = this.scrapeRoot
+            .element('div.album_title', 'title', true)
+            .innerText(true, null, true, true);
     }
 
     private extractMainInfoBlocks(): void {
         // interate through the main artist info blocks, "switch" on preceeding header block
-        const infoRows: NodeListOf<Element> = (
-            this.scrapedHtmlElement.querySelectorAll('.album_info > tbody > tr')
-        );
-        infoRows.forEach((rowElement: HTMLElement): void => {
-            const headerText = extractInnerHtmlOfElementFromElement(
-                rowElement,
-                'th',
-                false,
-                'RYM album info row header text',
-                '',
-            );
-            const contentElement: HTMLElement = extractElementFromElement(
-                rowElement,
-                'td',
-                false,
-                'RYM album info row content element',
-            );
+        const infoRowParsers = this.scrapeRoot
+            .list('.album_info > tbody > tr', 'info rows', false)
+            .allElements();
+        infoRowParsers.forEach((rowParser: ParseElement): void => {
+            const headerText = rowParser.element('th', 'header', false).innerText(false, '');
+            const contentParser = rowParser.element('td', 'content', false);
             switch(headerText) {
                 case 'Artist': {
-                    const artistLink = extractLinkOfAnchorElementFromElement(
-                        contentElement,
-                        'a.artist',
-                        true,
-                    );
+                    const artistLink = contentParser.anchor('a.artist', 'artist', true).href();
                     this.artist = new ArtistScraper(`https://rateyourmusic.com${artistLink}`);
                     break;
                 }
                 case 'RYM Rating':
-                    this.ratingRYM = extractNumberOfElementFromElement(
-                        contentElement,
-                        'span.avg_rating',
-                        true,
-                        'RYM album rating',
-                    );
-                    this.ratingCountRYM = extractNumberOfElementFromElement(
-                        contentElement,
-                        'span.num_ratings > b > span',
-                        false,
-                        'RYM album rating count',
-                        0,
-                    );
+                    this.ratingRYM = contentParser
+                        .element('span.avg_rating', 'average rating', true)
+                        .number(true);
+                    this.ratingCountRYM = contentParser
+                        .element('span.num_ratings > b > span', 'rating count', false)
+                        .number(false, 0);
                     break;
                 case 'Ranked': {
-                    const yearElement = extractElementOfListFromElement(
-                        contentElement,
-                        'b',
-                        0,
-                        false,
-                        'RYM year rank',
-                    );
-                    this.yearRankRYM = extractNumberFromElement(
-                        yearElement,
-                        false,
-                        'RYM year rank',
-                        0,
-                    );
-                    const overallElement = extractElementOfListFromElement(
-                        contentElement,
-                        'b',
-                        1,
-                        false,
-                        'RYM overall rank',
-                    );
-                    this.overallRankRYM = extractNumberFromElement(
-                        overallElement,
-                        false,
-                        'RYM overall rank',
-                        0,
-                    );
+                    this.yearRankRYM = contentParser
+                        .list('b', 'rankings list', false)
+                        .element(0, false, 'year rank')
+                        .number(false, 0);
+                    this.overallRankRYM = contentParser
+                        .list('b', 'rankings list', false)
+                        .element(1, false, 'overall rank')
+                        .number(false, 0);
                     break;
                 }
                 case 'Genres': {
-                    const genres = extractInnerHtmlOfAllElementsOfListFromElement(
-                        contentElement,
-                        'span.release_pri_genres > a',
-                        false,
-                        'RYM album genre string',
-                    );
-                    this.genreScrapersRYM = GenreScraper.createScrapers(genres);
+                    const allGenres: string[] = [];
+                    contentParser
+                        .list('span.release_pri_genres > a', 'genre links', false)
+                        .allAnchors(false, 'individual genre')
+                        .forEach((genreParser): void => {
+                            const genreString = genreParser.innerText(false, null);
+                            if(genreString != null) allGenres.push(genreString);
+                        });
+                    this.genreScrapersRYM = GenreScraper.createScrapers(allGenres);
                     break;
                 }
                 default:
@@ -251,28 +201,23 @@ export class AlbumScraper extends Scraper {
      * @returns a group of all scrape results resulting from this call
      */
     private extractCountInfo(): void {
-        this.issueCountRYM = extractNumberFromHeaderNumberPair(
-            this.scrapedHtmlElement,
-            'div.section_issues > div.page_section > h2.release_page_header',
-            false,
-            'RYM album issue count',
-        );
-        this.reviewCountRYM = extractNumberFromHeaderNumberPair(
-            this.scrapedHtmlElement,
-            'div.section_reviews > div.page_section > h2.release_page_header',
-            false,
-            'RYM album review count',
-        );
-        this.listCountRYM = extractNumberFromHeaderNumberPair(
-            this.scrapedHtmlElement,
-            'div.section_lists > div.release_page_header > h2',
-            false,
-            'RYM album list count',
-        );
+        const issueCountText = this.scrapeRoot
+            .element('div.section_issues > div.page_section > h2.release_page_header', 'issues')
+            .innerText(false, '');
+        const reviewCountText = this.scrapeRoot
+            .element('div.section_reviews > div.page_section > h2.release_page_header', 'reviews')
+            .innerText(false, '');
+        const listCountText = this.scrapeRoot
+            .element('div.section_lists > div.release_page_header > h2', 'lists')
+            .innerText(false, '');
+
+        this.issueCountRYM = extractCountFromPair(issueCountText, false, 0);
+        this.reviewCountRYM = extractCountFromPair(reviewCountText, false, 0);
+        this.listCountRYM = extractCountFromPair(listCountText, false, 0);
     }
 
     public async requestScrape(): Promise<void> {
-        this.scrapedHtmlElement = await requestRawScrape(this.url);
+        this.scrapeRoot = await requestRawScrape(this.url, 'RYM album scrape');
     }
 
     public printInfo(): void {

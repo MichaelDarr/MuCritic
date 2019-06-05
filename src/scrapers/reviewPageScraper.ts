@@ -10,17 +10,16 @@ import {
     ReviewEntity,
 } from '../entities/index';
 import {
-    Date,
     Log,
     Review,
     ScrapeResult,
+    SimpleDate,
 } from '../helpers/classes/index';
-import { requestRawScrape } from '../helpers/functions/index';
 import {
-    extractElementFromElement,
-    extractInnerHtmlOfElementFromElement,
-    extractListFromElement,
-} from '../helpers/parsing/index';
+    requestRawScrape,
+    stringToNum,
+} from '../helpers/functions/index';
+import { ParseElement } from '../helpers/parsing/index';
 import {
     AlbumScraper,
     ProfileScraper,
@@ -28,6 +27,8 @@ import {
 } from './index';
 
 export class ReviewPageScraper extends Scraper {
+    private scrapeRoot: ParseElement;
+
     private scrapedHtmlElement: HTMLElement;
 
     public name: string;
@@ -141,100 +142,61 @@ export class ReviewPageScraper extends Scraper {
     }
 
     protected extractInfo(): void {
-        const parsedReviewArr: string[][] = [];
-        const reviewElements = extractListFromElement(
-            this.scrapedHtmlElement,
-            'table.mbgen > tbody > tr',
-            false,
-            'RYM review table',
-        );
-        this.pageReviewCount = reviewElements.length;
-        let isHeading = true;
-        reviewElements.forEach((reviewElement: HTMLElement): void => {
-            if(isHeading) {
-                isHeading = false;
-                return;
-            }
+        const reviewParsers = this.scrapeRoot
+            .list('table.mbgen > tbody > tr', 'review blocks', false)
+            .allElements();
+
+        this.pageReviewCount = reviewParsers.length;
+        reviewParsers.forEach((reviewParser: ParseElement, i): void => {
+            if(i === 0) return;
 
             try {
-                const dateElement: HTMLElement = reviewElement.querySelector('td.or_q_rating_date_d');
-                const month: string = extractInnerHtmlOfElementFromElement(
-                    dateElement,
-                    'div.date_element_month',
-                    true,
-                    'RYM review month',
-                );
-                const day: string = extractInnerHtmlOfElementFromElement(
-                    dateElement,
-                    'div.date_element_day',
-                    true,
-                    'RYM review day',
-                );
-                const year: string = extractInnerHtmlOfElementFromElement(
-                    dateElement,
-                    'div.date_element_year',
-                    true,
-                    'RYM review year',
-                );
-
-                const starsElement = extractElementFromElement(
-                    this.scrapedHtmlElement,
-                    'td.or_q_rating_date_s > img',
-                    true,
-                );
-                const starsText: string = starsElement.title;
-                const starsTextArr: string[] = starsText.split(' ');
-                const starsCount: string = starsTextArr[0];
-
-                const identifierRYM = extractInnerHtmlOfElementFromElement(
-                    reviewElement,
-                    'td.or_q_rating_date_s > span',
-                    true,
-                    'RYM review unique identifier',
-                );
-
-                const albumLinkPartial: string = extractInnerHtmlOfElementFromElement(
-                    reviewElement,
-                    'td.or_q_albumartist_td > div.or_q_albumartist > i > a.album',
-                    true,
-                    'RYM review album link',
-                );
-
-                parsedReviewArr.push([
-                    month,
-                    day,
-                    year,
-                    starsCount,
+                const albumLinkPartial = reviewParser
+                    .anchor(
+                        'td.or_q_albumartist_td > div.or_q_albumartist > i > a.album',
+                        'album link',
+                        true,
+                    ).href(true);
+                const album = new AlbumScraper(
                     `https://rateyourmusic.com${encodeURI(albumLinkPartial)}`,
+                );
+
+                const starsText = reviewParser
+                    .element('td.or_q_rating_date_s > img', 'star image', true)
+                    .title(true);
+                const starsNumberText: string = starsText.split(' ')[0];
+                const reviewScore = stringToNum(starsNumberText);
+
+                const identifierRYM = reviewParser
+                    .element('td.or_q_rating_date_s > span', 'identifier')
+                    .innerText();
+
+                const dateParse = reviewParser.element(
+                    'td.or_q_rating_date_d',
+                    'date element',
+                    true,
+                );
+                const month = dateParse.element('div.date_element_month', 'month').innerText();
+                const day = dateParse.element('div.date_element_day', 'day').number();
+                const year = dateParse.element('div.date_element_year', 'year').number();
+                const reviewDate = new SimpleDate(month, day, year);
+
+                const newReview = new Review(
+                    album,
+                    this.profile,
+                    reviewScore,
                     identifierRYM,
-                ]);
+                    reviewDate,
+                );
+                this.reviews.push(newReview);
             } catch(e) {
                 Log.err('Failed to extract data from review element.');
             }
         });
-
-        for (const singleReview of parsedReviewArr) {
-            const reviewDate = new Date(
-                singleReview[0],
-                Number(singleReview[1]),
-                Number(singleReview[2]),
-            );
-            const reviewScore = Number(singleReview[3]);
-            const album = new AlbumScraper(singleReview[4]);
-            const identifierRYM = singleReview[5];
-            const newReview = new Review(
-                album,
-                this.profile,
-                reviewScore,
-                identifierRYM,
-                reviewDate,
-            );
-            this.reviews.push(newReview);
-        }
     }
 
     public async requestScrape(): Promise<void> {
-        this.scrapedHtmlElement = await requestRawScrape(this.url);
+        this.scrapeRoot = await requestRawScrape(this.url, 'RYM review page scrape');
     }
 
     public printInfo(): void {
