@@ -135,9 +135,11 @@ export class AlbumScraper extends Scraper {
     }
 
     private extractName(): void {
-        this.name = this.scrapeRoot
+        let rawName = this.scrapeRoot
             .element('div.album_title', 'title', true)
-            .text(true, null, true, true);
+            .text();
+        rawName = rawName.substring(0, rawName.indexOf('<'));
+        this.name = rawName.trim();
     }
 
     private extractMainInfoBlocks(): void {

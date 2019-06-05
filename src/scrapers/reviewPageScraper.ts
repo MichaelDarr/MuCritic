@@ -191,7 +191,7 @@ export class ReviewPageScraper extends Scraper {
                 );
                 this.reviews.push(newReview);
             } catch(e) {
-                Log.err('Failed to extract data from review element.');
+                Log.err(`Failed to extract data from review element.\n${e}`);
             }
         });
     }
