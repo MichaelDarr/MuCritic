@@ -82,13 +82,13 @@ export class AlbumEntity {
     })
     public spotifyId: string;
 
-    @ManyToOne(() => ArtistEntity, (artist): AlbumEntity[] => artist.albums)
+    @ManyToOne((): typeof ArtistEntity => ArtistEntity, (artist): AlbumEntity[] => artist.albums)
     public artist: ArtistEntity;
 
-    @OneToMany(() => ReviewEntity, (review): AlbumEntity => review.album)
+    @OneToMany((): typeof ReviewEntity => ReviewEntity, (review): AlbumEntity => review.album)
     public reviews: ReviewEntity[];
 
-    @ManyToMany(() => GenreEntity, (genre): AlbumEntity[] => genre.albums)
+    @ManyToMany((): typeof GenreEntity => GenreEntity, (genre): AlbumEntity[] => genre.albums)
     @JoinTable()
     public genres: GenreEntity[];
 }

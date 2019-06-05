@@ -43,10 +43,13 @@ export class ProfileEntity {
     @Column()
     public urlRYM: string;
 
-    @OneToMany(() => ReviewEntity, (review): ProfileEntity => review.profile)
+    @OneToMany((): typeof ReviewEntity => ReviewEntity, (review): ProfileEntity => review.profile)
     public reviews: ReviewEntity[];
 
-    @ManyToMany(() => ArtistEntity, (artist): ProfileEntity[] => artist.profiles)
+    @ManyToMany(
+        (): typeof ArtistEntity => ArtistEntity,
+        (artist): ProfileEntity[] => artist.profiles,
+    )
     @JoinTable()
     public favoriteArtists: ArtistEntity[];
 }

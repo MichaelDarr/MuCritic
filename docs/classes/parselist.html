@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ApiResult | rym-data</title>
+	<title>ParseList | rym-data</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,28 +56,21 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="apiresult.html">ApiResult</a>
+					<a href="parselist.html">ParseList</a>
 				</li>
 			</ul>
-			<h1>Class ApiResult</h1>
+			<h1>Class ParseList</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Result for a single api request</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ApiResult</span>
+						<span class="target">ParseList</span>
 					</li>
 				</ul>
 			</section>
@@ -88,23 +81,24 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="apiresult.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="parselist.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="apiresult.html#apiservice" class="tsd-kind-icon">api<wbr>Service</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="apiresult.html#error" class="tsd-kind-icon">error</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="apiresult.html#paramdescription" class="tsd-kind-icon">param<wbr>Description</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="apiresult.html#route" class="tsd-kind-icon">route</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="apiresult.html#success" class="tsd-kind-icon">success</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="parselist.html#description" class="tsd-kind-icon">description</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="parselist.html#raw" class="tsd-kind-icon">raw</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="parselist.html#strict" class="tsd-kind-icon">strict</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="apiresult.html#logerror" class="tsd-kind-icon">log<wbr>Error</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="parselist.html#allanchors" class="tsd-kind-icon">all<wbr>Anchors</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="parselist.html#allelements" class="tsd-kind-icon">all<wbr>Elements</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="parselist.html#anchor" class="tsd-kind-icon">anchor</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="parselist.html#element" class="tsd-kind-icon">element</a></li>
 							</ul>
 						</section>
 					</div>
@@ -116,34 +110,28 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Api<wbr>Result<span class="tsd-signature-symbol">(</span>success<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, apiService<span class="tsd-signature-symbol">: </span><a href="../enums/apiservice.html" class="tsd-signature-type">ApiService</a>, route<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, paramDescription<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, error<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="apiresult.html" class="tsd-signature-type">ApiResult</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Parse<wbr>List<span class="tsd-signature-symbol">(</span>listElement<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">NodeListOf</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&gt;</span>, description<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, strict<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="parselist.html" class="tsd-signature-type">ParseList</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/classes/result.ts#L58">helpers/classes/result.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/parsing/parseList.ts#L12">helpers/parsing/parseList.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>success: <span class="tsd-signature-type">boolean</span></h5>
+									<h5>listElement: <span class="tsd-signature-type">NodeListOf</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
-									<h5>apiService: <a href="../enums/apiservice.html" class="tsd-signature-type">ApiService</a></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> description: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;Node List&quot;</span></h5>
 								</li>
 								<li>
-									<h5>route: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>paramDescription: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> error: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Error</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> strict: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="apiresult.html" class="tsd-signature-type">ApiResult</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="parselist.html" class="tsd-signature-type">ParseList</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -151,52 +139,32 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="apiservice" class="tsd-anchor"></a>
-					<h3>api<wbr>Service</h3>
-					<div class="tsd-signature tsd-kind-icon">api<wbr>Service<span class="tsd-signature-symbol">:</span> <a href="../enums/apiservice.html" class="tsd-signature-type">ApiService</a></div>
+					<a name="description" class="tsd-anchor"></a>
+					<h3>description</h3>
+					<div class="tsd-signature tsd-kind-icon">description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/classes/result.ts#L52">helpers/classes/result.ts:52</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/parsing/parseList.ts#L10">helpers/parsing/parseList.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="error" class="tsd-anchor"></a>
-					<h3>error</h3>
-					<div class="tsd-signature tsd-kind-icon">error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Error</span></div>
+					<a name="raw" class="tsd-anchor"></a>
+					<h3>raw</h3>
+					<div class="tsd-signature tsd-kind-icon">raw<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">NodeListOf</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/classes/result.ts#L58">helpers/classes/result.ts:58</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/parsing/parseList.ts#L8">helpers/parsing/parseList.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="paramdescription" class="tsd-anchor"></a>
-					<h3>param<wbr>Description</h3>
-					<div class="tsd-signature tsd-kind-icon">param<wbr>Description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="strict" class="tsd-anchor"></a>
+					<h3>strict</h3>
+					<div class="tsd-signature tsd-kind-icon">strict<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/classes/result.ts#L56">helpers/classes/result.ts:56</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="route" class="tsd-anchor"></a>
-					<h3>route</h3>
-					<div class="tsd-signature tsd-kind-icon">route<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/classes/result.ts#L54">helpers/classes/result.ts:54</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="success" class="tsd-anchor"></a>
-					<h3>success</h3>
-					<div class="tsd-signature tsd-kind-icon">success<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/classes/result.ts#L50">helpers/classes/result.ts:50</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/parsing/parseList.ts#L12">helpers/parsing/parseList.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -204,19 +172,112 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="logerror" class="tsd-anchor"></a>
-					<h3>log<wbr>Error</h3>
+					<a name="allanchors" class="tsd-anchor"></a>
+					<h3>all<wbr>Anchors</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">log<wbr>Error<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">all<wbr>Anchors<span class="tsd-signature-symbol">(</span>strict<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, targetDescription<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="parseanchor.html" class="tsd-signature-type">ParseAnchor</a><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/classes/result.ts#L74">helpers/classes/result.ts:74</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/parsing/parseList.ts#L70">helpers/parsing/parseList.ts:70</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> strict: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;this.strict</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> targetDescription: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;this.description</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="parseanchor.html" class="tsd-signature-type">ParseAnchor</a><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="allelements" class="tsd-anchor"></a>
+					<h3>all<wbr>Elements</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">all<wbr>Elements<span class="tsd-signature-symbol">(</span>strict<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, targetDescription<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="parseelement.html" class="tsd-signature-type">ParseElement</a><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/parsing/parseList.ts#L42">helpers/parsing/parseList.ts:42</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> strict: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;this.strict</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> targetDescription: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;this.description</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="parseelement.html" class="tsd-signature-type">ParseElement</a><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="anchor" class="tsd-anchor"></a>
+					<h3>anchor</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">anchor<span class="tsd-signature-symbol">(</span>index<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, strict<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, targetDescription<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="parseanchor.html" class="tsd-signature-type">ParseAnchor</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/parsing/parseList.ts#L57">helpers/parsing/parseList.ts:57</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> index: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> strict: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;this.strict</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> targetDescription: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;this.description</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="parseanchor.html" class="tsd-signature-type">ParseAnchor</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="element" class="tsd-anchor"></a>
+					<h3>element</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">element<span class="tsd-signature-symbol">(</span>index<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, strict<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, targetDescription<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="parseelement.html" class="tsd-signature-type">ParseElement</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/parsing/parseList.ts#L29">helpers/parsing/parseList.ts:29</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> index: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> strict: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;this.strict</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> targetDescription: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;this.description</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="parseelement.html" class="tsd-signature-type">ParseElement</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -247,36 +308,9 @@
 					<li class=" tsd-kind-class">
 						<a href="albumscraper.html" class="tsd-kind-icon">Album<wbr>Scraper</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-class">
+					<li class=" tsd-kind-class">
 						<a href="apiresult.html" class="tsd-kind-icon">Api<wbr>Result</a>
-						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="apiresult.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="apiresult.html#apiservice" class="tsd-kind-icon">api<wbr>Service</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="apiresult.html#error" class="tsd-kind-icon">error</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="apiresult.html#paramdescription" class="tsd-kind-icon">param<wbr>Description</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="apiresult.html#route" class="tsd-kind-icon">route</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="apiresult.html#success" class="tsd-kind-icon">success</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="apiresult.html#logerror" class="tsd-kind-icon">log<wbr>Error</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-class">
 						<a href="artistentity.html" class="tsd-kind-icon">Artist<wbr>Entity</a>
 					</li>
@@ -298,9 +332,39 @@
 					<li class=" tsd-kind-class">
 						<a href="parseelement.html" class="tsd-kind-icon">Parse<wbr>Element</a>
 					</li>
-					<li class=" tsd-kind-class">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class">
 						<a href="parselist.html" class="tsd-kind-icon">Parse<wbr>List</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="parselist.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="parselist.html#description" class="tsd-kind-icon">description</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="parselist.html#raw" class="tsd-kind-icon">raw</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="parselist.html#strict" class="tsd-kind-icon">strict</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="parselist.html#allanchors" class="tsd-kind-icon">all<wbr>Anchors</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="parselist.html#allelements" class="tsd-kind-icon">all<wbr>Elements</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="parselist.html#anchor" class="tsd-kind-icon">anchor</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="parselist.html#element" class="tsd-kind-icon">element</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-class">
 						<a href="profileentity.html" class="tsd-kind-icon">Profile<wbr>Entity</a>
 					</li>

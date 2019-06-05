@@ -47,9 +47,12 @@ export class ReviewEntity {
     @Column()
     public identifierRYM: string;
 
-    @ManyToOne(() => AlbumEntity, (album): ReviewEntity[] => album.reviews)
+    @ManyToOne((): typeof AlbumEntity => AlbumEntity, (album): ReviewEntity[] => album.reviews)
     public album: AlbumEntity;
 
-    @ManyToOne(() => ProfileEntity, (profile): ReviewEntity[] => profile.reviews)
+    @ManyToOne(
+        (): typeof ProfileEntity => ProfileEntity,
+        (profile): ReviewEntity[] => profile.reviews,
+    )
     public profile: ProfileEntity;
 }
