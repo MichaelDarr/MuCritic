@@ -6,3 +6,5 @@ export * from './artistScraper';
 export * from './genreScraper';
 export * from './profileScraper';
 export * from './reviewPageScraper';
+export * from './spotifyScraper';
+export * from './spotifyAlbumIdScraper';

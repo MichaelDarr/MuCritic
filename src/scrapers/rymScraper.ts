@@ -1,21 +1,12 @@
 import { Repository } from 'typeorm';
 
-import {
-    AlbumEntity,
-    ArtistEntity,
-    ProfileEntity,
-} from '../entities/index';
-import { ScraperApiScraper } from './scraperApiScraper';
-
-type RymDatabaseEntities =
-    | AlbumEntity
-    | ArtistEntity
-    | ProfileEntity;
+import { ScraperApiScraper } from './index';
+import { RymDatabaseEntities } from '../helpers/types';
 
 export abstract class RymScraper<T extends RymDatabaseEntities> extends ScraperApiScraper {
     public databaseId: number;
 
-    public repository: Repository<T>;
+    protected repository: Repository<T>;
 
     public async checkForLocalRecord(): Promise<boolean> {
         const record = await this.getEntity();

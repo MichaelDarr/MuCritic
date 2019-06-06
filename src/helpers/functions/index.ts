@@ -1,5 +1,5 @@
 export * from './database';
 export * from './fileSystem';
-export * from './scraping';
+export * from './request';
 export * from './spotifyId';
 export * from './typeManips';
