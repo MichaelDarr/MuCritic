@@ -8,9 +8,9 @@ import {
     Repository,
 } from 'typeorm';
 
-import { Scraper } from './index';
-import { GenreEntity } from '../entities/index';
-import { Log } from '../helpers/classes/index';
+import { Scraper } from '../index';
+import { GenreEntity } from '../../entities/index';
+import { Log } from '../../helpers/classes/index';
 
 export class GenreScraper extends Scraper {
     public name: string;

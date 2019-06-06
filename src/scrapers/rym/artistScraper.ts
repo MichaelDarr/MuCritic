@@ -8,21 +8,21 @@ import { getConnection } from 'typeorm';
 import {
     ArtistEntity,
     GenreEntity,
-} from '../entities/index';
+} from '../../entities/index';
 import {
     Log,
     ScrapeResult,
-} from '../helpers/classes/index';
-import { stringToNum } from '../helpers/functions/index';
+} from '../../helpers/classes/index';
+import { stringToNum } from '../../helpers/functions/index';
 import {
     extractMemberCountFromString,
     extractCountFromPair,
     ParseElement,
-} from '../helpers/parsing/index';
+} from '../../helpers/parsing/index';
 import {
     GenreScraper,
     RymScraper,
-} from './index';
+} from '../index';
 
 export class ArtistScraper extends RymScraper<ArtistEntity> {
     public name: string;

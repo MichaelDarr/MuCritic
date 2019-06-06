@@ -9,20 +9,20 @@ import {
     AlbumEntity,
     ArtistEntity,
     GenreEntity,
-} from '../entities/index';
+} from '../../entities/index';
 import {
     Log,
     ScrapeResult,
-} from '../helpers/classes/index';
+} from '../../helpers/classes/index';
 import {
     extractCountFromPair,
     ParseElement,
-} from '../helpers/parsing/index';
+} from '../../helpers/parsing/index';
 import {
     ArtistScraper,
     GenreScraper,
     RymScraper,
-} from './index';
+} from '../index';
 
 export class AlbumScraper extends RymScraper<AlbumEntity> {
     public name: string;

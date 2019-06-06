@@ -67,7 +67,7 @@ export abstract class Scraper {
     /**
      * Entry point for initiating an asset scrape. General scrape outline/method order:
      *
-     * 1. [[Scraper.getEntity]]
+     * 1. [[Scraper.checkForLocalRecord]]
      * 2. If local entity was found, update class props and return.
      * 3. [[Scraper.requestScrape]]
      * 4. [[Scraper.extractInfo]]

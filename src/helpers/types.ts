@@ -35,13 +35,13 @@ export type SpotifyAlbumType =
     | 'single'
     | 'compilation';
 
-interface SpotifyImage {
+export interface SpotifyImage {
     height: number;
     url: string;
     width: number;
 }
 
-interface SpotifyArtistSimplified {
+export interface SpotifyArtistSimplified {
     href: string;
     id: string;
     name: string;
@@ -49,26 +49,14 @@ interface SpotifyArtistSimplified {
     uri: string;
 }
 
-interface SpotifyArtist extends SpotifyArtistSimplified{
+export interface SpotifyArtist extends SpotifyArtistSimplified{
     genres: string[];
     images: SpotifyImage[];
     name: string;
     popularity: number;
 }
 
-export interface SpotifySearchArtist {
-    artists: {
-        href: string;
-        items: SpotifyArtist[];
-        limit: number;
-        next: string | null;
-        offset: number;
-        previous: string | null;
-        total: number;
-    };
-}
-
-interface SpotifyAlbumSimplified {
+export interface SpotifyAlbumSimplified {
     album_type: SpotifyAlbumType;
     artists: SpotifyArtistSimplified[];
     href: string;
@@ -89,4 +77,25 @@ export interface SpotifySearchAlbum {
         previous: string | null;
         total: number;
     };
+}
+
+export interface SpotifySearchArtist {
+    artists: {
+        href: string;
+        items: SpotifyArtist[];
+        limit: number;
+        next: string | null;
+        offset: number;
+        previous: string | null;
+        total: number;
+    };
+}
+
+export type SpotifyApiResponse =
+    | SpotifySearchAlbum
+    | SpotifySearchArtist;
+
+export interface SpotifyAlbumArtistPairSimplified {
+    album: SpotifyAlbumSimplified;
+    artist: SpotifyArtistSimplified;
 }
