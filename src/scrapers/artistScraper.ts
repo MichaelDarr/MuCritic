@@ -3,7 +3,7 @@
  * See [[Scraper]] for more details.
  */
 
-import { getManager } from 'typeorm';
+import { getConnection } from 'typeorm';
 
 import {
     ArtistEntity,
@@ -13,10 +13,7 @@ import {
     Log,
     ScrapeResult,
 } from '../helpers/classes/index';
-import {
-    requestRawScrape,
-    stringToNum,
-} from '../helpers/functions/index';
+import { stringToNum } from '../helpers/functions/index';
 import {
     extractMemberCountFromString,
     extractCountFromPair,
@@ -24,12 +21,10 @@ import {
 } from '../helpers/parsing/index';
 import {
     GenreScraper,
-    Scraper,
+    RymScraper,
 } from './index';
 
-export class ArtistScraper extends Scraper {
-    private scrapeRoot: ParseElement;
-
+export class ArtistScraper extends RymScraper<ArtistEntity> {
     public name: string;
 
     public active: boolean;
@@ -54,13 +49,11 @@ export class ArtistScraper extends Scraper {
         url: string,
         verbose = false,
     ) {
-        super(url, 'RYM Artist', verbose);
+        super('RYM Artist', verbose);
+        this.repository = getConnection().getRepository(ArtistEntity);
+        this.url = url;
         this.soloPerformer = false;
         this.active = true;
-    }
-
-    public async getEntity(): Promise<ArtistEntity> {
-        return getManager().findOne(ArtistEntity, { urlRYM: this.url });
     }
 
     protected extractInfo(): void {
@@ -75,6 +68,16 @@ export class ArtistScraper extends Scraper {
         this.name = this.scrapeRoot
             .element('h1.artist_name_hdr', 'artist', true)
             .text(true, null, true, true);
+    }
+
+    /**
+     * Find the database entity of a given album
+     *
+     * @param entityManager database connection manager, typeORM
+     * @returns an AlbumEntity, the saved database record for an album
+     */
+    public async getEntity(): Promise<ArtistEntity> {
+        return this.repository.findOne({ urlRYM: this.url });
     }
 
     /**
@@ -175,7 +178,7 @@ export class ArtistScraper extends Scraper {
             } catch(err) {
                 this.results.push(new ScrapeResult(
                     false,
-                    genreScraper.url,
+                    genreScraper.name,
                     err,
                 ));
             }
@@ -183,7 +186,7 @@ export class ArtistScraper extends Scraper {
         this.genreScrapersRYM = successfullyScrapedGenres;
     }
 
-    public async saveToDB(): Promise<ArtistEntity> {
+    public async saveToDB(): Promise<void> {
         const genreEntities: GenreEntity[] = [];
         for await(const genre of this.genreScrapersRYM) {
             const genreEntity: GenreEntity = await genre.getEntity();
@@ -201,18 +204,13 @@ export class ArtistScraper extends Scraper {
         artist.discographyCountRYM = this.discographyCountRYM;
         artist.showCountRYM = this.showCountRYM;
 
-        artist = await getManager().save(artist);
-        this.databaseID = artist.id;
-        return artist;
-    }
-
-    public async requestScrape(): Promise<void> {
-        this.scrapeRoot = await requestRawScrape(this.url, 'RYM artist scrape');
+        artist = await this.repository.save(artist);
+        this.databaseId = artist.id;
     }
 
     public printInfo(): void {
         if(this.dataReadFromDB) {
-            Log.success(`Found Artist ${this.name} in database\nID: ${this.databaseID}`);
+            this.printResult();
             return;
         }
         Log.success(`Artist Scrape Successful: ${this.name}`);

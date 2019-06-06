@@ -3,12 +3,6 @@
  */
 
 import {
-    AlbumEntity,
-    ArtistEntity,
-    GenreEntity,
-    ProfileEntity,
-} from '../entities/index';
-import {
     Log,
     ResultBatch,
     ScrapeResult,
@@ -27,12 +21,6 @@ import {
  */
 export abstract class Scraper {
     /**
-     * Primary key of the database record corresponding to a given scraper instance. This will
-     * always be set after [[Scraper.scrape]] is called, provided that no error was thrown.
-     */
-    public databaseID: number;
-
-    /**
      * Scrapers always check for a local copy of the target resource (using
      * [[Scraper.getEntity]]) before executing a scrape from an external resource. If the
      * resource was found (and therefore no external calls made), this flag is set to true.
@@ -47,12 +35,7 @@ export abstract class Scraper {
     /**
      * A simple, human-readble description of *what* is being scraped. Used for logging.
      */
-    public scrapeContentDescription: string;
-
-    /**
-     * External url indicating the scraper's target resource.
-     */
-    public url: string;
+    public description: string;
 
     /**
      * Used to override .env settings and force-log the output of a given scraper.
@@ -67,17 +50,15 @@ export abstract class Scraper {
 
     /**
      * @param url see [[Scraper.url]]
-     * @param scrapeContentDescription see [[Scraper.scrapeContentDescription]]
+     * @param description see [[Scraper.description]]
      * @param verbose see [[Scraper.verbose]]
      */
     public constructor(
-        url: string,
-        scrapeContentDescription: string,
+        description: string,
         verbose?: boolean,
     ) {
-        this.url = url;
         this.verbose = verbose || false;
-        this.scrapeContentDescription = scrapeContentDescription;
+        this.description = description;
         this.results = new ResultBatch();
         this.dataReadFromDB = false;
         this.scrapeSucceeded = false;
@@ -111,24 +92,22 @@ export abstract class Scraper {
      * local records
      */
     public async scrape(forceScrape = false): Promise<void> {
-        Log.notify(`Beginning Scrape of ${this.scrapeContentDescription}`);
-        let saved = await this.getEntity();
-        if(saved && !forceScrape) {
+        Log.notify(`Beginning Scrape of ${this.description}`);
+        const recordExists = await this.checkForLocalRecord();
+        if(recordExists && !forceScrape) {
             this.dataReadFromDB = true;
-            this.databaseID = saved.id;
-            this.results.push(new ScrapeResult(true, this.url));
+            this.results.push(new ScrapeResult(true, this.description));
             this.scrapeSucceeded = true;
-            Log.success(`Local Record Found for ${this.scrapeContentDescription}`);
+            Log.success(`Local Record Found for ${this.description}`);
             return;
         }
         await this.requestScrape();
         this.extractInfo();
         await this.scrapeDependencies();
-        saved = await this.saveToDB();
-        this.databaseID = saved.id;
-        this.results.push(new ScrapeResult(true, this.url));
+        await this.saveToDB();
+        this.results.push(new ScrapeResult(true, this.description));
         this.scrapeSucceeded = true;
-        Log.success(`Finished Scrape of ${this.scrapeContentDescription}`);
+        Log.success(`Finished Scrape of ${this.description}`);
     }
 
     /**
@@ -136,14 +115,14 @@ export abstract class Scraper {
      */
     public printResult(): void {
         if(this.scrapeSucceeded === false) {
-            Log.err(`Scrape failed for album url:\n${this.url}`);
+            Log.err(`Scrape failed for album url:\n${this.description}`);
         } else if(this.dataReadFromDB) {
             Log.success(
-                `Scrape unnecessary, record exists in database\nURL: ${this.url}\nID: ${this.databaseID}`,
+                `Scrape unnecessary, record exists in database: ${this.description}`,
             );
         } else {
             Log.success(
-                `Scrape successful\nURL: ${this.url}\nID: ${this.databaseID}`,
+                `Scrape successful\nURL: ${this.description}`,
             );
         }
     }
@@ -165,12 +144,7 @@ export abstract class Scraper {
      * Gets the local stored record corresponding to a given scraper. Should return null if no
      * local record is found
      */
-    public abstract getEntity(): Promise<
-    AlbumEntity
-    | ArtistEntity
-    | GenreEntity
-    | ProfileEntity
-    >;
+    public abstract checkForLocalRecord(): Promise<boolean>;
 
     /**
      * Requests and stores an external resource, to be parsed later by
@@ -193,12 +167,7 @@ export abstract class Scraper {
      *
      * @returns the entity that was saved
      */
-    protected abstract async saveToDB(): Promise<
-    AlbumEntity
-    | ArtistEntity
-    | GenreEntity
-    | ProfileEntity
-    >;
+    protected abstract async saveToDB(): Promise<void>;
 
     /**
      * Executes [[Scraper.scrape]] on any recursive scrapes found in the initial scrape.

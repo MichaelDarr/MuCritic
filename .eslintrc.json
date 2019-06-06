@@ -16,6 +16,7 @@
         "class-methods-use-this": [
             1, {
                 "exceptMethods": [
+                    "checkForLocalRecord",
                     "extractInfo",
                     "scrapeDependencies",
                     "requestScrape"

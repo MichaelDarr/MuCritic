@@ -41,14 +41,10 @@ export async function scrapeRateYourMusic(): Promise<void> {
         );
         Log.log('Beginning scrape...');
 
-        // iterate through all profile URLs
         for await(const profileURL of profileURLList) {
             if(profileURL != null && profileURL !== '') {
-                // create and scrape user
                 const profileScraper = new ProfileScraper(profileURL);
                 await profileScraper.scrape();
-
-                // scrape all review pages for a user
                 const reviewPageScraper = new ReviewPageScraper(profileScraper);
                 while(
                     reviewPageScraper.pageReviewCount > 0

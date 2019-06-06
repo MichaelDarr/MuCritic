@@ -3,7 +3,10 @@
  * See [[Scraper]] for more details.
  */
 
-import { getManager } from 'typeorm';
+import {
+    getConnection,
+    Repository,
+} from 'typeorm';
 
 import { Scraper } from './index';
 import { GenreEntity } from '../entities/index';
@@ -12,14 +15,15 @@ import { Log } from '../helpers/classes/index';
 export class GenreScraper extends Scraper {
     public name: string;
 
+    private repository: Repository<GenreEntity>;
+
     public constructor(
         name: string,
         verbose = false,
     ) {
-        const urlEncodedName = encodeURIComponent(name);
-        const url = `https://rateyourmusic.com/genre/${urlEncodedName}`;
-        super(url, 'RYM genre', verbose);
+        super(`RYM genre: ${name}`, verbose);
         this.name = name;
+        this.repository = getConnection().getRepository(GenreEntity);
     }
 
     /**
@@ -27,8 +31,9 @@ export class GenreScraper extends Scraper {
      *
      * @return Genre Database Entity
      */
-    public async getEntity(): Promise<GenreEntity> {
-        return getManager().findOne(GenreEntity, { name: this.name });
+    public async checkForLocalRecord(): Promise<boolean> {
+        const genreRecord = await this.getEntity();
+        return (genreRecord != null);
     }
 
     protected extractInfo(): void {
@@ -38,12 +43,14 @@ export class GenreScraper extends Scraper {
         return Promise.resolve();
     }
 
-    protected async saveToDB(): Promise<GenreEntity> {
+    protected async saveToDB(): Promise<void> {
         let genre = new GenreEntity();
         genre.name = this.name;
-        genre = await getManager().save(genre);
-        this.databaseID = genre.id;
-        return genre;
+        genre = await this.repository.save(genre);
+    }
+
+    public async getEntity(): Promise<GenreEntity> {
+        return this.repository.findOne({ name: this.name });
     }
 
     public static createScrapers(genres: string[]): GenreScraper[] {

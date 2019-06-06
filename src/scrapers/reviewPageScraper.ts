@@ -3,10 +3,9 @@
  * [Rate Your Music](https://rateyourmusic.com/). See [[Scraper]] for more details.
  */
 
-import { getManager } from 'typeorm';
+import { getConnection, Repository } from 'typeorm';
 
 import {
-    ProfileEntity,
     ReviewEntity,
 } from '../entities/index';
 import {
@@ -15,21 +14,16 @@ import {
     ScrapeResult,
     SimpleDate,
 } from '../helpers/classes/index';
-import {
-    requestRawScrape,
-    stringToNum,
-} from '../helpers/functions/index';
+import { stringToNum } from '../helpers/functions/index';
 import { ParseElement } from '../helpers/parsing/index';
 import {
     AlbumScraper,
     ProfileScraper,
-    Scraper,
+    ScraperApiScraper,
 } from './index';
 
-export class ReviewPageScraper extends Scraper {
-    private scrapeRoot: ParseElement;
-
-    private scrapedHtmlElement: HTMLElement;
+export class ReviewPageScraper extends ScraperApiScraper {
+    public repository: Repository<ReviewEntity>;
 
     public name: string;
 
@@ -51,16 +45,17 @@ export class ReviewPageScraper extends Scraper {
     ) {
         const urlBase = `https://rateyourmusic.com/collection/${profile.name}/r0.0-5.0/`;
         super(
-            `${urlBase}1`,
-            'RYM Review Page',
+            `RYM Review Page: ${profile.name}`,
             verbose,
         );
         this.urlBase = urlBase;
+        this.url = `${urlBase}1`;
         this.currentPage = 1;
         this.reviews = [];
         this.profile = profile;
         this.pageReviewCount = 25;
         this.sequentialFailureCount = 0;
+        this.repository = getConnection().getRepository(ReviewEntity);
     }
 
     public async scrapePage(): Promise<void> {
@@ -78,11 +73,9 @@ export class ReviewPageScraper extends Scraper {
     }
 
     public async getAllReviews(): Promise<ReviewEntity[]> {
-        const entityManager = getManager();
         const reviewEntities: ReviewEntity[] = [];
         for await(const review of this.reviews) {
-            const entity = await entityManager.findOne(
-                ReviewEntity,
+            const entity = await this.repository.findOne(
                 { identifierRYM: review.identifierRYM },
             );
             if(entity) reviewEntities.push(entity);
@@ -90,8 +83,8 @@ export class ReviewPageScraper extends Scraper {
         return reviewEntities;
     }
 
-    public async getEntity(): Promise<ProfileEntity> {
-        return this.profile.getEntity();
+    public async checkForLocalRecord(): Promise<boolean> {
+        return Promise.resolve(false);
     }
 
     protected async scrapeDependencies(): Promise<void> {
@@ -110,12 +103,10 @@ export class ReviewPageScraper extends Scraper {
         this.reviews = successfullyScrapedReviews;
     }
 
-    protected async saveToDB(): Promise<ProfileEntity> {
-        const entityManager = getManager();
+    protected async saveToDB(): Promise<void> {
         for await(const review of this.reviews) {
             try {
-                let reviewEntity = await entityManager.findOne(
-                    ReviewEntity,
+                let reviewEntity = await this.repository.findOne(
                     { identifierRYM: review.identifierRYM },
                 );
                 if(reviewEntity == null) {
@@ -133,13 +124,12 @@ export class ReviewPageScraper extends Scraper {
                     if(!reviewEntity.profile) {
                         throw new Error(`Profile not found for album: ${this.name}`);
                     }
-                    reviewEntity = await entityManager.save(reviewEntity);
+                    reviewEntity = await this.repository.save(reviewEntity);
                 }
             } catch(e) {
                 this.results.push(new ScrapeResult(false, this.url, `${e.name}: ${e.message}`));
             }
         }
-        return this.profile.getEntity();
     }
 
     protected extractInfo(): void {
@@ -194,10 +184,6 @@ export class ReviewPageScraper extends Scraper {
                 Log.err(`Failed to extract data from review element.\n${e}`);
             }
         });
-    }
-
-    public async requestScrape(): Promise<void> {
-        this.scrapeRoot = await requestRawScrape(this.url, 'RYM review page scrape');
     }
 
     public printInfo(): void {
