@@ -1,6 +1,6 @@
 import { createConnection } from 'typeorm';
 
-import { Log } from '../classes/index';
+import { Log } from '../classes/log';
 import {
     AlbumEntity,
     ArtistEntity,

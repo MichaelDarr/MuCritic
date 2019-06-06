@@ -2,7 +2,7 @@
  * Unified reporting of scrape results
  */
 
-import { Log } from './index';
+import { Log } from './log';
 import {
     ApiService,
     ScrapingSite,

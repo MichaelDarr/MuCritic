@@ -9,10 +9,8 @@ import {
     ManyToMany,
 } from 'typeorm';
 
-import {
-    AlbumEntity,
-    ArtistEntity,
-} from './index';
+import { AlbumEntity } from './AlbumEntity';
+import { ArtistEntity } from './ArtistEntity';
 
 /**
  * Describes layout and relationships for "genre" database table, containing genre information

@@ -3,11 +3,9 @@ import { JSDOM } from 'jsdom';
 import {
     isNullOrUndef,
     stringToNum,
-} from '../functions/index';
-import {
-    decodeHtmlText,
-    ParseList,
-} from './index';
+} from '../functions/typeManips';
+import { decodeHtmlText } from './encoding';
+import { ParseList } from './parseList';
 
 export class ParseElement {
     public readonly raw: HTMLElement;

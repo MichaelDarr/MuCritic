@@ -6,19 +6,13 @@ import * as dontenv from 'dotenv';
 import { resolve } from 'path';
 import { getConnection } from 'typeorm';
 
-import {
-    AlbumEntity,
-    ArtistEntity,
-} from './entities/index';
-import {
-    attatchIdsToEntries,
-    connectToDatabase,
-} from './helpers/functions/index';
+import { AlbumEntity } from './entities/index';
+import { connectToDatabase } from './helpers/functions/index';
 import {
     Log,
-    ResultBatch,
     SpotifyApi,
 } from './helpers/classes/index';
+import { SpotifyIdScraper } from './scrapers/spotify/index';
 
 // environment variables
 dontenv.config({ path: resolve(__dirname, '../.env') });
@@ -46,18 +40,10 @@ export async function scrapeSpotifyIds(): Promise<void> {
         // scrape and store Spotify album ids
         const albumRepository = connection.getRepository(AlbumEntity);
         const albums = await albumRepository.find({ relations: ['artist'] });
-        const albumIdScrape: ResultBatch = (
-            await attatchIdsToEntries(albumRepository, albums, spotifyApi)
-        );
-        albumIdScrape.logErrors();
-
-        // scrape and store Spotify artist ids
-        const artistRepository = connection.getRepository(ArtistEntity);
-        const artists = await artistRepository.find();
-        const artistIdScrape: ResultBatch = (
-            await attatchIdsToEntries(artistRepository, artists, spotifyApi)
-        );
-        artistIdScrape.logErrors();
+        for await(const album of albums) {
+            const idScraper = new SpotifyIdScraper(spotifyApi, album);
+            await idScraper.scrape();
+        }
 
         Log.success('Scrape Complete');
     } catch(err) {

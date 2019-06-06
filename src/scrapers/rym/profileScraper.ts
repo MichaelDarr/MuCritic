@@ -9,14 +9,10 @@ import {
     ArtistEntity,
     ProfileEntity,
 } from '../../entities/index';
-import {
-    ArtistScraper,
-    RymScraper,
-} from '../index';
-import {
-    Log,
-    ScrapeResult,
-} from '../../helpers/classes/index';
+import { RymScraper } from './rymScraper';
+import { ArtistScraper } from './artistScraper';
+import { Log } from '../../helpers/classes/log';
+import { ScrapeResult } from '../../helpers/classes/result';
 import { Gender } from '../../helpers/types';
 import { ParseElement } from '../../helpers/parsing/index';
 

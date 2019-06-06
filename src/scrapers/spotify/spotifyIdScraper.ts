@@ -8,12 +8,10 @@ import {
     getConnection,
 } from 'typeorm';
 
-import { SpotifyScraper } from '../index';
+import { SpotifyScraper } from './spotifyScraper';
 import { AlbumEntity } from '../../entities/index';
-import {
-    Log,
-    SpotifyApi,
-} from '../../helpers/classes/index';
+import { Log } from '../../helpers/classes/log';
+import { SpotifyApi } from '../../helpers/classes/spotifyApi';
 import {
     SpotifyAlbumArtistPairSimplified,
     SpotifyAlbumSimplified,
@@ -76,7 +74,7 @@ export class SpotifyIdScraper extends SpotifyScraper {
         await this.repository.save(this.album);
     }
 
-    public extractCorrectItem(artistId?: string): SpotifyAlbumArtistPairSimplified {
+    private extractCorrectItem(artistId?: string): SpotifyAlbumArtistPairSimplified {
         let response: SpotifyAlbumArtistPairSimplified;
         this.spotifyResponse.albums.items.forEach((spotifyAlbum: SpotifyAlbumSimplified): void => {
             if(this.album.name === spotifyAlbum.name) {

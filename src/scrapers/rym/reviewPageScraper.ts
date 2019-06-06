@@ -5,22 +5,16 @@
 
 import { getConnection, Repository } from 'typeorm';
 
-import {
-    ReviewEntity,
-} from '../../entities/index';
-import {
-    Log,
-    Review,
-    ScrapeResult,
-    SimpleDate,
-} from '../../helpers/classes/index';
-import { stringToNum } from '../../helpers/functions/index';
-import { ParseElement } from '../../helpers/parsing/index';
-import {
-    AlbumScraper,
-    ProfileScraper,
-    ScraperApiScraper,
-} from '../index';
+import { ReviewEntity } from '../../entities/index';
+import { Log } from '../../helpers/classes/log';
+import { ScrapeResult } from '../../helpers/classes/result';
+import { Review } from '../../helpers/classes/review';
+import { SimpleDate } from '../../helpers/classes/simpleDate';
+import { stringToNum } from '../../helpers/functions/typeManips';
+import { ParseElement } from '../../helpers/parsing/parseElement';
+import { AlbumScraper } from './albumScraper';
+import { ProfileScraper } from './profileScraper';
+import { ScraperApiScraper } from '../scraperApiScraper';
 
 export class ReviewPageScraper extends ScraperApiScraper {
     public repository: Repository<ReviewEntity>;

@@ -11,11 +11,9 @@ import {
     JoinTable,
 } from 'typeorm';
 
-import {
-    AlbumEntity,
-    GenreEntity,
-    ProfileEntity,
-} from './index';
+import { AlbumEntity } from './AlbumEntity';
+import { GenreEntity } from './GenreEntity';
+import { ProfileEntity } from './ProfileEntity';
 
 /**
  * Describes layout and relationships for "artist" database table, containing artist information

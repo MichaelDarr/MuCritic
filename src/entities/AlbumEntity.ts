@@ -12,11 +12,9 @@ import {
     JoinTable,
 } from 'typeorm';
 
-import {
-    ArtistEntity,
-    ReviewEntity,
-    GenreEntity,
-} from './index';
+import { ArtistEntity } from './ArtistEntity';
+import { GenreEntity } from './GenreEntity';
+import { ReviewEntity } from './ReviewEntity';
 
 /**
  * Describes layout and relationships for "album" database table, containing album information

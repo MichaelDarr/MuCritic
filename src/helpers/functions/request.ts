@@ -1,8 +1,8 @@
 import * as request from 'request';
 import { JSDOM } from 'jsdom';
 
-import { Log } from '../classes/index';
-import { ParseElement } from '../parsing/index';
+import { Log } from '../classes/log';
+import { ParseElement } from '../parsing/parseElement';
 
 export async function getRequestBody(url: string): Promise<string> {
     return new Promise((resolve, reject): void => {

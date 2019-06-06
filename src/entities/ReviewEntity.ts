@@ -9,10 +9,8 @@ import {
     ManyToOne,
 } from 'typeorm';
 
-import {
-    AlbumEntity,
-    ProfileEntity,
-} from './index';
+import { AlbumEntity } from './AlbumEntity';
+import { ProfileEntity } from './ProfileEntity';
 
 /**
  * Describes layout and relationships for "review" database table, containing review information

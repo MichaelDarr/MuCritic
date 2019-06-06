@@ -3,8 +3,8 @@
  */
 
 import { SpotifyApiResponse } from '../../helpers/types';
-import { Scraper } from '../index';
-import { SpotifyApi } from '../../helpers/classes/index';
+import { Scraper } from '../scraper';
+import { SpotifyApi } from '../../helpers/classes/spotifyApi';
 
 export abstract class SpotifyScraper extends Scraper {
     protected spotifyResponse: SpotifyApiResponse;

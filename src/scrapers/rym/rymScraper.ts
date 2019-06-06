@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
 
-import { ScraperApiScraper } from '../index';
+import { ScraperApiScraper } from '../scraperApiScraper';
 import { RymDatabaseEntities } from '../../helpers/types';
 
 export abstract class RymScraper<T extends RymDatabaseEntities> extends ScraperApiScraper {

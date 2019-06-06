@@ -1,7 +1,5 @@
-import { isNullOrUndef } from '../functions/index';
-import {
-    ParseElement,
-} from './index';
+import { isNullOrUndef } from '../functions/typeManips';
+import { ParseElement } from './parseElement';
 
 export class ParseList {
     public readonly raw: NodeListOf<Element>;

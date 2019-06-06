@@ -9,20 +9,16 @@ import {
     ArtistEntity,
     GenreEntity,
 } from '../../entities/index';
+import { Log } from '../../helpers/classes/log';
+import { ScrapeResult } from '../../helpers/classes/result';
+import { stringToNum } from '../../helpers/functions/typeManips';
 import {
-    Log,
-    ScrapeResult,
-} from '../../helpers/classes/index';
-import { stringToNum } from '../../helpers/functions/index';
-import {
-    extractMemberCountFromString,
     extractCountFromPair,
-    ParseElement,
-} from '../../helpers/parsing/index';
-import {
-    GenreScraper,
-    RymScraper,
-} from '../index';
+    extractMemberCountFromString,
+} from '../../helpers/parsing/rym';
+import { ParseElement } from '../../helpers/parsing/parseElement';
+import { RymScraper } from './rymScraper';
+import { GenreScraper } from './genreScraper';
 
 export class ArtistScraper extends RymScraper<ArtistEntity> {
     public name: string;

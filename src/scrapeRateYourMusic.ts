@@ -14,7 +14,7 @@ import {
 import {
     ProfileScraper,
     ReviewPageScraper,
-} from './scrapers/index';
+} from './scrapers/rym/index';
 
 // environment variables
 dontenv.config({ path: resolve(__dirname, '../.env') });

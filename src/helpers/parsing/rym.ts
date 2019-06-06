@@ -2,7 +2,7 @@
  * Text parsing methods specific to the rate-your-music parsing project
  */
 
-import { stringToNum } from '../functions/index';
+import { stringToNum } from '../functions/typeManips';
 
 /**
  * Simple method to separate and number-ify a combined number-header element on a page

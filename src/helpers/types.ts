@@ -2,6 +2,7 @@ import {
     AlbumEntity,
     ArtistEntity,
     ProfileEntity,
+    ReviewEntity,
 } from '../entities/index';
 
 export enum Gender {
@@ -20,7 +21,8 @@ export enum ScrapingSite {
 export type RymDatabaseEntities =
     | AlbumEntity
     | ArtistEntity
-    | ProfileEntity;
+    | ProfileEntity
+    | ReviewEntity;
 
 export type SpotifyDatabaseEntities =
     | AlbumEntity

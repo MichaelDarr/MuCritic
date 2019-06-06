@@ -1,6 +1,6 @@
-import { requestRawScrape } from '../helpers/functions/index';
-import { ParseElement } from '../helpers/parsing/index';
-import { Scraper } from './index';
+import { requestRawScrape } from '../helpers/functions/request';
+import { ParseElement } from '../helpers/parsing/parseElement';
+import { Scraper } from './scraper';
 
 export abstract class ScraperApiScraper extends Scraper {
     /**

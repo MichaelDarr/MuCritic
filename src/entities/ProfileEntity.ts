@@ -11,10 +11,8 @@ import {
     JoinTable,
 } from 'typeorm';
 
-import {
-    ArtistEntity,
-    ReviewEntity,
-} from './index';
+import { ArtistEntity } from './ArtistEntity';
+import { ReviewEntity } from './ReviewEntity';
 
 /**
  * Describes layout and relationships for "profile" database table, containing profile information

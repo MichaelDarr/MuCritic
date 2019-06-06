@@ -2,11 +2,9 @@
  * Holds review information for [[ReviewPageScraper]]
  */
 
-import { SimpleDate } from './index';
-import {
-    AlbumScraper,
-    ProfileScraper,
-} from '../../scrapers/index';
+import { SimpleDate } from './simpleDate';
+import { AlbumScraper } from '../../scrapers/rym/albumScraper';
+import { ProfileScraper } from '../../scrapers/rym/profileScraper';
 
 export class Review {
     public album: AlbumScraper;

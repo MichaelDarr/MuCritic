@@ -2,11 +2,11 @@
  * Abstract superclass for all "scrapers"
  */
 
+import { Log } from '../helpers/classes/log';
 import {
-    Log,
     ResultBatch,
     ScrapeResult,
-} from '../helpers/classes/index';
+} from '../helpers/classes/result';
 
 /**
  * Abstract superclass for all "scrapers"
