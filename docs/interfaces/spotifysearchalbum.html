@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Gender | rym-data</title>
+	<title>SpotifySearchAlbum | rym-data</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,51 +56,74 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="gender.html">Gender</a>
+					<a href="spotifysearchalbum.html">SpotifySearchAlbum</a>
 				</li>
 			</ul>
-			<h1>Enumeration Gender</h1>
+			<h1>Interface SpotifySearchAlbum</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">SpotifySearchAlbum</span>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Enumeration members</h3>
+							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="gender.html#female" class="tsd-kind-icon">Female</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="gender.html#male" class="tsd-kind-icon">Male</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="spotifysearchalbum.html#albums" class="tsd-kind-icon">albums</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Enumeration members</h2>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="female" class="tsd-anchor"></a>
-					<h3>Female</h3>
-					<div class="tsd-signature tsd-kind-icon">Female<span class="tsd-signature-symbol">:</span> </div>
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="albums" class="tsd-anchor"></a>
+					<h3>albums</h3>
+					<div class="tsd-signature tsd-kind-icon">albums<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/types.ts#L10">helpers/types.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/types.ts#L73">helpers/types.ts:73</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="male" class="tsd-anchor"></a>
-					<h3>Male</h3>
-					<div class="tsd-signature tsd-kind-icon">Male<span class="tsd-signature-symbol">:</span> </div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/types.ts#L9">helpers/types.ts:9</a></li>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>href<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>items<span class="tsd-signature-symbol">: </span><a href="spotifyalbumsimplified.html" class="tsd-signature-type">SpotifyAlbumSimplified</a><span class="tsd-signature-symbol">[]</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>limit<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>next<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>offset<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>previous<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+							</li>
+							<li class="tsd-parameter">
+								<h5>total<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+							</li>
 						</ul>
-					</aside>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -116,14 +139,11 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-enum">
-						<a href="gender.html" class="tsd-kind-icon">Gender</a>
+					<li class="current tsd-kind-interface">
+						<a href="spotifysearchalbum.html" class="tsd-kind-icon">Spotify<wbr>Search<wbr>Album</a>
 						<ul>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="gender.html#female" class="tsd-kind-icon">Female</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="gender.html#male" class="tsd-kind-icon">Male</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="spotifysearchalbum.html#albums" class="tsd-kind-icon">albums</a>
 							</li>
 						</ul>
 					</li>

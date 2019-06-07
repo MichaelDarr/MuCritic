@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 
 import { Scraper } from '../scraper';
-import { GenreEntity } from '../../entities/index';
+import { GenreEntity } from '../../entities/entities';
 import { Log } from '../../helpers/classes/log';
 
 export class GenreScraper extends Scraper {

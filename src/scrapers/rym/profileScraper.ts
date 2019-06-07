@@ -8,13 +8,13 @@ import { getConnection } from 'typeorm';
 import {
     ArtistEntity,
     ProfileEntity,
-} from '../../entities/index';
+} from '../../entities/entities';
 import { RymScraper } from './rymScraper';
 import { ArtistScraper } from './artistScraper';
 import { Log } from '../../helpers/classes/log';
 import { ScrapeResult } from '../../helpers/classes/result';
 import { Gender } from '../../helpers/types';
-import { ParseElement } from '../../helpers/parsing/index';
+import { ParseElement } from '../../helpers/parsing/parseElement';
 
 export class ProfileScraper extends RymScraper<ProfileEntity> {
     public scrapedHtmlElement: HTMLElement;

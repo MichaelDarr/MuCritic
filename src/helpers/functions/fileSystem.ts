@@ -4,7 +4,7 @@
 
 import { readFile } from 'fs';
 
-import { Log } from '../classes/index';
+import { Log } from '../classes/log';
 
 /**
  * Returns the contents of a file

@@ -8,14 +8,14 @@ import { getConnection } from 'typeorm';
 import {
     ArtistEntity,
     GenreEntity,
-} from '../../entities/index';
+} from '../../entities/entities';
 import { Log } from '../../helpers/classes/log';
 import { ScrapeResult } from '../../helpers/classes/result';
 import { stringToNum } from '../../helpers/functions/typeManips';
 import {
     extractCountFromPair,
     extractMemberCountFromString,
-} from '../../helpers/parsing/rym';
+} from '../../helpers/parsing/rymStrings';
 import { ParseElement } from '../../helpers/parsing/parseElement';
 import { RymScraper } from './rymScraper';
 import { GenreScraper } from './genreScraper';

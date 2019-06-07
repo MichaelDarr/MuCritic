@@ -6,13 +6,11 @@ import * as dontenv from 'dotenv';
 import { resolve } from 'path';
 import { getConnection } from 'typeorm';
 
-import { AlbumEntity } from './entities/index';
-import { connectToDatabase } from './helpers/functions/index';
-import {
-    Log,
-    SpotifyApi,
-} from './helpers/classes/index';
-import { SpotifyIdScraper } from './scrapers/spotify/index';
+import { AlbumEntity } from './entities/entities';
+import { connectToDatabase } from './helpers/functions/database';
+import { Log } from './helpers/classes/log';
+import { SpotifyApi } from './helpers/classes/spotifyApi';
+import { SpotifyIdScraper } from './scrapers/spotify/spotifyIdScraper';
 
 // environment variables
 dontenv.config({ path: resolve(__dirname, '../.env') });
@@ -41,13 +39,17 @@ export async function scrapeSpotifyIds(): Promise<void> {
         const albumRepository = connection.getRepository(AlbumEntity);
         const albums = await albumRepository.find({ relations: ['artist'] });
         for await(const album of albums) {
-            const idScraper = new SpotifyIdScraper(spotifyApi, album);
-            await idScraper.scrape();
+            try {
+                const idScraper = new SpotifyIdScraper(spotifyApi, album);
+                await idScraper.scrape();
+            } catch(err) {
+                Log.err(err.message);
+            }
         }
 
         Log.success('Scrape Complete');
     } catch(err) {
-        Log.err(`\n\nmuCritic RYM Scraper Failed!\n\nError:\n${err.message}`);
+        Log.err(`\n\nmuCritic ID Scraper Failed!\n\nError:\n${err.message}`);
     }
 }
 

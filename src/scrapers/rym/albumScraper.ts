@@ -9,10 +9,10 @@ import {
     AlbumEntity,
     ArtistEntity,
     GenreEntity,
-} from '../../entities/index';
+} from '../../entities/entities';
 import { Log } from '../../helpers/classes/log';
 import { ScrapeResult } from '../../helpers/classes/result';
-import { extractCountFromPair } from '../../helpers/parsing/rym';
+import { extractCountFromPair } from '../../helpers/parsing/rymStrings';
 import { ParseElement } from '../../helpers/parsing/parseElement';
 import { ArtistScraper } from './artistScraper';
 import { RymScraper } from './rymScraper';
@@ -129,13 +129,13 @@ export class AlbumScraper extends RymScraper<AlbumEntity> {
     private extractName(): void {
         let rawName = this.scrapeRoot
             .element('div.album_title', 'title', true)
-            .text();
+            .innerHTML(true, null, true);
         rawName = rawName.substring(0, rawName.indexOf('<'));
         this.name = rawName.trim();
     }
 
     private extractMainInfoBlocks(): void {
-        // interate through the main artist info blocks, "switch" on preceeding header block
+        // iterate through the main artist info blocks, "switch" on preceeding header block
         const infoRowParsers = this.scrapeRoot
             .list('.album_info > tbody > tr', 'info rows', false)
             .allElements();

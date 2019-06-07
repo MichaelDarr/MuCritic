@@ -2,12 +2,12 @@
  * Manages scraping and storage from the Spotify API. See [[Scraper]] for more details.
  */
 
-import { SpotifyApiResponse } from '../../helpers/types';
+import { SpotifySearchResponse } from '../../helpers/types';
 import { Scraper } from '../scraper';
 import { SpotifyApi } from '../../helpers/classes/spotifyApi';
 
 export abstract class SpotifyScraper extends Scraper {
-    protected spotifyResponse: SpotifyApiResponse;
+    protected spotifyResponse: SpotifySearchResponse;
 
     protected spotifyApi: SpotifyApi;
 

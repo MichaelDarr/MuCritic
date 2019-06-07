@@ -5,7 +5,7 @@
 
 import { getConnection, Repository } from 'typeorm';
 
-import { ReviewEntity } from '../../entities/index';
+import { ReviewEntity } from '../../entities/entities';
 import { Log } from '../../helpers/classes/log';
 import { ScrapeResult } from '../../helpers/classes/result';
 import { Review } from '../../helpers/classes/review';

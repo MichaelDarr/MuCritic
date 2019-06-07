@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Scraper | rym-data</title>
+	<title>RymScraper | rym-data</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,47 +56,43 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="scraper.html">Scraper</a>
+					<a href="rymscraper.html">RymScraper</a>
 				</li>
 			</ul>
-			<h1>Class Scraper</h1>
+			<h1>Class RymScraper&lt;T&gt;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Abstract superclass for all &quot;scrapers&quot;</p>
-					</div>
-					<dl class="tsd-comment-tags">
-						<dt>remarks</dt>
-						<dd><p>This abstract class describes a standardized method of scraping web pages and saving the
-								results. Its structure is specifically engineered to support complex, relational data stored
-								in a RDBMS such as Postgres. An subclass of AbstractScraper generally describes the process of
-								scraping one type of webpage into one database table. Each instance of a class extending
-								AbstractScraper corresponds to the scrape of one specific URL. The general use pattern for an
-							instance of such as class is to first call the constructor, then <a href="scraper.html#scrape">Scraper.scrape</a>.</p>
-						</dd>
-					</dl>
-				</div>
+			<section class="tsd-panel tsd-type-parameters">
+				<h3>Type parameters</h3>
+				<ul class="tsd-type-parameters">
+					<li>
+						<h4>T<span class="tsd-signature-symbol">: </span><a href="../globals.html#rymdatabaseentities" class="tsd-signature-type">RymDatabaseEntities</a></h4>
+					</li>
+				</ul>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Scraper</span>
+						<a href="scraperapiscraper.html" class="tsd-signature-type">ScraperApiScraper</a>
 						<ul class="tsd-hierarchy">
 							<li>
-								<a href="scraperapiscraper.html" class="tsd-signature-type">ScraperApiScraper</a>
-							</li>
-							<li>
-								<a href="genrescraper.html" class="tsd-signature-type">GenreScraper</a>
-							</li>
-							<li>
-								<a href="spotifyscraper.html" class="tsd-signature-type">SpotifyScraper</a>
+								<span class="target">RymScraper</span>
+								<ul class="tsd-hierarchy">
+									<li>
+										<a href="artistscraper.html" class="tsd-signature-type">ArtistScraper</a>
+									</li>
+									<li>
+										<a href="albumscraper.html" class="tsd-signature-type">AlbumScraper</a>
+									</li>
+									<li>
+										<a href="profilescraper.html" class="tsd-signature-type">ProfileScraper</a>
+									</li>
+								</ul>
 							</li>
 						</ul>
 					</li>
@@ -106,49 +102,55 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="scraper.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><a href="rymscraper.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="scraper.html#datareadfromdb" class="tsd-kind-icon">data<wbr>Read<wbr>FromDB</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="scraper.html#description" class="tsd-kind-icon">description</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="scraper.html#results" class="tsd-kind-icon">results</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="scraper.html#scrapesucceeded" class="tsd-kind-icon">scrape<wbr>Succeeded</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="scraper.html#verbose" class="tsd-kind-icon">verbose</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="rymscraper.html#datareadfromdb" class="tsd-kind-icon">data<wbr>Read<wbr>FromDB</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="rymscraper.html#databaseid" class="tsd-kind-icon">database<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="rymscraper.html#description" class="tsd-kind-icon">description</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="rymscraper.html#repository" class="tsd-kind-icon">repository</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="rymscraper.html#results" class="tsd-kind-icon">results</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="rymscraper.html#scraperoot" class="tsd-kind-icon">scrape<wbr>Root</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="rymscraper.html#scrapesucceeded" class="tsd-kind-icon">scrape<wbr>Succeeded</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="rymscraper.html#url" class="tsd-kind-icon">url</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="rymscraper.html#verbose" class="tsd-kind-icon">verbose</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="scraper.html#checkforlocalrecord" class="tsd-kind-icon">check<wbr>For<wbr>Local<wbr>Record</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="scraper.html#extractinfo" class="tsd-kind-icon">extract<wbr>Info</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="scraper.html#printinfo" class="tsd-kind-icon">print<wbr>Info</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="scraper.html#printresult" class="tsd-kind-icon">print<wbr>Result</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="scraper.html#requestscrape" class="tsd-kind-icon">request<wbr>Scrape</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="scraper.html#savetodb" class="tsd-kind-icon">save<wbr>ToDB</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="scraper.html#scrape" class="tsd-kind-icon">scrape</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="scraper.html#scrapedependencies" class="tsd-kind-icon">scrape<wbr>Dependencies</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="rymscraper.html#checkforlocalrecord" class="tsd-kind-icon">check<wbr>For<wbr>Local<wbr>Record</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="rymscraper.html#extractinfo" class="tsd-kind-icon">extract<wbr>Info</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="rymscraper.html#getentity" class="tsd-kind-icon">get<wbr>Entity</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rymscraper.html#printinfo" class="tsd-kind-icon">print<wbr>Info</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rymscraper.html#printresult" class="tsd-kind-icon">print<wbr>Result</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="rymscraper.html#requestscrape" class="tsd-kind-icon">request<wbr>Scrape</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="rymscraper.html#savetodb" class="tsd-kind-icon">save<wbr>ToDB</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="rymscraper.html#scrape" class="tsd-kind-icon">scrape</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="rymscraper.html#scrapedependencies" class="tsd-kind-icon">scrape<wbr>Dependencies</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Scraper<span class="tsd-signature-symbol">(</span>description<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, verbose<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="scraper.html" class="tsd-signature-type">Scraper</a></li>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Rym<wbr>Scraper<span class="tsd-signature-symbol">(</span>description<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, verbose<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="rymscraper.html" class="tsd-signature-type">RymScraper</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#constructor">constructor</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/scrapers/scraper.ts#L49">scrapers/scraper.ts:49</a></li>
 								</ul>
@@ -174,18 +176,19 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="scraper.html" class="tsd-signature-type">Scraper</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="rymscraper.html" class="tsd-signature-type">RymScraper</a></h4>
 						</li>
 					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="datareadfromdb" class="tsd-anchor"></a>
 					<h3>data<wbr>Read<wbr>FromDB</h3>
 					<div class="tsd-signature tsd-kind-icon">data<wbr>Read<wbr>FromDB<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#datareadfromdb">dataReadFromDB</a></p>
 						<ul>
 							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/scrapers/scraper.ts#L28">scrapers/scraper.ts:28</a></li>
 						</ul>
@@ -199,10 +202,21 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="databaseid" class="tsd-anchor"></a>
+					<h3>database<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">database<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/scrapers/rym/rymScraper.ts#L7">scrapers/rym/rymScraper.ts:7</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="description" class="tsd-anchor"></a>
 					<h3>description</h3>
 					<div class="tsd-signature tsd-kind-icon">description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#description">description</a></p>
 						<ul>
 							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/scrapers/scraper.ts#L38">scrapers/scraper.ts:38</a></li>
 						</ul>
@@ -213,11 +227,22 @@
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+					<a name="repository" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> repository</h3>
+					<div class="tsd-signature tsd-kind-icon">repository<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Repository</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/scrapers/rym/rymScraper.ts#L9">scrapers/rym/rymScraper.ts:9</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="results" class="tsd-anchor"></a>
 					<h3>results</h3>
 					<div class="tsd-signature tsd-kind-icon">results<span class="tsd-signature-symbol">:</span> <a href="resultbatch.html" class="tsd-signature-type">ResultBatch</a></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#results">results</a></p>
 						<ul>
 							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/scrapers/scraper.ts#L33">scrapers/scraper.ts:33</a></li>
 						</ul>
@@ -228,11 +253,23 @@
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="scraperoot" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> scrape<wbr>Root</h3>
+					<div class="tsd-signature tsd-kind-icon">scrape<wbr>Root<span class="tsd-signature-symbol">:</span> <a href="parseelement.html" class="tsd-signature-type">ParseElement</a></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="scraperapiscraper.html">ScraperApiScraper</a>.<a href="scraperapiscraper.html#scraperoot">scrapeRoot</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/scrapers/scraperApiScraper.ts#L14">scrapers/scraperApiScraper.ts:14</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="scrapesucceeded" class="tsd-anchor"></a>
 					<h3>scrape<wbr>Succeeded</h3>
 					<div class="tsd-signature tsd-kind-icon">scrape<wbr>Succeeded<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#scrapesucceeded">scrapeSucceeded</a></p>
 						<ul>
 							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/scrapers/scraper.ts#L49">scrapers/scraper.ts:49</a></li>
 						</ul>
@@ -244,11 +281,28 @@
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="url" class="tsd-anchor"></a>
+					<h3>url</h3>
+					<div class="tsd-signature tsd-kind-icon">url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="scraperapiscraper.html">ScraperApiScraper</a>.<a href="scraperapiscraper.html#url">url</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/scrapers/scraperApiScraper.ts#L12">scrapers/scraperApiScraper.ts:12</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>External url indicating the scraper&#39;s target resource.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="verbose" class="tsd-anchor"></a>
 					<h3>verbose</h3>
 					<div class="tsd-signature tsd-kind-icon">verbose<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#verbose">verbose</a></p>
 						<ul>
 							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/scrapers/scraper.ts#L43">scrapers/scraper.ts:43</a></li>
 						</ul>
@@ -262,38 +316,34 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="checkforlocalrecord" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagAbstract">Abstract</span> check<wbr>For<wbr>Local<wbr>Record</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<h3>check<wbr>For<wbr>Local<wbr>Record</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon">check<wbr>For<wbr>Local<wbr>Record<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="scraper.html">Scraper</a>.<a href="scraper.html#checkforlocalrecord">checkForLocalRecord</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/scrapers/scraper.ts#L147">scrapers/scraper.ts:147</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/scrapers/rym/rymScraper.ts#L11">scrapers/rym/rymScraper.ts:11</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Gets the local stored record corresponding to a given scraper. Should return null if no
-									local record is found</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="extractinfo" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> <span class="tsd-flag ts-flagAbstract">Abstract</span> extract<wbr>Info</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 						<li class="tsd-signature tsd-kind-icon">extract<wbr>Info<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#extractinfo">extractInfo</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/scrapers/scraper.ts#L141">scrapers/scraper.ts:141</a></li>
 								</ul>
@@ -317,14 +367,38 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getentity" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagAbstract">Abstract</span> get<wbr>Entity</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Entity<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/scrapers/rym/rymScraper.ts#L27">scrapers/rym/rymScraper.ts:27</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Find the database entity of a given album</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>an AlbumEntity, the saved database record for an album</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="printinfo" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagAbstract">Abstract</span> print<wbr>Info</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">print<wbr>Info<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#printinfo">printInfo</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/scrapers/scraper.ts#L158">scrapers/scraper.ts:158</a></li>
 								</ul>
@@ -338,15 +412,16 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="printresult" class="tsd-anchor"></a>
 					<h3>print<wbr>Result</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">print<wbr>Result<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#printresult">printResult</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/scrapers/scraper.ts#L116">scrapers/scraper.ts:116</a></li>
 								</ul>
@@ -360,38 +435,41 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 					<a name="requestscrape" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagAbstract">Abstract</span> request<wbr>Scrape</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">request<wbr>Scrape<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<h3>request<wbr>Scrape</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">request<wbr>Scrape<span class="tsd-signature-symbol">(</span>attempts<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="scraperapiscraper.html">ScraperApiScraper</a>.<a href="scraperapiscraper.html#requestscrape">requestScrape</a></p>
+								<p>Overrides <a href="scraper.html">Scraper</a>.<a href="scraper.html#requestscrape">requestScrape</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/scrapers/scraper.ts#L153">scrapers/scraper.ts:153</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/scrapers/scraperApiScraper.ts#L16">scrapers/scraperApiScraper.ts:16</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Requests and stores an external resource, to be parsed later by
-									<a href="scraper.html#extractinfo">Scraper.extractInfo</a>.</p>
-								</div>
-							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> attempts: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="savetodb" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> <span class="tsd-flag ts-flagAbstract">Abstract</span> save<wbr>ToDB</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 						<li class="tsd-signature tsd-kind-icon">save<wbr>ToDB<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#savetodb">saveToDB</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/scrapers/scraper.ts#L170">scrapers/scraper.ts:170</a></li>
 								</ul>
@@ -413,15 +491,16 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="scrape" class="tsd-anchor"></a>
 					<h3>scrape</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">scrape<span class="tsd-signature-symbol">(</span>forceScrape<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#scrape">scrape</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/scrapers/scraper.ts#L94">scrapers/scraper.ts:94</a></li>
 								</ul>
@@ -469,15 +548,16 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="scrapedependencies" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> <span class="tsd-flag ts-flagAbstract">Abstract</span> scrape<wbr>Dependencies</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 						<li class="tsd-signature tsd-kind-icon">scrape<wbr>Dependencies<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#scrapedependencies">scrapeDependencies</a></p>
 								<ul>
 									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/scrapers/scraper.ts#L182">scrapers/scraper.ts:182</a></li>
 								</ul>
@@ -513,50 +593,65 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class">
-						<a href="scraper.html" class="tsd-kind-icon">Scraper</a>
+					<li class="current tsd-kind-class tsd-has-type-parameter">
+						<a href="rymscraper.html" class="tsd-kind-icon">Rym<wbr>Scraper</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="scraper.html#constructor" class="tsd-kind-icon">constructor</a>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
+								<a href="rymscraper.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="rymscraper.html#datareadfromdb" class="tsd-kind-icon">data<wbr>Read<wbr>FromDB</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="scraper.html#datareadfromdb" class="tsd-kind-icon">data<wbr>Read<wbr>FromDB</a>
+								<a href="rymscraper.html#databaseid" class="tsd-kind-icon">database<wbr>Id</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="scraper.html#description" class="tsd-kind-icon">description</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="rymscraper.html#description" class="tsd-kind-icon">description</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="scraper.html#results" class="tsd-kind-icon">results</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+								<a href="rymscraper.html#repository" class="tsd-kind-icon">repository</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="scraper.html#scrapesucceeded" class="tsd-kind-icon">scrape<wbr>Succeeded</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="rymscraper.html#results" class="tsd-kind-icon">results</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="scraper.html#verbose" class="tsd-kind-icon">verbose</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="rymscraper.html#scraperoot" class="tsd-kind-icon">scrape<wbr>Root</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="scraper.html#checkforlocalrecord" class="tsd-kind-icon">check<wbr>For<wbr>Local<wbr>Record</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="rymscraper.html#scrapesucceeded" class="tsd-kind-icon">scrape<wbr>Succeeded</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-								<a href="scraper.html#extractinfo" class="tsd-kind-icon">extract<wbr>Info</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="rymscraper.html#url" class="tsd-kind-icon">url</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="scraper.html#printinfo" class="tsd-kind-icon">print<wbr>Info</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="rymscraper.html#verbose" class="tsd-kind-icon">verbose</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="scraper.html#printresult" class="tsd-kind-icon">print<wbr>Result</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+								<a href="rymscraper.html#checkforlocalrecord" class="tsd-kind-icon">check<wbr>For<wbr>Local<wbr>Record</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="scraper.html#requestscrape" class="tsd-kind-icon">request<wbr>Scrape</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-								<a href="scraper.html#savetodb" class="tsd-kind-icon">save<wbr>ToDB</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="rymscraper.html#extractinfo" class="tsd-kind-icon">extract<wbr>Info</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="scraper.html#scrape" class="tsd-kind-icon">scrape</a>
+								<a href="rymscraper.html#getentity" class="tsd-kind-icon">get<wbr>Entity</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-								<a href="scraper.html#scrapedependencies" class="tsd-kind-icon">scrape<wbr>Dependencies</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="rymscraper.html#printinfo" class="tsd-kind-icon">print<wbr>Info</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="rymscraper.html#printresult" class="tsd-kind-icon">print<wbr>Result</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+								<a href="rymscraper.html#requestscrape" class="tsd-kind-icon">request<wbr>Scrape</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="rymscraper.html#savetodb" class="tsd-kind-icon">save<wbr>ToDB</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="rymscraper.html#scrape" class="tsd-kind-icon">scrape</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="rymscraper.html#scrapedependencies" class="tsd-kind-icon">scrape<wbr>Dependencies</a>
 							</li>
 						</ul>
 					</li>

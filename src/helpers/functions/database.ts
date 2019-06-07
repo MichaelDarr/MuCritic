@@ -7,7 +7,7 @@ import {
     GenreEntity,
     ProfileEntity,
     ReviewEntity,
-} from '../../entities/index';
+} from '../../entities/entities';
 
 /**
  * Initializes a database connection

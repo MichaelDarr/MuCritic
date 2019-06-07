@@ -1,6 +1,11 @@
 import { Base64 } from 'js-base64';
 import * as request from 'request';
 
+import {
+    SpotifyResponse,
+    SpotifySearchResponse,
+} from '../types';
+
 export class SpotifyApi {
     private clientId: string;
 
@@ -19,14 +24,14 @@ export class SpotifyApi {
         query: string,
         type: string,
         limit: number,
-    ): Promise<any> {
+    ): Promise<SpotifySearchResponse> {
         const url = `https://api.spotify.com/v1/search?q=${query}&type=${type}&limit=${limit}`;
         return this.request(url);
     }
 
     private async request(
         url: string,
-    ): Promise<any> {
+    ): Promise<SpotifyResponse> {
         const token: string = await this.getAccessToken();
         return new Promise((resolve, reject): void => {
             const requestOptions = {

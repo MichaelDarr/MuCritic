@@ -1,10 +1,10 @@
+import { AllHtmlEntities } from 'html-entities';
 import { JSDOM } from 'jsdom';
 
 import {
     isNullOrUndef,
     stringToNum,
 } from '../functions/typeManips';
-import { decodeHtmlText } from './encoding';
 import { ParseList } from './parseList';
 
 export class ParseElement {
@@ -13,6 +13,8 @@ export class ParseElement {
     public description = 'HTML Element';
 
     public strict: boolean;
+
+    public entities = new AllHtmlEntities();
 
     public constructor(
         element: HTMLElement,
@@ -29,7 +31,7 @@ export class ParseElement {
         } else {
             this.raw = element;
         }
-
+        this.entities = new AllHtmlEntities();
         this.description = description;
         this.strict = strict;
     }
@@ -73,7 +75,7 @@ export class ParseElement {
             strict,
             `No inner HTML found for element: ${this.description}`,
         )) return defaultVal;
-        if(decode) return decodeHtmlText(innerHTML);
+        if(decode) return this.entities.decode(innerHTML);
         return innerHTML;
     }
 
@@ -90,7 +92,7 @@ export class ParseElement {
             `No inner text found for element: ${this.description}`,
         )) return defaultVal;
         if(trim) textContent = textContent.trim();
-        if(decode) textContent = decodeHtmlText(textContent);
+        if(decode) textContent = this.entities.decode(textContent);
 
         return textContent;
     }

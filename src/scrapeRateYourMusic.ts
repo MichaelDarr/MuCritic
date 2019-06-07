@@ -6,15 +6,11 @@ import * as dontenv from 'dotenv';
 import { resolve } from 'path';
 import 'reflect-metadata';
 
-import { Log } from './helpers/classes/index';
-import {
-    connectToDatabase,
-    readFileToArray,
-} from './helpers/functions/index';
-import {
-    ProfileScraper,
-    ReviewPageScraper,
-} from './scrapers/rym/index';
+import { Log } from './helpers/classes/log';
+import { readFileToArray } from './helpers/functions/fileSystem';
+import { connectToDatabase } from './helpers/functions/database';
+import { ProfileScraper } from './scrapers/rym/profileScraper';
+import { ReviewPageScraper } from './scrapers/rym/reviewPageScraper';
 
 // environment variables
 dontenv.config({ path: resolve(__dirname, '../.env') });

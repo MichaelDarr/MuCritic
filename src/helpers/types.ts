@@ -3,7 +3,7 @@ import {
     ArtistEntity,
     ProfileEntity,
     ReviewEntity,
-} from '../entities/index';
+} from '../entities/entities';
 
 export enum Gender {
     Male,
@@ -93,9 +93,12 @@ export interface SpotifySearchArtist {
     };
 }
 
-export type SpotifyApiResponse =
+export type SpotifySearchResponse =
     | SpotifySearchAlbum
     | SpotifySearchArtist;
+
+export type SpotifyResponse =
+    | SpotifySearchResponse;
 
 export interface SpotifyAlbumArtistPairSimplified {
     album: SpotifyAlbumSimplified;

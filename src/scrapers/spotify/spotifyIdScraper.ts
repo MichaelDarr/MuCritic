@@ -9,13 +9,16 @@ import {
 } from 'typeorm';
 
 import { SpotifyScraper } from './spotifyScraper';
-import { AlbumEntity } from '../../entities/index';
+import {
+    AlbumEntity,
+    ArtistEntity,
+} from '../../entities/entities';
 import { Log } from '../../helpers/classes/log';
 import { SpotifyApi } from '../../helpers/classes/spotifyApi';
 import {
     SpotifyAlbumArtistPairSimplified,
     SpotifyAlbumSimplified,
-    SpotifyArtistSimplified,
+    SpotifySearchResponse,
     SpotifySearchAlbum,
 } from '../../helpers/types';
 
@@ -24,17 +27,22 @@ export class SpotifyIdScraper extends SpotifyScraper {
 
     private album: AlbumEntity;
 
-    private repository: Repository<AlbumEntity>;
+    private artist: ArtistEntity;
+
+    private albumRepository: Repository<AlbumEntity>;
+
+    private artistRepository: Repository<ArtistEntity>;
 
     public constructor(
         spotifyApi: SpotifyApi,
         album: AlbumEntity,
         verbose = false,
     ) {
-        if(!album.artist) throw new Error('Tried to initialize Spotify ID scrape for album without artist');
-        super(spotifyApi, `Spotify ID scrape for album : ${album.name}`, verbose);
+        super(spotifyApi, `Spotify ID scrape: ${album.name} by ${album.artist.name}`, verbose);
         this.album = album;
-        this.repository = getConnection().getRepository(AlbumEntity);
+        this.artist = album.artist;
+        this.albumRepository = getConnection().getRepository(AlbumEntity);
+        this.artistRepository = getConnection().getRepository(ArtistEntity);
     }
 
     /**
@@ -43,20 +51,25 @@ export class SpotifyIdScraper extends SpotifyScraper {
      * @return true if the stored record already has a spotify id
      */
     public async checkForLocalRecord(): Promise<boolean> {
-        if(this.album.spotifyId != null && this.album.artist.spotifyId != null) return true;
+        if(this.album.spotifyId != null && this.artist.spotifyId != null) return true;
         return false;
     }
 
     public async requestScrape(): Promise<void> {
-        let queryString = `album:${this.album.name} artist:${this.album.artist.name}`;
+        let queryString = `album:${this.album.name} artist:${this.artist.name}`;
         queryString = encodeURIComponent(queryString);
-        this.spotifyResponse = await this.spotifyApi.searchRequest(queryString, 'album', 3);
+        const spotifyResponse: SpotifySearchResponse = await this.spotifyApi.searchRequest(queryString, 'album', 3);
+        const albumResponse = spotifyResponse as SpotifySearchAlbum;
+        if(albumResponse.albums.items.length === 0) {
+            throw new Error(`No results for album: ${this.album.name} by ${this.artist.name}`);
+        }
+        this.spotifyResponse = albumResponse;
     }
 
     protected extractInfo(): void {
         const matchedInfo = this.extractCorrectItem();
         this.album.spotifyId = matchedInfo.album.id;
-        this.album.artist.spotifyId = matchedInfo.artist.id;
+        this.artist.spotifyId = matchedInfo.artist.id;
     }
 
     public printInfo(): void {
@@ -64,34 +77,63 @@ export class SpotifyIdScraper extends SpotifyScraper {
         finalString += (this.album.spotifyId != null)
             ? `Spotify ID for album ${this.album.name}: ${this.album.spotifyId}\n`
             : `Spotify ID for album ${this.album.name} unknown\n`;
-        finalString += (this.album.spotifyId != null)
-            ? `Spotify ID for artist  ${this.album.artist.name}: ${this.album.artist.spotifyId}\n`
-            : `Spotify ID for artsit ${this.album.artist.name} unknown\n`;
+        finalString += (this.artist.spotifyId != null)
+            ? `Spotify ID for artist  ${this.artist.name}: ${this.artist.spotifyId}\n`
+            : `Spotify ID for artsit ${this.artist.name} unknown\n`;
         Log.log(finalString);
     }
 
     protected async saveToDB(): Promise<void> {
-        await this.repository.save(this.album);
+        await this.albumRepository.save(this.album);
+        await this.artistRepository.save(this.artist);
     }
 
-    private extractCorrectItem(artistId?: string): SpotifyAlbumArtistPairSimplified {
-        let response: SpotifyAlbumArtistPairSimplified;
-        this.spotifyResponse.albums.items.forEach((spotifyAlbum: SpotifyAlbumSimplified): void => {
-            if(this.album.name === spotifyAlbum.name) {
-                spotifyAlbum.artists.forEach((spotifyArtist: SpotifyArtistSimplified): void => {
-                    if(artistId != null && artistId === spotifyArtist.id) {
-                        response.album = spotifyAlbum;
-                        response.artist = spotifyArtist;
-                    } else if(artistId == null && this.album.artist.name === spotifyArtist.name) {
-                        response.album = spotifyAlbum;
-                        response.artist = spotifyArtist;
+    private extractMatchingRecord(strict = false): SpotifyAlbumArtistPairSimplified {
+        const response: SpotifyAlbumArtistPairSimplified = { artist: null, album: null };
+        const albums = this.spotifyResponse.albums.items;
+        const albumName = SpotifyIdScraper.sanitize(this.album.name);
+        const artistName = SpotifyIdScraper.sanitize(this.artist.name);
+        const artistId = this.artist.spotifyId;
+        albums.forEach((album): void => {
+            const albumNameTest = SpotifyIdScraper.sanitize(album.name);
+            let albumNameMatches = false;
+            if(strict && albumName === albumNameTest) {
+                albumNameMatches = true;
+            } else if(!strict && albumNameTest.indexOf(albumName) !== -1) {
+                albumNameMatches = true;
+            }
+            if(albumNameMatches) {
+                album.artists.forEach((spotifyArtist): void => {
+                    const artistNameTest = SpotifyIdScraper.sanitize(spotifyArtist.name);
+                    if(artistId == null && artistName === artistNameTest) {
+                        if(response.album == null || response.artist == null) {
+                            response.album = album;
+                            response.artist = spotifyArtist;
+                        }
+                    } else if(artistId != null && artistId === spotifyArtist.id) {
+                        if(response.album == null || response.artist == null) {
+                            response.album = album;
+                            response.artist = spotifyArtist;
+                        }
                     }
                 });
             }
         });
+        return response;
+    }
+
+    private static sanitize(raw: string): string {
+        return raw.toLowerCase().replace(/ /g, '');
+    }
+
+    private extractCorrectItem(): SpotifyAlbumArtistPairSimplified {
+        let response = this.extractMatchingRecord(true);
+        if(response.artist == null || response.album == null) {
+            response = this.extractMatchingRecord(false);
+        }
         if(response.artist == null || response.album == null) {
             throw new Error(
-                `Unable to find a perfect Spotify match for ${this.album.name} by ${this.album.artist.name}`,
+                `Unable to find Spotify match for ${this.album.name} by ${this.artist.name}`,
             );
         }
         return response;

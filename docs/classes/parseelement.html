@@ -71,11 +71,6 @@
 				<ul class="tsd-hierarchy">
 					<li>
 						<span class="target">ParseElement</span>
-						<ul class="tsd-hierarchy">
-							<li>
-								<a href="parseanchor.html" class="tsd-signature-type">ParseAnchor</a>
-							</li>
-						</ul>
 					</li>
 				</ul>
 			</section>
@@ -93,6 +88,7 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="parseelement.html#description" class="tsd-kind-icon">description</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="parseelement.html#entities" class="tsd-kind-icon">entities</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="parseelement.html#raw" class="tsd-kind-icon">raw</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="parseelement.html#strict" class="tsd-kind-icon">strict</a></li>
 							</ul>
@@ -100,12 +96,12 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="parseelement.html#anchor" class="tsd-kind-icon">anchor</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="parseelement.html#element" class="tsd-kind-icon">element</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="parseelement.html#href" class="tsd-kind-icon">href</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="parseelement.html#innerhtml" class="tsd-kind-icon">innerHTML</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="parseelement.html#innertext" class="tsd-kind-icon">inner<wbr>Text</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="parseelement.html#list" class="tsd-kind-icon">list</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="parseelement.html#number" class="tsd-kind-icon">number</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="parseelement.html#text" class="tsd-kind-icon">text</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="parseelement.html#title" class="tsd-kind-icon">title</a></li>
 							</ul>
 						</section>
@@ -124,7 +120,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/parsing/parseElement.ts#L18">helpers/parsing/parseElement.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/parsing/parseElement.ts#L17">helpers/parsing/parseElement.ts:17</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -133,7 +129,7 @@
 									<h5>element: <span class="tsd-signature-type">HTMLElement</span></h5>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> description: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;html element&quot;</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> description: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;element&quot;</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> strict: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
@@ -152,7 +148,17 @@
 					<div class="tsd-signature tsd-kind-icon">description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;HTML Element&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/parsing/parseElement.ts#L16">helpers/parsing/parseElement.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/parsing/parseElement.ts#L13">helpers/parsing/parseElement.ts:13</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="entities" class="tsd-anchor"></a>
+					<h3>entities</h3>
+					<div class="tsd-signature tsd-kind-icon">entities<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> =&nbsp;new AllHtmlEntities()</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/parsing/parseElement.ts#L17">helpers/parsing/parseElement.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -162,7 +168,7 @@
 					<div class="tsd-signature tsd-kind-icon">raw<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLElement</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/parsing/parseElement.ts#L14">helpers/parsing/parseElement.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/parsing/parseElement.ts#L11">helpers/parsing/parseElement.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -172,7 +178,7 @@
 					<div class="tsd-signature tsd-kind-icon">strict<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/parsing/parseElement.ts#L18">helpers/parsing/parseElement.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/parsing/parseElement.ts#L15">helpers/parsing/parseElement.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -180,45 +186,16 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="anchor" class="tsd-anchor"></a>
-					<h3>anchor</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">anchor<span class="tsd-signature-symbol">(</span>htmlQuery<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, targetDescription<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, strict<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="parseanchor.html" class="tsd-signature-type">ParseAnchor</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/parsing/parseElement.ts#L54">helpers/parsing/parseElement.ts:54</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>htmlQuery: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>targetDescription: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> strict: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;this.strict</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="parseanchor.html" class="tsd-signature-type">ParseAnchor</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="element" class="tsd-anchor"></a>
 					<h3>element</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">element<span class="tsd-signature-symbol">(</span>htmlQuery<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, targetDescription<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, strict<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="parseelement.html" class="tsd-signature-type">ParseElement</a></li>
+						<li class="tsd-signature tsd-kind-icon">element<span class="tsd-signature-symbol">(</span>htmlQuery<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, targetDescription<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, strict<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="parseelement.html" class="tsd-signature-type">ParseElement</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/parsing/parseElement.ts#L40">helpers/parsing/parseElement.ts:40</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/parsing/parseElement.ts#L39">helpers/parsing/parseElement.ts:39</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -227,13 +204,39 @@
 									<h5>htmlQuery: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>targetDescription: <span class="tsd-signature-type">string</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> targetDescription: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;element&quot;</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> strict: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;this.strict</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="parseelement.html" class="tsd-signature-type">ParseElement</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="href" class="tsd-anchor"></a>
+					<h3>href</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">href<span class="tsd-signature-symbol">(</span>strict<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, defaultVal<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/parsing/parseElement.ts#L100">helpers/parsing/parseElement.ts:100</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> strict: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;this.strict</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> defaultVal: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;&quot;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -247,7 +250,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/parsing/parseElement.ts#L82">helpers/parsing/parseElement.ts:82</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/parsing/parseElement.ts#L67">helpers/parsing/parseElement.ts:67</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -267,16 +270,71 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="innertext" class="tsd-anchor"></a>
-					<h3>inner<wbr>Text</h3>
+					<a name="list" class="tsd-anchor"></a>
+					<h3>list</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">inner<wbr>Text<span class="tsd-signature-symbol">(</span>strict<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, defaultVal<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, trim<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, decode<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<span class="tsd-signature-symbol">(</span>htmlQuery<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, targetDescription<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, strict<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="parselist.html" class="tsd-signature-type">ParseList</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/parsing/parseElement.ts#L97">helpers/parsing/parseElement.ts:97</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/parsing/parseElement.ts#L53">helpers/parsing/parseElement.ts:53</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>htmlQuery: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> targetDescription: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;list&quot;</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> strict: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;this.strict</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="parselist.html" class="tsd-signature-type">ParseList</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="number" class="tsd-anchor"></a>
+					<h3>number</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">number<span class="tsd-signature-symbol">(</span>strict<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, defaultNum<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/parsing/parseElement.ts#L127">helpers/parsing/parseElement.ts:127</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> strict: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;this.strict</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> defaultNum: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="text" class="tsd-anchor"></a>
+					<h3>text</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">text<span class="tsd-signature-symbol">(</span>strict<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, defaultVal<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, trim<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, decode<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/parsing/parseElement.ts#L82">helpers/parsing/parseElement.ts:82</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -299,61 +357,6 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="list" class="tsd-anchor"></a>
-					<h3>list</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">list<span class="tsd-signature-symbol">(</span>htmlQuery<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, targetDescription<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, strict<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="parselist.html" class="tsd-signature-type">ParseList</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/parsing/parseElement.ts#L68">helpers/parsing/parseElement.ts:68</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>htmlQuery: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>targetDescription: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> strict: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;this.strict</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="parselist.html" class="tsd-signature-type">ParseList</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="number" class="tsd-anchor"></a>
-					<h3>number</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">number<span class="tsd-signature-symbol">(</span>strict<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, defaultNum<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/parsing/parseElement.ts#L128">helpers/parsing/parseElement.ts:128</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> strict: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;this.strict</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> defaultNum: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="title" class="tsd-anchor"></a>
 					<h3>title</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -363,7 +366,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b526902/rym-data/src/helpers/parsing/parseElement.ts#L115">helpers/parsing/parseElement.ts:115</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/parsing/parseElement.ts#L114">helpers/parsing/parseElement.ts:114</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -391,42 +394,6 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum">
-						<a href="../enums/apiservice.html" class="tsd-kind-icon">Api<wbr>Service</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/gender.html" class="tsd-kind-icon">Gender</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="../enums/scrapingsite.html" class="tsd-kind-icon">Scraping<wbr>Site</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="albumentity.html" class="tsd-kind-icon">Album<wbr>Entity</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="albumscraper.html" class="tsd-kind-icon">Album<wbr>Scraper</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="apiresult.html" class="tsd-kind-icon">Api<wbr>Result</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="artistentity.html" class="tsd-kind-icon">Artist<wbr>Entity</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="artistscraper.html" class="tsd-kind-icon">Artist<wbr>Scraper</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="genreentity.html" class="tsd-kind-icon">Genre<wbr>Entity</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="genrescraper.html" class="tsd-kind-icon">Genre<wbr>Scraper</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="log.html" class="tsd-kind-icon">Log</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="parseanchor.html" class="tsd-kind-icon">Parse<wbr>Anchor</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
@@ -439,22 +406,22 @@
 								<a href="parseelement.html#description" class="tsd-kind-icon">description</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="parseelement.html#entities" class="tsd-kind-icon">entities</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="parseelement.html#raw" class="tsd-kind-icon">raw</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="parseelement.html#strict" class="tsd-kind-icon">strict</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="parseelement.html#anchor" class="tsd-kind-icon">anchor</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="parseelement.html#element" class="tsd-kind-icon">element</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="parseelement.html#innerhtml" class="tsd-kind-icon">innerHTML</a>
+								<a href="parseelement.html#href" class="tsd-kind-icon">href</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="parseelement.html#innertext" class="tsd-kind-icon">inner<wbr>Text</a>
+								<a href="parseelement.html#innerhtml" class="tsd-kind-icon">innerHTML</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="parseelement.html#list" class="tsd-kind-icon">list</a>
@@ -463,93 +430,15 @@
 								<a href="parseelement.html#number" class="tsd-kind-icon">number</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="parseelement.html#text" class="tsd-kind-icon">text</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="parseelement.html#title" class="tsd-kind-icon">title</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-class">
-						<a href="parselist.html" class="tsd-kind-icon">Parse<wbr>List</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="profileentity.html" class="tsd-kind-icon">Profile<wbr>Entity</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="profilescraper.html" class="tsd-kind-icon">Profile<wbr>Scraper</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="resultbatch.html" class="tsd-kind-icon">Result<wbr>Batch</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="review.html" class="tsd-kind-icon">Review</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="reviewentity.html" class="tsd-kind-icon">Review<wbr>Entity</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="reviewpagescraper.html" class="tsd-kind-icon">Review<wbr>Page<wbr>Scraper</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="scraperesult.html" class="tsd-kind-icon">Scrape<wbr>Result</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="scraper.html" class="tsd-kind-icon">Scraper</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="simpledate.html" class="tsd-kind-icon">Simple<wbr>Date</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="spotifyapi.html" class="tsd-kind-icon">Spotify<wbr>Api</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="../globals.html#attatchidstoentries" class="tsd-kind-icon">attatch<wbr>Ids<wbr>ToEntries</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="../globals.html#connecttodatabase" class="tsd-kind-icon">connect<wbr>ToDatabase</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="../globals.html#decodehtmltext" class="tsd-kind-icon">decode<wbr>Html<wbr>Text</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="../globals.html#encodehtmltext" class="tsd-kind-icon">encode<wbr>Html<wbr>Text</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="../globals.html#extractcorrectitem" class="tsd-kind-icon">extract<wbr>Correct<wbr>Item</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="../globals.html#extractcountfrompair" class="tsd-kind-icon">extract<wbr>Count<wbr>From<wbr>Pair</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="../globals.html#extractmembercountfromstring" class="tsd-kind-icon">extract<wbr>Member<wbr>Count<wbr>From<wbr>String</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="../globals.html#getassetid" class="tsd-kind-icon">get<wbr>Asset<wbr>Id</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="../globals.html#getrequestbody" class="tsd-kind-icon">get<wbr>Request<wbr>Body</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="../globals.html#isnullorundef" class="tsd-kind-icon">is<wbr>Null<wbr>OrUndef</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="../globals.html#readfiletoarray" class="tsd-kind-icon">read<wbr>File<wbr>ToArray</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="../globals.html#requestrawscrape" class="tsd-kind-icon">request<wbr>Raw<wbr>Scrape</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="../globals.html#scraperateyourmusic" class="tsd-kind-icon">scrape<wbr>Rate<wbr>Your<wbr>Music</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="../globals.html#scrapespotifyids" class="tsd-kind-icon">scrape<wbr>Spotify<wbr>Ids</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="../globals.html#servedocumentation" class="tsd-kind-icon">serve<wbr>Documentation</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="../globals.html#stringtonum" class="tsd-kind-icon">string<wbr>ToNum</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
