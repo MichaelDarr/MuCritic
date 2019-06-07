@@ -1,3 +1,8 @@
+/**
+ * Conditional error throwing on null/undefined generic content - used heavily by [[ParseElement]]
+ *
+ * @strict if 'errorMessage' should be thrown, should 'content' be null/undefined
+ */
 export function isNullOrUndef<T>(
     content: T,
     strict: boolean,
@@ -10,6 +15,10 @@ export function isNullOrUndef<T>(
     return false;
 }
 
+/**
+ * @strict if an error should be thrown upon unsuccessful conversion
+ * @defaultNum return value upon conversion failure, when strict = false
+ */
 export function stringToNum(
     toConvert: string,
     strict = false,

@@ -23,6 +23,7 @@ import { ReviewEntity } from './ReviewEntity';
 @Entity({ name: 'album' })
 export class AlbumEntity {
     /**
+     * @remarks
      * Primary Key
      */
     @PrimaryGeneratedColumn()
@@ -47,14 +48,14 @@ export class AlbumEntity {
 
     /**
      * Album ranking in comparison to others released the same year, by overall rating
-     * ([[AlbumEntity.ratingRYM]]). If year ranking has not been assigned by RYM, defaults to 0.
+     * ([[AlbumEntity.ratingRYM]]). Defaults to 0.
      */
     @Column()
     public yearRankRYM: number;
 
     /**
      * Album ranking in comparison to all other albums, by overall rating
-     * ([[AlbumEntity.ratingRYM]]). If overall ranking has not been assigned by RYM, defaults to 0.
+     * ([[AlbumEntity.ratingRYM]]). Defaults to 0.
      */
     @Column()
     public overallRankRYM: number;

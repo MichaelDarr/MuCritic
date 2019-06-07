@@ -1,13 +1,26 @@
 import { isNullOrUndef } from '../functions/typeManips';
 import { ParseElement } from './parseElement';
 
+/**
+ * ## See [[ParseElement]]
+ */
 export class ParseList {
-    public readonly raw: NodeListOf<Element>;
-
     public description: string;
 
+    /**
+     * [```NodeList```](https://developer.mozilla.org/en-US/docs/Web/API/NodeList), set during
+     * instance construction
+     */
+    public readonly raw: NodeListOf<Element>;
+
+    /**
+     * see [[ParseElement.strict]]
+     */
     public strict: boolean;
 
+    /**
+     * @param strict see [[ParseElement.strict]]
+     */
     public constructor(
         listElement: NodeListOf<Element>,
         description = 'list',
@@ -23,6 +36,13 @@ export class ParseList {
         this.strict = strict;
     }
 
+    /**
+     * Finds *index*th element of this list using
+     * [```.item(itemIndex)```](https://developer.mozilla.org/en-US/docs/Web/API/NodeList/item)
+     *
+     * @param index position of element in list, 0-indexed
+     * @param strict see [[ParseElement.strict]]
+     */
     public element(
         index = 0,
         targetDescription = 'element',
@@ -37,6 +57,9 @@ export class ParseList {
         );
     }
 
+    /**
+     * @param strict see [[ParseElement.strict]]
+     */
     public allElements(
         targetDescription = 'element',
         strict = this.strict,

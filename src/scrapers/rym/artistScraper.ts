@@ -63,7 +63,7 @@ export class ArtistScraper extends RymScraper<ArtistEntity> {
     private extractArtistName(): void {
         this.name = this.scrapeRoot
             .element('h1.artist_name_hdr', 'artist', true)
-            .text(true, null, true, true);
+            .textContent(true, null, true, true);
     }
 
     /**
@@ -89,10 +89,10 @@ export class ArtistScraper extends RymScraper<ArtistEntity> {
             .allElements('info block');
         infoBlockParsers.forEach((blockParser: ParseElement, i): void => {
             if(blockParser.raw == null || blockParser.raw.className !== 'info_content') return;
-            const headerBlockText = infoBlockParsers[i - 1].text(false, '');
+            const headerBlockText = infoBlockParsers[i - 1].textContent(false, '');
             switch(headerBlockText) {
                 case 'Members': {
-                    const members = blockParser.text();
+                    const members = blockParser.textContent();
                     this.memberCount = extractMemberCountFromString(members, 1);
                     break;
                 }
@@ -102,7 +102,7 @@ export class ArtistScraper extends RymScraper<ArtistEntity> {
                         .list('a', 'genre links', false)
                         .allElements('individual genre')
                         .forEach((genreParser): void => {
-                            const genreString = genreParser.text();
+                            const genreString = genreParser.textContent();
                             if(genreString != null) allGenres.push(genreString);
                         });
                     this.genreScrapersRYM = GenreScraper.createScrapers(allGenres);
@@ -132,7 +132,7 @@ export class ArtistScraper extends RymScraper<ArtistEntity> {
     private extractDiscographyCount(): void {
         this.discographyCountRYM = this.scrapeRoot
             .element('div.artist_page_section_active_music > span.subtext', 'discog count', false)
-            .number(false, 0);
+            .number();
     }
 
     /**
@@ -144,7 +144,7 @@ export class ArtistScraper extends RymScraper<ArtistEntity> {
     private extractListCount(): void {
         const listCountText = this.scrapeRoot
             .element('div.section_lists > div.release_page_header > h2', 'list count', false)
-            .text();
+            .textContent();
         this.listCountRYM = extractCountFromPair(listCountText, false);
     }
 
@@ -157,11 +157,11 @@ export class ArtistScraper extends RymScraper<ArtistEntity> {
     private extractPastShowCount(): void {
         let showString = this.scrapeRoot
             .element('#disco_expand_prev', 'past show count')
-            .text();
+            .textContent();
 
         showString = showString.replace(/^.+\[/, '');
         showString = showString.substring(0, showString.length - 1);
-        this.showCountRYM = stringToNum(showString, false, 0);
+        this.showCountRYM = stringToNum(showString, false);
     }
 
     protected async scrapeDependencies(): Promise<void> {

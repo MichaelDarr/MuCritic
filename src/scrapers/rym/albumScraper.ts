@@ -135,12 +135,11 @@ export class AlbumScraper extends RymScraper<AlbumEntity> {
     }
 
     private extractMainInfoBlocks(): void {
-        // iterate through the main artist info blocks, "switch" on preceeding header block
         const infoRowParsers = this.scrapeRoot
             .list('.album_info > tbody > tr', 'info rows', false)
             .allElements();
         infoRowParsers.forEach((rowParser: ParseElement): void => {
-            const headerText = rowParser.element('th', 'header', false).text(false, '');
+            const headerText = rowParser.element('th', 'header', false).textContent();
             const contentParser = rowParser.element('td', 'content', false);
             switch(headerText) {
                 case 'Artist': {
@@ -154,17 +153,17 @@ export class AlbumScraper extends RymScraper<AlbumEntity> {
                         .number();
                     this.ratingCountRYM = contentParser
                         .element('span.num_ratings > b > span', 'rating count', false)
-                        .number(false, 0);
+                        .number();
                     break;
                 case 'Ranked': {
                     this.yearRankRYM = contentParser
                         .list('b', 'rankings list', false)
                         .element(0, 'year rank')
-                        .number(false, 0);
+                        .number();
                     this.overallRankRYM = contentParser
                         .list('b', 'rankings list', false)
                         .element(1, 'overall rank')
-                        .number(false, 0);
+                        .number();
                     break;
                 }
                 case 'Genres': {
@@ -173,7 +172,7 @@ export class AlbumScraper extends RymScraper<AlbumEntity> {
                         .list('span.release_pri_genres > a', 'genre links', false)
                         .allElements('individual genre')
                         .forEach((genreParser): void => {
-                            const genreString = genreParser.text(false, null);
+                            const genreString = genreParser.textContent(false, null);
                             if(genreString != null) allGenres.push(genreString);
                         });
                     this.genreScrapersRYM = GenreScraper.createScrapers(allGenres);
@@ -200,23 +199,23 @@ export class AlbumScraper extends RymScraper<AlbumEntity> {
                 'div.section_issues > div.page_section > h2.release_page_header',
                 'issues',
                 false,
-            ).text();
+            ).textContent();
         const reviewCountText = this.scrapeRoot
             .element(
                 'div.section_reviews > div.page_section > h2.release_page_header',
                 'reviews',
                 false,
-            ).text();
+            ).textContent();
         const listCountText = this.scrapeRoot
             .element(
                 'div.section_lists > div.release_page_header > h2',
                 'lists',
                 false,
-            ).text();
+            ).textContent();
 
-        this.issueCountRYM = extractCountFromPair(issueCountText, false, 0);
-        this.reviewCountRYM = extractCountFromPair(reviewCountText, false, 0);
-        this.listCountRYM = extractCountFromPair(listCountText, false, 0);
+        this.issueCountRYM = extractCountFromPair(issueCountText, false);
+        this.reviewCountRYM = extractCountFromPair(reviewCountText, false);
+        this.listCountRYM = extractCountFromPair(listCountText, false);
     }
 
     public printInfo(): void {

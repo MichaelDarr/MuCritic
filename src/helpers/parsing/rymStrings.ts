@@ -5,8 +5,11 @@
 import { stringToNum } from '../functions/typeManips';
 
 /**
- * Simple method to separate and number-ify a combined number-header element on a page
- * For example, the element could contain: ```Discography 12``` and we want to extract ```12```
+ * Extract number a combined number-header string
+ *
+ * @param pairText Example: ```Discography 12```
+ * @param strict see [[ParseElement.strict]]
+ * @returns Example: ```12```
  */
 export function extractCountFromPair(
     pairText: string,
@@ -28,7 +31,9 @@ export function extractCountFromPair(
 }
 
 /**
- * Extract current band info from a string, such as:
+ * Extract the number of band members from a string scraped from Rate Your Music
+ *
+ * @param members Example:
  * ```Kevin Shields (guitar, vocals, sampler), Colm O'Ciosoig (drums, sampler, 1983-95, 2007-...```
  */
 export function extractMemberCountFromString(members: string, defaultVal = 1): number {

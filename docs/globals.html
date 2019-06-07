@@ -72,7 +72,6 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-enum"><a href="enums/apiservice.html" class="tsd-kind-icon">Api<wbr>Service</a></li>
 								<li class="tsd-kind-enum"><a href="enums/gender.html" class="tsd-kind-icon">Gender</a></li>
-								<li class="tsd-kind-enum"><a href="enums/scrapingsite.html" class="tsd-kind-icon">Scraping<wbr>Site</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -111,6 +110,7 @@
 								<li class="tsd-kind-interface"><a href="interfaces/spotifyalbumsimplified.html" class="tsd-kind-icon">Spotify<wbr>Album<wbr>Simplified</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/spotifyartist.html" class="tsd-kind-icon">Spotify<wbr>Artist</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/spotifyartistsimplified.html" class="tsd-kind-icon">Spotify<wbr>Artist<wbr>Simplified</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/spotifyclientcredentials.html" class="tsd-kind-icon">Spotify<wbr>Client<wbr>Credentials</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/spotifyimage.html" class="tsd-kind-icon">Spotify<wbr>Image</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/spotifysearchalbum.html" class="tsd-kind-icon">Spotify<wbr>Search<wbr>Album</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/spotifysearchartist.html" class="tsd-kind-icon">Spotify<wbr>Search<wbr>Artist</a></li>
@@ -121,8 +121,11 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-type-alias"><a href="globals.html#rymdatabaseentities" class="tsd-kind-icon">Rym<wbr>Database<wbr>Entities</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#spotifyalbumtype" class="tsd-kind-icon">Spotify<wbr>Album<wbr>Type</a></li>
-								<li class="tsd-kind-type-alias"><a href="globals.html#spotifyapiresponse" class="tsd-kind-icon">Spotify<wbr>Api<wbr>Response</a></li>
 								<li class="tsd-kind-type-alias"><a href="globals.html#spotifydatabaseentities" class="tsd-kind-icon">Spotify<wbr>Database<wbr>Entities</a></li>
+								<li class="tsd-kind-type-alias"><a href="globals.html#spotifyrequestmethod" class="tsd-kind-icon">Spotify<wbr>Request<wbr>Method</a></li>
+								<li class="tsd-kind-type-alias"><a href="globals.html#spotifyresponse" class="tsd-kind-icon">Spotify<wbr>Response</a></li>
+								<li class="tsd-kind-type-alias"><a href="globals.html#spotifysearchresponse" class="tsd-kind-icon">Spotify<wbr>Search<wbr>Response</a></li>
+								<li class="tsd-kind-type-alias"><a href="globals.html#spotifysearchtype" class="tsd-kind-icon">Spotify<wbr>Search<wbr>Type</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -150,7 +153,7 @@
 					<div class="tsd-signature tsd-kind-icon">Rym<wbr>Database<wbr>Entities<span class="tsd-signature-symbol">:</span> <a href="classes/albumentity.html" class="tsd-signature-type">AlbumEntity</a><span class="tsd-signature-symbol"> | </span><a href="classes/artistentity.html" class="tsd-signature-type">ArtistEntity</a><span class="tsd-signature-symbol"> | </span><a href="classes/profileentity.html" class="tsd-signature-type">ProfileEntity</a><span class="tsd-signature-symbol"> | </span><a href="classes/reviewentity.html" class="tsd-signature-type">ReviewEntity</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/types.ts#L21">helpers/types.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/helpers/types.ts#L21">helpers/types.ts:21</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -160,22 +163,7 @@
 					<div class="tsd-signature tsd-kind-icon">Spotify<wbr>Album<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"album"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"single"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"compilation"</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/types.ts#L35">helpers/types.ts:35</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Spotify API types/interfaces, WIP</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias">
-					<a name="spotifyapiresponse" class="tsd-anchor"></a>
-					<h3>Spotify<wbr>Api<wbr>Response</h3>
-					<div class="tsd-signature tsd-kind-icon">Spotify<wbr>Api<wbr>Response<span class="tsd-signature-symbol">:</span> <a href="interfaces/spotifysearchalbum.html" class="tsd-signature-type">SpotifySearchAlbum</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/spotifysearchartist.html" class="tsd-signature-type">SpotifySearchArtist</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/types.ts#L96">helpers/types.ts:96</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/helpers/types.ts#L46">helpers/types.ts:46</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -185,7 +173,53 @@
 					<div class="tsd-signature tsd-kind-icon">Spotify<wbr>Database<wbr>Entities<span class="tsd-signature-symbol">:</span> <a href="classes/albumentity.html" class="tsd-signature-type">AlbumEntity</a><span class="tsd-signature-symbol"> | </span><a href="classes/artistentity.html" class="tsd-signature-type">ArtistEntity</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/types.ts#L27">helpers/types.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/helpers/types.ts#L27">helpers/types.ts:27</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="spotifyrequestmethod" class="tsd-anchor"></a>
+					<h3>Spotify<wbr>Request<wbr>Method</h3>
+					<div class="tsd-signature tsd-kind-icon">Spotify<wbr>Request<wbr>Method<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"GET"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"POST"</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/helpers/types.ts#L36">helpers/types.ts:36</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Spotify API types/interfaces, WIP
+							See <a href="https://developer.spotify.com/documentation/web-api/reference/object-model/">https://developer.spotify.com/documentation/web-api/reference/object-model/</a></p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="spotifyresponse" class="tsd-anchor"></a>
+					<h3>Spotify<wbr>Response</h3>
+					<div class="tsd-signature tsd-kind-icon">Spotify<wbr>Response<span class="tsd-signature-symbol">:</span> <a href="globals.html#spotifysearchresponse" class="tsd-signature-type">SpotifySearchResponse</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/helpers/types.ts#L116">helpers/types.ts:116</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="spotifysearchresponse" class="tsd-anchor"></a>
+					<h3>Spotify<wbr>Search<wbr>Response</h3>
+					<div class="tsd-signature tsd-kind-icon">Spotify<wbr>Search<wbr>Response<span class="tsd-signature-symbol">:</span> <a href="interfaces/spotifysearchalbum.html" class="tsd-signature-type">SpotifySearchAlbum</a><span class="tsd-signature-symbol"> | </span><a href="interfaces/spotifysearchartist.html" class="tsd-signature-type">SpotifySearchArtist</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/helpers/types.ts#L112">helpers/types.ts:112</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias">
+					<a name="spotifysearchtype" class="tsd-anchor"></a>
+					<h3>Spotify<wbr>Search<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">Spotify<wbr>Search<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"album"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"artist"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"playlist"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"track"</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/helpers/types.ts#L40">helpers/types.ts:40</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -202,12 +236,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/functions/database.ts#L15">helpers/functions/database.ts:15</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/helpers/functions/database.ts#L15">helpers/functions/database.ts:15</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Initializes a database connection</p>
+									<p>Initializes a database connection with params from .env</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -224,28 +258,34 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/parsing/rym.ts#L11">helpers/parsing/rym.ts:11</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/helpers/parsing/rymStrings.ts#L14">helpers/parsing/rymStrings.ts:14</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Simple method to separate and number-ify a combined number-header element on a page
-									For example, the element could contain: <code>Discography 12</code> and we want to extract <code>12</code></p>
+									<p>Extract number a combined number-header string</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>pairText: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Example: <code>Discography 12</code></p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> strict: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>see <a href="classes/parseelement.html#strict">ParseElement.strict</a></p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> defaultNum: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>Example: <code>12</code></p>
 						</li>
 					</ul>
 				</section>
@@ -259,19 +299,22 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/parsing/rym.ts#L34">helpers/parsing/rym.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/helpers/parsing/rymStrings.ts#L39">helpers/parsing/rymStrings.ts:39</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Extract current band info from a string, such as:
-									<code>Kevin Shields (guitar, vocals, sampler), Colm O&#39;Ciosoig (drums, sampler, 1983-95, 2007-...</code></p>
+									<p>Extract the number of band members from a string scraped from Rate Your Music</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>members: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Example:
+										<code>Kevin Shields (guitar, vocals, sampler), Colm O&#39;Ciosoig (drums, sampler, 1983-95, 2007-...</code></p>
+									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> defaultVal: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></h5>
@@ -291,9 +334,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/functions/typeManips.ts#L1">helpers/functions/typeManips.ts:1</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/helpers/functions/typeManips.ts#L6">helpers/functions/typeManips.ts:6</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Conditional error throwing on null/undefined generic content - used heavily by <a href="classes/parseelement.html">ParseElement</a></p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>strict</dt>
+									<dd><p>if &#39;errorMessage&#39; should be thrown, should &#39;content&#39; be null/undefined</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -320,19 +373,16 @@
 					<a name="readfiletoarray" class="tsd-anchor"></a>
 					<h3>read<wbr>File<wbr>ToArray</h3>
 					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">read<wbr>File<wbr>ToArray<span class="tsd-signature-symbol">(</span>fileName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, defaultFile<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">read<wbr>File<wbr>ToArray<span class="tsd-signature-symbol">(</span>fileName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/functions/fileSystem.ts#L19">helpers/functions/fileSystem.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/helpers/functions/fileSystem.ts#L16">helpers/functions/fileSystem.ts:16</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Returns the contents of a file</p>
-								</div>
 								<dl class="tsd-comment-tags">
 									<dt>remarks</dt>
 									<dd><p>This helper is essentially a beefed up, promisified fs.readFile</p>
@@ -347,15 +397,9 @@
 										<p>file to read, relative to base directory</p>
 									</div>
 								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> defaultFile: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>if the file read fails, read this file</p>
-									</div>
-								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>a promise resolving to an array of file lines</p>
+							<p>an array of file lines</p>
 						</li>
 					</ul>
 				</section>
@@ -369,7 +413,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/scrapeRateYourMusic.ts#L30">scrapeRateYourMusic.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/scrapeRateYourMusic.ts#L26">scrapeRateYourMusic.ts:26</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -379,13 +423,10 @@
 								<dl class="tsd-comment-tags">
 									<dt>remarks</dt>
 									<dd><ul>
-											<li>Top-level function generally called directly by npm: <code>npm run rymScrape</code></li>
+											<li>npm call: <code>npm run rymScrape</code></li>
 											<li>A single instance of this function will never make more than one request at a time.</li>
-											<li>&quot;Root&quot; of the scraper is an array of RYM usernames. This is read from a file - first, the
-												program tries to read a filename from the first additional CLI argument, i.e.
-												<code>npm run rymScrape ./path/to/FILENAME.txt</code>. If this is not supplied or the file cannot be
-												found, it looks for a file at the location indicated by the <code>DEFAULT_PROFILE_URI</code>
-											environment variable.</li>
+											<li>Ingests an array of RYM usernames read from a file. File location supplied by CLI argument,
+											<code>npm run rymScrape ./path/to/FILENAME.txt</code>. Defaults to <code>DEFAULT_PROFILE_URI</code> from env</li>
 										</ul>
 									</dd>
 								</dl>
@@ -404,17 +445,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/scrapeSpotifyIds.ts#L25">scrapeSpotifyIds.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/scrapeSpotifyIds.ts#L25">scrapeSpotifyIds.ts:25</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Uses the Spotify API to search for all albums and artists in database. For found records,
-									populates the &#39;SpotifyId&#39; column for both albums and artists</p>
+									<p>Uses the Spotify API to populate spotifyId field for all album and artist records in database</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>remarks</dt>
-									<dd><p>npm call: <code>npm run spotifyIdScrape</code></p>
+									<dd><ul>
+											<li>npm call: <code>npm run spotifyIdScrape</code></li>
+											<li>A single instance of this function will never make more than one request at a time</li>
+										</ul>
 									</dd>
 								</dl>
 							</div>
@@ -432,12 +475,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/serveDocs.ts#L19">serveDocs.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/serveDocs.ts#L17">serveDocs.ts:17</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Starts a webserver to serve documentation generated by TypeDoc</p>
+									<p>Serves documentation generated by TypeDoc</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>remarks</dt>
@@ -459,9 +502,19 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/functions/typeManips.ts#L13">helpers/functions/typeManips.ts:13</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/helpers/functions/typeManips.ts#L22">helpers/functions/typeManips.ts:22</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>strict</dt>
+									<dd><p>if an error should be thrown upon unsuccessful conversion</p>
+									</dd>
+									<dt>defaultnum</dt>
+									<dd><p>return value upon conversion failure, when strict = false</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -495,9 +548,6 @@
 					</li>
 					<li class=" tsd-kind-enum">
 						<a href="enums/gender.html" class="tsd-kind-icon">Gender</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/scrapingsite.html" class="tsd-kind-icon">Scraping<wbr>Site</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/albumentity.html" class="tsd-kind-icon">Album<wbr>Entity</a>
@@ -584,6 +634,9 @@
 						<a href="interfaces/spotifyartistsimplified.html" class="tsd-kind-icon">Spotify<wbr>Artist<wbr>Simplified</a>
 					</li>
 					<li class=" tsd-kind-interface">
+						<a href="interfaces/spotifyclientcredentials.html" class="tsd-kind-icon">Spotify<wbr>Client<wbr>Credentials</a>
+					</li>
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/spotifyimage.html" class="tsd-kind-icon">Spotify<wbr>Image</a>
 					</li>
 					<li class=" tsd-kind-interface">
@@ -599,10 +652,19 @@
 						<a href="globals.html#spotifyalbumtype" class="tsd-kind-icon">Spotify<wbr>Album<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#spotifyapiresponse" class="tsd-kind-icon">Spotify<wbr>Api<wbr>Response</a>
+						<a href="globals.html#spotifydatabaseentities" class="tsd-kind-icon">Spotify<wbr>Database<wbr>Entities</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#spotifydatabaseentities" class="tsd-kind-icon">Spotify<wbr>Database<wbr>Entities</a>
+						<a href="globals.html#spotifyrequestmethod" class="tsd-kind-icon">Spotify<wbr>Request<wbr>Method</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#spotifyresponse" class="tsd-kind-icon">Spotify<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#spotifysearchresponse" class="tsd-kind-icon">Spotify<wbr>Search<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#spotifysearchtype" class="tsd-kind-icon">Spotify<wbr>Search<wbr>Type</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#connecttodatabase" class="tsd-kind-icon">connect<wbr>ToDatabase</a>

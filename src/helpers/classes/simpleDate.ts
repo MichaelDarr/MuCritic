@@ -1,7 +1,6 @@
 /**
  * Simplified date management with only month, year, and day
  */
-
 export class SimpleDate {
     public month: number;
 

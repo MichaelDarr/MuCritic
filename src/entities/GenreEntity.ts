@@ -19,6 +19,7 @@ import { ArtistEntity } from './ArtistEntity';
 @Entity({ name: 'genre' })
 export class GenreEntity {
     /**
+     * @remarks
      * Primary Key
      */
     @PrimaryGeneratedColumn()

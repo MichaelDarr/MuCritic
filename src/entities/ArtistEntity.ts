@@ -22,6 +22,7 @@ import { ProfileEntity } from './ProfileEntity';
 @Entity({ name: 'artist' })
 export class ArtistEntity {
     /**
+     * @remarks
      * Primary Key
      */
     @PrimaryGeneratedColumn()
@@ -30,14 +31,11 @@ export class ArtistEntity {
     @Column()
     public name: string;
 
-    /**
-     * Count of members in a given group
-     */
     @Column()
     public memberCount: number;
 
     /**
-     * Whether the group is still active (or solo performer is alive)
+     * If group is still active/solo performer is alive
      */
     @Column()
     public active: boolean;

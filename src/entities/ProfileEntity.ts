@@ -21,6 +21,7 @@ import { ReviewEntity } from './ReviewEntity';
 @Entity({ name: 'profile' })
 export class ProfileEntity {
     /**
+     * @remarks
      * Primary Key
      */
     @PrimaryGeneratedColumn()
@@ -33,6 +34,7 @@ export class ProfileEntity {
     public age: number;
 
     /**
+     * @remarks
      * True for male, false for female
      */
     @Column()

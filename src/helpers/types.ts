@@ -1,3 +1,7 @@
+/**
+ * master file for all types in project
+ */
+
 import {
     AlbumEntity,
     ArtistEntity,
@@ -14,10 +18,6 @@ export enum ApiService {
     Spotify
 }
 
-export enum ScrapingSite {
-    RYM
-}
-
 export type RymDatabaseEntities =
     | AlbumEntity
     | ArtistEntity
@@ -30,12 +30,28 @@ export type SpotifyDatabaseEntities =
 
 /**
  * Spotify API types/interfaces, WIP
+ * See https://developer.spotify.com/documentation/web-api/reference/object-model/
  */
+
+export type SpotifyRequestMethod =
+    | 'GET'
+    | 'POST';
+
+export type SpotifySearchType =
+    | 'album'
+    | 'artist'
+    | 'playlist'
+    | 'track';
 
 export type SpotifyAlbumType =
     | 'album'
     | 'single'
     | 'compilation';
+
+export interface SpotifyClientCredentials {
+    id: string;
+    secret: string;
+}
 
 export interface SpotifyImage {
     height: number;

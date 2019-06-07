@@ -148,20 +148,20 @@ export class ReviewPageScraper extends ScraperApiScraper {
 
                 const starsText = reviewParser
                     .element('td.or_q_rating_date_s > img', 'star image', true)
-                    .title();
+                    .prop('title');
                 const starsNumberText: string = starsText.split(' ')[0];
                 const reviewScore = stringToNum(starsNumberText);
 
                 const identifierRYM = reviewParser
                     .element('td.or_q_rating_date_s > span', 'identifier')
-                    .text();
+                    .textContent();
 
                 const dateParse = reviewParser.element(
                     'td.or_q_rating_date_d',
                     'date element',
                     true,
                 );
-                const month = dateParse.element('div.date_element_month', 'month').text();
+                const month = dateParse.element('div.date_element_month', 'month').textContent();
                 const day = dateParse.element('div.date_element_day', 'day').number();
                 const year = dateParse.element('div.date_element_year', 'year').number();
                 const reviewDate = new SimpleDate(month, day, year);

@@ -2,41 +2,50 @@ import { Base64 } from 'js-base64';
 import * as request from 'request';
 
 import {
+    SpotifyClientCredentials,
     SpotifyResponse,
+    SpotifyRequestMethod,
     SpotifySearchResponse,
+    SpotifySearchType,
 } from '../types';
 
+/**
+ * Interface for all interaction with Spotify API using the
+ * [Implicit Grant Flow](https://developer.spotify.com/documentation/general/guides/authorization-guide/)
+ */
 export class SpotifyApi {
-    private clientId: string;
-
-    private clientSecret: string;
+    private client: SpotifyClientCredentials;
 
     private accessToken: string;
 
     private tokenExpiration: Date;
 
     public constructor(clientId: string, clientSecret: string) {
-        this.clientId = clientId;
-        this.clientSecret = clientSecret;
+        this.client.id = clientId;
+        this.client.secret = clientSecret;
     }
 
+    /**
+     * @param query [spotify docs](https://developer.spotify.com/documentation/web-api/reference/search/search/)
+     */
     public async searchRequest(
         query: string,
-        type: string,
+        type: SpotifySearchType,
         limit: number,
     ): Promise<SpotifySearchResponse> {
         const url = `https://api.spotify.com/v1/search?q=${query}&type=${type}&limit=${limit}`;
-        return this.request(url);
+        return this.spotifyRequest(url, 'GET');
     }
 
-    private async request(
+    private async spotifyRequest(
         url: string,
+        method: SpotifyRequestMethod,
     ): Promise<SpotifyResponse> {
         const token: string = await this.getAccessToken();
         return new Promise((resolve, reject): void => {
             const requestOptions = {
                 url,
-                method: 'GET',
+                method,
                 json: true,
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -54,6 +63,9 @@ export class SpotifyApi {
         });
     }
 
+    /**
+     * access token getter with considerations for expiration
+     */
     private async getAccessToken(): Promise<string> {
         if(!this.accessToken || this.tokenExpiration < new Date()) {
             await this.requestNewAccessToken();
@@ -63,7 +75,7 @@ export class SpotifyApi {
 
     private async requestNewAccessToken(): Promise<boolean> {
         return new Promise((resolve, reject): void => {
-            const authString = Base64.encode(`${this.clientId}:${this.clientSecret}`);
+            const authString = Base64.encode(`${this.client.id}:${this.client.secret}`);
             const requestOptions = {
                 url: 'https://accounts.spotify.com/api/token',
                 method: 'POST',

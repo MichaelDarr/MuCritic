@@ -102,7 +102,7 @@ export class ProfileScraper extends RymScraper<ProfileEntity> {
     private extractUserInfo(): void {
         const userAgeAndGenderRaw = this.scrapeRoot
             .element('.profilehii > table > tbody > tr:nth-child(2) > td', 'age/gender', true)
-            .text();
+            .textContent();
         const splitUserInfo: string[] = userAgeAndGenderRaw.split(' / ');
         this.age = Number(splitUserInfo[0]);
         this.gender = Gender[splitUserInfo[1]];
@@ -125,7 +125,7 @@ export class ProfileScraper extends RymScraper<ProfileEntity> {
                 artistParser = blockParser;
                 artistTitleBlockFound = false;
             }
-            if(blockParser.text() === 'favorite artists') {
+            if(blockParser.textContent() === 'favorite artists') {
                 artistTitleBlockFound = true;
             }
         }

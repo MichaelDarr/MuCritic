@@ -66,6 +66,14 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Interface for all interaction with Spotify API using the
+						<a href="https://developer.spotify.com/documentation/general/guides/authorization-guide/">Implicit Grant Flow</a></p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -88,8 +96,7 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="spotifyapi.html#accesstoken" class="tsd-kind-icon">access<wbr>Token</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="spotifyapi.html#clientid" class="tsd-kind-icon">client<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="spotifyapi.html#clientsecret" class="tsd-kind-icon">client<wbr>Secret</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="spotifyapi.html#client" class="tsd-kind-icon">client</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="spotifyapi.html#tokenexpiration" class="tsd-kind-icon">token<wbr>Expiration</a></li>
 							</ul>
 						</section>
@@ -97,9 +104,9 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="spotifyapi.html#getaccesstoken" class="tsd-kind-icon">get<wbr>Access<wbr>Token</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="spotifyapi.html#request" class="tsd-kind-icon">request</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="spotifyapi.html#requestnewaccesstoken" class="tsd-kind-icon">request<wbr>New<wbr>Access<wbr>Token</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="spotifyapi.html#searchrequest" class="tsd-kind-icon">search<wbr>Request</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="spotifyapi.html#spotifyrequest" class="tsd-kind-icon">spotify<wbr>Request</a></li>
 							</ul>
 						</section>
 					</div>
@@ -117,7 +124,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/classes/spotifyApi.ts#L11">helpers/classes/spotifyApi.ts:11</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/helpers/classes/spotifyApi.ts#L21">helpers/classes/spotifyApi.ts:21</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -142,27 +149,17 @@
 					<div class="tsd-signature tsd-kind-icon">access<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/classes/spotifyApi.ts#L9">helpers/classes/spotifyApi.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/helpers/classes/spotifyApi.ts#L19">helpers/classes/spotifyApi.ts:19</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="clientid" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> client<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">client<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="client" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> client</h3>
+					<div class="tsd-signature tsd-kind-icon">client<span class="tsd-signature-symbol">:</span> <a href="../interfaces/spotifyclientcredentials.html" class="tsd-signature-type">SpotifyClientCredentials</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/classes/spotifyApi.ts#L5">helpers/classes/spotifyApi.ts:5</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="clientsecret" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> client<wbr>Secret</h3>
-					<div class="tsd-signature tsd-kind-icon">client<wbr>Secret<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/classes/spotifyApi.ts#L7">helpers/classes/spotifyApi.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/helpers/classes/spotifyApi.ts#L17">helpers/classes/spotifyApi.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -172,7 +169,7 @@
 					<div class="tsd-signature tsd-kind-icon">token<wbr>Expiration<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/classes/spotifyApi.ts#L11">helpers/classes/spotifyApi.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/helpers/classes/spotifyApi.ts#L21">helpers/classes/spotifyApi.ts:21</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -189,33 +186,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/classes/spotifyApi.ts#L52">helpers/classes/spotifyApi.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/helpers/classes/spotifyApi.ts#L69">helpers/classes/spotifyApi.ts:69</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>access token getter with considerations for expiration</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
-					<a name="request" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> request</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">request<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/classes/spotifyApi.ts#L27">helpers/classes/spotifyApi.ts:27</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>url: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -229,7 +208,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/classes/spotifyApi.ts#L59">helpers/classes/spotifyApi.ts:59</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/helpers/classes/spotifyApi.ts#L76">helpers/classes/spotifyApi.ts:76</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -240,28 +219,59 @@
 					<a name="searchrequest" class="tsd-anchor"></a>
 					<h3>search<wbr>Request</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">search<wbr>Request<span class="tsd-signature-symbol">(</span>query<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, limit<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">search<wbr>Request<span class="tsd-signature-symbol">(</span>query<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, type<span class="tsd-signature-symbol">: </span><a href="../globals.html#spotifysearchtype" class="tsd-signature-type">SpotifySearchType</a>, limit<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#spotifysearchresponse" class="tsd-signature-type">SpotifySearchResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/3cf1053/rym-data/src/helpers/classes/spotifyApi.ts#L18">helpers/classes/spotifyApi.ts:18</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/helpers/classes/spotifyApi.ts#L31">helpers/classes/spotifyApi.ts:31</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>query: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>(<a href="https://developer.spotify.com/documentation/web-api/reference/search/search/">https://developer.spotify.com/documentation/web-api/reference/search/search/</a>)</p>
+									</div>
 								</li>
 								<li>
-									<h5>type: <span class="tsd-signature-type">string</span></h5>
+									<h5>type: <a href="../globals.html#spotifysearchtype" class="tsd-signature-type">SpotifySearchType</a></h5>
 								</li>
 								<li>
 									<h5>limit: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#spotifysearchresponse" class="tsd-signature-type">SpotifySearchResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="spotifyrequest" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> spotify<wbr>Request</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">spotify<wbr>Request<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, method<span class="tsd-signature-symbol">: </span><a href="../globals.html#spotifyrequestmethod" class="tsd-signature-type">SpotifyRequestMethod</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#spotifyresponse" class="tsd-signature-type">SpotifyResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/helpers/classes/spotifyApi.ts#L40">helpers/classes/spotifyApi.ts:40</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>url: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>method: <a href="../globals.html#spotifyrequestmethod" class="tsd-signature-type">SpotifyRequestMethod</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#spotifyresponse" class="tsd-signature-type">SpotifyResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -289,10 +299,7 @@
 								<a href="spotifyapi.html#accesstoken" class="tsd-kind-icon">access<wbr>Token</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="spotifyapi.html#clientid" class="tsd-kind-icon">client<wbr>Id</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="spotifyapi.html#clientsecret" class="tsd-kind-icon">client<wbr>Secret</a>
+								<a href="spotifyapi.html#client" class="tsd-kind-icon">client</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="spotifyapi.html#tokenexpiration" class="tsd-kind-icon">token<wbr>Expiration</a>
@@ -301,13 +308,13 @@
 								<a href="spotifyapi.html#getaccesstoken" class="tsd-kind-icon">get<wbr>Access<wbr>Token</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
-								<a href="spotifyapi.html#request" class="tsd-kind-icon">request</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="spotifyapi.html#requestnewaccesstoken" class="tsd-kind-icon">request<wbr>New<wbr>Access<wbr>Token</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="spotifyapi.html#searchrequest" class="tsd-kind-icon">search<wbr>Request</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="spotifyapi.html#spotifyrequest" class="tsd-kind-icon">spotify<wbr>Request</a>
 							</li>
 						</ul>
 					</li>

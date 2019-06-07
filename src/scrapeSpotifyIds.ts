@@ -16,11 +16,11 @@ import { SpotifyIdScraper } from './scrapers/spotify/spotifyIdScraper';
 dontenv.config({ path: resolve(__dirname, '../.env') });
 
 /**
- * Uses the Spotify API to search for all albums and artists in database. For found records,
- * populates the 'SpotifyId' column for both albums and artists
+ * Uses the Spotify API to populate spotifyId field for all album and artist records in database
  *
  * @remarks
- * npm call: ```npm run spotifyIdScrape```
+ * - npm call: ```npm run spotifyIdScrape```
+ * - A single instance of this function will never make more than one request at a time
  */
 export async function scrapeSpotifyIds(): Promise<void> {
     try {
@@ -28,14 +28,11 @@ export async function scrapeSpotifyIds(): Promise<void> {
 
         await connectToDatabase();
         const connection = getConnection();
-
-        // spotify API gateway setup, handles access key generation
         const spotifyApi = new SpotifyApi(
             process.env.SPOTIFY_CLIENT_ID,
             process.env.SPOTIFY_CLIENT_SECRET,
         );
 
-        // scrape and store Spotify album ids
         const albumRepository = connection.getRepository(AlbumEntity);
         const albums = await albumRepository.find({ relations: ['artist'] });
         for await(const album of albums) {
