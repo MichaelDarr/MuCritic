@@ -14,9 +14,6 @@ export abstract class SpotifyScraper<T extends SpotifySearchResponse> extends Sc
      */
     protected spotifyResponse: T;
 
-    /**
-     * Interface abstracting all API request handling from scraping logic
-     */
     protected spotifyApi: SpotifyApi;
 
     public constructor(

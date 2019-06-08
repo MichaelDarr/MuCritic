@@ -1,3 +1,4 @@
+docs/*
 built/
 node_modules/
 .node_modules/
