@@ -1,14 +1,22 @@
-/**
- * Manages scraping and storage from the Spotify API. See [[Scraper]] for more details.
- */
-
 import { SpotifySearchResponse } from '../../helpers/types';
 import { Scraper } from '../scraper';
 import { SpotifyApi } from '../../helpers/classes/spotifyApi';
 
-export abstract class SpotifyScraper extends Scraper {
-    protected spotifyResponse: SpotifySearchResponse;
+/**
+ * Manages scraping and storage from the Spotify API.
+ *
+ * @typeparam T describes the response to be retrieved by [[SpotifyScraper.requestScrape]] and
+ * stored in [[SpotifyScraper.spotifyResponse]]
+ */
+export abstract class SpotifyScraper<T extends SpotifySearchResponse> extends Scraper {
+    /**
+     * Spotify data populated by calls to [[SpotifyIdScraper.requestScrape]]
+     */
+    protected spotifyResponse: T;
 
+    /**
+     * Interface abstracting all API request handling from scraping logic
+     */
     protected spotifyApi: SpotifyApi;
 
     public constructor(
@@ -18,9 +26,5 @@ export abstract class SpotifyScraper extends Scraper {
     ) {
         super(description, verbose);
         this.spotifyApi = spotifyApi;
-    }
-
-    protected async scrapeDependencies(): Promise<void> {
-        return Promise.resolve();
     }
 }

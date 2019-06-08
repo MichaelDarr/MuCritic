@@ -1,46 +1,48 @@
-/**
- * Manages the scraping and storage of an album from [Rate Your Music](https://rateyourmusic.com/).
- * See [[Scraper]] for more details.
- */
-
 import { getConnection } from 'typeorm';
 
+import { ArtistScraper } from './artistScraper';
 import {
     AlbumEntity,
     ArtistEntity,
     GenreEntity,
 } from '../../entities/entities';
+import { GenreScraper } from './genreScraper';
 import { Log } from '../../helpers/classes/log';
 import { ScrapeResult } from '../../helpers/classes/result';
 import { extractCountFromPair } from '../../helpers/parsing/rymStrings';
 import { ParseElement } from '../../helpers/parsing/parseElement';
-import { ArtistScraper } from './artistScraper';
 import { RymScraper } from './rymScraper';
-import { GenreScraper } from './genreScraper';
 
+/**
+ * Manages the scraping and storage of an album from [Rate Your Music](https://rateyourmusic.com/).
+ *
+ * For more information on class properties, see corresponding props in [[AlbumEntity]].
+ */
 export class AlbumScraper extends RymScraper<AlbumEntity> {
-    public name: string;
-
     public artist: ArtistScraper;
 
-    public releaseYear: number;
+    public genreScrapers: GenreScraper[];
 
-    public ratingRYM: number;
+    public issueCountRYM: number;
 
-    public yearRankRYM: number;
+    public listCountRYM: number;
+
+    public name: string;
 
     public overallRankRYM: number;
 
     public ratingCountRYM: number;
 
-    public genreScrapersRYM: GenreScraper[];
+    public ratingRYM: number;
 
     public reviewCountRYM: number;
 
-    public listCountRYM: number;
+    public yearRankRYM: number;
 
-    public issueCountRYM: number;
-
+    /**
+     * @param url Example:
+     * ```https://rateyourmusic.com/release/album/aphex-twin/_i-care-because-you-do/```
+     */
     public constructor(
         url: string,
         verbose = false,
@@ -50,74 +52,41 @@ export class AlbumScraper extends RymScraper<AlbumEntity> {
             throw new Error('Album by various artists');
         }
         this.url = url;
-        this.genreScrapersRYM = [];
+        this.genreScrapers = [];
         this.listCountRYM = 0;
         this.issueCountRYM = 1;
         this.repository = getConnection().getRepository(AlbumEntity);
     }
 
     /**
-     * Used to insert an album into the database
-     *
-     * @returns an AlbumEntity, the saved database record for an artist
+     * Extracts and stores three similarly laid out elements, parsed by [[extractCountFromPair]]:
+     * - [[AlbumScraper.issueCountRYM]]
+     * - [[AlbumScraper.reviewCountRYM]]
+     * - [[AlbumScraper.listCountRYM]]
      */
-    protected async saveToDB(): Promise<void> {
-        const artistEntity: ArtistEntity = await this.artist.getEntity();
-        if(!artistEntity) {
-            throw new Error(`Artist not found for album: ${this.name}`);
-        }
+    private extractCountInfo(): void {
+        const issueCountText = this.scrapeRoot
+            .element(
+                'div.section_issues > div.page_section > h2.release_page_header',
+                'issues',
+                false,
+            ).textContent();
+        const reviewCountText = this.scrapeRoot
+            .element(
+                'div.section_reviews > div.page_section > h2.release_page_header',
+                'reviews',
+                false,
+            ).textContent();
+        const listCountText = this.scrapeRoot
+            .element(
+                'div.section_lists > div.release_page_header > h2',
+                'lists',
+                false,
+            ).textContent();
 
-        const genreEntities: GenreEntity[] = [];
-        for await(const genre of this.genreScrapersRYM) {
-            const genreEntity: GenreEntity = await genre.getEntity();
-            genreEntities.push(genreEntity);
-        }
-
-        let album = new AlbumEntity();
-        album.name = this.name;
-        album.urlRYM = this.url;
-        album.ratingRYM = this.ratingRYM;
-        album.yearRankRYM = this.yearRankRYM;
-        album.overallRankRYM = this.overallRankRYM;
-        album.reviewCountRYM = this.reviewCountRYM;
-        album.listCountRYM = this.listCountRYM;
-        album.issueCountRYM = this.issueCountRYM;
-        album.artist = artistEntity;
-        album.genres = genreEntities;
-
-        album = await this.repository.save(album);
-        this.databaseId = album.id;
-    }
-
-    /**
-     * Find the database entity of a given album
-     *
-     * @param entityManager database connection manager, typeORM
-     * @returns an AlbumEntity, the saved database record for an album
-     */
-    public async getEntity(): Promise<AlbumEntity> {
-        return this.repository.findOne({ urlRYM: this.url });
-    }
-
-    protected async scrapeDependencies(): Promise<void> {
-        await this.artist.scrape();
-        this.results.concat(this.artist.results);
-
-        const successfullyScrapedGenres: GenreScraper[] = [];
-        for await(const genreScraper of this.genreScrapersRYM) {
-            try {
-                await genreScraper.scrape();
-                successfullyScrapedGenres.push(genreScraper);
-                this.results.concat(genreScraper.results);
-            } catch(err) {
-                this.results.push(new ScrapeResult(
-                    false,
-                    genreScraper.name,
-                    err,
-                ));
-            }
-        }
-        this.genreScrapersRYM = successfullyScrapedGenres;
+        this.issueCountRYM = extractCountFromPair(issueCountText, false);
+        this.reviewCountRYM = extractCountFromPair(reviewCountText, false);
+        this.listCountRYM = extractCountFromPair(listCountText, false);
     }
 
     protected extractInfo(): void {
@@ -126,14 +95,19 @@ export class AlbumScraper extends RymScraper<AlbumEntity> {
         this.extractCountInfo();
     }
 
-    private extractName(): void {
-        let rawName = this.scrapeRoot
-            .element('div.album_title', 'title', true)
-            .innerHTML(true, null, true);
-        rawName = rawName.substring(0, rawName.indexOf('<'));
-        this.name = rawName.trim();
-    }
-
+    /**
+     * The main information on Album pages is represented by a series of elements for which order
+     * and quantity are both indeterminate. This method loops through them, storing info based on
+     * their header text.
+     *
+     * Extracts and stores:
+     * - [[AlbumScraper.artist]]
+     * - [[AlbumScraper.ratingRYM]]
+     * - [[AlbumScraper.ratingCountRYM]]
+     * - [[AlbumScraper.yearRankRYM]]
+     * - [[AlbumScraper.overallRankRYM]]
+     * - [[AlbumScraper.genreScrapersRYM]]  (uses [[GenreScraper.createScrapers]])
+     */
     private extractMainInfoBlocks(): void {
         const infoRowParsers = this.scrapeRoot
             .list('.album_info > tbody > tr', 'info rows', false)
@@ -175,7 +149,7 @@ export class AlbumScraper extends RymScraper<AlbumEntity> {
                             const genreString = genreParser.textContent(false, null);
                             if(genreString != null) allGenres.push(genreString);
                         });
-                    this.genreScrapersRYM = GenreScraper.createScrapers(allGenres);
+                    this.genreScrapers = GenreScraper.createScrapers(allGenres);
                     break;
                 }
                 default:
@@ -188,50 +162,86 @@ export class AlbumScraper extends RymScraper<AlbumEntity> {
     }
 
     /**
-     * Extracts information from various sections of albumpage
-     *
-     * @param page puppeteer profile page
-     * @returns a group of all scrape results resulting from this call
+     * Extracts and stores
+     * - [[AlbumScraper.name]]
      */
-    private extractCountInfo(): void {
-        const issueCountText = this.scrapeRoot
-            .element(
-                'div.section_issues > div.page_section > h2.release_page_header',
-                'issues',
-                false,
-            ).textContent();
-        const reviewCountText = this.scrapeRoot
-            .element(
-                'div.section_reviews > div.page_section > h2.release_page_header',
-                'reviews',
-                false,
-            ).textContent();
-        const listCountText = this.scrapeRoot
-            .element(
-                'div.section_lists > div.release_page_header > h2',
-                'lists',
-                false,
-            ).textContent();
+    private extractName(): void {
+        let rawName = this.scrapeRoot
+            .element('div.album_title', 'title', true)
+            .innerHTML(true, null, true);
+        rawName = rawName.substring(0, rawName.indexOf('<'));
+        this.name = rawName.trim();
+    }
 
-        this.issueCountRYM = extractCountFromPair(issueCountText, false);
-        this.reviewCountRYM = extractCountFromPair(reviewCountText, false);
-        this.listCountRYM = extractCountFromPair(listCountText, false);
+    public async getEntity(): Promise<AlbumEntity> {
+        return this.repository.findOne({ urlRYM: this.url });
     }
 
     public printInfo(): void {
-        if(this.dataReadFromDB) {
+        if(this.dataReadFromLocal) {
             this.printResult();
             return;
         }
         Log.log(`Artist: ${this.artist.name}`);
-        Log.log(`Release Year: ${this.releaseYear}`);
         Log.log(`RYM Rating: ${this.ratingRYM}`);
-        Log.log(`${this.releaseYear} Rank: ${this.yearRankRYM}`);
         Log.log(`Overall Rank: ${this.overallRankRYM}`);
         Log.log(`RYM Ratings: ${this.ratingCountRYM}`);
-        Log.log(`Genres: ${this.genreScrapersRYM.length}`);
+        Log.log(`Genres: ${this.genreScrapers.length}`);
         Log.log(`RYM Reviews: ${this.reviewCountRYM}`);
         Log.log(`RYM Lists: ${this.listCountRYM}`);
         Log.log(`RYM Issues: ${this.issueCountRYM}`);
+    }
+
+    protected async saveToLocal(): Promise<void> {
+        const artistEntity: ArtistEntity = await this.artist.getEntity();
+        if(!artistEntity) {
+            throw new Error(`Artist not found for album: ${this.name}`);
+        }
+
+        const genreEntities: GenreEntity[] = [];
+        for await(const genre of this.genreScrapers) {
+            const genreEntity: GenreEntity = await genre.getEntity();
+            genreEntities.push(genreEntity);
+        }
+
+        let album = new AlbumEntity();
+        album.name = this.name;
+        album.urlRYM = this.url;
+        album.ratingRYM = this.ratingRYM;
+        album.ratingCountRYM = this.ratingCountRYM;
+        album.yearRankRYM = this.yearRankRYM;
+        album.overallRankRYM = this.overallRankRYM;
+        album.reviewCountRYM = this.reviewCountRYM;
+        album.listCountRYM = this.listCountRYM;
+        album.issueCountRYM = this.issueCountRYM;
+        album.artist = artistEntity;
+        album.genres = genreEntities;
+
+        album = await this.repository.save(album);
+        this.databaseId = album.id;
+    }
+
+    /**
+     * Scrape the artist and genres associated with this album
+     */
+    protected async scrapeDependencies(): Promise<void> {
+        await this.artist.scrape();
+        this.results.concat(this.artist.results);
+
+        const successfullyScrapedGenres: GenreScraper[] = [];
+        for await(const genreScraper of this.genreScrapers) {
+            try {
+                await genreScraper.scrape();
+                successfullyScrapedGenres.push(genreScraper);
+                this.results.concat(genreScraper.results);
+            } catch(err) {
+                this.results.push(new ScrapeResult(
+                    false,
+                    genreScraper.name,
+                    err,
+                ));
+            }
+        }
+        this.genreScrapers = successfullyScrapedGenres;
     }
 }

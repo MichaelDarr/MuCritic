@@ -69,7 +69,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Abstract superclass for all &quot;scrapers&quot;</p>
+						<p>Superclass for all &quot;scrapers&quot;</p>
 					</div>
 					<dl class="tsd-comment-tags">
 						<dt>remarks</dt>
@@ -90,10 +90,10 @@
 						<span class="target">Scraper</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<a href="scraperapiscraper.html" class="tsd-signature-type">ScraperApiScraper</a>
+								<a href="genrescraper.html" class="tsd-signature-type">GenreScraper</a>
 							</li>
 							<li>
-								<a href="genrescraper.html" class="tsd-signature-type">GenreScraper</a>
+								<a href="scraperapiscraper.html" class="tsd-signature-type">ScraperApiScraper</a>
 							</li>
 							<li>
 								<a href="spotifyscraper.html" class="tsd-signature-type">SpotifyScraper</a>
@@ -115,7 +115,7 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="scraper.html#datareadfromdb" class="tsd-kind-icon">data<wbr>Read<wbr>FromDB</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="scraper.html#datareadfromlocal" class="tsd-kind-icon">data<wbr>Read<wbr>From<wbr>Local</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="scraper.html#description" class="tsd-kind-icon">description</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="scraper.html#results" class="tsd-kind-icon">results</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="scraper.html#scrapesucceeded" class="tsd-kind-icon">scrape<wbr>Succeeded</a></li>
@@ -130,7 +130,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="scraper.html#printinfo" class="tsd-kind-icon">print<wbr>Info</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="scraper.html#printresult" class="tsd-kind-icon">print<wbr>Result</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="scraper.html#requestscrape" class="tsd-kind-icon">request<wbr>Scrape</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="scraper.html#savetodb" class="tsd-kind-icon">save<wbr>ToDB</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="scraper.html#savetolocal" class="tsd-kind-icon">save<wbr>ToLocal</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="scraper.html#scrape" class="tsd-kind-icon">scrape</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="scraper.html#scrapedependencies" class="tsd-kind-icon">scrape<wbr>Dependencies</a></li>
 							</ul>
@@ -150,7 +150,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/scrapers/scraper.ts#L49">scrapers/scraper.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/7e77705/rym-data/src/scrapers/scraper.ts#L45">scrapers/scraper.ts:45</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -182,19 +182,19 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="datareadfromdb" class="tsd-anchor"></a>
-					<h3>data<wbr>Read<wbr>FromDB</h3>
-					<div class="tsd-signature tsd-kind-icon">data<wbr>Read<wbr>FromDB<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<a name="datareadfromlocal" class="tsd-anchor"></a>
+					<h3>data<wbr>Read<wbr>From<wbr>Local</h3>
+					<div class="tsd-signature tsd-kind-icon">data<wbr>Read<wbr>From<wbr>Local<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/scrapers/scraper.ts#L28">scrapers/scraper.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/7e77705/rym-data/src/scrapers/scraper.ts#L24">scrapers/scraper.ts:24</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Scrapers always check for a local copy of the target resource (using
-								[[Scraper.getEntity]]) before executing a scrape from an external resource. If the
-							resource was found (and therefore no external calls made), this flag is set to true.</p>
+								<a href="scraper.html#checkforlocalrecord">Scraper.checkForLocalRecord</a>) before executing a scrape from an external resource. If the
+							resource was found (and therefore no external calls made), this is set to true.</p>
 						</div>
 					</div>
 				</section>
@@ -204,7 +204,7 @@
 					<div class="tsd-signature tsd-kind-icon">description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/scrapers/scraper.ts#L38">scrapers/scraper.ts:38</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/7e77705/rym-data/src/scrapers/scraper.ts#L34">scrapers/scraper.ts:34</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -219,7 +219,7 @@
 					<div class="tsd-signature tsd-kind-icon">results<span class="tsd-signature-symbol">:</span> <a href="resultbatch.html" class="tsd-signature-type">ResultBatch</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/scrapers/scraper.ts#L33">scrapers/scraper.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/7e77705/rym-data/src/scrapers/scraper.ts#L29">scrapers/scraper.ts:29</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -234,7 +234,7 @@
 					<div class="tsd-signature tsd-kind-icon">scrape<wbr>Succeeded<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/scrapers/scraper.ts#L49">scrapers/scraper.ts:49</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/7e77705/rym-data/src/scrapers/scraper.ts#L45">scrapers/scraper.ts:45</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -250,7 +250,7 @@
 					<div class="tsd-signature tsd-kind-icon">verbose<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/scrapers/scraper.ts#L43">scrapers/scraper.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/7e77705/rym-data/src/scrapers/scraper.ts#L39">scrapers/scraper.ts:39</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -264,7 +264,7 @@
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="checkforlocalrecord" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagAbstract">Abstract</span> check<wbr>For<wbr>Local<wbr>Record</h3>
+					<h3>check<wbr>For<wbr>Local<wbr>Record</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">check<wbr>For<wbr>Local<wbr>Record<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
@@ -272,13 +272,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/scrapers/scraper.ts#L147">scrapers/scraper.ts:147</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/7e77705/rym-data/src/scrapers/scraper.ts#L67">scrapers/scraper.ts:67</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Gets the local stored record corresponding to a given scraper. Should return null if no
-									local record is found</p>
+									local record is found. By default, returns false (resource is always scraped).</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -287,7 +287,7 @@
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 					<a name="extractinfo" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> <span class="tsd-flag ts-flagAbstract">Abstract</span> extract<wbr>Info</h3>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> extract<wbr>Info</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 						<li class="tsd-signature tsd-kind-icon">extract<wbr>Info<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
@@ -295,7 +295,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/scrapers/scraper.ts#L141">scrapers/scraper.ts:141</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/7e77705/rym-data/src/scrapers/scraper.ts#L82">scrapers/scraper.ts:82</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -306,9 +306,9 @@
 									<dt>remarks</dt>
 									<dd><p>Must be called after <a href="scraper.html#requestscrape">Scraper.requestScrape</a>.</p>
 										<p>Extracted info should be stored into class properties, to be
-											saved later by <a href="scraper.html#savetodb">Scraper.saveToDB</a>. Stores constructed (<strong>but not .scrape()&#39;ed</strong>)
+											saved later by <a href="scraper.html#savetolocal">Scraper.saveToLocal</a>. Stores constructed (<strong>but not .scrape()&#39;ed</strong>)
 											instances of any more recursive scrapes extracted from this one, to later be scraped by
-										<a href="scraper.html#scrapedependencies">Scraper.scrapeDependencies</a>.</p>
+										<a href="scraper.html#scrapedependencies">Scraper.scrapeDependencies</a>. By default, this method does nothing.</p>
 									</dd>
 								</dl>
 							</div>
@@ -326,7 +326,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/scrapers/scraper.ts#L158">scrapers/scraper.ts:158</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/7e77705/rym-data/src/scrapers/scraper.ts#L170">scrapers/scraper.ts:170</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -348,7 +348,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/scrapers/scraper.ts#L116">scrapers/scraper.ts:116</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/7e77705/rym-data/src/scrapers/scraper.ts#L88">scrapers/scraper.ts:88</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -362,7 +362,7 @@
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="requestscrape" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagAbstract">Abstract</span> request<wbr>Scrape</h3>
+					<h3>request<wbr>Scrape</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">request<wbr>Scrape<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
@@ -370,13 +370,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/scrapers/scraper.ts#L153">scrapers/scraper.ts:153</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/7e77705/rym-data/src/scrapers/scraper.ts#L106">scrapers/scraper.ts:106</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Requests and stores an external resource, to be parsed later by
-									<a href="scraper.html#extractinfo">Scraper.extractInfo</a>.</p>
+									<a href="scraper.html#extractinfo">Scraper.extractInfo</a>. By default, nothing is requested.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -384,22 +384,21 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-					<a name="savetodb" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> <span class="tsd-flag ts-flagAbstract">Abstract</span> save<wbr>ToDB</h3>
+					<a name="savetolocal" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> <span class="tsd-flag ts-flagAbstract">Abstract</span> save<wbr>ToLocal</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon">save<wbr>ToDB<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">save<wbr>ToLocal<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/scrapers/scraper.ts#L170">scrapers/scraper.ts:170</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/7e77705/rym-data/src/scrapers/scraper.ts#L181">scrapers/scraper.ts:181</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Saves scraped, extracted, and parsed information into a local record, which can be retrieved
-									later by [[Scraper.getEntity]]</p>
+									<p>Saves scraped, extracted, and parsed information into a local record</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>remarks</dt>
@@ -423,7 +422,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/scrapers/scraper.ts#L94">scrapers/scraper.ts:94</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/7e77705/rym-data/src/scrapers/scraper.ts#L133">scrapers/scraper.ts:133</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -436,22 +435,18 @@
 									<li><a href="scraper.html#requestscrape">Scraper.requestScrape</a></li>
 									<li><a href="scraper.html#extractinfo">Scraper.extractInfo</a></li>
 									<li><a href="scraper.html#scrapedependencies">Scraper.scrapeDependencies</a></li>
-									<li><a href="scraper.html#savetodb">Scraper.saveToDB</a></li>
+									<li><a href="scraper.html#savetolocal">Scraper.saveToLocal</a></li>
 									<li>Update class props and return</li>
 								</ol>
 								<dl class="tsd-comment-tags">
 									<dt>remarks</dt>
-									<dd><p>This method should be considered <strong>unsafe</strong> - there are several points where this can throw
-											errors. This is intentional, and allows easier support for <strong>relational data storage</strong>.
-											Scraped assets may have a mixture of required and non-required dependencies (scraped in
-											<a href="scraper.html#scrapedependencies">Scraper.scrapeDependencies</a>). For example, when <a href="albumscraper.html#scrape">AlbumScraper.scrape</a> is
-											called, it must find an artist, but not necessarily a genre. In this case,
-											<a href="albumscraper.html">AlbumScraper</a>&#39;s execution of <a href="artistscraper.html#scrape">ArtistScraper.scrape</a> <strong>should not</strong> be wrapped in a
-											try/catch block - an error thrown by <a href="artistscraper.html#scrape">ArtistScraper.scrape</a> should propogate through the
-											<a href="albumscraper.html">AlbumScraper</a>, resulting in the original call to <a href="albumscraper.html#scrape">AlbumScraper.scrape</a> throwing an
-											error. However, <a href="albumscraper.html">AlbumScraper</a>&#39;s the execution of <a href="genrescraper.html#scrape">GenreScraper.scrape</a> <strong>should</strong> be
-											wrapped in a try/catch block, as the entirety of <a href="albumscraper.html#scrape">AlbumScraper.scrape</a> shouldn&#39;t fail
-										because of one unsuccessful genre scrape.</p>
+									<dd><p>This method should be considered <em>unsafe</em> - there are several points where this can throw
+											errors. This is intentional, and allows easier support for relational data scraping/storage.
+											Scraped assets may have a mixture of required and non-required dependencies, the status of
+											which should be kept in mind when implementing <a href="scraper.html#scrapedependencies">Scraper.scrapeDependencies</a>. A subclass
+											should catch and log errors from non-required scrapes. However, errors from a required
+											scrape should remain uncaught, so the original call to a <a href="scraper.html#scrape">Scraper.scrape</a> will error out
+										before [[Scraper.save]] is called for incomplete data.</p>
 									</dd>
 								</dl>
 							</div>
@@ -471,7 +466,7 @@
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 					<a name="scrapedependencies" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> <span class="tsd-flag ts-flagAbstract">Abstract</span> scrape<wbr>Dependencies</h3>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> scrape<wbr>Dependencies</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
 						<li class="tsd-signature tsd-kind-icon">scrape<wbr>Dependencies<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
@@ -479,13 +474,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/b6a7bf7/rym-data/src/scrapers/scraper.ts#L182">scrapers/scraper.ts:182</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/muCritic/blob/7e77705/rym-data/src/scrapers/scraper.ts#L163">scrapers/scraper.ts:163</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Executes <a href="scraper.html#scrape">Scraper.scrape</a> on any recursive scrapes found in the initial scrape.
-									See <a href="scraper.html#scrape">Scraper.scrape</a> for more information on implementation.</p>
+										Defaults to simply resolving an empty promise, so subclasses with no dependencies don&#39;t have
+									to implement this function. See <a href="scraper.html#scrape">Scraper.scrape</a> for more information on implementation.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>remarks</dt>
@@ -520,7 +516,7 @@
 								<a href="scraper.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="scraper.html#datareadfromdb" class="tsd-kind-icon">data<wbr>Read<wbr>FromDB</a>
+								<a href="scraper.html#datareadfromlocal" class="tsd-kind-icon">data<wbr>Read<wbr>From<wbr>Local</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="scraper.html#description" class="tsd-kind-icon">description</a>
@@ -550,7 +546,7 @@
 								<a href="scraper.html#requestscrape" class="tsd-kind-icon">request<wbr>Scrape</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-								<a href="scraper.html#savetodb" class="tsd-kind-icon">save<wbr>ToDB</a>
+								<a href="scraper.html#savetolocal" class="tsd-kind-icon">save<wbr>ToLocal</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="scraper.html#scrape" class="tsd-kind-icon">scrape</a>

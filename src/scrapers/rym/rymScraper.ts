@@ -1,11 +1,23 @@
 import { Repository } from 'typeorm';
 
-import { ScraperApiScraper } from '../scraperApiScraper';
 import { RymDatabaseEntities } from '../../helpers/types';
+import { ScraperApiScraper } from '../scraperApiScraper';
 
+/**
+ * Superclass for [Rate Your Music](https://rateyourmusic.com/) scrapers, reading one page's data
+ * into one database record
+ *
+ * @typeparam T describes the database table which stores this scraper's information
+ */
 export abstract class RymScraper<T extends RymDatabaseEntities> extends ScraperApiScraper {
+    /**
+     * Id of the local database record associated with this page scrape
+     */
     public databaseId: number;
 
+    /**
+     * TypeORM repository handling all data flow in/out of database table
+     */
     protected repository: Repository<T>;
 
     public async checkForLocalRecord(): Promise<boolean> {
@@ -19,10 +31,12 @@ export abstract class RymScraper<T extends RymDatabaseEntities> extends ScraperA
     }
 
     /**
-     * Find the database entity of a given album
-     *
-     * @param entityManager database connection manager, typeORM
-     * @returns an AlbumEntity, the saved database record for an album
+     * Find the database entity corresponding to a specific page scape
      */
     public abstract getEntity(): Promise<T>;
+
+    /**
+     * Save all scraped information into a Postgres database
+     */
+    protected abstract saveToLocal(): Promise<void>;
 }

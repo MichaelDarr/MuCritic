@@ -1,7 +1,3 @@
-/**
- * ORM description of "review" database table
- */
-
 import {
     Entity,
     Column,
@@ -24,6 +20,15 @@ export class ReviewEntity {
     @PrimaryGeneratedColumn()
     public id: number;
 
+    @Column()
+    public day: number;
+
+    @Column()
+    public identifierRYM: string;
+
+    @Column()
+    public month: number;
+
     /**
      * @remarks
      * float
@@ -35,15 +40,6 @@ export class ReviewEntity {
 
     @Column()
     public year: number;
-
-    @Column()
-    public month: number;
-
-    @Column()
-    public day: number;
-
-    @Column()
-    public identifierRYM: string;
 
     @ManyToOne((): typeof AlbumEntity => AlbumEntity, (album): ReviewEntity[] => album.reviews)
     public album: AlbumEntity;

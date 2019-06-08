@@ -1,7 +1,3 @@
-/**
- * TypeORM description of "profile" table
- */
-
 import {
     Entity,
     Column,
@@ -28,9 +24,6 @@ export class ProfileEntity {
     public id: number;
 
     @Column()
-    public name: string;
-
-    @Column()
     public age: number;
 
     /**
@@ -41,10 +34,10 @@ export class ProfileEntity {
     public gender: boolean;
 
     @Column()
-    public urlRYM: string;
+    public name: string;
 
-    @OneToMany((): typeof ReviewEntity => ReviewEntity, (review): ProfileEntity => review.profile)
-    public reviews: ReviewEntity[];
+    @Column()
+    public urlRYM: string;
 
     @ManyToMany(
         (): typeof ArtistEntity => ArtistEntity,
@@ -52,4 +45,7 @@ export class ProfileEntity {
     )
     @JoinTable()
     public favoriteArtists: ArtistEntity[];
+
+    @OneToMany((): typeof ReviewEntity => ReviewEntity, (review): ProfileEntity => review.profile)
+    public reviews: ReviewEntity[];
 }

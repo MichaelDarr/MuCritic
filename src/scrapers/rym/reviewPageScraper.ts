@@ -5,6 +5,7 @@
 
 import { getConnection, Repository } from 'typeorm';
 
+import { AlbumScraper } from './albumScraper';
 import { ReviewEntity } from '../../entities/entities';
 import { Log } from '../../helpers/classes/log';
 import { ScrapeResult } from '../../helpers/classes/result';
@@ -12,25 +13,44 @@ import { Review } from '../../helpers/classes/review';
 import { SimpleDate } from '../../helpers/classes/simpleDate';
 import { stringToNum } from '../../helpers/functions/typeManips';
 import { ParseElement } from '../../helpers/parsing/parseElement';
-import { AlbumScraper } from './albumScraper';
 import { ProfileScraper } from './profileScraper';
 import { ScraperApiScraper } from '../scraperApiScraper';
 
+/**
+ * Manages the scraping and storage of all review pages for a single
+ * [Rate Your Music](https://rateyourmusic.com/) user.
+ *
+ * This class utilize the
+ * [scraperapi](https://www.scraperapi.com/), but unlike other RYM scrapers, has no one-to-one
+ * relationship to a single database entity. [[RymScraper]]'s data flow necessitates this
+ * relationship, so [[ReviewPageScraper]] extends [[ScraperApiScraper]] instead of [[RymScraper]].
+ */
 export class ReviewPageScraper extends ScraperApiScraper {
-    public repository: Repository<ReviewEntity>;
+    public currentPage: number;
 
     public name: string;
 
-    public urlBase: string;
-
-    public currentPage: number;
-
-    public reviews: Review[];
+    public pageReviewCount: number;
 
     public profile: ProfileScraper;
 
-    public pageReviewCount: number;
+    public repository: Repository<ReviewEntity>;
 
+    /**
+     * Array of 0 and 25 of [[Review]] instances per page
+     */
+    public reviews: Review[];
+
+    /**
+     * Review page URL, without a page number. Example:
+     *
+     * ```https://rateyourmusic.com/collection/frenchie/r0.0-5.0/```
+     */
+    public urlBase: string;
+
+    /**
+     * Number of times [[ReviewPage.scrapePage]] has failed for current [[ReviewPage.currentPage]]
+     */
     public sequentialFailureCount: number;
 
     public constructor(
@@ -77,10 +97,6 @@ export class ReviewPageScraper extends ScraperApiScraper {
         return reviewEntities;
     }
 
-    public async checkForLocalRecord(): Promise<boolean> {
-        return Promise.resolve(false);
-    }
-
     protected async scrapeDependencies(): Promise<void> {
         const successfullyScrapedReviews: Review[] = [];
         for await(const review of this.reviews) {
@@ -97,7 +113,7 @@ export class ReviewPageScraper extends ScraperApiScraper {
         this.reviews = successfullyScrapedReviews;
     }
 
-    protected async saveToDB(): Promise<void> {
+    protected async saveToLocal(): Promise<void> {
         for await(const review of this.reviews) {
             try {
                 let reviewEntity = await this.repository.findOne(

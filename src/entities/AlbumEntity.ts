@@ -1,7 +1,3 @@
-/**
- * TypeORM description of "album" table
- */
-
 import {
     Entity,
     Column,
@@ -30,10 +26,20 @@ export class AlbumEntity {
     public id: number;
 
     @Column()
-    public name: string;
+    public issueCountRYM: number;
 
     @Column()
-    public urlRYM: string;
+    public listCountRYM: number;
+
+    @Column()
+    public name: string;
+
+    /**
+     * Album ranking in comparison to all other albums, by overall rating
+     * ([[AlbumEntity.ratingRYM]]). Defaults to 0.
+     */
+    @Column()
+    public overallRankRYM: number;
 
     /**
      * Average of all ratings given by all users of RYM
@@ -47,30 +53,18 @@ export class AlbumEntity {
     public ratingRYM: number;
 
     /**
-     * Album ranking in comparison to others released the same year, by overall rating
-     * ([[AlbumEntity.ratingRYM]]). Defaults to 0.
+     * Total reviews for an album on RYM, including strictly numeric
      */
-    @Column()
-    public yearRankRYM: number;
+    @Column({
+        type: 'float',
+    })
+    public ratingCountRYM: number;
 
     /**
-     * Album ranking in comparison to all other albums, by overall rating
-     * ([[AlbumEntity.ratingRYM]]). Defaults to 0.
-     */
-    @Column()
-    public overallRankRYM: number;
-
-    /**
-     * Number of written reviews for a given album on RYM
+     * Number of written reviews for an album on RYM
      */
     @Column()
     public reviewCountRYM: number;
-
-    @Column()
-    public listCountRYM: number;
-
-    @Column()
-    public issueCountRYM: number;
 
     /**
      * @remarks
@@ -81,13 +75,23 @@ export class AlbumEntity {
     })
     public spotifyId: string;
 
+    @Column()
+    public urlRYM: string;
+
+    /**
+     * Album ranking in comparison to others released the same year, by overall rating
+     * ([[AlbumEntity.ratingRYM]]). Defaults to 0.
+     */
+    @Column()
+    public yearRankRYM: number;
+
     @ManyToOne((): typeof ArtistEntity => ArtistEntity, (artist): AlbumEntity[] => artist.albums)
     public artist: ArtistEntity;
-
-    @OneToMany((): typeof ReviewEntity => ReviewEntity, (review): AlbumEntity => review.album)
-    public reviews: ReviewEntity[];
 
     @ManyToMany((): typeof GenreEntity => GenreEntity, (genre): AlbumEntity[] => genre.albums)
     @JoinTable()
     public genres: GenreEntity[];
+
+    @OneToMany((): typeof ReviewEntity => ReviewEntity, (review): AlbumEntity => review.album)
+    public reviews: ReviewEntity[];
 }

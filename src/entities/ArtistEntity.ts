@@ -1,7 +1,3 @@
-/**
- * TypeORM description of "artist" table
- */
-
 import {
     Entity,
     Column,
@@ -28,12 +24,6 @@ export class ArtistEntity {
     @PrimaryGeneratedColumn()
     public id: number;
 
-    @Column()
-    public name: string;
-
-    @Column()
-    public memberCount: number;
-
     /**
      * If group is still active/solo performer is alive
      */
@@ -41,19 +31,22 @@ export class ArtistEntity {
     public active: boolean;
 
     @Column()
-    public soloPerformer: boolean;
-
-    @Column()
-    public urlRYM: string;
+    public discographyCountRYM: number;
 
     @Column()
     public listCountRYM: number;
 
     @Column()
-    public discographyCountRYM: number;
+    public memberCount: number;
+
+    @Column()
+    public name: string;
 
     @Column()
     public showCountRYM: number;
+
+    @Column()
+    public soloPerformer: boolean;
 
     /**
      * @remarks
@@ -64,16 +57,19 @@ export class ArtistEntity {
     })
     public spotifyId: string;
 
+    @Column()
+    public urlRYM: string;
+
     @OneToMany((): typeof AlbumEntity => AlbumEntity, (album): ArtistEntity => album.artist)
     public albums: AlbumEntity[];
+
+    @ManyToMany((): typeof GenreEntity => GenreEntity, (genre): ArtistEntity[] => genre.artists)
+    @JoinTable()
+    public genres: GenreEntity[];
 
     @ManyToMany(
         (): typeof ProfileEntity => ProfileEntity,
         (profile): ArtistEntity[] => profile.favoriteArtists,
     )
     public profiles: ProfileEntity[];
-
-    @ManyToMany((): typeof GenreEntity => GenreEntity, (genre): ArtistEntity[] => genre.artists)
-    @JoinTable()
-    public genres: GenreEntity[];
 }

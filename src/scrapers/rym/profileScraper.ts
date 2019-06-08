@@ -1,75 +1,40 @@
-/**
- * Manages the scraping and storage of a profile from [Rate Your Music](https://rateyourmusic.com/).
- * See [[Scraper]] for more details.
- */
-
 import { getConnection } from 'typeorm';
 
+import { ArtistScraper } from './artistScraper';
 import {
     ArtistEntity,
     ProfileEntity,
 } from '../../entities/entities';
-import { RymScraper } from './rymScraper';
-import { ArtistScraper } from './artistScraper';
 import { Log } from '../../helpers/classes/log';
 import { ScrapeResult } from '../../helpers/classes/result';
-import { Gender } from '../../helpers/types';
 import { ParseElement } from '../../helpers/parsing/parseElement';
+import { Gender } from '../../helpers/types';
+import { RymScraper } from './rymScraper';
 
+/**
+ * Manages the scraping and storage of a profile from [Rate Your Music](https://rateyourmusic.com/).
+ *
+ * For more information on class properties, see corresponding props in [[ProfileEntity]].
+ */
 export class ProfileScraper extends RymScraper<ProfileEntity> {
-    public scrapedHtmlElement: HTMLElement;
-
-    public name: string;
-
     public age: number;
+
+    public favoriteArtists: ArtistScraper[];
 
     public gender: Gender;
 
-    public favoriteArtists: ArtistScraper[];
+    public name: string;
 
     public constructor(
         name: string,
         verbose = false,
     ) {
         super(`RYM User: ${name}`, verbose);
-        this.url = `https://rateyourmusic.com/~${name}`;
         this.name = name;
-        this.dataReadFromDB = false;
+        this.dataReadFromLocal = false;
         this.favoriteArtists = [];
         this.repository = getConnection().getRepository(ProfileEntity);
-    }
-
-    public async saveToDB(): Promise<void> {
-        // extract artist db records
-        const artistEntities: ArtistEntity[] = [];
-        const artistEntityIds: number[] = [];
-        for await(const artist of this.favoriteArtists) {
-            const artistEntity = await artist.getEntity();
-            if(artistEntity != null && artistEntityIds.indexOf(artistEntity.id) === -1) {
-                artistEntities.push(artistEntity);
-                artistEntityIds.push(artistEntity.id);
-            }
-        }
-
-        let profile = new ProfileEntity();
-        profile.name = this.name;
-        profile.age = this.age;
-        profile.gender = (this.gender === Gender.Male);
-        profile.urlRYM = this.url;
-        profile.favoriteArtists = artistEntities;
-
-        profile = await this.repository.save(profile);
-        this.databaseId = profile.id;
-    }
-
-    /**
-     * Find the database entity of a given profile
-     *
-     * @param entityManager database connection manager, typeORM
-     * @returns an ArtistEntity, the saved database record for an artist
-     */
-    public async getEntity(): Promise<ProfileEntity> {
-        return this.repository.findOne({ name: this.name });
+        this.url = `https://rateyourmusic.com/~${name}`;
     }
 
     protected extractInfo(): void {
@@ -77,39 +42,9 @@ export class ProfileScraper extends RymScraper<ProfileEntity> {
         this.extractArtists();
     }
 
-    protected async scrapeDependencies(): Promise<void> {
-        const successfullyScrapedArtists: ArtistScraper[] = [];
-        for await(const artist of this.favoriteArtists) {
-            try {
-                await artist.scrape();
-                successfullyScrapedArtists.push(artist);
-                this.results.concat(artist.results);
-            } catch(e) {
-                this.results.push(
-                    new ScrapeResult(false, artist.url, e),
-                );
-            }
-        }
-        this.favoriteArtists = successfullyScrapedArtists;
-    }
-
     /**
-     * Extracts a basic user information from a Rate Your Music profile page
-     *
-     * @param page puppeteer profile page
-     * @param profile username for a RYM user
-     */
-    private extractUserInfo(): void {
-        const userAgeAndGenderRaw = this.scrapeRoot
-            .element('.profilehii > table > tbody > tr:nth-child(2) > td', 'age/gender', true)
-            .textContent();
-        const splitUserInfo: string[] = userAgeAndGenderRaw.split(' / ');
-        this.age = Number(splitUserInfo[0]);
-        this.gender = Gender[splitUserInfo[1]];
-    }
-
-    /**
-     * Extracts an array of favorite artists from a Rate Your Music profile page
+     * Extracts and stores:
+     * - [[ProfileScraper.favoriteArtists]]
      */
     private extractArtists(): void {
         // extracts all content blocks from the page
@@ -145,13 +80,69 @@ export class ProfileScraper extends RymScraper<ProfileEntity> {
         }
     }
 
-    public formattedGender(): string {
-        return this.gender === Gender.Male ? 'Male' : 'Female';
+    /**
+     * Extracts and stores (from example raw element text: ```Male / 33```)
+     * - [[ProfileScraper.age]]
+     * - [[ProfileScraper.gender]]
+     */
+    private extractUserInfo(): void {
+        const userAgeAndGenderRaw = this.scrapeRoot
+            .element('.profilehii > table > tbody > tr:nth-child(2) > td', 'age/gender', true)
+            .textContent();
+        const splitUserInfo: string[] = userAgeAndGenderRaw.split(' / ');
+        this.age = Number(splitUserInfo[0]);
+        this.gender = Gender[splitUserInfo[1]];
+    }
+
+    public async getEntity(): Promise<ProfileEntity> {
+        return this.repository.findOne({ name: this.name });
     }
 
     public printInfo(): void {
         Log.log(`Username: ${this.name}`);
         Log.log(`Age: ${this.age}`);
-        Log.log(`Gender: ${this.formattedGender()}`);
+        Log.log(`Gender: ${this.gender === Gender.Male ? 'Male' : 'Female'}`);
+    }
+
+    public async saveToLocal(): Promise<void> {
+        // extract artist db records, ignoring duplicates
+        const artistEntities: ArtistEntity[] = [];
+        const artistEntityIds: number[] = [];
+        for await(const artist of this.favoriteArtists) {
+            const artistEntity = await artist.getEntity();
+            if(artistEntity != null && artistEntityIds.indexOf(artistEntity.id) === -1) {
+                artistEntities.push(artistEntity);
+                artistEntityIds.push(artistEntity.id);
+            }
+        }
+
+        let profile = new ProfileEntity();
+        profile.name = this.name;
+        profile.age = this.age;
+        profile.gender = (this.gender === Gender.Male);
+        profile.urlRYM = this.url;
+        profile.favoriteArtists = artistEntities;
+
+        profile = await this.repository.save(profile);
+        this.databaseId = profile.id;
+    }
+
+    /**
+     * Scrape the user's favorite artists
+     */
+    protected async scrapeDependencies(): Promise<void> {
+        const successfullyScrapedArtists: ArtistScraper[] = [];
+        for await(const artist of this.favoriteArtists) {
+            try {
+                await artist.scrape();
+                successfullyScrapedArtists.push(artist);
+                this.results.concat(artist.results);
+            } catch(e) {
+                this.results.push(
+                    new ScrapeResult(false, artist.url, e),
+                );
+            }
+        }
+        this.favoriteArtists = successfullyScrapedArtists;
     }
 }

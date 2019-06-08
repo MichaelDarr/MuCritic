@@ -10,7 +10,14 @@ import {
 } from '../../entities/entities';
 
 /**
- * Initializes a database connection with params from .env
+ * Initializes a database connection
+ *
+ * Required ```.env``` variables:
+ * - **```DATABASE_HOST```**
+ * - **```DATABASE_PORT```**
+ * - **```DATABASE_USERNAME```**
+ * - **```DATABASE_PASSWORD```**
+ * - **```DATABASE_NAME```**
  */
 export async function connectToDatabase(): Promise<void> {
     Log.notify('connecting to database');

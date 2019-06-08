@@ -1,12 +1,8 @@
-/**
- * TypeORM description of "genre" table
- */
-
 import {
-    Entity,
     Column,
-    PrimaryGeneratedColumn,
+    Entity,
     ManyToMany,
+    PrimaryGeneratedColumn,
 } from 'typeorm';
 
 import { AlbumEntity } from './AlbumEntity';
@@ -28,9 +24,9 @@ export class GenreEntity {
     @Column()
     public name: string;
 
-    @ManyToMany((): typeof ArtistEntity => ArtistEntity, (artist): GenreEntity[] => artist.genres)
-    public artists: ArtistEntity[];
-
     @ManyToMany((): typeof AlbumEntity => AlbumEntity, (album): GenreEntity[] => album.genres)
     public albums: AlbumEntity[];
+
+    @ManyToMany((): typeof ArtistEntity => ArtistEntity, (artist): GenreEntity[] => artist.genres)
+    public artists: ArtistEntity[];
 }

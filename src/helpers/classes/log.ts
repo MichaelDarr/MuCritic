@@ -1,7 +1,15 @@
 import chalk from 'chalk';
 
 /**
- * Unified simple string logging. Can silence with environment vars, or force log with params
+ * Unified simple string logging.
+ *
+ * ```.env``` variables (if set to ```false```, disables specific logging function):
+ * - **```process.env.LOG_ERROR```**
+ * - **```process.env.LOG_GENERAL```**
+ * - **```process.env.LOG_NOTIFY```**
+ * - **```process.env.LOG_SUCCESS```**
+ *
+ * If ```force``` parameter ```true```, logs always show on console (regardless of ```.env``` vars)
  */
 export class Log {
     public static err(toPrint: string, force = false): void {

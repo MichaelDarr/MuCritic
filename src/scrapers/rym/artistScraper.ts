@@ -1,46 +1,53 @@
-/**
- * Manages the scraping and storage of artists from [Rate Your Music](https://rateyourmusic.com/).
- * See [[Scraper]] for more details.
- */
-
 import { getConnection } from 'typeorm';
 
 import {
     ArtistEntity,
     GenreEntity,
 } from '../../entities/entities';
+import { GenreScraper } from './genreScraper';
 import { Log } from '../../helpers/classes/log';
 import { ScrapeResult } from '../../helpers/classes/result';
 import { stringToNum } from '../../helpers/functions/typeManips';
+import { ParseElement } from '../../helpers/parsing/parseElement';
 import {
     extractCountFromPair,
     extractMemberCountFromString,
 } from '../../helpers/parsing/rymStrings';
-import { ParseElement } from '../../helpers/parsing/parseElement';
 import { RymScraper } from './rymScraper';
-import { GenreScraper } from './genreScraper';
 
+/**
+ * Manages the scraping and storage of artists from [Rate Your Music](https://rateyourmusic.com/).
+ *
+ * For more information on class properties, see corresponding props in [[ArtistEntity]]
+ */
 export class ArtistScraper extends RymScraper<ArtistEntity> {
-    public name: string;
-
     public active: boolean;
-
-    public memberCount: number;
-
-    public disbanded: boolean;
-
-    public soloPerformer: boolean;
-
-    public genreScrapersRYM: GenreScraper[];
-
-    public genreEntities: GenreEntity[];
-
-    public listCountRYM: number;
 
     public discographyCountRYM: number;
 
+    /**
+     * Indicates a breakup (irrelevant for solo acts)
+     */
+    public disbanded: boolean;
+
+    public genreEntities: GenreEntity[];
+
+    public genreScrapersRYM: GenreScraper[];
+
+    public listCountRYM: number;
+
+    public memberCount: number;
+
+    public name: string;
+
     public showCountRYM: number;
 
+    public soloPerformer: boolean;
+
+    /**
+     * @param url Example:
+     * ```https://rateyourmusic.com/artist/deftones```
+     */
     public constructor(
         url: string,
         verbose = false,
@@ -52,6 +59,25 @@ export class ArtistScraper extends RymScraper<ArtistEntity> {
         this.active = true;
     }
 
+    /**
+     * Retrieves and stores artist name
+     */
+    private extractArtistName(): void {
+        this.name = this.scrapeRoot
+            .element('h1.artist_name_hdr', 'artist', true)
+            .textContent(true, null, true, true);
+    }
+
+    /**
+     * Extracts and stores
+     * - [[ArtistScraper.discographyCountRYM]]
+     */
+    private extractDiscographyCount(): void {
+        this.discographyCountRYM = this.scrapeRoot
+            .element('div.artist_page_section_active_music > span.subtext', 'discog count', false)
+            .number();
+    }
+
     protected extractInfo(): void {
         this.extractArtistName();
         this.extractMainInfoBlocks();
@@ -60,27 +86,28 @@ export class ArtistScraper extends RymScraper<ArtistEntity> {
         this.extractPastShowCount();
     }
 
-    private extractArtistName(): void {
-        this.name = this.scrapeRoot
-            .element('h1.artist_name_hdr', 'artist', true)
-            .textContent(true, null, true, true);
-    }
-
     /**
-     * Find the database entity of a given album
-     *
-     * @param entityManager database connection manager, typeORM
-     * @returns an AlbumEntity, the saved database record for an album
+     * Extracts and stores one elements, parsed by [[extractCountFromPair]]:
+     * - [[ArtistScraper.listCountRYM]]
      */
-    public async getEntity(): Promise<ArtistEntity> {
-        return this.repository.findOne({ urlRYM: this.url });
+    private extractListCount(): void {
+        const listCountText = this.scrapeRoot
+            .element('div.section_lists > div.release_page_header > h2', 'list count', false)
+            .textContent();
+        this.listCountRYM = extractCountFromPair(listCountText, false);
     }
 
     /**
-     * Scrapes artist discograph count into [[ArtistScraper.discographyCountRYM]]. Called  by
-     * [[Scraper.extractInfo]]
+     * The main information on artist pages is represented by a series of elements, alternating
+     * between "headers blocks" and their corresponding "content blocks". The order and quantity
+     * of both indeterminate. This method loops through them, storing content blocks based on the
+     * preceeding header block
      *
-     * **Example of element text:** ```lists 20```
+     * Extracts and stores:
+     * - [[ArtistScraper.memberCount]] (uses [[extractMemberCountFromString]])
+     * - [[ArtistScraper.genreScrapersRYM]] (uses [[GenreScraper.createScrapers]])
+     * - [[ArtistScraper.active]]
+     * - [[ArtistScraper.soloPerformer]]
      */
     private extractMainInfoBlocks(): void {
         // iterate through the main artist info blocks, "switch" on preceeding header block
@@ -124,35 +151,8 @@ export class ArtistScraper extends RymScraper<ArtistEntity> {
     }
 
     /**
-     * Scrapes artist discograph count into [[ArtistScraper.discographyCountRYM]]. Called  by
-     * [[Scraper.extractInfo]]
-     *
-     * **Example of element text:** ```lists 20```
-     */
-    private extractDiscographyCount(): void {
-        this.discographyCountRYM = this.scrapeRoot
-            .element('div.artist_page_section_active_music > span.subtext', 'discog count', false)
-            .number();
-    }
-
-    /**
-     * Scrapes number of artist list appearences into [[ArtistScraper.listCountRYM]]. Called by
-     * [[Scraper.extractInfo]]
-     *
-     * **Example of element text:** ```lists 20```
-     */
-    private extractListCount(): void {
-        const listCountText = this.scrapeRoot
-            .element('div.section_lists > div.release_page_header > h2', 'list count', false)
-            .textContent();
-        this.listCountRYM = extractCountFromPair(listCountText, false);
-    }
-
-    /**
-     * Scrapes of shows an artist has performed into [[ArtistScraper.showCountRYM]]. Called  by
-     * [[Scraper.extractInfo]]
-     *
-     * **Example of element text:** ```Show past shows [28]```
+     * Extracts and stores
+     * - [[ArtistScraper.showCountRYM]] Example of raw element text: ```Show past shows [28]```
      */
     private extractPastShowCount(): void {
         let showString = this.scrapeRoot
@@ -164,25 +164,26 @@ export class ArtistScraper extends RymScraper<ArtistEntity> {
         this.showCountRYM = stringToNum(showString, false);
     }
 
-    protected async scrapeDependencies(): Promise<void> {
-        const successfullyScrapedGenres: GenreScraper[] = [];
-        for await(const genreScraper of this.genreScrapersRYM) {
-            try {
-                await genreScraper.scrape();
-                successfullyScrapedGenres.push(genreScraper);
-                this.results.concat(genreScraper.results);
-            } catch(err) {
-                this.results.push(new ScrapeResult(
-                    false,
-                    genreScraper.name,
-                    err,
-                ));
-            }
-        }
-        this.genreScrapersRYM = successfullyScrapedGenres;
+    public async getEntity(): Promise<ArtistEntity> {
+        return this.repository.findOne({ urlRYM: this.url });
     }
 
-    public async saveToDB(): Promise<void> {
+    public printInfo(): void {
+        if(this.dataReadFromLocal) {
+            this.printResult();
+            return;
+        }
+        Log.success(`Artist Scrape Successful: ${this.name}`);
+        Log.log(`Type: ${this.soloPerformer ? 'Solo Performer' : 'Band'}`);
+        Log.log(`Status: ${this.active ? 'active' : 'disbanded'}`);
+        Log.log(`Members: ${this.memberCount}`);
+        Log.log(`Genre Count: ${this.genreScrapersRYM.length}`);
+        Log.log(`RYM List Features: ${this.listCountRYM}`);
+        Log.log(`Discography Count: ${this.discographyCountRYM}`);
+        Log.log(`Live Shows: ${this.showCountRYM}`);
+    }
+
+    public async saveToLocal(): Promise<void> {
         const genreEntities: GenreEntity[] = [];
         for await(const genre of this.genreScrapersRYM) {
             const genreEntity: GenreEntity = await genre.getEntity();
@@ -204,18 +205,24 @@ export class ArtistScraper extends RymScraper<ArtistEntity> {
         this.databaseId = artist.id;
     }
 
-    public printInfo(): void {
-        if(this.dataReadFromDB) {
-            this.printResult();
-            return;
+    /**
+     * Scrape the genres associated with this artist
+     */
+    protected async scrapeDependencies(): Promise<void> {
+        const successfullyScrapedGenres: GenreScraper[] = [];
+        for await(const genreScraper of this.genreScrapersRYM) {
+            try {
+                await genreScraper.scrape();
+                successfullyScrapedGenres.push(genreScraper);
+                this.results.concat(genreScraper.results);
+            } catch(err) {
+                this.results.push(new ScrapeResult(
+                    false,
+                    genreScraper.name,
+                    err,
+                ));
+            }
         }
-        Log.success(`Artist Scrape Successful: ${this.name}`);
-        Log.log(`Type: ${this.soloPerformer ? 'Solo Performer' : 'Band'}`);
-        Log.log(`Status: ${this.active ? 'active' : 'disbanded'}`);
-        Log.log(`Members: ${this.memberCount}`);
-        Log.log(`Genre Count: ${this.genreScrapersRYM.length}`);
-        Log.log(`RYM List Features: ${this.listCountRYM}`);
-        Log.log(`Discography Count: ${this.discographyCountRYM}`);
-        Log.log(`Live Shows: ${this.showCountRYM}`);
+        this.genreScrapersRYM = successfullyScrapedGenres;
     }
 }
