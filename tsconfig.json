@@ -14,9 +14,10 @@
         "src/serveDocs.ts"
     ],
     "typedocOptions": {
-        "target": "es5",
+        "entryPoint": "./Scraper",
         "module": "commonjs",
         "mode": "file",
-        "out": "docs/"
+        "out": "docs/",
+        "target": "es5"
     }
 }
