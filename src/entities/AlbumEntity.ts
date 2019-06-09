@@ -12,6 +12,7 @@ import { ArtistEntity } from './ArtistEntity';
 import { GenreEntity } from './GenreEntity';
 import { ReviewEntity } from './ReviewEntity';
 import { SpotifyGenreEntity } from './SpotifyGenreEntity';
+import { TrackEntity } from './TrackEntity';
 
 /**
  * Describes layout and relationships for "album" database table, containing album information
@@ -215,4 +216,7 @@ export class AlbumEntity {
     )
     @JoinTable()
     public spotifyGenres: SpotifyGenreEntity[];
+
+    @OneToMany((): typeof TrackEntity => TrackEntity, (track): AlbumEntity => track.album)
+    public tracks: TrackEntity[];
 }
