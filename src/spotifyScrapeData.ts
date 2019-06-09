@@ -15,15 +15,16 @@ import { SpotifyIdScraper } from './scrapers/spotify/spotifyIdScraper';
 dontenv.config({ path: resolve(__dirname, '../.env') });
 
 /**
- * Uses the Spotify API to populate spotifyId field for all album and artist records in database
+ * Uses the spotifyId field for all album and artist records in database to read and store all
+ * other Spotify data into the database
  *
  * @remarks
- * - npm call: ```npm run spotifyIdScrape```
+ * - npm call: ```npm run spotifyDataScrape```
  * - A single instance of this function will never make more than one request at a time
  */
-export async function scrapeSpotifyIds(): Promise<void> {
+export async function scrapeSpotifyData(): Promise<void> {
     try {
-        Log.notify('\nTypeScrape Spotify ID Scraper\n\n');
+        Log.notify('\nTypeScrape Spotify Data Scraper\n\n');
 
         await connectToDatabase();
         const connection = getConnection();
@@ -45,8 +46,8 @@ export async function scrapeSpotifyIds(): Promise<void> {
 
         Log.success('Scrape Complete');
     } catch(err) {
-        Log.err(`\n\nTypeScrape Spotify ID Scraper Failed!\n\nError:\n${err.message}`);
+        Log.err(`\nTypeScrape Spotify Data Scraper Failed!\n\nError:\n${err.message}`);
     }
 }
 
-scrapeSpotifyIds();
+scrapeSpotifyData();

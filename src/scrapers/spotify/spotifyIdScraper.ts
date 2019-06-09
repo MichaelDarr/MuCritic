@@ -19,8 +19,8 @@ import { SpotifyScraper } from './spotifyScraper';
 /**
  * Spotify Album/Artist ID Scraper
  *
- * This class attempts to find Spotify album/artist pair for an [[AlbumEntity]]. On a successful
- * match, the IDs are saved into [[AlbumEntity.spotifyId]] and [[ArtistEntity.spotifyId]].
+ * Finds Spotify album/artist pair for an [[AlbumEntity]]. On a successful match, the IDs are saved
+ * into [[AlbumEntity.spotifyId]] and [[ArtistEntity.spotifyId]].
  */
 export class SpotifyIdScraper extends SpotifyScraper<SpotifySearchAlbum> {
     /**

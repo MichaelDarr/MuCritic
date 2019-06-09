@@ -54,8 +54,13 @@ export class AlbumEntity {
 
     /**
      * Total reviews for an album on RYM, including strictly numeric
+     *
+     * @remarks
+     * nullable for backwards compatibility, as this was not tracked in earlier versions and would
+     * error the DB sync if not nullable
      */
     @Column({
+        nullable: true,
         type: 'float',
     })
     public ratingCountRYM: number;
