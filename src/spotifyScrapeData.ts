@@ -4,7 +4,11 @@
 
 import * as dontenv from 'dotenv';
 import { resolve } from 'path';
-import { getConnection } from 'typeorm';
+import {
+    getConnection,
+    IsNull,
+    Not,
+} from 'typeorm';
 
 import { AlbumEntity } from './entities/entities';
 import { connectToDatabase } from './helpers/functions/database';
@@ -34,7 +38,9 @@ export async function scrapeSpotifyData(): Promise<void> {
         );
 
         const albumRepository = connection.getRepository(AlbumEntity);
-        const albums = await albumRepository.find({ relations: ['artist'] });
+        const albums = await albumRepository.find({
+            spotifyId: Not(IsNull()),
+        });
         for await(const album of albums) {
             try {
                 const idScraper = new SpotifyIdScraper(spotifyApi, album);

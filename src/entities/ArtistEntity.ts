@@ -10,6 +10,7 @@ import {
 import { AlbumEntity } from './AlbumEntity';
 import { GenreEntity } from './GenreEntity';
 import { ProfileEntity } from './ProfileEntity';
+import { SpotifyGenreEntity } from './SpotifyGenreEntity';
 
 /**
  * Describes layout and relationships for "artist" database table, containing artist information
@@ -72,4 +73,11 @@ export class ArtistEntity {
         (profile): ArtistEntity[] => profile.favoriteArtists,
     )
     public profiles: ProfileEntity[];
+
+    @ManyToMany(
+        (): typeof SpotifyGenreEntity => SpotifyGenreEntity,
+        (spotifyGenre): ArtistEntity[] => spotifyGenre.artists,
+    )
+    @JoinTable()
+    public spotifyGenres: SpotifyGenreEntity[];
 }

@@ -215,6 +215,10 @@ export interface AlbumArtistPairSimplified {
     artist: ArtistSimplified;
 }
 
+export interface GetSeveralAlbums {
+    albums: Album[];
+}
+
 export interface SearchAlbum {
     albums: Paging<AlbumSimplified>;
 }

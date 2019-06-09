@@ -11,6 +11,7 @@ import {
 import { ArtistEntity } from './ArtistEntity';
 import { GenreEntity } from './GenreEntity';
 import { ReviewEntity } from './ReviewEntity';
+import { SpotifyGenreEntity } from './SpotifyGenreEntity';
 
 /**
  * Describes layout and relationships for "album" database table, containing album information
@@ -71,6 +72,9 @@ export class AlbumEntity {
     @Column()
     public reviewCountRYM: number;
 
+    @Column()
+    public urlRYM: string;
+
     /**
      * @remarks
      * nullable
@@ -80,8 +84,113 @@ export class AlbumEntity {
     })
     public spotifyId: string;
 
-    @Column()
-    public urlRYM: string;
+    /**
+     * @remarks
+     * nullable
+     */
+    @Column({
+        nullable: true,
+    })
+    public albumType: string;
+
+    /**
+     * @remarks
+     * nullable
+     */
+    @Column({
+        nullable: true,
+    })
+    public spotifyAvailableMarketCount: string;
+
+    /**
+     * @remarks
+     * nullable
+     */
+    @Column({
+        nullable: true,
+    })
+    public spotifyCopyRightCount: string;
+
+    /**
+     * @remarks
+     * nullable
+     */
+    @Column({
+        nullable: true,
+    })
+    public isrcIdentifier: string;
+
+    /**
+     * @remarks
+     * nullable
+     */
+    @Column({
+        nullable: true,
+    })
+    public eanIdentifier: string;
+
+    /**
+     * @remarks
+     * nullable
+     */
+    @Column({
+        nullable: true,
+    })
+    public upcIdentifier: string;
+
+    /**
+     * @remarks
+     * nullable
+     */
+    @Column({
+        nullable: true,
+    })
+    public spotifyLabel: string;
+
+    /**
+     * @remarks
+     * nullable
+     */
+    @Column({
+        nullable: true,
+    })
+    public spotifyName: string;
+
+    /**
+     * @remarks
+     * nullable
+     */
+    @Column({
+        nullable: true,
+    })
+    public spotifyPopularity: string;
+
+    /**
+     * @remarks
+     * nullable
+     */
+    @Column({
+        nullable: true,
+    })
+    public releaseYear: string;
+
+    /**
+     * @remarks
+     * nullable
+     */
+    @Column({
+        nullable: true,
+    })
+    public releaseMonth: string;
+
+    /**
+     * @remarks
+     * nullable
+     */
+    @Column({
+        nullable: true,
+    })
+    public releaseDay: string;
 
     /**
      * Album ranking in comparison to others released the same year, by overall rating
@@ -99,4 +208,11 @@ export class AlbumEntity {
 
     @OneToMany((): typeof ReviewEntity => ReviewEntity, (review): AlbumEntity => review.album)
     public reviews: ReviewEntity[];
+
+    @ManyToMany(
+        (): typeof SpotifyGenreEntity => SpotifyGenreEntity,
+        (spotifyGenre): AlbumEntity[] => spotifyGenre.albums,
+    )
+    @JoinTable()
+    public spotifyGenres: SpotifyGenreEntity[];
 }
