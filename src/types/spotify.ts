@@ -23,75 +23,91 @@ export type AlbumType =
     | 'single'
     | 'compilation';
 
+/**
+ * album_group: "The field is present when getting an artist’s albums."
+ */
 export type AlbumGroup =
     | 'album'
     | 'single'
     | 'compilation'
     | 'appears_on';
 
-// https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids
+/**
+ * see https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids
+ */
 export type SpotifyUrl = string;
 
-// https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids
+/**
+ * see https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids
+ */
 export type SpotifyUri = string;
+
+/**
+ * A link to a Web API endpoint
+ *
+ * @typeparam T the resource targeted by an endpoint
+ */
+export type SpotifyApiLink<T> = string;
+
+/**
+ * A URL to a 30 second preview (MP3 format) of a track
+ */
+export type PreviewUrl = string;
+
+/**
+ * The date the album was first released, for example ```1981```. Depending on the precision, it
+ * might be shown as ```1981-12``` or ```1981-12-15```.
+ */
+export type ReleaseDate = string;
+
+/**
+ * The precision with which [[ReleaseDate]] value is known: ```year```, ```month``` , or ```day```.
+ */
+export type ReleaseDatePrecision =
+    | 'year'
+    | 'month'
+    | 'day';
+
+/**
+ * between 0 and 100, with 100 being the most popular
+ */
+export type Popularity = number;
 
 export interface ExternalUrls {
     spotify: SpotifyUrl;
     [prop: string]: string;
 }
 
-export interface Image {
-    height: number;
-    url: string;
-    width: number;
-}
-
-export interface ArtistSimplified {
-    external_urls: ExternalUrls;
-    href: string;
-    id: string;
-    name: string;
-    type: 'artist';
-    uri: SpotifyUri;
-}
-
-export interface Artist extends ArtistSimplified{
-    genres: string[];
-    images: Image[];
-    name: string;
-    popularity: number;
-}
-
-export interface AlbumSimplified {
-    album_type: AlbumType;
-    artists: ArtistSimplified[];
-    href: string;
-    id: string;
-    images: Image[];
-    name: string;
-    type: 'album';
-    uri: string;
-}
-
-export interface Album extends AlbumSimplified {
-    available_markets: CountryCode[];
+export interface ExternalIds {
+    isrc?: string;
+    ean?: string;
+    upc?: string;
+    [prop: string]: string;
 }
 
 /**
- * album_group: "The field is present when getting an artist’s albums."
- * https://developer.spotify.com/documentation/web-api/reference/object-model/#album-object
+ * href: "Please note that this will always be set to null, as the Web API does not support it at
+ * the moment."
+ * https://developer.spotify.com/documentation/web-api/reference/object-model/#followers-object
  */
-export interface AlbumSimplifiedForArtistAlbums extends AlbumSimplified{
-    album_group: AlbumGroup;
+export interface Followers {
+    href: null;
+    total: string;
 }
 
-export interface AlbumForArtists extends Album {
-    album_group: AlbumGroup;
+/**
+ * Part of the response when Track Relinking is applied, the original track is not available in the
+ * given market, and Spotify did not have any tracks to relink it with. The track response will
+ * still contain metadata for the original track, and a restrictions object containing the reason
+ * why the track is not available: "restrictions" : {"reason" : "market"}
+ */
+export interface Restrictions {
+    reason: 'market';
 }
 
-export interface AlbumArtistPairSimplified {
-    album: AlbumSimplified;
-    artist: ArtistSimplified;
+export interface Copyright {
+    text: string;
+    type: 'C' | 'P';
 }
 
 export interface Paging<T> {
@@ -102,6 +118,101 @@ export interface Paging<T> {
     offset: number;
     previous: string | null;
     total: number;
+}
+
+/**
+ * Part of the response when Track Relinking is applied and is only part of the response if the
+ * track linking, in fact, exists. The requested track has been replaced with a different track.
+ * The track in the linked_from object contains information about the originally requested track.
+ */
+export interface TrackLink {
+    external_urls: ExternalUrls;
+    href: SpotifyApiLink<Track>;
+    id: number;
+    type: 'track';
+    uri: SpotifyUri;
+}
+
+export interface Image {
+    height: number;
+    url: string;
+    width: number;
+}
+
+export interface ArtistSimplified {
+    external_urls: ExternalUrls;
+    href: SpotifyApiLink<Artist>;
+    id: string;
+    name: string;
+    type: 'artist';
+    uri: SpotifyUri;
+}
+
+export interface Artist extends ArtistSimplified{
+    followers: Followers;
+    genres: string[];
+    images: Image[];
+    name: string;
+    popularity: Popularity;
+}
+
+export interface AlbumSimplified {
+    album_group?: AlbumGroup;
+    album_type: AlbumType;
+    artists: ArtistSimplified[];
+    available_markets: CountryCode[];
+    external_urls: ExternalUrls;
+    href: SpotifyApiLink<Album>;
+    id: string;
+    images: Image[];
+    name: string;
+    release_date: ReleaseDate;
+    release_date_precision: ReleaseDatePrecision;
+    restrictions?: Restrictions;
+    type: 'album';
+    uri: SpotifyUri;
+}
+
+export interface Album extends AlbumSimplified {
+    album_group: never;
+    available_markets: CountryCode[];
+    copyrights: Copyright[];
+    external_ids: ExternalIds;
+    genres: string[];
+    label: string;
+    popularity: Popularity;
+    tracks: Paging<TrackSimplified>;
+}
+
+export interface TrackSimplified {
+    artists: ArtistSimplified[];
+    available_markets: CountryCode[];
+    disc_number: number;
+    duration_ms: number;
+    explicit: boolean;
+    external_urls: ExternalUrls;
+    href: SpotifyApiLink<Track>;
+    id: number;
+    is_playable: boolean;
+    linked_from?: TrackLink;
+    restrictions?: Restrictions;
+    name: string;
+    preview_url: PreviewUrl;
+    track_number: number;
+    type: 'track';
+    uri: SpotifyUri;
+    is_local: boolean;
+}
+
+export interface Track extends TrackSimplified {
+    album: AlbumSimplified;
+    external_ids: ExternalIds;
+    popularity: Popularity;
+}
+
+export interface AlbumArtistPairSimplified {
+    album: AlbumSimplified;
+    artist: ArtistSimplified;
 }
 
 export interface SearchAlbum {
