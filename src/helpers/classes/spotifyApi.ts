@@ -1,20 +1,14 @@
 import { Base64 } from 'js-base64';
 import * as request from 'request';
 
-import {
-    SpotifyClientCredentials,
-    SpotifyResponse,
-    SpotifyRequestMethod,
-    SpotifySearchResponse,
-    SpotifySearchType,
-} from '../types';
+import * as Spotify from '../../types/types';
 
 /**
  * Interface for all interaction with Spotify API using the
  * [Implicit Grant Flow](https://developer.spotify.com/documentation/general/guides/authorization-guide/)
  */
 export class SpotifyApi {
-    private client: SpotifyClientCredentials;
+    private client: Spotify.ClientCredentials;
 
     private accessToken: string;
 
@@ -30,17 +24,17 @@ export class SpotifyApi {
      */
     public async searchRequest(
         query: string,
-        type: SpotifySearchType,
+        type: Spotify.SearchType,
         limit: number,
-    ): Promise<SpotifySearchResponse> {
+    ): Promise<Spotify.SearchResponse> {
         const url = `https://api.spotify.com/v1/search?q=${query}&type=${type}&limit=${limit}`;
         return this.spotifyRequest(url, 'GET');
     }
 
     private async spotifyRequest(
         url: string,
-        method: SpotifyRequestMethod,
-    ): Promise<SpotifyResponse> {
+        method: Spotify.RequestMethod,
+    ): Promise<Spotify.Response> {
         const token: string = await this.getAccessToken();
         return new Promise((resolve, reject): void => {
             const requestOptions = {

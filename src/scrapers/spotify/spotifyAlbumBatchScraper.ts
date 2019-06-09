@@ -8,10 +8,7 @@ import {
 } from '../../entities/entities';
 import { Log } from '../../helpers/classes/log';
 import { SpotifyApi } from '../../helpers/classes/spotifyApi';
-import {
-    SpotifySearchResponse,
-    SpotifySearchAlbum,
-} from '../../helpers/types';
+import * as Spotify from '../../types/spotify';
 import { SpotifyScraper } from './spotifyScraper';
 
 /**
@@ -21,7 +18,7 @@ import { SpotifyScraper } from './spotifyScraper';
  * [[Get Several Albums]](https://developer.spotify.com/documentation/web-api/reference/albums/get-several-albums/)
  * endpoint.
  */
-export class SpotifyAlbumBatchScraper extends SpotifyScraper<SpotifySearchAlbum> {
+export class SpotifyAlbumBatchScraper extends SpotifyScraper<Spotify.SearchAlbum> {
     /**
      * up to 20 artist entities with information to be requested from Spotify
      */
@@ -50,9 +47,17 @@ export class SpotifyAlbumBatchScraper extends SpotifyScraper<SpotifySearchAlbum>
     }
 
     public async requestScrape(): Promise<void> {
+        const albumsWithoutSpotifyData: AlbumEntity[] = [];
+        this.albums.forEach((album: AlbumEntity): void => {
+            if(true) {
+                albumsWithoutSpotifyData.push(album);
+            }
+        });
+        this.albums = albumsWithoutSpotifyData;
     }
 
     public printInfo(): void {
+        Log.notify('not implemented');
     }
 
     protected async saveToLocal(): Promise<void> {

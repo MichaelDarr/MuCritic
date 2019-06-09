@@ -1,4 +1,4 @@
-import { SpotifySearchResponse } from '../../helpers/types';
+import * as Spotify from '../../types/spotify';
 import { Scraper } from '../scraper';
 import { SpotifyApi } from '../../helpers/classes/spotifyApi';
 
@@ -8,7 +8,7 @@ import { SpotifyApi } from '../../helpers/classes/spotifyApi';
  * @typeparam T describes the response to be retrieved by [[SpotifyScraper.requestScrape]] and
  * stored in [[SpotifyScraper.spotifyResponse]]
  */
-export abstract class SpotifyScraper<T extends SpotifySearchResponse> extends Scraper {
+export abstract class SpotifyScraper<T extends Spotify.SearchResponse> extends Scraper {
     /**
      * Spotify data populated by calls to [[SpotifyIdScraper.requestScrape]]
      */

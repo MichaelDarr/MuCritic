@@ -9,11 +9,7 @@ import {
 } from '../../entities/entities';
 import { Log } from '../../helpers/classes/log';
 import { SpotifyApi } from '../../helpers/classes/spotifyApi';
-import {
-    SpotifyAlbumArtistPairSimplified,
-    SpotifySearchResponse,
-    SpotifySearchAlbum,
-} from '../../helpers/types';
+import * as Spotify from '../../types/spotify';
 import { SpotifyScraper } from './spotifyScraper';
 
 /**
@@ -22,7 +18,7 @@ import { SpotifyScraper } from './spotifyScraper';
  * Finds Spotify album/artist pair for an [[AlbumEntity]]. On a successful match, the IDs are saved
  * into [[AlbumEntity.spotifyId]] and [[ArtistEntity.spotifyId]].
  */
-export class SpotifyIdScraper extends SpotifyScraper<SpotifySearchAlbum> {
+export class SpotifyIdScraper extends SpotifyScraper<Spotify.SearchAlbum> {
     /**
      * artist entity used as the primary data source for album/artist ID scrape
      */
@@ -99,7 +95,7 @@ export class SpotifyIdScraper extends SpotifyScraper<SpotifySearchAlbum> {
      * counts as a match. If true, only true equality matches.
      */
     private extractMatchingAlbumArtistPair(strict = false): void {
-        const pair: SpotifyAlbumArtistPairSimplified = { artist: null, album: null };
+        const pair: Spotify.AlbumArtistPairSimplified = { artist: null, album: null };
         const albums = this.spotifyResponse.albums.items;
         const albumName = SpotifyIdScraper.sanitize(this.album.name);
         const artistName = SpotifyIdScraper.sanitize(this.artist.name);
@@ -136,8 +132,8 @@ export class SpotifyIdScraper extends SpotifyScraper<SpotifySearchAlbum> {
     public async requestScrape(): Promise<void> {
         let queryString = `album:${this.album.name} artist:${this.artist.name}`;
         queryString = encodeURIComponent(queryString);
-        const spotifyResponse: SpotifySearchResponse = await this.spotifyApi.searchRequest(queryString, 'album', 3);
-        const albumResponse = spotifyResponse as SpotifySearchAlbum;
+        const spotifyResponse: Spotify.SearchResponse = await this.spotifyApi.searchRequest(queryString, 'album', 3);
+        const albumResponse = spotifyResponse as Spotify.SearchAlbum;
         if(albumResponse.albums.items.length === 0) {
             throw new Error(`No results for album: ${this.album.name} by ${this.artist.name}`);
         }
