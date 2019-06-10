@@ -12,7 +12,7 @@ import { ArtistEntity } from './ArtistEntity';
  * Describes layout and relationships for "genre" database table, containing genre information
  * scraped from [Rate Your Music](https://rateyourmusic.com/).
  */
-@Entity({ name: 'spotify_genre' })
+@Entity({ name: 'spotify-genre' })
 export class SpotifyGenreEntity {
     /**
      * @remarks
