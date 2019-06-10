@@ -26,10 +26,8 @@ export class RymGenreEntity {
     public name: string;
 
     @ManyToMany((): typeof AlbumEntity => AlbumEntity, (album): RymGenreEntity[] => album.rymGenres)
-    @JoinTable()
     public albums: AlbumEntity[];
 
     @ManyToMany((): typeof ArtistEntity => ArtistEntity, (artist): RymGenreEntity[] => artist.rymGenres)
-    @JoinTable()
     public artists: ArtistEntity[];
 }

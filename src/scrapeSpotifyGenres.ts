@@ -4,7 +4,6 @@
 
 import * as dontenv from 'dotenv';
 import { resolve } from 'path';
-import { getConnection } from 'typeorm';
 
 import { connectToDatabase } from './helpers/functions/database';
 import { Log } from './helpers/classes/log';

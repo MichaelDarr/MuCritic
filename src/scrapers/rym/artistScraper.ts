@@ -156,7 +156,7 @@ export class ArtistScraper extends RymScraper<ArtistEntity> {
      */
     private extractPastShowCount(): void {
         let showString = this.scrapeRoot
-            .element('#disco_expand_prev', 'past show count')
+            .element('#disco_expand_prev', 'past show count', false)
             .textContent();
 
         showString = showString.replace(/^.+\[/, '');

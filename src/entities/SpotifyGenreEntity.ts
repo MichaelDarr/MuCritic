@@ -28,6 +28,5 @@ export class SpotifyGenreEntity {
         (): typeof ArtistEntity => ArtistEntity,
         (artist): SpotifyGenreEntity[] => artist.spotifyGenres,
     )
-    @JoinTable()
     public artists: ArtistEntity[];
 }
