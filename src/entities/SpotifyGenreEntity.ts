@@ -6,14 +6,13 @@ import {
     PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { AlbumEntity } from './AlbumEntity';
 import { ArtistEntity } from './ArtistEntity';
 
 /**
  * Describes layout and relationships for "genre" database table, containing genre information
  * scraped from [Rate Your Music](https://rateyourmusic.com/).
  */
-@Entity({ name: 'spotifyGenre' })
+@Entity({ name: 'spotify_genre' })
 export class SpotifyGenreEntity {
     /**
      * @remarks
@@ -24,13 +23,6 @@ export class SpotifyGenreEntity {
 
     @Column()
     public name: string;
-
-    @ManyToMany(
-        (): typeof AlbumEntity => AlbumEntity,
-        (album): SpotifyGenreEntity[] => album.spotifyGenres,
-    )
-    @JoinTable()
-    public albums: AlbumEntity[];
 
     @ManyToMany(
         (): typeof ArtistEntity => ArtistEntity,

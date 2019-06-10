@@ -214,25 +214,30 @@ export interface AlbumArtistPairSimplified {
     artist: ArtistSimplified;
 }
 
-export interface RequestAlbumBatch {
+export interface AlbumBatchResponse {
     albums: Album[];
 }
 
-export interface SearchAlbum {
+export interface GenreSeedsResponse {
+    genres: string[];
+}
+
+export interface AlbumSearchResponse {
     albums: Paging<AlbumSimplified>;
 }
 
-export interface SearchArtist {
+export interface ArtistSearchResponse {
     artists: Paging<Artist>;
 }
 
 export type SearchResponse =
-    | SearchAlbum
-    | SearchArtist;
+    | AlbumSearchResponse
+    | ArtistSearchResponse;
 
 export type Response =
-    | SearchResponse
-    | RequestAlbumBatch;
+    | AlbumBatchResponse
+    | GenreSeedsResponse
+    | SearchResponse;
 
 
 // Aquired from https://gist.github.com/evolkmann/740d24889c509c08484a8ff72af5dd64

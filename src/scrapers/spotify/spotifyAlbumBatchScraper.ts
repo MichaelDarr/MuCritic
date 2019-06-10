@@ -7,6 +7,7 @@ import {
 
 import {
     AlbumEntity,
+    SpotifyGenreEntity,
     TrackEntity,
 } from '../../entities/entities';
 import { SimpleDate } from '../../helpers/classes/simpleDate';
@@ -23,7 +24,7 @@ import { ReleaseDate } from '../../types/spotify';
  * [[Get Several Albums]](https://developer.spotify.com/documentation/web-api/reference/albums/get-several-albums/)
  * endpoint.
  */
-export class SpotifyAlbumBatchScraper extends SpotifyScraper<Spotify.RequestAlbumBatch> {
+export class SpotifyAlbumBatchScraper extends SpotifyScraper<Spotify.AlbumBatchResponse> {
     /**
      * up to 20 artist entities with information to be requested from Spotify
      */
@@ -52,12 +53,15 @@ export class SpotifyAlbumBatchScraper extends SpotifyScraper<Spotify.RequestAlbu
         this.spotifyResponse.albums.forEach((album: Spotify.Album, i: number) => {
             assert(album.id === this.albums[i].spotifyId);
             const releaseDate = SimpleDate.parseSpotifyDate(album.release_date);
+            /*this.albums[i].genres = album.genres.map((genre: string): SpotifyGenreEntity => {
+                const newGenreEntity = new SpotifyGenreEntity();
+                newGenreEntity.name = genre;
+                return newGenreEntity;
+            });*/
 
             this.albums[i].spotifyAlbumType = album.album_type;
             this.albums[i].spotifyAvailableMarketCount = album.available_markets.length;
             this.albums[i].spotifyCopyRightCount = album.copyrights.length;
-            this.albums[i].isrcIdentifier = album.external_ids.isrc;
-            this.albums[i].eanIdentifier = album.external_ids.ean;
             this.albums[i].upcIdentifier = album.external_ids.upc;
             this.albums[i].spotifyLabel = album.label;
             this.albums[i].spotifyPopularity = album.popularity;
@@ -80,5 +84,19 @@ export class SpotifyAlbumBatchScraper extends SpotifyScraper<Spotify.RequestAlbu
         await Promise.all(this.albums.map(async (album: AlbumEntity) => {
             await this.albumRepository.save(album);
         }));
+    }
+
+    protected async scrapeDependencies(): Promise<void> {
+        /*
+        await Promise.all(this.albums.map(async (album: AlbumEntity) => {
+            await Promise.all(album.genres.map(async (genre: SpotifyGenreEntity) => {
+                const foundGenre = await this.spotifyGenreRepository.findOne({name: genre.name});
+                if(foundGenre != null) {
+                    genre = foundGenre;
+                } else {
+                    await this.spotifyGenreRepository.save(genre);
+                }
+            }));
+        }));*/
     }
 }

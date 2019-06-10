@@ -18,7 +18,7 @@ import { SpotifyScraper } from './spotifyScraper';
  * Finds Spotify album/artist pair for an [[AlbumEntity]]. On a successful match, the IDs are saved
  * into [[AlbumEntity.spotifyId]] and [[ArtistEntity.spotifyId]].
  */
-export class SpotifyIdScraper extends SpotifyScraper<Spotify.SearchAlbum> {
+export class SpotifyIdScraper extends SpotifyScraper<Spotify.AlbumSearchResponse> {
     /**
      * artist entity used as the primary data source for album/artist ID scrape
      */
@@ -133,7 +133,7 @@ export class SpotifyIdScraper extends SpotifyScraper<Spotify.SearchAlbum> {
         let queryString = `album:${this.album.name} artist:${this.artist.name}`;
         queryString = encodeURIComponent(queryString);
         const spotifyResponse: Spotify.SearchResponse = (
-            await this.spotifyApi.searchRequest<Spotify.SearchAlbum>(queryString, 'album', 3)
+            await this.spotifyApi.searchRequest<Spotify.AlbumSearchResponse>(queryString, 'album', 3)
         );
         if(spotifyResponse.albums.items.length === 0) {
             throw new Error(`No results for album: ${this.album.name} by ${this.artist.name}`);

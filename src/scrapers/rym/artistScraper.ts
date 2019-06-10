@@ -2,7 +2,7 @@ import { getConnection } from 'typeorm';
 
 import {
     ArtistEntity,
-    GenreEntity,
+    RymGenreEntity,
 } from '../../entities/entities';
 import { GenreScraper } from './genreScraper';
 import { Log } from '../../helpers/classes/log';
@@ -30,7 +30,7 @@ export class ArtistScraper extends RymScraper<ArtistEntity> {
      */
     public disbanded: boolean;
 
-    public genreEntities: GenreEntity[];
+    public genreEntities: RymGenreEntity[];
 
     public genreScrapersRYM: GenreScraper[];
 
@@ -184,14 +184,14 @@ export class ArtistScraper extends RymScraper<ArtistEntity> {
     }
 
     public async saveToLocal(): Promise<void> {
-        const genreEntities: GenreEntity[] = [];
+        const genreEntities: RymGenreEntity[] = [];
         for await(const genre of this.genreScrapersRYM) {
-            const genreEntity: GenreEntity = await genre.getEntity();
+            const genreEntity: RymGenreEntity = await genre.getEntity();
             genreEntities.push(genreEntity);
         }
 
         let artist = new ArtistEntity();
-        artist.genres = genreEntities;
+        artist.rymGenres = genreEntities;
         artist.name = this.name;
         artist.active = this.active;
         artist.memberCount = this.memberCount;

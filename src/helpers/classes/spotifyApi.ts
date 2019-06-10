@@ -33,9 +33,21 @@ export class SpotifyApi {
         return this.spotifyRequest<T>(url, 'GET');
     }
 
-    public async albumBatchRequest(albumIds: string): Promise<Spotify.RequestAlbumBatch> {
+    /**
+     * [Get Available Genre Seeds](https://developer.spotify.com/console/get-available-genre-seeds/)
+     */
+    public async genreSeedsRequest(): Promise<Spotify.GenreSeedsResponse> {
+        const url = 'https://api.spotify.com/v1/recommendations/available-genre-seeds';
+        return this.spotifyRequest<Spotify.GenreSeedsResponse>(url, 'GET');
+    }
+
+    /**
+     * [Get Several Albums](https://developer.spotify.com/documentation/web-api/reference/albums/get-several-albums/)
+     * @param albumIds Comma-separated list of the Spotify IDs for the albums. Maximum: 20
+     */
+    public async albumBatchRequest(albumIds: string): Promise<Spotify.AlbumBatchResponse> {
         const url = `https://api.spotify.com/v1/albums?ids=${albumIds}`;
-        return this.spotifyRequest(url, 'GET');
+        return this.spotifyRequest<Spotify.AlbumBatchResponse>(url, 'GET');
     }
 
     private async spotifyRequest<T extends Spotify.Response>(

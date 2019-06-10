@@ -82,6 +82,15 @@ export abstract class Scraper {
     protected extractInfo(): void {
     }
 
+
+
+    /**
+     * Prints a detailed report of local properties for a scraper, used for debugging
+     */
+    public printInfo(): void {
+        Log.notify('print info not implemented for this scraper');
+    };
+
     /**
      * Simple CLI reporting tool for debugging unsuccessful scrapes
      */
@@ -163,11 +172,6 @@ export abstract class Scraper {
     protected scrapeDependencies(): Promise<void> {
         return Promise.resolve();
     }
-
-    /**
-     * Prints a detailed report of local properties for a scraper, used for debugging
-     */
-    public abstract printInfo(): void;
 
     /**
      * Saves scraped, extracted, and parsed information into a local record

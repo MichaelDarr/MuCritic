@@ -9,9 +9,8 @@ import {
 } from 'typeorm';
 
 import { ArtistEntity } from './ArtistEntity';
-import { GenreEntity } from './GenreEntity';
+import { RymGenreEntity } from './RymGenreEntity';
 import { ReviewEntity } from './ReviewEntity';
-import { SpotifyGenreEntity } from './SpotifyGenreEntity';
 import { TrackEntity } from './TrackEntity';
 
 /**
@@ -118,25 +117,6 @@ export class AlbumEntity {
      */
     @Column({
         nullable: true,
-    })
-    public isrcIdentifier: string;
-
-    /**
-     * @remarks
-     * nullable
-     */
-    @Column({
-        nullable: true,
-        type: 'bigint',
-    })
-    public eanIdentifier: number;
-
-    /**
-     * @remarks
-     * nullable
-     */
-    @Column({
-        nullable: true,
         type: 'bigint',
     })
     public upcIdentifier: number;
@@ -196,19 +176,12 @@ export class AlbumEntity {
     @ManyToOne((): typeof ArtistEntity => ArtistEntity, (artist): AlbumEntity[] => artist.albums)
     public artist: ArtistEntity;
 
-    @ManyToMany((): typeof GenreEntity => GenreEntity, (genre): AlbumEntity[] => genre.albums)
+    @ManyToMany((): typeof RymGenreEntity => RymGenreEntity, (genre): AlbumEntity[] => genre.albums)
     @JoinTable()
-    public genres: GenreEntity[];
+    public rymGenres: RymGenreEntity[];
 
     @OneToMany((): typeof ReviewEntity => ReviewEntity, (review): AlbumEntity => review.album)
     public reviews: ReviewEntity[];
-
-    @ManyToMany(
-        (): typeof SpotifyGenreEntity => SpotifyGenreEntity,
-        (spotifyGenre): AlbumEntity[] => spotifyGenre.albums,
-    )
-    @JoinTable()
-    public spotifyGenres: SpotifyGenreEntity[];
 
     @OneToMany((): typeof TrackEntity => TrackEntity, (track): AlbumEntity => track.album)
     public tracks: TrackEntity[];
