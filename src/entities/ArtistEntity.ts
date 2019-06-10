@@ -72,6 +72,7 @@ export class ArtistEntity {
         (): typeof ProfileEntity => ProfileEntity,
         (profile): ArtistEntity[] => profile.favoriteArtists,
     )
+    @JoinTable()
     public profiles: ProfileEntity[];
 
     @ManyToMany(

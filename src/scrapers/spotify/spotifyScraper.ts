@@ -8,7 +8,7 @@ import { SpotifyApi } from '../../helpers/classes/spotifyApi';
  * @typeparam T describes the response to be retrieved by [[SpotifyScraper.requestScrape]] and
  * stored in [[SpotifyScraper.spotifyResponse]]
  */
-export abstract class SpotifyScraper<T extends Spotify.SearchResponse> extends Scraper {
+export abstract class SpotifyScraper<T extends Spotify.Response> extends Scraper {
     /**
      * Spotify data populated by calls to [[SpotifyIdScraper.requestScrape]]
      */

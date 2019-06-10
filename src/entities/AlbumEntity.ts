@@ -92,7 +92,7 @@ export class AlbumEntity {
     @Column({
         nullable: true,
     })
-    public albumType: string;
+    public spotifyAlbumType: string;
 
     /**
      * @remarks
@@ -101,7 +101,7 @@ export class AlbumEntity {
     @Column({
         nullable: true,
     })
-    public spotifyAvailableMarketCount: string;
+    public spotifyAvailableMarketCount: number;
 
     /**
      * @remarks
@@ -110,7 +110,7 @@ export class AlbumEntity {
     @Column({
         nullable: true,
     })
-    public spotifyCopyRightCount: string;
+    public spotifyCopyRightCount: number;
 
     /**
      * @remarks
@@ -127,8 +127,9 @@ export class AlbumEntity {
      */
     @Column({
         nullable: true,
+        type: 'bigint',
     })
-    public eanIdentifier: string;
+    public eanIdentifier: number;
 
     /**
      * @remarks
@@ -136,8 +137,9 @@ export class AlbumEntity {
      */
     @Column({
         nullable: true,
+        type: 'bigint',
     })
-    public upcIdentifier: string;
+    public upcIdentifier: number;
 
     /**
      * @remarks
@@ -155,7 +157,7 @@ export class AlbumEntity {
     @Column({
         nullable: true,
     })
-    public spotifyName: string;
+    public spotifyPopularity: number;
 
     /**
      * @remarks
@@ -164,7 +166,7 @@ export class AlbumEntity {
     @Column({
         nullable: true,
     })
-    public spotifyPopularity: string;
+    public releaseYear: number;
 
     /**
      * @remarks
@@ -173,7 +175,7 @@ export class AlbumEntity {
     @Column({
         nullable: true,
     })
-    public releaseYear: string;
+    public releaseMonth: number;
 
     /**
      * @remarks
@@ -182,16 +184,7 @@ export class AlbumEntity {
     @Column({
         nullable: true,
     })
-    public releaseMonth: string;
-
-    /**
-     * @remarks
-     * nullable
-     */
-    @Column({
-        nullable: true,
-    })
-    public releaseDay: string;
+    public releaseDay: number;
 
     /**
      * Album ranking in comparison to others released the same year, by overall rating

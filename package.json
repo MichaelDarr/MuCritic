@@ -4,10 +4,11 @@
   "description": "",
   "main": "built/index.js",
   "scripts": {
-    "rymScrape": "tsc && node built/scrapeRateYourMusic",
-    "spotifyIdScrape": "tsc && node built/scrapeSpotifyIds",
     "docgen": "typedoc --experimentalDecorators src/",
-    "serve": "tsc && node built/serveDocs"
+    "rymScrape": "tsc && node built/scrapeRateYourMusic",
+    "serve": "tsc && node built/serveDocs",
+    "spotifyDataScrape": "tsc && node built/scrapeSpotifyData",
+    "spotifyIdScrape": "tsc && node built/scrapeSpotifyIds"
   },
   "author": "Michael Darr",
   "license": "ISC",

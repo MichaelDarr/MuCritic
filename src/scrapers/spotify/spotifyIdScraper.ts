@@ -132,12 +132,13 @@ export class SpotifyIdScraper extends SpotifyScraper<Spotify.SearchAlbum> {
     public async requestScrape(): Promise<void> {
         let queryString = `album:${this.album.name} artist:${this.artist.name}`;
         queryString = encodeURIComponent(queryString);
-        const spotifyResponse: Spotify.SearchResponse = await this.spotifyApi.searchRequest(queryString, 'album', 3);
-        const albumResponse = spotifyResponse as Spotify.SearchAlbum;
-        if(albumResponse.albums.items.length === 0) {
+        const spotifyResponse: Spotify.SearchResponse = (
+            await this.spotifyApi.searchRequest<Spotify.SearchAlbum>(queryString, 'album', 3)
+        );
+        if(spotifyResponse.albums.items.length === 0) {
             throw new Error(`No results for album: ${this.album.name} by ${this.artist.name}`);
         }
-        this.spotifyResponse = albumResponse;
+        this.spotifyResponse = spotifyResponse;
     }
 
     public printInfo(): void {

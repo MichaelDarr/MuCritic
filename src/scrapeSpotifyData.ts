@@ -14,7 +14,7 @@ import { AlbumEntity } from './entities/entities';
 import { connectToDatabase } from './helpers/functions/database';
 import { Log } from './helpers/classes/log';
 import { SpotifyApi } from './helpers/classes/spotifyApi';
-import { SpotifyIdScraper } from './scrapers/spotify/spotifyIdScraper';
+import { SpotifyAlbumBatchScraper } from './scrapers/spotify/spotifyAlbumBatchScraper';
 
 dontenv.config({ path: resolve(__dirname, '../.env') });
 
@@ -36,15 +36,24 @@ export async function scrapeSpotifyData(): Promise<void> {
             process.env.SPOTIFY_CLIENT_ID,
             process.env.SPOTIFY_CLIENT_SECRET,
         );
-
         const albumRepository = connection.getRepository(AlbumEntity);
-        const albums = await albumRepository.find({
+        let albums = await albumRepository.find({
             spotifyId: Not(IsNull()),
         });
-        for await(const album of albums) {
+        const albumsWithoutSpotifyData: AlbumEntity[] = [];
+        albums.forEach((album: AlbumEntity): void => {
+            if(!album.spotifyAlbumType) {
+                albumsWithoutSpotifyData.push(album);
+            }
+        });
+        albums = albumsWithoutSpotifyData;
+
+        let albumCursor = 0;
+        while(albumCursor < albums.length) {
             try {
-                const idScraper = new SpotifyIdScraper(spotifyApi, album);
-                await idScraper.scrape();
+                const nextAlbumCursor = albumCursor + 20;
+                const dataScraper = new SpotifyAlbumBatchScraper(spotifyApi, albums.slice(albumCursor, albumCursor + nextAlbumCursor));
+                await dataScraper.scrape();
             } catch(err) {
                 Log.err(err.message);
             }

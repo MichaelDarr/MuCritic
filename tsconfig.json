@@ -10,8 +10,9 @@
     },
     "include": [
         "src/scrapeRateYourMusic.ts",
+        "src/scrapeSpotifyData.ts",
         "src/scrapeSpotifyIds.ts",
-        "src/serveDocs.ts"
+        "src/serveDocs.ts",
     ],
     "typedocOptions": {
         "entryPoint": "./Scraper",

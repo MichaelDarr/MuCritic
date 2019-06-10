@@ -7,6 +7,8 @@ import {
     GenreEntity,
     ProfileEntity,
     ReviewEntity,
+    SpotifyGenreEntity,
+    TrackEntity,
 } from '../../entities/entities';
 
 /**
@@ -34,6 +36,8 @@ export async function connectToDatabase(): Promise<void> {
             GenreEntity,
             ProfileEntity,
             ReviewEntity,
+            SpotifyGenreEntity,
+            TrackEntity,
         ],
         synchronize: true,
         logging: false,

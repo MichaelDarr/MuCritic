@@ -80,9 +80,8 @@ export interface ExternalUrls {
 
 export interface ExternalIds {
     isrc?: string;
-    ean?: string;
-    upc?: string;
-    [prop: string]: string;
+    ean?: number;
+    upc?: number;
 }
 
 /**
@@ -215,7 +214,7 @@ export interface AlbumArtistPairSimplified {
     artist: ArtistSimplified;
 }
 
-export interface GetSeveralAlbums {
+export interface RequestAlbumBatch {
     albums: Album[];
 }
 
@@ -232,7 +231,8 @@ export type SearchResponse =
     | SearchArtist;
 
 export type Response =
-    | SearchResponse;
+    | SearchResponse
+    | RequestAlbumBatch;
 
 
 // Aquired from https://gist.github.com/evolkmann/740d24889c509c08484a8ff72af5dd64

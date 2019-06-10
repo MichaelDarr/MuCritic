@@ -1,6 +1,7 @@
 import {
     Column,
     Entity,
+    JoinTable,
     ManyToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -25,8 +26,10 @@ export class GenreEntity {
     public name: string;
 
     @ManyToMany((): typeof AlbumEntity => AlbumEntity, (album): GenreEntity[] => album.genres)
+    @JoinTable()
     public albums: AlbumEntity[];
 
     @ManyToMany((): typeof ArtistEntity => ArtistEntity, (artist): GenreEntity[] => artist.genres)
+    @JoinTable()
     public artists: ArtistEntity[];
 }

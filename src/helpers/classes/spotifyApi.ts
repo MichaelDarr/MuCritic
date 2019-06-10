@@ -1,7 +1,7 @@
 import { Base64 } from 'js-base64';
 import * as request from 'request';
 
-import * as Spotify from '../../types/types';
+import * as Spotify from '../../types/spotify';
 
 /**
  * Interface for all interaction with Spotify API using the
@@ -15,26 +15,33 @@ export class SpotifyApi {
     private tokenExpiration: Date;
 
     public constructor(clientId: string, clientSecret: string) {
-        this.client.id = clientId;
-        this.client.secret = clientSecret;
+        this.client = {
+            id: clientId,
+            secret: clientSecret
+        }
     }
 
     /**
      * @param query [spotify docs](https://developer.spotify.com/documentation/web-api/reference/search/search/)
      */
-    public async searchRequest(
+    public async searchRequest<T extends Spotify.SearchResponse>(
         query: string,
         type: Spotify.SearchType,
         limit: number,
-    ): Promise<Spotify.SearchResponse> {
+    ): Promise<T> {
         const url = `https://api.spotify.com/v1/search?q=${query}&type=${type}&limit=${limit}`;
+        return this.spotifyRequest<T>(url, 'GET');
+    }
+
+    public async albumBatchRequest(albumIds: string): Promise<Spotify.RequestAlbumBatch> {
+        const url = `https://api.spotify.com/v1/albums?ids=${albumIds}`;
         return this.spotifyRequest(url, 'GET');
     }
 
-    private async spotifyRequest(
+    private async spotifyRequest<T extends Spotify.Response>(
         url: string,
         method: Spotify.RequestMethod,
-    ): Promise<Spotify.Response> {
+    ): Promise<T> {
         const token: string = await this.getAccessToken();
         return new Promise((resolve, reject): void => {
             const requestOptions = {

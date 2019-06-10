@@ -1,6 +1,7 @@
 import {
     Column,
     Entity,
+    JoinTable,
     ManyToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -26,13 +27,15 @@ export class SpotifyGenreEntity {
 
     @ManyToMany(
         (): typeof AlbumEntity => AlbumEntity,
-        (album): SpotifyGenreEntity[] => album.genres,
+        (album): SpotifyGenreEntity[] => album.spotifyGenres,
     )
+    @JoinTable()
     public albums: AlbumEntity[];
 
     @ManyToMany(
         (): typeof ArtistEntity => ArtistEntity,
-        (artist): SpotifyGenreEntity[] => artist.genres,
+        (artist): SpotifyGenreEntity[] => artist.spotifyGenres,
     )
+    @JoinTable()
     public artists: ArtistEntity[];
 }

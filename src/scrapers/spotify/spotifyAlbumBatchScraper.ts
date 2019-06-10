@@ -1,3 +1,5 @@
+import * as assert from 'assert';
+
 import {
     Repository,
     getConnection,
@@ -5,11 +7,14 @@ import {
 
 import {
     AlbumEntity,
+    TrackEntity,
 } from '../../entities/entities';
+import { SimpleDate } from '../../helpers/classes/simpleDate';
 import { Log } from '../../helpers/classes/log';
 import { SpotifyApi } from '../../helpers/classes/spotifyApi';
 import * as Spotify from '../../types/spotify';
 import { SpotifyScraper } from './spotifyScraper';
+import { ReleaseDate } from '../../types/spotify';
 
 /**
  * Spotify Album Batch Scraper
@@ -18,7 +23,7 @@ import { SpotifyScraper } from './spotifyScraper';
  * [[Get Several Albums]](https://developer.spotify.com/documentation/web-api/reference/albums/get-several-albums/)
  * endpoint.
  */
-export class SpotifyAlbumBatchScraper extends SpotifyScraper<Spotify.SearchAlbum> {
+export class SpotifyAlbumBatchScraper extends SpotifyScraper<Spotify.RequestAlbumBatch> {
     /**
      * up to 20 artist entities with information to be requested from Spotify
      */
@@ -44,22 +49,36 @@ export class SpotifyAlbumBatchScraper extends SpotifyScraper<Spotify.SearchAlbum
     }
 
     protected extractInfo(): void {
+        this.spotifyResponse.albums.forEach((album: Spotify.Album, i: number) => {
+            assert(album.id === this.albums[i].spotifyId);
+            const releaseDate = SimpleDate.parseSpotifyDate(album.release_date);
+
+            this.albums[i].spotifyAlbumType = album.album_type;
+            this.albums[i].spotifyAvailableMarketCount = album.available_markets.length;
+            this.albums[i].spotifyCopyRightCount = album.copyrights.length;
+            this.albums[i].isrcIdentifier = album.external_ids.isrc;
+            this.albums[i].eanIdentifier = album.external_ids.ean;
+            this.albums[i].upcIdentifier = album.external_ids.upc;
+            this.albums[i].spotifyLabel = album.label;
+            this.albums[i].spotifyPopularity = album.popularity;
+            this.albums[i].releaseYear = releaseDate.year;
+            this.albums[i].releaseMonth = releaseDate.month;
+            this.albums[i].releaseDay = releaseDate.day;
+        })
     }
 
     public async requestScrape(): Promise<void> {
-        const albumsWithoutSpotifyData: AlbumEntity[] = [];
-        this.albums.forEach((album: AlbumEntity): void => {
-            if(true) {
-                albumsWithoutSpotifyData.push(album);
-            }
-        });
-        this.albums = albumsWithoutSpotifyData;
+        const idString = this.albums.map(album => album.spotifyId).join();
+        this.spotifyResponse = await this.spotifyApi.albumBatchRequest(idString);
     }
 
     public printInfo(): void {
-        Log.notify('not implemented');
+        Log.notify('print info not implemented');
     }
 
     protected async saveToLocal(): Promise<void> {
+        await Promise.all(this.albums.map(async (album: AlbumEntity) => {
+            await this.albumRepository.save(album);
+        }));
     }
 }
