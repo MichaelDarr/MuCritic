@@ -214,8 +214,16 @@ export interface AlbumArtistPairSimplified {
     artist: ArtistSimplified;
 }
 
+export type AlbumBatch = Album[];
+
+export type ArtistBatch = Artist[];
+
 export interface AlbumBatchResponse {
-    albums: Album[];
+    albums: AlbumBatch;
+}
+
+export interface ArtistBatchResponse {
+    artists: ArtistBatch;
 }
 
 export interface GenreSeedsResponse {
@@ -234,8 +242,16 @@ export type SearchResponse =
     | AlbumSearchResponse
     | ArtistSearchResponse;
 
-export type Response =
+export type BatchResponse =
     | AlbumBatchResponse
+    | ArtistBatchResponse;
+
+export type InnerBatchResponse =
+    | Album[]
+    | Artist[];
+
+export type Response =
+    | BatchResponse
     | GenreSeedsResponse
     | SearchResponse;
 

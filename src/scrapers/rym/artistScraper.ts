@@ -32,7 +32,7 @@ export class ArtistScraper extends RymScraper<ArtistEntity> {
 
     public genreEntities: RymGenreEntity[];
 
-    public genreScrapersRYM: GenreScraper[];
+    public genreScrapers: GenreScraper[];
 
     public listCountRYM: number;
 
@@ -57,7 +57,7 @@ export class ArtistScraper extends RymScraper<ArtistEntity> {
         this.url = url;
         this.soloPerformer = false;
         this.active = true;
-        this.genreScrapersRYM = [];
+        this.genreScrapers = [];
         this.memberCount = 1;
         this.soloPerformer = false;
         this.active = true;
@@ -136,7 +136,7 @@ export class ArtistScraper extends RymScraper<ArtistEntity> {
                             const genreString = genreParser.textContent();
                             if(genreString != null) allGenres.push(genreString);
                         });
-                    this.genreScrapersRYM = GenreScraper.createScrapers(allGenres);
+                    this.genreScrapers = GenreScraper.createScrapers(allGenres);
                     break;
                 }
                 case 'Disbanded':
@@ -181,7 +181,7 @@ export class ArtistScraper extends RymScraper<ArtistEntity> {
         Log.log(`Type: ${this.soloPerformer ? 'Solo Performer' : 'Band'}`);
         Log.log(`Status: ${this.active ? 'active' : 'disbanded'}`);
         Log.log(`Members: ${this.memberCount}`);
-        Log.log(`Genre Count: ${this.genreScrapersRYM.length}`);
+        Log.log(`Genre Count: ${this.genreScrapers.length}`);
         Log.log(`RYM List Features: ${this.listCountRYM}`);
         Log.log(`Discography Count: ${this.discographyCountRYM}`);
         Log.log(`Live Shows: ${this.showCountRYM}`);
@@ -189,7 +189,7 @@ export class ArtistScraper extends RymScraper<ArtistEntity> {
 
     public async saveToLocal(): Promise<void> {
         const genreEntities: RymGenreEntity[] = [];
-        for await(const genre of this.genreScrapersRYM) {
+        for await(const genre of this.genreScrapers) {
             const genreEntity: RymGenreEntity = await genre.getEntity();
             genreEntities.push(genreEntity);
         }
@@ -213,20 +213,8 @@ export class ArtistScraper extends RymScraper<ArtistEntity> {
      * Scrape the genres associated with this artist
      */
     protected async scrapeDependencies(): Promise<void> {
-        const successfullyScrapedGenres: GenreScraper[] = [];
-        for await(const genreScraper of this.genreScrapersRYM) {
-            try {
-                await genreScraper.scrape();
-                successfullyScrapedGenres.push(genreScraper);
-                this.results.concat(genreScraper.results);
-            } catch(err) {
-                this.results.push(new ScrapeResult(
-                    false,
-                    genreScraper.name,
-                    err,
-                ));
-            }
-        }
-        this.genreScrapersRYM = successfullyScrapedGenres;
+        const res = await ArtistScraper.scrapeDependencyArr<GenreScraper>(this.genreScrapers);
+        this.genreScrapers = res.scrapers;
+        this.results.concat(res.results);
     }
 }

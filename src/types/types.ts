@@ -7,7 +7,11 @@ import {
     ArtistEntity,
     ProfileEntity,
     ReviewEntity,
+    SpotifyGenreEntity,
+    TrackEntity,
 } from '../entities/entities';
+import { Scraper } from '../scrapers/scraper';
+import { ResultBatch } from '../helpers/classes/result';
 
 export enum Gender {
     Male,
@@ -26,4 +30,15 @@ export type RymDatabaseEntities =
 
 export type SpotifyDatabaseEntities =
     | AlbumEntity
+    | ArtistEntity
+    | SpotifyGenreEntity
+    | TrackEntity;
+
+export type SpotifyBatchEntities =
+    | AlbumEntity
     | ArtistEntity;
+
+export interface ScrapersWithResults<T extends Scraper> {
+    results: ResultBatch,
+    scrapers: T[],
+}

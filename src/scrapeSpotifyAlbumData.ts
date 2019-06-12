@@ -1,5 +1,5 @@
 /**
- * Spotify ID scraper entry point
+ * Spotify album data scraper entry point
  */
 
 import * as dontenv from 'dotenv';
@@ -26,7 +26,7 @@ dontenv.config({ path: resolve(__dirname, '../.env') });
  * - npm call: ```npm run spotifyDataScrape```
  * - A single instance of this function will never make more than one request at a time
  */
-export async function scrapeSpotifyData(): Promise<void> {
+export async function scrapeSpotifyAlbumData(): Promise<void> {
     try {
         Log.notify('\nTypeScrape Spotify Data Scraper\n\n');
 
@@ -67,4 +67,4 @@ export async function scrapeSpotifyData(): Promise<void> {
     }
 }
 
-scrapeSpotifyData();
+scrapeSpotifyAlbumData();

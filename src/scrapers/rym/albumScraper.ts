@@ -8,7 +8,6 @@ import {
 } from '../../entities/entities';
 import { GenreScraper } from './genreScraper';
 import { Log } from '../../helpers/classes/log';
-import { ScrapeResult } from '../../helpers/classes/result';
 import { extractCountFromPair } from '../../helpers/parsing/rymStrings';
 import { ParseElement } from '../../helpers/parsing/parseElement';
 import { RymScraper } from './rymScraper';
@@ -230,20 +229,8 @@ export class AlbumScraper extends RymScraper<AlbumEntity> {
         await this.artist.scrape();
         this.results.concat(this.artist.results);
 
-        const successfullyScrapedGenres: GenreScraper[] = [];
-        for await(const genreScraper of this.genreScrapers) {
-            try {
-                await genreScraper.scrape();
-                successfullyScrapedGenres.push(genreScraper);
-                this.results.concat(genreScraper.results);
-            } catch(err) {
-                this.results.push(new ScrapeResult(
-                    false,
-                    genreScraper.name,
-                    err,
-                ));
-            }
-        }
-        this.genreScrapers = successfullyScrapedGenres;
+        const res = await ArtistScraper.scrapeDependencyArr<GenreScraper>(this.genreScrapers);
+        this.genreScrapers = res.scrapers;
+        this.results.concat(res.results);
     }
 }

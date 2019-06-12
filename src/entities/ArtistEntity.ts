@@ -49,6 +49,9 @@ export class ArtistEntity {
     @Column()
     public soloPerformer: boolean;
 
+    @Column()
+    public urlRYM: string;
+
     /**
      * @remarks
      * nullable
@@ -58,8 +61,14 @@ export class ArtistEntity {
     })
     public spotifyId: string;
 
-    @Column()
-    public urlRYM: string;
+    /**
+     * @remarks
+     * nullable
+     */
+    @Column({
+        nullable: true,
+    })
+    public spotifyPopularity: number;
 
     @OneToMany((): typeof AlbumEntity => AlbumEntity, (album): ArtistEntity => album.artist)
     public albums: AlbumEntity[];

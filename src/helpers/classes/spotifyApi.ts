@@ -45,9 +45,12 @@ export class SpotifyApi {
      * [Get Several Albums](https://developer.spotify.com/documentation/web-api/reference/albums/get-several-albums/)
      * @param albumIds Comma-separated list of the Spotify IDs for the albums. Maximum: 20
      */
-    public async albumBatchRequest(albumIds: string): Promise<Spotify.AlbumBatchResponse> {
-        const url = `https://api.spotify.com/v1/albums?ids=${albumIds}`;
-        return this.spotifyRequest<Spotify.AlbumBatchResponse>(url, 'GET');
+    public async batchRequest<T extends Spotify.BatchResponse>(
+        ids: string,
+        batchName: string,
+    ): Promise<T> {
+        const url = `https://api.spotify.com/v1/${batchName}?ids=${ids}`;
+        return this.spotifyRequest<T>(url, 'GET');
     }
 
     private async spotifyRequest<T extends Spotify.Response>(

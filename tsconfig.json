@@ -10,7 +10,7 @@
     },
     "include": [
         "src/scrapeRateYourMusic.ts",
-        "src/scrapeSpotifyData.ts",
+        "src/scrapeSpotifyAlbumData.ts",
         "src/scrapeSpotifyGenres.ts",
         "src/scrapeSpotifyIds.ts",
         "src/serveDocs.ts",

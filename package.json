@@ -7,7 +7,7 @@
     "docgen": "typedoc --experimentalDecorators src/",
     "rym": "tsc && node built/scrapeRateYourMusic",
     "serve": "tsc && node built/serveDocs",
-    "spotifyData": "tsc && node built/scrapeSpotifyData",
+    "spotifyData": "tsc && node built/scrapeSpotifyAlbumData",
     "spotifyIds": "tsc && node built/scrapeSpotifyIds",
     "spotifyGenres": "tsc && node built/scrapeSpotifyGenres"
   },
