@@ -105,6 +105,7 @@ export class ReviewPageScraper extends ScraperApiScraper {
                 successfullyScrapedReviews.push(review);
                 this.results.concat(review.album.results);
             } catch(e) {
+                Log.err(`ERROR SCRAPING REVIEW: ${e.message}`)
                 this.results.push(
                     new ScrapeResult(false, this.url, e.message),
                 );
@@ -147,7 +148,7 @@ export class ReviewPageScraper extends ScraperApiScraper {
             .list('table.mbgen > tbody > tr', 'review blocks', false)
             .allElements();
 
-        this.pageReviewCount = reviewParsers.length;
+        this.pageReviewCount = 0;
         reviewParsers.forEach((reviewParser: ParseElement, i): void => {
             if(i === 0) return;
 
@@ -189,6 +190,7 @@ export class ReviewPageScraper extends ScraperApiScraper {
                     identifierRYM,
                     reviewDate,
                 );
+                this.pageReviewCount += 1;
                 this.reviews.push(newReview);
             } catch(e) {
                 Log.err(`Failed to extract data from review element.\n${e}`);

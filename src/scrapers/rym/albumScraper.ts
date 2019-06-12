@@ -56,6 +56,8 @@ export class AlbumScraper extends RymScraper<AlbumEntity> {
         this.listCountRYM = 0;
         this.issueCountRYM = 1;
         this.repository = getConnection().getRepository(AlbumEntity);
+        this.overallRankRYM = 0;
+        this.yearRankRYM = 0;
     }
 
     /**

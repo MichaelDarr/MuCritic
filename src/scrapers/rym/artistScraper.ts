@@ -57,6 +57,10 @@ export class ArtistScraper extends RymScraper<ArtistEntity> {
         this.url = url;
         this.soloPerformer = false;
         this.active = true;
+        this.genreScrapersRYM = [];
+        this.memberCount = 1;
+        this.soloPerformer = false;
+        this.active = true;
     }
 
     /**

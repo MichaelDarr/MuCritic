@@ -21,7 +21,7 @@ dontenv.config({ path: resolve(__dirname, '../.env') });
  * - npm call: ```npm run rymScrape```
  * - A single instance of this function will never make more than one request at a time.
  * - Ingests an array of RYM usernames read from a file. File location supplied by CLI argument,
- * ```npm run rymScrape ./path/to/FILENAME.txt```. Defaults to ```DEFAULT_PROFILE_URI``` from env
+ * ```npm run rymScrape ./rymResources/FILENAME.txt```. Defaults to ```DEFAULT_PROFILE_FILENAME``` from env
  */
 export async function scrapeRateYourMusic(): Promise<void> {
     try {
@@ -29,7 +29,7 @@ export async function scrapeRateYourMusic(): Promise<void> {
         await connectToDatabase();
 
         const profileURLList: string[] = await readFileToArray(
-            process.argv[2] || process.env.DEFAULT_PROFILE_URI,
+            `./rymResources/${process.argv[2] || process.env.DEFAULT_PROFILE_FILENAME}`,
         );
         Log.log('Beginning scrape...');
 

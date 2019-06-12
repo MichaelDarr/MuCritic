@@ -41,7 +41,7 @@ export abstract class ScraperApiScraper extends Scraper {
             this.scrapeRoot = new ParseElement(body, this.description, true);
             return;
         } catch(e) {
-            if(attempts <= Number(process.env.SCRAPER_API_REQUEST_TIMEOUT)) {
+            if(attempts <= Number(process.env.SCRAPER_API_REQUEST_ATTEMPTS)) {
                 Log.notify(`Retrying request\nURL: ${this.url}\nAttempt: ${attempts + 1}`);
                 await this.requestScrape(attempts + 1);
             } else {

@@ -34,6 +34,7 @@ export async function scrapeSpotifyIds(): Promise<void> {
             Log.err(err.message);
         }
         Log.success('Scrape Complete');
+        process.exit(0);
     } catch(err) {
         Log.err(`\n\nTypeScrape Spotify ID Scraper Failed!\n\nError:\n${err.message}`);
     }

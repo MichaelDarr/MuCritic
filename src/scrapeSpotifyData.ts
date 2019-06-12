@@ -54,12 +54,14 @@ export async function scrapeSpotifyData(): Promise<void> {
                 const nextAlbumCursor = albumCursor + 20;
                 const dataScraper = new SpotifyAlbumBatchScraper(spotifyApi, albums.slice(albumCursor, albumCursor + nextAlbumCursor));
                 await dataScraper.scrape();
+                albumCursor = nextAlbumCursor;
             } catch(err) {
                 Log.err(err.message);
             }
         }
 
         Log.success('Scrape Complete');
+        process.exit(0);
     } catch(err) {
         Log.err(`\nTypeScrape Spotify Data Scraper Failed!\n\nError:\n${err.message}`);
     }

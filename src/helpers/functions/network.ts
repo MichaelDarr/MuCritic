@@ -7,7 +7,7 @@ export async function getRequestBody(url: string): Promise<string> {
     return new Promise((resolve, reject): void => {
         request(
             url,
-            { timeout: 60000 },
+            { timeout: Number(process.env.SCRAPER_API_REQUEST_TIMEOUT) },
             (error, _, body): void => {
                 if(error) {
                     reject(new Error(`request failed for ${url}`));
