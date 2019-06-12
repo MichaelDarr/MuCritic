@@ -44,7 +44,7 @@ export class SpotifyIdScraper extends SpotifyScraper<Spotify.AlbumSearchResponse
         album: AlbumEntity,
         verbose = false,
     ) {
-        super(spotifyApi, `Spotify ID scrape: ${album.name} by ${album.artist.name}`, verbose);
+        super(spotifyApi, `Spotify ID: ${album.name} by ${album.artist.name}`, verbose);
         this.album = album;
         this.artist = album.artist;
         this.albumRepository = getConnection().getRepository(AlbumEntity);
@@ -125,8 +125,10 @@ export class SpotifyIdScraper extends SpotifyScraper<Spotify.AlbumSearchResponse
                 });
             }
         });
-        this.album.spotifyId = pair.album.id;
-        this.artist.spotifyId = pair.artist.id;
+        if(pair.album != null && pair.artist != null) {
+            this.album.spotifyId = pair.album.id;
+            this.artist.spotifyId = pair.artist.id;
+        }
     }
 
     public async requestScrape(): Promise<void> {
