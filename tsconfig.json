@@ -9,6 +9,7 @@
         "types" : ["node"]
     },
     "include": [
+        "src/fixDatabaseDuplicates.ts",
         "src/scrapeRateYourMusic.ts",
         "src/scrapeSpotifyAlbumData.ts",
         "src/scrapeSpotifyGenres.ts",

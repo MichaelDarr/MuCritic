@@ -1,9 +1,9 @@
 import {
     Column,
     Entity,
-    JoinTable,
     ManyToMany,
     PrimaryGeneratedColumn,
+    Unique,
 } from 'typeorm';
 
 import { ArtistEntity } from './ArtistEntity';
@@ -13,6 +13,7 @@ import { ArtistEntity } from './ArtistEntity';
  * scraped from [Rate Your Music](https://rateyourmusic.com/).
  */
 @Entity({ name: 'spotify-genre' })
+@Unique(['name'])
 export class SpotifyGenreEntity {
     /**
      * @remarks
