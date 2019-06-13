@@ -3,7 +3,11 @@ import { resolve } from 'path';
 import 'reflect-metadata';
 
 import { getRepository } from 'typeorm';
-import { RymGenreEntity } from './entities/RymGenreEntity';
+import {
+    AlbumEntity,
+    ArtistEntity,
+    RymGenreEntity,
+} from './entities/entities';
 
 import { Log } from './helpers/classes/log';
 import { connectToDatabase } from './helpers/functions/database';
@@ -23,31 +27,60 @@ export async function scrapeRateYourMusic(): Promise<void> {
         /**
          * RYM Genre Duplicate removal, by [[RymGenreEntity.name]]
          */
-        const results = await getRepository(RymGenreEntity)
+        const rymGenreRepo = getRepository(RymGenreEntity);
+        let rymGenres = await rymGenreRepo
             .createQueryBuilder('genre')
             .select('genre.name', 'name')
             .addSelect('COUNT(*)', 'count')
             .groupBy('name')
             .having('COUNT(*) > 1')
             .getRawMany();
-        
-        console.log(results);
 
-        const duplicateNames: string[] = results.map(result => result.name);
+        let rymGenreNames: string[] = rymGenres.map(rymGenre => rymGenre.name);
 
-        for await(let name of duplicateNames) {
-            const dupeGenres = await getRepository(RymGenreEntity).find({
+        for await(let rymGenreName of rymGenreNames) {
+            const dupeEntities = await rymGenreRepo.find({
                 relations: [
                     'artists',
                     'albums',
                 ],
                 where: {
-                    name,
+                    name: rymGenreName,
                 }
             });
-            for await(let genre of dupeGenres) {
-                if(genre.artists.length === 0 && genre.albums.length === 0) {
-                    await getRepository(RymGenreEntity).remove(genre);
+            for await(let entity of dupeEntities) {
+                if(entity.artists.length === 0 && entity.albums.length === 0) {
+                    await rymGenreRepo.remove(entity);
+                }
+            }
+        }
+
+        /**
+         * RYM Album Duplicate removal, by [[AlbumEntity.urlRYM]]
+         */
+        const albumRepo = getRepository(AlbumEntity);
+        let albums = await albumRepo
+            .createQueryBuilder('album')
+            .select('album.urlRYM', 'url')
+            .addSelect('COUNT(*)', 'count')
+            .groupBy('url')
+            .having('COUNT(*) > 1')
+            .getRawMany();
+
+        let albumUrls = albums.map(album => album.url);
+
+        for await(let albumUrl of albumUrls) {
+            const dupeEntities = await albumRepo.find({
+                relations: [
+                    'reviews',
+                ],
+                where: {
+                    urlRYM: albumUrl,
+                }
+            });
+            for await(let entity of dupeEntities) {
+                if(entity.reviews.length === 0) {
+                    await albumRepo.remove(entity);
                 }
             }
         }
@@ -55,7 +88,7 @@ export async function scrapeRateYourMusic(): Promise<void> {
         Log.success('Duplicates Removed');
         process.exit(0);
     } catch(err) {
-        Log.err(`\n\nmuCritic RYM Scraper Failed!\n\nError:\n${err.message}`);
+        Log.err(`\n\nmuCritic dupe remover failed!\n\nError:\n${err.message}`);
     }
 }
 

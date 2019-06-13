@@ -6,6 +6,7 @@ import {
     ManyToOne,
     OneToMany,
     JoinTable,
+    Unique,
 } from 'typeorm';
 
 import { ArtistEntity } from './ArtistEntity';
@@ -18,6 +19,7 @@ import { TrackEntity } from './TrackEntity';
  * scraped from [Rate Your Music](https://rateyourmusic.com/).
  */
 @Entity({ name: 'album' })
+@Unique(['urlRYM'])
 export class AlbumEntity {
     /**
      * @remarks
