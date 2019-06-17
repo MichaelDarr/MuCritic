@@ -39,6 +39,6 @@ export type SpotifyBatchEntities =
     | ArtistEntity;
 
 export interface ScrapersWithResults<T extends Scraper> {
-    results: ResultBatch,
-    scrapers: T[],
+    results: ResultBatch;
+    scrapers: T[];
 }

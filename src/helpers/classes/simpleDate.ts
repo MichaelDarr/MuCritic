@@ -19,7 +19,7 @@ export class SimpleDate {
         if(typeof month === 'string') {
             this.month = SimpleDate.monthToNum(month);
         } else {
-            this.month = month
+            this.month = month;
         }
         this.day = day;
         this.year = year;
@@ -63,11 +63,11 @@ export class SimpleDate {
 
     /**
      * Parse a date object from Spotify's date API into a new [[SimpleDate]]
-     * 
+     *
      * See [[ReleaseDate]] and [[ReleaseDatePrecision]]
      */
     public static parseSpotifyDate(
-        releaseDate: Spotify.ReleaseDate
+        releaseDate: Spotify.ReleaseDate,
     ): SimpleDate {
         const separatedDate = releaseDate.split('-');
         const year = stringToNum(separatedDate[0], true);

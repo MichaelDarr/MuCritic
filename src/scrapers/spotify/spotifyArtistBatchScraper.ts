@@ -1,7 +1,5 @@
 import * as assert from 'assert';
 
-import { getConnection } from 'typeorm';
-
 import {
     ArtistEntity,
     SpotifyGenreEntity,
@@ -31,7 +29,7 @@ export class SpotifyArtistBatchScraper
         this.spotifyResponse.artists.forEach((artist: Spotify.Artist, i: number) => {
             assert(artist.id === this.entities[i].spotifyId);
             this.entities[i].spotifyGenres = artist.genres.map((
-                genre: string
+                genre: string,
             ): SpotifyGenreEntity => {
                 const newGenreEntity = new SpotifyGenreEntity();
                 newGenreEntity.name = genre;
@@ -39,16 +37,6 @@ export class SpotifyArtistBatchScraper
             });
 
             this.entities[i].spotifyPopularity = artist.popularity;
-        })
-    }
-
-    protected async scrapeDependencies(): Promise<void> {
-        await Promise.all(this.entities.map(async (artist: ArtistEntity) => {
-            await Promise.all(artist.spotifyGenres.map(async (genre: SpotifyGenreEntity) => {
-                genre = await getConnection()
-                    .manager
-                    .findOne(SpotifyGenreEntity, {name: genre.name});
-            }));
-        }));
+        });
     }
 }

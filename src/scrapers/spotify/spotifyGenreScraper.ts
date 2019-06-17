@@ -1,5 +1,3 @@
-import * as assert from 'assert';
-
 import {
     Repository,
     getConnection,
@@ -8,8 +6,6 @@ import {
 import {
     SpotifyGenreEntity,
 } from '../../entities/entities';
-import { SimpleDate } from '../../helpers/classes/simpleDate';
-import { Log } from '../../helpers/classes/log';
 import { SpotifyApi } from '../../helpers/classes/spotifyApi';
 import * as Spotify from '../../types/spotify';
 import { SpotifyScraper } from './spotifyScraper';
@@ -54,10 +50,8 @@ export class SpotifyGenreScraper extends SpotifyScraper<Spotify.GenreSeedsRespon
 
     protected async saveToLocal(): Promise<void> {
         await Promise.all(this.genres.map(async (genre: SpotifyGenreEntity) => {
-            const foundGenre = await this.spotifyGenreRepository.findOne({name: genre.name});
-            if(foundGenre != null) {
-                genre = foundGenre;
-            } else {
+            const foundGenre = await this.spotifyGenreRepository.findOne({ name: genre.name });
+            if(foundGenre == null) {
                 await this.spotifyGenreRepository.save(genre);
             }
         }));

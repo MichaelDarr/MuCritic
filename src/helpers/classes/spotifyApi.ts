@@ -17,8 +17,8 @@ export class SpotifyApi {
     public constructor(clientId: string, clientSecret: string) {
         this.client = {
             id: clientId,
-            secret: clientSecret
-        }
+            secret: clientSecret,
+        };
     }
 
     /**

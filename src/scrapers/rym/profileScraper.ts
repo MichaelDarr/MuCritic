@@ -6,12 +6,8 @@ import {
     ProfileEntity,
 } from '../../entities/entities';
 import { Log } from '../../helpers/classes/log';
-import { ScrapeResult } from '../../helpers/classes/result';
 import { ParseElement } from '../../helpers/parsing/parseElement';
-import {
-    Gender,
-    ScrapersWithResults,
-} from '../../types/types';
+import { Gender } from '../../types/types';
 import { RymScraper } from './rymScraper';
 
 /**

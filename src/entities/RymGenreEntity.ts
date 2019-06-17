@@ -29,6 +29,9 @@ export class RymGenreEntity {
     @ManyToMany((): typeof AlbumEntity => AlbumEntity, (album): RymGenreEntity[] => album.rymGenres)
     public albums: AlbumEntity[];
 
-    @ManyToMany((): typeof ArtistEntity => ArtistEntity, (artist): RymGenreEntity[] => artist.rymGenres)
+    @ManyToMany(
+        (): typeof ArtistEntity => ArtistEntity,
+        (artist): RymGenreEntity[] => artist.rymGenres,
+    )
     public artists: ArtistEntity[];
 }

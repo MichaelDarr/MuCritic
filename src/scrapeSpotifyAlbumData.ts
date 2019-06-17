@@ -52,7 +52,10 @@ export async function scrapeSpotifyAlbumData(): Promise<void> {
         while(albumCursor < albums.length) {
             try {
                 const nextAlbumCursor = albumCursor + 20;
-                const dataScraper = new SpotifyAlbumBatchScraper(spotifyApi, albums.slice(albumCursor, albumCursor + nextAlbumCursor));
+                const dataScraper = new SpotifyAlbumBatchScraper(
+                    spotifyApi,
+                    albums.slice(albumCursor, albumCursor + nextAlbumCursor),
+                );
                 await dataScraper.scrape();
                 albumCursor = nextAlbumCursor;
             } catch(err) {

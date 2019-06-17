@@ -19,8 +19,9 @@
                     "getEntity",
                     "checkForLocalRecord",
                     "extractInfo",
-                    "scrapeDependencies",
-                    "requestScrape"
+                    "printInfo",
+                    "requestScrape",
+                    "scrapeDependencies"
                 ]
             }
         ],

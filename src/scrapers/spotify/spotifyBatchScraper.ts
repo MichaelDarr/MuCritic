@@ -1,10 +1,8 @@
-import * as assert from 'assert';
-
 import { getConnection } from 'typeorm';
 
 import { SpotifyApi } from '../../helpers/classes/spotifyApi';
 import * as Spotify from '../../types/spotify';
-import { SpotifyBatchEntities } from '../../types/types'
+import { SpotifyBatchEntities } from '../../types/types';
 import { SpotifyScraper } from './spotifyScraper';
 
 /**

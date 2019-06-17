@@ -37,6 +37,6 @@ export class SpotifyAlbumBatchScraper
             this.entities[i].releaseYear = releaseDate.year;
             this.entities[i].releaseMonth = releaseDate.month;
             this.entities[i].releaseDay = releaseDate.day;
-        })
+        });
     }
 }

@@ -6,7 +6,6 @@ import {
 } from '../../entities/entities';
 import { GenreScraper } from './genreScraper';
 import { Log } from '../../helpers/classes/log';
-import { ScrapeResult } from '../../helpers/classes/result';
 import { stringToNum } from '../../helpers/functions/typeManips';
 import { ParseElement } from '../../helpers/parsing/parseElement';
 import {
