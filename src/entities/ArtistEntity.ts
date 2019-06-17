@@ -5,6 +5,7 @@ import {
     ManyToMany,
     OneToMany,
     JoinTable,
+    Unique,
 } from 'typeorm';
 
 import { AlbumEntity } from './AlbumEntity';
@@ -17,6 +18,7 @@ import { SpotifyGenreEntity } from './SpotifyGenreEntity';
  * from [Rate Your Music](https://rateyourmusic.com/).
  */
 @Entity({ name: 'artist' })
+@Unique(['urlRYM'])
 export class ArtistEntity {
     /**
      * @remarks
@@ -73,7 +75,10 @@ export class ArtistEntity {
     @OneToMany((): typeof AlbumEntity => AlbumEntity, (album): ArtistEntity => album.artist)
     public albums: AlbumEntity[];
 
-    @ManyToMany((): typeof RymGenreEntity => RymGenreEntity, (genre): ArtistEntity[] => genre.artists)
+    @ManyToMany(
+        (): typeof RymGenreEntity => RymGenreEntity,
+        (genre): ArtistEntity[] => genre.artists,
+    )
     @JoinTable()
     public rymGenres: RymGenreEntity[];
 

@@ -35,7 +35,7 @@
         "@typescript-eslint/explicit-function-return-type": [
             "warn",
             {
-                "allowExpressions": "true"
+                "allowExpressions": true
             }
         ],
         "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"]
