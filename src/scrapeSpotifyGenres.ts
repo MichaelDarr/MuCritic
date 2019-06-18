@@ -23,12 +23,9 @@ export async function scrapeSpotifyIds(): Promise<void> {
         Log.notify('\nTypeScrape Spotify Genre Scraper\n\n');
 
         await connectToDatabase();
-        const spotifyApi = new SpotifyApi(
-            process.env.SPOTIFY_CLIENT_ID,
-            process.env.SPOTIFY_CLIENT_SECRET,
-        );
+        await SpotifyApi.connect(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET);
         try {
-            const genreScraper = new SpotifyGenreScraper(spotifyApi);
+            const genreScraper = new SpotifyGenreScraper();
             await genreScraper.scrape();
         } catch(err) {
             Log.err(err.message);

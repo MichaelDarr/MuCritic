@@ -7,9 +7,10 @@
     "docgen": "typedoc --experimentalDecorators src/",
     "rym": "tsc && node built/scrapeRateYourMusic",
     "serve": "tsc && node built/serveDocs",
-    "spotifyData": "tsc && node built/scrapeSpotifyAlbumData",
+    "spotifyData": "tsc && node built/scrapeSpotifyData",
     "spotifyIds": "tsc && node built/scrapeSpotifyIds",
-    "spotifyGenres": "tsc && node built/scrapeSpotifyGenres"
+    "spotifyGenres": "tsc && node built/scrapeSpotifyGenres",
+    "spotifyTracks": "tsc && node built/scrapeSpotifyTracks"
   },
   "author": "Michael Darr",
   "license": "ISC",

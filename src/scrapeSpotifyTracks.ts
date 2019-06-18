@@ -1,40 +1,45 @@
 /**
- * Spotify ID scraper entry point
+ * Spotify album track data scraper entry point
  */
 
 import * as dontenv from 'dotenv';
 import { resolve } from 'path';
-import { getConnection } from 'typeorm';
+import {
+    getConnection,
+    IsNull,
+    Not,
+} from 'typeorm';
 
 import { AlbumEntity } from './entities/entities';
 import { connectToDatabase } from './helpers/functions/database';
 import { Log } from './helpers/classes/log';
 import { SpotifyApi } from './helpers/classes/spotifyApi';
-import { SpotifyIdScraper } from './scrapers/spotify/spotifyIdScraper';
+import { SpotifyTrackScraper } from './scrapers/spotify/spotifyTrackScraper';
 
 dontenv.config({ path: resolve(__dirname, '../.env') });
 
 /**
- * Uses the Spotify API to populate spotifyId field for all album and artist records in database
+ * Scrapes the Spotify API for all tracks of all albums in the database with a Spotify ID
  *
  * @remarks
- * - npm call: ```npm run spotifyIdScrape```
+ * - npm call: ```npm run spotifyTrackScrape```
  * - A single instance of this function will never make more than one request at a time
  */
-export async function scrapeSpotifyIds(): Promise<void> {
+export async function scrapeSpotifyData(): Promise<void> {
     try {
-        Log.notify('\nTypeScrape Spotify ID Scraper\n\n');
+        Log.notify('\nTypeScrape Spotify Track Scraper\n\n');
 
         await connectToDatabase();
-        const connection = getConnection();
         await SpotifyApi.connect(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET);
+        const connection = getConnection();
+        const albums = await connection.getRepository(AlbumEntity).find({
+            spotifyId: Not(IsNull()),
+        });
 
-        const albumRepository = connection.getRepository(AlbumEntity);
-        const albums = await albumRepository.find({ relations: ['artist'] });
         for await(const album of albums) {
             try {
-                const idScraper = new SpotifyIdScraper(album);
-                await idScraper.scrape();
+                const dataScraper = new SpotifyTrackScraper(album);
+                await dataScraper.scrape();
             } catch(err) {
                 Log.err(err.message);
             }
@@ -43,8 +48,8 @@ export async function scrapeSpotifyIds(): Promise<void> {
         Log.success('Scrape Complete');
         process.exit(0);
     } catch(err) {
-        Log.err(`\n\nTypeScrape Spotify ID Scraper Failed!\n\nError:\n${err.message}`);
+        Log.err(`\nTypeScrape Spotify Data Scraper Failed!\n\nError:\n${err.message}`);
     }
 }
 
-scrapeSpotifyIds();
+scrapeSpotifyData();

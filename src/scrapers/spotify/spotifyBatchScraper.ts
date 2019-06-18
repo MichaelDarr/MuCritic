@@ -1,6 +1,5 @@
 import { getConnection } from 'typeorm';
 
-import { SpotifyApi } from '../../helpers/classes/spotifyApi';
 import * as Spotify from '../../types/spotify';
 import { SpotifyBatchEntities } from '../../types/types';
 import { SpotifyScraper } from './spotifyScraper';
@@ -30,12 +29,11 @@ export abstract class SpotifyBatchScraper<
      * @param entities Database entities with the column **spotifyId**
      */
     public constructor(
-        spotifyApi: SpotifyApi,
         entities: T1[],
         batchDescription: string,
         verbose = false,
     ) {
-        super(spotifyApi, `Spotify batch: ${batchDescription}`, verbose);
+        super(`Spotify batch: ${batchDescription}`, verbose);
         this.entities = entities;
         this.batchDescription = batchDescription;
     }

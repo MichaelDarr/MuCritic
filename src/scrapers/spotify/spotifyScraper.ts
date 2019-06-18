@@ -17,11 +17,10 @@ export abstract class SpotifyScraper<T extends Spotify.Response> extends Scraper
     protected spotifyApi: SpotifyApi;
 
     public constructor(
-        spotifyApi: SpotifyApi,
         description: string,
         verbose = false,
     ) {
         super(description, verbose);
-        this.spotifyApi = spotifyApi;
+        this.spotifyApi = SpotifyApi.getConnection();
     }
 }

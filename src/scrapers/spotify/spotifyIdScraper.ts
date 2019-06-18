@@ -8,7 +8,6 @@ import {
     ArtistEntity,
 } from '../../entities/entities';
 import { Log } from '../../helpers/classes/log';
-import { SpotifyApi } from '../../helpers/classes/spotifyApi';
 import * as Spotify from '../../types/spotify';
 import { SpotifyScraper } from './spotifyScraper';
 
@@ -40,11 +39,10 @@ export class SpotifyIdScraper extends SpotifyScraper<Spotify.AlbumSearchResponse
     private artistRepository: Repository<ArtistEntity>;
 
     public constructor(
-        spotifyApi: SpotifyApi,
         album: AlbumEntity,
         verbose = false,
     ) {
-        super(spotifyApi, `Spotify ID: ${album.name} by ${album.artist.name}`, verbose);
+        super(`Spotify ID: ${album.name} by ${album.artist.name}`, verbose);
         this.album = album;
         this.artist = album.artist;
         this.albumRepository = getConnection().getRepository(AlbumEntity);

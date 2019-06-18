@@ -10,11 +10,15 @@ import {
     Not,
 } from 'typeorm';
 
-import { AlbumEntity } from './entities/entities';
+import {
+    AlbumEntity,
+    ArtistEntity,
+} from './entities/entities';
 import { connectToDatabase } from './helpers/functions/database';
 import { Log } from './helpers/classes/log';
 import { SpotifyApi } from './helpers/classes/spotifyApi';
 import { SpotifyAlbumBatchScraper } from './scrapers/spotify/spotifyAlbumBatchScraper';
+import { SpotifyArtistBatchScraper } from './scrapers/spotify/spotifyArtistBatchScraper';
 
 dontenv.config({ path: resolve(__dirname, '../.env') });
 
@@ -26,38 +30,46 @@ dontenv.config({ path: resolve(__dirname, '../.env') });
  * - npm call: ```npm run spotifyDataScrape```
  * - A single instance of this function will never make more than one request at a time
  */
-export async function scrapeSpotifyAlbumData(): Promise<void> {
+export async function scrapeSpotifyData(): Promise<void> {
     try {
         Log.notify('\nTypeScrape Spotify Data Scraper\n\n');
 
         await connectToDatabase();
-        const connection = getConnection();
-        const spotifyApi = new SpotifyApi(
-            process.env.SPOTIFY_CLIENT_ID,
-            process.env.SPOTIFY_CLIENT_SECRET,
-        );
-        const albumRepository = connection.getRepository(AlbumEntity);
-        let albums = await albumRepository.find({
-            spotifyId: Not(IsNull()),
-        });
-        const albumsWithoutSpotifyData: AlbumEntity[] = [];
-        albums.forEach((album: AlbumEntity): void => {
-            if(!album.spotifyAlbumType) {
-                albumsWithoutSpotifyData.push(album);
-            }
-        });
-        albums = albumsWithoutSpotifyData;
+        await SpotifyApi.connect(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET);
 
-        let albumCursor = 0;
-        while(albumCursor < albums.length) {
+        const connection = getConnection();
+        const albums = await connection.getRepository(AlbumEntity).find({
+            spotifyId: Not(IsNull()),
+            spotifyAlbumType: IsNull(),
+        });
+        const artists = await connection.getRepository(ArtistEntity).find({
+            spotifyId: Not(IsNull()),
+            spotifyPopularity: IsNull(),
+        });
+
+        let cursor = 0;
+        while(cursor < albums.length) {
             try {
-                const nextAlbumCursor = albumCursor + 20;
+                const nextCursor = cursor + 20;
                 const dataScraper = new SpotifyAlbumBatchScraper(
-                    spotifyApi,
-                    albums.slice(albumCursor, albumCursor + nextAlbumCursor),
+                    albums.slice(cursor, nextCursor),
                 );
                 await dataScraper.scrape();
-                albumCursor = nextAlbumCursor;
+                cursor = nextCursor;
+            } catch(err) {
+                Log.err(err.message);
+            }
+        }
+
+        cursor = 0;
+        while(cursor < artists.length) {
+            try {
+                const nextCursor = cursor + 20;
+                const dataScraper = new SpotifyArtistBatchScraper(
+                    artists.slice(cursor, nextCursor),
+                );
+                await dataScraper.scrape();
+                cursor = nextCursor;
             } catch(err) {
                 Log.err(err.message);
             }
@@ -70,4 +82,4 @@ export async function scrapeSpotifyAlbumData(): Promise<void> {
     }
 }
 
-scrapeSpotifyAlbumData();
+scrapeSpotifyData();

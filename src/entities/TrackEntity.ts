@@ -1,7 +1,9 @@
 import {
+    Column,
     Entity,
     PrimaryGeneratedColumn,
     ManyToOne,
+    Unique,
 } from 'typeorm';
 
 import { AlbumEntity } from './AlbumEntity';
@@ -11,6 +13,7 @@ import { AlbumEntity } from './AlbumEntity';
  * Spotify API for a single track
  */
 @Entity({ name: 'track' })
+@Unique(['spotifyId'])
 export class TrackEntity {
     /**
      * @remarks
@@ -18,6 +21,9 @@ export class TrackEntity {
      */
     @PrimaryGeneratedColumn()
     public id: number;
+
+    @Column()
+    public spotifyId: string;
 
     @ManyToOne((): typeof AlbumEntity => AlbumEntity, (album): TrackEntity[] => album.tracks)
     public album: AlbumEntity;

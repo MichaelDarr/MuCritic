@@ -2,7 +2,6 @@ import * as assert from 'assert';
 
 import { AlbumEntity } from '../../entities/entities';
 import { SimpleDate } from '../../helpers/classes/simpleDate';
-import { SpotifyApi } from '../../helpers/classes/spotifyApi';
 import * as Spotify from '../../types/spotify';
 import { SpotifyBatchScraper } from './spotifyBatchScraper';
 
@@ -10,17 +9,16 @@ import { SpotifyBatchScraper } from './spotifyBatchScraper';
  * Spotify Album Batch Scraper
  *
  * Scrapes 20 Albums at a time via Spotify's
- * [[Get Several Albums]](https://developer.spotify.com/documentation/web-api/reference/albums/get-several-albums/)
+ * [Get Several Albums](https://developer.spotify.com/documentation/web-api/reference/albums/get-several-albums/)
  * endpoint.
  */
 export class SpotifyAlbumBatchScraper
     extends SpotifyBatchScraper<AlbumEntity, Spotify.AlbumBatchResponse> {
     public constructor(
-        spotifyApi: SpotifyApi,
         albums: AlbumEntity[],
         verbose = false,
     ) {
-        super(spotifyApi, albums, 'albums', verbose);
+        super(albums, 'albums', verbose);
     }
 
     protected extractInfo(): void {

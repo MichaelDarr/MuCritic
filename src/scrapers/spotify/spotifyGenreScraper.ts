@@ -6,7 +6,6 @@ import {
 import {
     SpotifyGenreEntity,
 } from '../../entities/entities';
-import { SpotifyApi } from '../../helpers/classes/spotifyApi';
 import * as Spotify from '../../types/spotify';
 import { SpotifyScraper } from './spotifyScraper';
 
@@ -29,10 +28,9 @@ export class SpotifyGenreScraper extends SpotifyScraper<Spotify.GenreSeedsRespon
     private spotifyGenreRepository: Repository<SpotifyGenreEntity>;
 
     public constructor(
-        spotifyApi: SpotifyApi,
         verbose = false,
     ) {
-        super(spotifyApi, 'Spotify genre scrape', verbose);
+        super('Spotify genre scrape', verbose);
         this.spotifyGenreRepository = getConnection().getRepository(SpotifyGenreEntity);
     }
 
