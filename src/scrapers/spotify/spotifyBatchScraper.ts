@@ -44,7 +44,7 @@ export abstract class SpotifyBatchScraper<
      */
     public async requestScrape(): Promise<void> {
         const idString = this.entities.map(entity => entity.spotifyId).join();
-        this.spotifyResponse = await this.spotifyApi.batchRequest<T2>(
+        this.spotifyResponse = await this.spotifyApi.getBatch<T2>(
             idString,
             this.batchDescription,
         );

@@ -35,6 +35,11 @@ export type AlbumGroup =
 /**
  * see https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids
  */
+export type SpotifyId = string;
+
+/**
+ * see https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids
+ */
 export type SpotifyUrl = string;
 
 /**
@@ -127,7 +132,7 @@ export interface Paging<T> {
 export interface TrackLink {
     external_urls: ExternalUrls;
     href: SpotifyApiLink<Track>;
-    id: number;
+    id: SpotifyId;
     type: 'track';
     uri: SpotifyUri;
 }
@@ -141,7 +146,7 @@ export interface Image {
 export interface ArtistSimplified {
     external_urls: ExternalUrls;
     href: SpotifyApiLink<Artist>;
-    id: string;
+    id: SpotifyId;
     name: string;
     type: 'artist';
     uri: SpotifyUri;
@@ -162,7 +167,7 @@ export interface AlbumSimplified {
     available_markets: CountryCode[];
     external_urls: ExternalUrls;
     href: SpotifyApiLink<Album>;
-    id: string;
+    id: SpotifyId;
     images: Image[];
     name: string;
     release_date: ReleaseDate;
@@ -191,7 +196,7 @@ export interface TrackSimplified {
     explicit: boolean;
     external_urls: ExternalUrls;
     href: SpotifyApiLink<Track>;
-    id: number;
+    id: SpotifyId;
     is_playable: boolean;
     linked_from?: TrackLink;
     restrictions?: Restrictions;
@@ -209,6 +214,31 @@ export interface Track extends TrackSimplified {
     popularity: Popularity;
 }
 
+/**
+ * For more info, see
+ * [Spotify Audio Features](https://developer.spotify.com/documentation/web-api/reference/tracks/get-several-audio-features/)
+ */
+export interface AudioFeature {
+    acousticness: number;
+    analysis_url: string;
+    danceability: number;
+    duration_ms: number;
+    energy: number;
+    id: SpotifyId;
+    instrumentalness: number;
+    key: number;
+    liveness: number;
+    loudness: number;
+    mode: number;
+    speechiness: number;
+    tempo: number;
+    time_signature: number;
+    track_href: SpotifyApiLink<Track>;
+    type: 'audio_features';
+    uri: SpotifyUri;
+    valence: number;
+}
+
 export interface AlbumArtistPairSimplified {
     album: AlbumSimplified;
     artist: ArtistSimplified;
@@ -218,12 +248,18 @@ export type AlbumBatch = Album[];
 
 export type ArtistBatch = Artist[];
 
+export type AudioFeatureBatch = AudioFeature[];
+
 export interface AlbumBatchResponse {
     albums: AlbumBatch;
 }
 
 export interface ArtistBatchResponse {
     artists: ArtistBatch;
+}
+
+export interface AudioFeatureBatchResponse {
+    audio_features: AudioFeatureBatch;
 }
 
 export interface GenreSeedsResponse {
@@ -246,11 +282,13 @@ export type SearchResponse =
 
 export type BatchResponse =
     | AlbumBatchResponse
-    | ArtistBatchResponse;
+    | ArtistBatchResponse
+    | AudioFeatureBatchResponse;
 
 export type InnerBatchResponse =
     | Album[]
-    | Artist[];
+    | Artist[]
+    | AudioFeature[];
 
 export type Response =
     | AlbumTracksResponse

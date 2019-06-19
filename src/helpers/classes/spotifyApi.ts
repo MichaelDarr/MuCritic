@@ -63,7 +63,7 @@ export class SpotifyApi {
     /**
      * [Get an Album's Tracks](https://developer.spotify.com/documentation/web-api/reference/albums/get-albums-tracks/)
      */
-    public async albumTracksRequest(
+    public async getAlbumTracks(
         albumId: string,
         limit = 50,
     ): Promise<Spotify.AlbumTracksResponse> {
@@ -75,7 +75,7 @@ export class SpotifyApi {
      * [Get Several Albums](https://developer.spotify.com/documentation/web-api/reference/albums/get-several-albums/)
      * @param albumIds Comma-separated list of the Spotify IDs for the albums. Maximum: 20
      */
-    public async batchRequest<T extends Spotify.BatchResponse>(
+    public async getBatch<T extends Spotify.BatchResponse>(
         ids: string,
         batchName: string,
     ): Promise<T> {
@@ -86,7 +86,7 @@ export class SpotifyApi {
     /**
      * [Get Available Genre Seeds](https://developer.spotify.com/console/get-available-genre-seeds/)
      */
-    public async genreSeedsRequest(): Promise<Spotify.GenreSeedsResponse> {
+    public async getGenreSeeds(): Promise<Spotify.GenreSeedsResponse> {
         const url = 'https://api.spotify.com/v1/recommendations/available-genre-seeds';
         return this.spotifyRequest<Spotify.GenreSeedsResponse>(url, 'GET');
     }
@@ -94,7 +94,7 @@ export class SpotifyApi {
     /**
      * @param query [spotify docs](https://developer.spotify.com/documentation/web-api/reference/search/search/)
      */
-    public async searchRequest<T extends Spotify.SearchResponse>(
+    public async search<T extends Spotify.SearchResponse>(
         query: string,
         type: Spotify.SearchType,
         limit: number,

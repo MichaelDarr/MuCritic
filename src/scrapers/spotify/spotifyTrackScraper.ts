@@ -1,3 +1,5 @@
+import * as assert from 'assert';
+
 import { getRepository } from 'typeorm';
 
 import {
@@ -37,23 +39,42 @@ export class SpotifyTrackScraper extends SpotifyScraper<Spotify.AlbumTracksRespo
     public extractInfo(): void {
         this.spotifyResponse.items.forEach((track: Spotify.Track) => {
             const newTrack = new TrackEntity();
-            newTrack.id = track.id;
+            newTrack.spotifyId = track.id;
             newTrack.album = this.album;
             this.tracks.push(newTrack);
         });
     }
 
+    /**
+     * Request audio features for the retrieved track IDs and add the data to each record
+     */
     public async scrapeDependencies(): Promise<void> {
-        console.log(this.tracks);
-        process.exit(0);
+        const idString = this.tracks.map(track => track.spotifyId).join();
+        const trackFeatures = await this.spotifyApi.getBatch<Spotify.AudioFeatureBatchResponse>(
+            idString,
+            'audio-features',
+        );
+        trackFeatures.audio_features.forEach((features: Spotify.AudioFeature, i: number) => {
+            assert(features.id === this.tracks[i].spotifyId);
+
+            this.tracks[i].acousticness = features.acousticness;
+            this.tracks[i].danceability = features.danceability;
+            this.tracks[i].duration = features.duration_ms;
+            this.tracks[i].energy = features.energy;
+            this.tracks[i].instrumentalness = features.instrumentalness;
+            this.tracks[i].key = features.key;
+            this.tracks[i].liveness = features.liveness;
+            this.tracks[i].loudness = features.loudness;
+            this.tracks[i].mode = features.mode;
+            this.tracks[i].speechiness = features.speechiness;
+            this.tracks[i].tempo = features.tempo;
+            this.tracks[i].timeSignature = features.time_signature;
+            this.tracks[i].valence = features.valence;
+        });
     }
 
-    /**
-     * pull spotify info using a comma-separated string concatination of every
-     * [[SpotifyBatchScraper.entities]].spotifyId
-     */
     public async requestScrape(): Promise<void> {
-        this.spotifyResponse = await this.spotifyApi.albumTracksRequest(this.album.spotifyId);
+        this.spotifyResponse = await this.spotifyApi.getAlbumTracks(this.album.spotifyId);
     }
 
     protected async saveToLocal(): Promise<void> {

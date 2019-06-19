@@ -43,7 +43,7 @@ export class SpotifyGenreScraper extends SpotifyScraper<Spotify.GenreSeedsRespon
     }
 
     public async requestScrape(): Promise<void> {
-        this.spotifyResponse = await this.spotifyApi.genreSeedsRequest();
+        this.spotifyResponse = await this.spotifyApi.getGenreSeeds();
     }
 
     protected async saveToLocal(): Promise<void> {
