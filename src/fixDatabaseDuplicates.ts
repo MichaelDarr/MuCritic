@@ -1,4 +1,4 @@
-import * as dontenv from 'dotenv';
+import * as dotenv from 'dotenv';
 import { resolve } from 'path';
 import 'reflect-metadata';
 
@@ -14,7 +14,7 @@ import {
 import { Log } from './helpers/classes/log';
 import { connectToDatabase } from './helpers/functions/database';
 
-dontenv.config({ path: resolve(__dirname, '../.env') });
+dotenv.config({ path: resolve(__dirname, '../.env') });
 
 /**
  * When first scraping this data, unique keys were enforced only in the scraping logic, and not in

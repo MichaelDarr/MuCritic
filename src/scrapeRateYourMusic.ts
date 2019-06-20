@@ -2,7 +2,7 @@
  * Rate Your Music scraper entry point
  */
 
-import * as dontenv from 'dotenv';
+import * as dotenv from 'dotenv';
 import { resolve } from 'path';
 import 'reflect-metadata';
 
@@ -12,7 +12,7 @@ import { connectToDatabase } from './helpers/functions/database';
 import { ProfileScraper } from './scrapers/rym/profileScraper';
 import { ReviewPageScraper } from './scrapers/rym/reviewPageScraper';
 
-dontenv.config({ path: resolve(__dirname, '../.env') });
+dotenv.config({ path: resolve(__dirname, '../.env') });
 
 /**
  * Scrapes information from [Rate Your Music] directly into a local Postgres database.

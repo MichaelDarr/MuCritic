@@ -2,7 +2,7 @@
  * Spotify album track data scraper entry point
  */
 
-import * as dontenv from 'dotenv';
+import * as dotenv from 'dotenv';
 import { resolve } from 'path';
 import {
     getConnection,
@@ -16,7 +16,7 @@ import { Log } from './helpers/classes/log';
 import { SpotifyApi } from './helpers/classes/spotifyApi';
 import { SpotifyTrackScraper } from './scrapers/spotify/spotifyTrackScraper';
 
-dontenv.config({ path: resolve(__dirname, '../.env') });
+dotenv.config({ path: resolve(__dirname, '../.env') });
 
 /**
  * Scrapes the Spotify API for all tracks of all albums in the database with a Spotify ID

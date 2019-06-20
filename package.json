@@ -5,6 +5,7 @@
   "main": "built/index.js",
   "scripts": {
     "docgen": "typedoc --experimentalDecorators src/",
+    "learn": "tsc && node built/learnAlbumRating",
     "rym": "tsc && node built/scrapeRateYourMusic",
     "serve": "tsc && node built/serveDocs",
     "spotifyData": "tsc && node built/scrapeSpotifyData",
@@ -15,6 +16,8 @@
   "author": "Michael Darr",
   "license": "ISC",
   "dependencies": {
+    "@tensorflow/tfjs": "^1.2.1",
+    "@tensorflow/tfjs-node-gpu": "^1.1.2",
     "@types/dotenv": "^6.1.1",
     "@types/jsdom": "^12.2.3",
     "@types/request": "^2.48.1",
