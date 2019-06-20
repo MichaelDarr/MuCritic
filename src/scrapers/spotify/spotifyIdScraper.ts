@@ -8,21 +8,16 @@ import {
     ArtistEntity,
 } from '../../entities/entities';
 import { Log } from '../../helpers/classes/log';
-import { SpotifyApi } from '../../helpers/classes/spotifyApi';
-import {
-    SpotifyAlbumArtistPairSimplified,
-    SpotifySearchResponse,
-    SpotifySearchAlbum,
-} from '../../helpers/types';
+import * as Spotify from '../../types/spotify';
 import { SpotifyScraper } from './spotifyScraper';
 
 /**
  * Spotify Album/Artist ID Scraper
  *
- * This class attempts to find Spotify album/artist pair for an [[AlbumEntity]]. On a successful
- * match, the IDs are saved into [[AlbumEntity.spotifyId]] and [[ArtistEntity.spotifyId]].
+ * Finds Spotify album/artist pair for an [[AlbumEntity]]. On a successful match, the IDs are saved
+ * into [[AlbumEntity.spotifyId]] and [[ArtistEntity.spotifyId]].
  */
-export class SpotifyIdScraper extends SpotifyScraper<SpotifySearchAlbum> {
+export class SpotifyIdScraper extends SpotifyScraper<Spotify.AlbumSearchResponse> {
     /**
      * artist entity used as the primary data source for album/artist ID scrape
      */
@@ -44,11 +39,10 @@ export class SpotifyIdScraper extends SpotifyScraper<SpotifySearchAlbum> {
     private artistRepository: Repository<ArtistEntity>;
 
     public constructor(
-        spotifyApi: SpotifyApi,
         album: AlbumEntity,
         verbose = false,
     ) {
-        super(spotifyApi, `Spotify ID scrape: ${album.name} by ${album.artist.name}`, verbose);
+        super(`Spotify ID: ${album.name} by ${album.artist.name}`, verbose);
         this.album = album;
         this.artist = album.artist;
         this.albumRepository = getConnection().getRepository(AlbumEntity);
@@ -99,7 +93,7 @@ export class SpotifyIdScraper extends SpotifyScraper<SpotifySearchAlbum> {
      * counts as a match. If true, only true equality matches.
      */
     private extractMatchingAlbumArtistPair(strict = false): void {
-        const pair: SpotifyAlbumArtistPairSimplified = { artist: null, album: null };
+        const pair: Spotify.AlbumArtistPairSimplified = { artist: null, album: null };
         const albums = this.spotifyResponse.albums.items;
         const albumName = SpotifyIdScraper.sanitize(this.album.name);
         const artistName = SpotifyIdScraper.sanitize(this.artist.name);
@@ -129,19 +123,22 @@ export class SpotifyIdScraper extends SpotifyScraper<SpotifySearchAlbum> {
                 });
             }
         });
-        this.album.spotifyId = pair.album.id;
-        this.artist.spotifyId = pair.artist.id;
+        if(pair.album != null && pair.artist != null) {
+            this.album.spotifyId = pair.album.id;
+            this.artist.spotifyId = pair.artist.id;
+        }
     }
 
     public async requestScrape(): Promise<void> {
         let queryString = `album:${this.album.name} artist:${this.artist.name}`;
         queryString = encodeURIComponent(queryString);
-        const spotifyResponse: SpotifySearchResponse = await this.spotifyApi.searchRequest(queryString, 'album', 3);
-        const albumResponse = spotifyResponse as SpotifySearchAlbum;
-        if(albumResponse.albums.items.length === 0) {
+        const spotifyResponse: Spotify.SearchResponse = (
+            await this.spotifyApi.searchRequest<Spotify.AlbumSearchResponse>(queryString, 'album', 3)
+        );
+        if(spotifyResponse.albums.items.length === 0) {
             throw new Error(`No results for album: ${this.album.name} by ${this.artist.name}`);
         }
-        this.spotifyResponse = albumResponse;
+        this.spotifyResponse = spotifyResponse;
     }
 
     public printInfo(): void {

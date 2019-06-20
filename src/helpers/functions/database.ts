@@ -4,9 +4,11 @@ import { Log } from '../classes/log';
 import {
     AlbumEntity,
     ArtistEntity,
-    GenreEntity,
+    RymGenreEntity,
     ProfileEntity,
     ReviewEntity,
+    SpotifyGenreEntity,
+    TrackEntity,
 } from '../../entities/entities';
 
 /**
@@ -31,9 +33,11 @@ export async function connectToDatabase(): Promise<void> {
         entities: [
             AlbumEntity,
             ArtistEntity,
-            GenreEntity,
             ProfileEntity,
             ReviewEntity,
+            RymGenreEntity,
+            SpotifyGenreEntity,
+            TrackEntity,
         ],
         synchronize: true,
         logging: false,

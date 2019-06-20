@@ -3,7 +3,7 @@ import {
     Repository,
 } from 'typeorm';
 
-import { GenreEntity } from '../../entities/entities';
+import { RymGenreEntity } from '../../entities/entities';
 import { Log } from '../../helpers/classes/log';
 import { Scraper } from '../scraper';
 
@@ -20,7 +20,7 @@ export class GenreScraper extends Scraper {
     /**
      * TypeORM repository handling all data flow in/out of genre table
      */
-    private repository: Repository<GenreEntity>;
+    private repository: Repository<RymGenreEntity>;
 
     /**
      * @param name Example: ```Psychedelic Rock```
@@ -31,7 +31,7 @@ export class GenreScraper extends Scraper {
     ) {
         super(`RYM genre: ${name}`, verbose);
         this.name = name;
-        this.repository = getConnection().getRepository(GenreEntity);
+        this.repository = getConnection().getRepository(RymGenreEntity);
     }
 
     public async checkForLocalRecord(): Promise<boolean> {
@@ -54,7 +54,7 @@ export class GenreScraper extends Scraper {
     /**
      * Find this genre's database entity
      */
-    public async getEntity(): Promise<GenreEntity> {
+    public async getEntity(): Promise<RymGenreEntity> {
         return this.repository.findOne({ name: this.name });
     }
 
@@ -67,7 +67,7 @@ export class GenreScraper extends Scraper {
     }
 
     protected async saveToLocal(): Promise<void> {
-        let genre = new GenreEntity();
+        let genre = new RymGenreEntity();
         genre.name = this.name;
         genre = await this.repository.save(genre);
     }

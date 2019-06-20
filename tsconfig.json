@@ -9,9 +9,13 @@
         "types" : ["node"]
     },
     "include": [
+        "src/fixDatabaseDuplicates.ts",
         "src/scrapeRateYourMusic.ts",
+        "src/scrapeSpotifyData.ts",
+        "src/scrapeSpotifyGenres.ts",
         "src/scrapeSpotifyIds.ts",
-        "src/serveDocs.ts"
+        "src/scrapeSpotifyTracks.ts",
+        "src/serveDocs.ts",
     ],
     "typedocOptions": {
         "entryPoint": "./Scraper",

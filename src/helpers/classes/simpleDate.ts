@@ -1,3 +1,6 @@
+import * as Spotify from '../../types/spotify';
+import { stringToNum } from '../functions/typeManips';
+
 /**
  * Simplified date management with only month, year, and day
  */
@@ -8,8 +11,16 @@ export class SimpleDate {
 
     public year: number;
 
-    public constructor(monthString: string, day: number, year: number) {
-        this.month = SimpleDate.monthToNum(monthString);
+    public constructor(
+        month: number | string,
+        day: number,
+        year: number,
+    ) {
+        if(typeof month === 'string') {
+            this.month = SimpleDate.monthToNum(month);
+        } else {
+            this.month = month;
+        }
         this.day = day;
         this.year = year;
     }
@@ -46,7 +57,22 @@ export class SimpleDate {
             case 'Dec':
                 return 12;
             default:
-                return 0;
+                return null;
         }
+    }
+
+    /**
+     * Parse a date object from Spotify's date API into a new [[SimpleDate]]
+     *
+     * See [[ReleaseDate]] and [[ReleaseDatePrecision]]
+     */
+    public static parseSpotifyDate(
+        releaseDate: Spotify.ReleaseDate,
+    ): SimpleDate {
+        const separatedDate = releaseDate.split('-');
+        const year = stringToNum(separatedDate[0], true);
+        const month = stringToNum(separatedDate[1], false, null);
+        const day = stringToNum(separatedDate[2], false, null);
+        return new SimpleDate(month, day, year);
     }
 }

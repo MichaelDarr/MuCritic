@@ -5,6 +5,7 @@ import {
     ManyToMany,
     OneToMany,
     JoinTable,
+    Unique,
 } from 'typeorm';
 
 import { ArtistEntity } from './ArtistEntity';
@@ -15,6 +16,7 @@ import { ReviewEntity } from './ReviewEntity';
  * scraped from [Rate Your Music](https://rateyourmusic.com/).
  */
 @Entity({ name: 'profile' })
+@Unique(['urlRYM'])
 export class ProfileEntity {
     /**
      * @remarks

@@ -3,6 +3,7 @@ import {
     Column,
     PrimaryGeneratedColumn,
     ManyToOne,
+    Unique,
 } from 'typeorm';
 
 import { AlbumEntity } from './AlbumEntity';
@@ -13,6 +14,7 @@ import { ProfileEntity } from './ProfileEntity';
  * scraped from [Rate Your Music](https://rateyourmusic.com/).
  */
 @Entity({ name: 'review' })
+@Unique(['identifierRYM'])
 export class ReviewEntity {
     /**
      * Primary Key

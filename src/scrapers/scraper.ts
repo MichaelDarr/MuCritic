@@ -3,6 +3,7 @@ import {
     ResultBatch,
     ScrapeResult,
 } from '../helpers/classes/result';
+import { ScrapersWithResults } from '../types/types';
 
 /**
  * Superclass for all "scrapers"
@@ -80,6 +81,14 @@ export abstract class Scraper {
      * [[Scraper.scrapeDependencies]]. By default, this method does nothing.
      */
     protected extractInfo(): void {
+        Log.notify(`extractInfo() not implemented for ${this.description}`);
+    }
+
+    /**
+     * Prints a detailed report of local properties for a scraper, used for debugging
+     */
+    public printInfo(): void {
+        Log.notify('print info not implemented for this scraper');
     }
 
     /**
@@ -104,7 +113,22 @@ export abstract class Scraper {
      * [[Scraper.extractInfo]]. By default, nothing is requested.
      */
     public requestScrape(): Promise<void> {
+        Log.notify(`requestScrape() not implemented for ${this.description}`);
         return Promise.resolve();
+    }
+
+    /**
+     * Saves scraped, extracted, and parsed information into a local record. By default, does
+     * nothing.
+     *
+     * @remarks
+     * This method must be called after [[Scraper.requestScrape]],
+     * [[Scraper.extractInfo]], and [[Scraper.scrapeDependencies]]
+     *
+     * @returns the entity that was saved
+     */
+    protected async saveToLocal(): Promise<void> {
+        Log.notify(`saveToLocal() not implemented for ${this.description}`);
     }
 
     /**
@@ -165,18 +189,31 @@ export abstract class Scraper {
     }
 
     /**
-     * Prints a detailed report of local properties for a scraper, used for debugging
+     * Scrape the genres associated with this artist
      */
-    public abstract printInfo(): void;
-
-    /**
-     * Saves scraped, extracted, and parsed information into a local record
-     *
-     * @remarks
-     * This method must be called after [[Scraper.requestScrape]],
-     * [[Scraper.extractInfo]], and [[Scraper.scrapeDependencies]]
-     *
-     * @returns the entity that was saved
-     */
-    protected abstract async saveToLocal(): Promise<void>;
+    public static async scrapeDependencyArr<T extends Scraper>(
+        scrapers: T[],
+    ): Promise<ScrapersWithResults<T>> {
+        const dependencies: ScrapersWithResults<T> = {
+            scrapers: [],
+            results: new ResultBatch(),
+        };
+        if(scrapers != null && scrapers.length > 0) {
+            for await(const scraper of scrapers) {
+                try {
+                    await scraper.scrape();
+                    dependencies.scrapers.push(scraper);
+                    dependencies.results.concat(scraper.results);
+                } catch(err) {
+                    Log.err(`ERROR SCRAPING ${scraper.description}: ${err.message}`);
+                    dependencies.results.push(new ScrapeResult(
+                        false,
+                        scraper.description,
+                        err,
+                    ));
+                }
+            }
+        }
+        return dependencies;
+    }
 }

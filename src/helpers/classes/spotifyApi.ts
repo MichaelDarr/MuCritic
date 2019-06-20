@@ -1,46 +1,112 @@
 import { Base64 } from 'js-base64';
 import * as request from 'request';
 
-import {
-    SpotifyClientCredentials,
-    SpotifyResponse,
-    SpotifyRequestMethod,
-    SpotifySearchResponse,
-    SpotifySearchType,
-} from '../types';
+import { Log } from './log';
+import * as Spotify from '../../types/spotify';
 
 /**
  * Interface for all interaction with Spotify API using the
  * [Implicit Grant Flow](https://developer.spotify.com/documentation/general/guides/authorization-guide/)
+ *
+ * Usage:
+ * 1. [[SpotifyApi.connect]]
+ * 2. [[SpotifyApi.getConnection]]
  */
 export class SpotifyApi {
-    private client: SpotifyClientCredentials;
-
     private accessToken: string;
+
+    private client: Spotify.ClientCredentials;
+
+    private static instance: SpotifyApi;
 
     private tokenExpiration: Date;
 
-    public constructor(clientId: string, clientSecret: string) {
-        this.client.id = clientId;
-        this.client.secret = clientSecret;
+    private constructor(clientId: string, clientSecret: string) {
+        this.client = {
+            id: clientId,
+            secret: clientSecret,
+        };
+    }
+
+    /**
+     * Creates the single instance of this class used for all Spotify requests. Must be called
+     * before [[SpotifyApi.getConnection]].
+     *
+     * [Implicit Grant Flow](https://developer.spotify.com/documentation/general/guides/authorization-guide/)
+     */
+    public static async connect(clientId: string, clientSecret: string): Promise<SpotifyApi> {
+        Log.notify('Connecting to Spotify API...');
+        if(SpotifyApi.instance) {
+            Log.notify('Overriding existing connection with new credentials');
+        }
+        if(!clientId) throw new Error('Spotify API: client id not provided');
+        if(!clientSecret) throw new Error('Spotify API: client secret not provided');
+        SpotifyApi.instance = new SpotifyApi(clientId, clientSecret);
+        const accessTokenReceived = await SpotifyApi.instance.requestNewAccessToken();
+        if(accessTokenReceived) {
+            Log.success('Spotify API connection succeeded');
+            return SpotifyApi.instance;
+        }
+        throw new Error('Spotify API connection failed');
+    }
+
+    /**
+     * Get the instance of this class created by [[SpotifyApi.connect]].
+     */
+    public static getConnection(): SpotifyApi {
+        if(!SpotifyApi.instance) {
+            throw new Error('Spotify API connection not intialized');
+        }
+        return SpotifyApi.instance;
+    }
+
+    /**
+     * [Get an Album's Tracks](https://developer.spotify.com/documentation/web-api/reference/albums/get-albums-tracks/)
+     */
+    public async albumTracksRequest(
+        albumId: string,
+        limit = 50,
+    ): Promise<Spotify.AlbumTracksResponse> {
+        const url = `https://api.spotify.com/v1/albums/${albumId}/tracks?limit=${limit}`;
+        return this.spotifyRequest<Spotify.AlbumTracksResponse>(url, 'GET');
+    }
+
+    /**
+     * [Get Several Albums](https://developer.spotify.com/documentation/web-api/reference/albums/get-several-albums/)
+     * @param albumIds Comma-separated list of the Spotify IDs for the albums. Maximum: 20
+     */
+    public async batchRequest<T extends Spotify.BatchResponse>(
+        ids: string,
+        batchName: string,
+    ): Promise<T> {
+        const url = `https://api.spotify.com/v1/${batchName}?ids=${ids}`;
+        return this.spotifyRequest<T>(url, 'GET');
+    }
+
+    /**
+     * [Get Available Genre Seeds](https://developer.spotify.com/console/get-available-genre-seeds/)
+     */
+    public async genreSeedsRequest(): Promise<Spotify.GenreSeedsResponse> {
+        const url = 'https://api.spotify.com/v1/recommendations/available-genre-seeds';
+        return this.spotifyRequest<Spotify.GenreSeedsResponse>(url, 'GET');
     }
 
     /**
      * @param query [spotify docs](https://developer.spotify.com/documentation/web-api/reference/search/search/)
      */
-    public async searchRequest(
+    public async searchRequest<T extends Spotify.SearchResponse>(
         query: string,
-        type: SpotifySearchType,
+        type: Spotify.SearchType,
         limit: number,
-    ): Promise<SpotifySearchResponse> {
+    ): Promise<T> {
         const url = `https://api.spotify.com/v1/search?q=${query}&type=${type}&limit=${limit}`;
-        return this.spotifyRequest(url, 'GET');
+        return this.spotifyRequest<T>(url, 'GET');
     }
 
-    private async spotifyRequest(
+    private async spotifyRequest<T extends Spotify.Response>(
         url: string,
-        method: SpotifyRequestMethod,
-    ): Promise<SpotifyResponse> {
+        method: Spotify.RequestMethod,
+    ): Promise<T> {
         const token: string = await this.getAccessToken();
         return new Promise((resolve, reject): void => {
             const requestOptions = {

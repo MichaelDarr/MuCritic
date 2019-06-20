@@ -6,9 +6,8 @@ import {
     ProfileEntity,
 } from '../../entities/entities';
 import { Log } from '../../helpers/classes/log';
-import { ScrapeResult } from '../../helpers/classes/result';
 import { ParseElement } from '../../helpers/parsing/parseElement';
-import { Gender } from '../../helpers/types';
+import { Gender } from '../../types/types';
 import { RymScraper } from './rymScraper';
 
 /**
@@ -131,18 +130,8 @@ export class ProfileScraper extends RymScraper<ProfileEntity> {
      * Scrape the user's favorite artists
      */
     protected async scrapeDependencies(): Promise<void> {
-        const successfullyScrapedArtists: ArtistScraper[] = [];
-        for await(const artist of this.favoriteArtists) {
-            try {
-                await artist.scrape();
-                successfullyScrapedArtists.push(artist);
-                this.results.concat(artist.results);
-            } catch(e) {
-                this.results.push(
-                    new ScrapeResult(false, artist.url, e),
-                );
-            }
-        }
-        this.favoriteArtists = successfullyScrapedArtists;
+        const res = await ProfileScraper.scrapeDependencyArr<ArtistScraper>(this.favoriteArtists);
+        this.favoriteArtists = res.scrapers;
+        this.results.concat(res.results);
     }
 }

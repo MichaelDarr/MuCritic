@@ -19,8 +19,9 @@
                     "getEntity",
                     "checkForLocalRecord",
                     "extractInfo",
-                    "scrapeDependencies",
-                    "requestScrape"
+                    "printInfo",
+                    "requestScrape",
+                    "scrapeDependencies"
                 ]
             }
         ],
@@ -30,6 +31,12 @@
                 "allow": [
                     "grant_type"
                 ]
+            }
+        ],
+        "@typescript-eslint/explicit-function-return-type": [
+            "warn",
+            {
+                "allowExpressions": true
             }
         ],
         "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"]

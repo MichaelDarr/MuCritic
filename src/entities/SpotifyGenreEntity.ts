@@ -3,17 +3,18 @@ import {
     Entity,
     ManyToMany,
     PrimaryGeneratedColumn,
+    Unique,
 } from 'typeorm';
 
-import { AlbumEntity } from './AlbumEntity';
 import { ArtistEntity } from './ArtistEntity';
 
 /**
  * Describes layout and relationships for "genre" database table, containing genre information
  * scraped from [Rate Your Music](https://rateyourmusic.com/).
  */
-@Entity({ name: 'genre' })
-export class GenreEntity {
+@Entity({ name: 'spotify-genre' })
+@Unique(['name'])
+export class SpotifyGenreEntity {
     /**
      * @remarks
      * Primary Key
@@ -24,9 +25,9 @@ export class GenreEntity {
     @Column()
     public name: string;
 
-    @ManyToMany((): typeof AlbumEntity => AlbumEntity, (album): GenreEntity[] => album.genres)
-    public albums: AlbumEntity[];
-
-    @ManyToMany((): typeof ArtistEntity => ArtistEntity, (artist): GenreEntity[] => artist.genres)
+    @ManyToMany(
+        (): typeof ArtistEntity => ArtistEntity,
+        (artist): SpotifyGenreEntity[] => artist.spotifyGenres,
+    )
     public artists: ArtistEntity[];
 }

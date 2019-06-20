@@ -6,17 +6,20 @@ import {
     ManyToOne,
     OneToMany,
     JoinTable,
+    Unique,
 } from 'typeorm';
 
 import { ArtistEntity } from './ArtistEntity';
-import { GenreEntity } from './GenreEntity';
+import { RymGenreEntity } from './RymGenreEntity';
 import { ReviewEntity } from './ReviewEntity';
+import { TrackEntity } from './TrackEntity';
 
 /**
  * Describes layout and relationships for "album" database table, containing album information
  * scraped from [Rate Your Music](https://rateyourmusic.com/).
  */
 @Entity({ name: 'album' })
+@Unique(['urlRYM'])
 export class AlbumEntity {
     /**
      * @remarks
@@ -55,9 +58,7 @@ export class AlbumEntity {
     /**
      * Total reviews for an album on RYM, including strictly numeric
      */
-    @Column({
-        type: 'float',
-    })
+    @Column()
     public ratingCountRYM: number;
 
     /**
@@ -65,6 +66,9 @@ export class AlbumEntity {
      */
     @Column()
     public reviewCountRYM: number;
+
+    @Column()
+    public urlRYM: string;
 
     /**
      * @remarks
@@ -75,8 +79,87 @@ export class AlbumEntity {
     })
     public spotifyId: string;
 
-    @Column()
-    public urlRYM: string;
+    /**
+     * @remarks
+     * nullable
+     */
+    @Column({
+        nullable: true,
+    })
+    public spotifyAlbumType: string;
+
+    /**
+     * @remarks
+     * nullable
+     */
+    @Column({
+        nullable: true,
+    })
+    public spotifyAvailableMarketCount: number;
+
+    /**
+     * @remarks
+     * nullable
+     */
+    @Column({
+        nullable: true,
+    })
+    public spotifyCopyRightCount: number;
+
+    /**
+     * @remarks
+     * nullable
+     */
+    @Column({
+        nullable: true,
+        type: 'bigint',
+    })
+    public upcIdentifier: number;
+
+    /**
+     * @remarks
+     * nullable
+     */
+    @Column({
+        nullable: true,
+    })
+    public spotifyLabel: string;
+
+    /**
+     * @remarks
+     * nullable
+     */
+    @Column({
+        nullable: true,
+    })
+    public spotifyPopularity: number;
+
+    /**
+     * @remarks
+     * nullable
+     */
+    @Column({
+        nullable: true,
+    })
+    public releaseYear: number;
+
+    /**
+     * @remarks
+     * nullable
+     */
+    @Column({
+        nullable: true,
+    })
+    public releaseMonth: number;
+
+    /**
+     * @remarks
+     * nullable
+     */
+    @Column({
+        nullable: true,
+    })
+    public releaseDay: number;
 
     /**
      * Album ranking in comparison to others released the same year, by overall rating
@@ -88,10 +171,13 @@ export class AlbumEntity {
     @ManyToOne((): typeof ArtistEntity => ArtistEntity, (artist): AlbumEntity[] => artist.albums)
     public artist: ArtistEntity;
 
-    @ManyToMany((): typeof GenreEntity => GenreEntity, (genre): AlbumEntity[] => genre.albums)
+    @ManyToMany((): typeof RymGenreEntity => RymGenreEntity, (genre): AlbumEntity[] => genre.albums)
     @JoinTable()
-    public genres: GenreEntity[];
+    public rymGenres: RymGenreEntity[];
 
     @OneToMany((): typeof ReviewEntity => ReviewEntity, (review): AlbumEntity => review.album)
     public reviews: ReviewEntity[];
+
+    @OneToMany((): typeof TrackEntity => TrackEntity, (track): AlbumEntity => track.album)
+    public tracks: TrackEntity[];
 }

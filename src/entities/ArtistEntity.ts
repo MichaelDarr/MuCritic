@@ -5,17 +5,20 @@ import {
     ManyToMany,
     OneToMany,
     JoinTable,
+    Unique,
 } from 'typeorm';
 
 import { AlbumEntity } from './AlbumEntity';
-import { GenreEntity } from './GenreEntity';
+import { RymGenreEntity } from './RymGenreEntity';
 import { ProfileEntity } from './ProfileEntity';
+import { SpotifyGenreEntity } from './SpotifyGenreEntity';
 
 /**
  * Describes layout and relationships for "artist" database table, containing artist information
  * from [Rate Your Music](https://rateyourmusic.com/).
  */
 @Entity({ name: 'artist' })
+@Unique(['urlRYM'])
 export class ArtistEntity {
     /**
      * @remarks
@@ -48,6 +51,9 @@ export class ArtistEntity {
     @Column()
     public soloPerformer: boolean;
 
+    @Column()
+    public urlRYM: string;
+
     /**
      * @remarks
      * nullable
@@ -57,19 +63,35 @@ export class ArtistEntity {
     })
     public spotifyId: string;
 
-    @Column()
-    public urlRYM: string;
+    /**
+     * @remarks
+     * nullable
+     */
+    @Column({
+        nullable: true,
+    })
+    public spotifyPopularity: number;
 
     @OneToMany((): typeof AlbumEntity => AlbumEntity, (album): ArtistEntity => album.artist)
     public albums: AlbumEntity[];
 
-    @ManyToMany((): typeof GenreEntity => GenreEntity, (genre): ArtistEntity[] => genre.artists)
+    @ManyToMany(
+        (): typeof RymGenreEntity => RymGenreEntity,
+        (genre): ArtistEntity[] => genre.artists,
+    )
     @JoinTable()
-    public genres: GenreEntity[];
+    public rymGenres: RymGenreEntity[];
 
     @ManyToMany(
         (): typeof ProfileEntity => ProfileEntity,
         (profile): ArtistEntity[] => profile.favoriteArtists,
     )
     public profiles: ProfileEntity[];
+
+    @ManyToMany(
+        (): typeof SpotifyGenreEntity => SpotifyGenreEntity,
+        (spotifyGenre): ArtistEntity[] => spotifyGenre.artists,
+    )
+    @JoinTable()
+    public spotifyGenres: SpotifyGenreEntity[];
 }

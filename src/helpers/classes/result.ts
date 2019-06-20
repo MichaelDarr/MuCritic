@@ -3,7 +3,7 @@
  */
 
 import { Log } from './log';
-import { ApiService } from '../types';
+import { ApiService } from '../../types/types';
 
 /**
  * Result for a single scraped page
