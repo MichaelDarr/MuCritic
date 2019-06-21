@@ -200,3 +200,17 @@ export async function getReviewAggregation(
     if(!normalize) return rawAggregation;
     return normalizeAggregation(rawAggregation);
 }
+
+export async function getAggregatedProfileReviews(
+    profile: ProfileEntity,
+    normalize = true,
+): Promise<ReviewAggregation[]> {
+    const reviews: ReviewAggregation[] = [];
+
+    await Promise.all(profile.reviews.map(async (reviewEntity) => {
+        const review = await getReviewAggregation(reviewEntity, normalize);
+        reviews.push(review);
+    }));
+
+    return reviews;
+}

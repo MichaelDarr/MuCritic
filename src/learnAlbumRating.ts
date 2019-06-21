@@ -7,11 +7,10 @@ import { Log } from './helpers/classes/log';
 import { connectToDatabase } from './helpers/functions/database';
 import {
     calculateAggregationDistribution,
+    getAggregatedProfileReviews,
     getProfiles,
     getProfileWithSpotifyAlbums,
-    getReviewAggregation,
 } from './helpers/functions/dataAggregators';
-import { ReviewAggregation } from './types/types';
 
 require('@tensorflow/tfjs-node-gpu');
 
@@ -24,13 +23,8 @@ export async function learn(): Promise<void> {
         await connectToDatabase();
 
         const profiles = await getProfiles();
-        const profile = await getProfileWithSpotifyAlbums(profiles[0]);
-        const reviews: ReviewAggregation[] = [];
-
-        await Promise.all(profile.reviews.map(async (reviewEntity) => {
-            const review = await getReviewAggregation(reviewEntity);
-            reviews.push(review);
-        }));
+        const singleProfile = await getProfileWithSpotifyAlbums(profiles[0]);
+        const reviews = await getAggregatedProfileReviews(singleProfile);
 
         calculateAggregationDistribution(reviews);
     } catch(err) {
