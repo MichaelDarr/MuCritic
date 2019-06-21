@@ -1,7 +1,7 @@
 import { getConnection } from 'typeorm';
 
-import * as Spotify from '../../types/spotify';
-import { SpotifyBatchEntities } from '../../types/types';
+import * as Spotify from 'spotify';
+import { SpotifyBatchEntities } from '../../entities/entities';
 import { SpotifyScraper } from './spotifyScraper';
 
 /**

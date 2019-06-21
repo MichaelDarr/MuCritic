@@ -3,6 +3,8 @@
  * See https://developer.spotify.com/documentation/web-api/reference/object-model/
  */
 
+declare module 'spotify';
+
 export interface ClientCredentials {
     id: string;
     secret: string;

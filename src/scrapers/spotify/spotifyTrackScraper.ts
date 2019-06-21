@@ -1,12 +1,12 @@
 import * as assert from 'assert';
-
 import { getRepository } from 'typeorm';
+
+import * as Spotify from 'spotify';
 
 import {
     AlbumEntity,
     TrackEntity,
 } from '../../entities/entities';
-import * as Spotify from '../../types/spotify';
 import { SpotifyScraper } from './spotifyScraper';
 
 /**

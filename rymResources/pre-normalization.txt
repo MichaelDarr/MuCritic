@@ -1,77 +1,85 @@
+userRating:
+  avg: 3.2111503531785557
+  min: 0.5
+  max: 5
+userDisagreement:
+  avg: -0.42355701311806265
+  min: -3.19
+  max: 1.53
 acousticness:
-  avg: 0.3291094234703237
-  min: 0.000001439
+  avg: 0.32910942347032396
+  min: 0
   max: 0.9939999999999998
 danceability:
-  avg: 0.46500801900719546
-  min: 0.052554000000000003
+  avg: 0.46500801900719435
+  min: 0
   max: 0.8678000000000001
 duration:
-  avg: 5386843.972250255
-  min: 524322
+  avg: 5386843.972250258
+  min: 0
   max: 48857252
 energy:
-  avg: 0.6022281630866178
-  min: 0.015247564102564101
-  max: 0.99975
-instrumentalness:
-  avg: 0.2520343027133328
+  avg: 0.6022281630866182
   min: 0
-  max: 0.9518333333333335
+  max: 0.9997500000000001
+instrumentalness:
+  avg: 0.25203430271333205
+  min: 0
+  max: 0.9518333333333334
 liveness:
-  avg: 0.22843683479782023
-  min: 0.062299999999999994
+  avg: 0.22843683479782015
+  min: 0
   max: 0.98075
 loudness:
-  avg: -10.880682891520609
+  avg: -10.880682891520634
   min: -38.69407692307692
   max: 0.942625
 mode:
-  avg: 0.6926510794753628
+  avg: 0.6926510794753639
   min: 0
   max: 1.0000000000000007
 speechiness:
-  avg: 0.09751975606612769
-  min: 0.028070000000000005
+  avg: 0.09751975606612753
+  min: 0
   max: 0.9495
 tempo:
-  avg: 119.95182113140832
-  min: 19.08502
-  max: 170.1937857142857
+  avg: 119.95182113140837
+  min: 0
+  max: 170.19378571428572
 timeSignature:
-  avg: 3.86320736081492
-  min: 0.8199999999999998
+  avg: 3.8632073608149207
+  min: 0
   max: 4.5
 timeSignatureVariation:
-  avg: 0.21609830507983824
+  avg: 0.2160983050798384
   min: 0
   max: 4
 valence:
-  avg: 0.4599733635892343
-  min: 0.013214
-  max: 0.9061538461538462
+  avg: 0.4599733635892342
+  min: 0
+  max: 0.9061538461538463
 availableMarkets:
-  avg: 64.5509586276499
+  avg: 64.55095862764983
   min: 0
   max: 79
 copyrights:
-  avg: 1.7381432896064202
+  avg: 1.7381432896064162
   min: 0
   max: 2
 albumPopularity:
-  avg: 35.30776992936429
+  avg: 35.307769929364255
   min: 0
   max: 85
 releaseYear:
-  avg: 1990.4323915237135
-  min: 1937
+  avg: 1990.4323915237137
+  min: 0
   max: 2019
 issues:
-  avg: 12.890010090817494
-  min: 1
+  avg: 12.890010090817476
+  min: 0
   max: 123
 albumLists:
-  avg: 269.27699293642723
+  avg: 269.2769929364267
   min: 0
   max: 4930
 overallRank:
@@ -79,47 +87,39 @@ overallRank:
   min: 0
   max: 9993
 rating:
-  avg: 3.634707366296674
-  min: 1
+  avg: 3.634707366296667
+  min: 0
   max: 4.71
 ratings:
-  avg: 2165.253279515641
-  min: 1
+  avg: 2165.2532795156408
+  min: 0
   max: 50957
 reviews:
-  avg: 53.18113017154329
+  avg: 53.18113017154339
   min: 0
   max: 1546
 yearRank:
-  avg: 385.2305751765893
+  avg: 385.230575176589
   min: 0
   max: 9971
-userRating:
-  avg: 3.2111503531785637
-  min: 0.5
-  max: 5
-userDisagreement:
-  avg: -0.4235570131180629
-  min: -3.19
-  max: 1.53
 active:
   avg: 0.6271442986881742
   min: 0
   max: 1
 discographySize:
-  avg: 407.5958627648836
-  min: 1
+  avg: 407.5958627648833
+  min: 0
   max: 2477
 artistLists:
-  avg: 356.0908173562056
+  avg: 356.09081735620566
   min: 0
   max: 1960
 members:
-  avg: 5.856710393541934
-  min: 1
+  avg: 5.856710393541947
+  min: 0
   max: 57
 shows:
-  avg: 50.21291624621553
+  avg: 50.21291624621582
   min: 0
   max: 687
 soloPerformer:
@@ -127,6 +127,6 @@ soloPerformer:
   min: 0
   max: 1
 artistPopularity:
-  avg: 38.644298688193864
+  avg: 38.64429868819371
   min: 0
   max: 92

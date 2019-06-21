@@ -13,6 +13,9 @@
         "semi": "off",
         "no-await-in-loop": "off",
         "import/prefer-default-export": "off",
+        "import/no-unresolved": {
+            "amd": true
+        },
         "class-methods-use-this": [
             1, {
                 "exceptMethods": [

@@ -3,12 +3,13 @@ import {
     getConnection,
 } from 'typeorm';
 
+import * as Spotify from 'spotify';
+
 import {
     AlbumEntity,
     ArtistEntity,
 } from '../../entities/entities';
 import { Log } from '../../helpers/classes/log';
-import * as Spotify from '../../types/spotify';
 import { SpotifyScraper } from './spotifyScraper';
 
 /**

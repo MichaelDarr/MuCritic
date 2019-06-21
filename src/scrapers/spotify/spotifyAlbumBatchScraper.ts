@@ -1,8 +1,9 @@
 import * as assert from 'assert';
 
+import * as Spotify from 'spotify';
+
 import { AlbumEntity } from '../../entities/entities';
 import { SimpleDate } from '../../helpers/classes/simpleDate';
-import * as Spotify from '../../types/spotify';
 import { SpotifyBatchScraper } from './spotifyBatchScraper';
 
 /**

@@ -1,8 +1,9 @@
 import { Base64 } from 'js-base64';
 import * as request from 'request';
 
+import * as Spotify from 'spotify';
+
 import { Log } from './log';
-import * as Spotify from '../../types/spotify';
 
 /**
  * Interface for all interaction with Spotify API using the

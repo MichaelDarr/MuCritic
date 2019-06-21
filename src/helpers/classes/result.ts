@@ -3,7 +3,6 @@
  */
 
 import { Log } from './log';
-import { ApiService } from '../../types/types';
 
 /**
  * Result for a single scraped page
@@ -39,8 +38,6 @@ export class ScrapeResult {
 export class ApiResult {
     public readonly success: boolean;
 
-    public readonly apiService: ApiService;
-
     public readonly route: string;
 
     public readonly description: string;
@@ -49,13 +46,11 @@ export class ApiResult {
 
     public constructor(
         success: boolean,
-        apiService: ApiService,
         route: string,
         description: string,
         error?: string | Error,
     ) {
         this.success = success;
-        this.apiService = apiService;
         this.route = route;
         this.description = description;
         this.error = error;
@@ -64,7 +59,7 @@ export class ApiResult {
     public logError(): void {
         if(this.success) return;
         Log.err(
-            `Api error:\nAPI: ${this.apiService}\nRoute: ${this.route}\nCall: ${this.description}\nError: ${this.error}`,
+            `Api error:\nRoute: ${this.route}\nCall: ${this.description}\nError: ${this.error}`,
         );
     }
 }

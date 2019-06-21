@@ -3,7 +3,6 @@ import {
     ResultBatch,
     ScrapeResult,
 } from '../helpers/classes/result';
-import { ScrapersWithResults } from '../types/types';
 
 /**
  * Superclass for all "scrapers"
@@ -216,4 +215,9 @@ export abstract class Scraper {
         }
         return dependencies;
     }
+}
+
+export interface ScrapersWithResults<T extends Scraper> {
+    results: ResultBatch;
+    scrapers: T[];
 }

@@ -7,7 +7,6 @@ import {
 } from '../../entities/entities';
 import { Log } from '../../helpers/classes/log';
 import { ParseElement } from '../../helpers/parsing/parseElement';
-import { Gender } from '../../types/types';
 import { RymScraper } from './rymScraper';
 
 /**
@@ -20,7 +19,7 @@ export class ProfileScraper extends RymScraper<ProfileEntity> {
 
     public favoriteArtists: ArtistScraper[];
 
-    public gender: Gender;
+    public gender: boolean;
 
     public name: string;
 
@@ -90,7 +89,7 @@ export class ProfileScraper extends RymScraper<ProfileEntity> {
             .textContent();
         const splitUserInfo: string[] = userAgeAndGenderRaw.split(' / ');
         this.age = Number(splitUserInfo[0]);
-        this.gender = Gender[splitUserInfo[1]];
+        this.gender = (splitUserInfo[1] === 'Male');
     }
 
     public async getEntity(): Promise<ProfileEntity> {
@@ -100,7 +99,7 @@ export class ProfileScraper extends RymScraper<ProfileEntity> {
     public printInfo(): void {
         Log.log(`Username: ${this.name}`);
         Log.log(`Age: ${this.age}`);
-        Log.log(`Gender: ${this.gender === Gender.Male ? 'Male' : 'Female'}`);
+        Log.log(`Gender: ${this.gender ? 'Male' : 'Female'}`);
     }
 
     public async saveToLocal(): Promise<void> {
@@ -118,7 +117,7 @@ export class ProfileScraper extends RymScraper<ProfileEntity> {
         let profile = new ProfileEntity();
         profile.name = this.name;
         profile.age = this.age;
-        profile.gender = (this.gender === Gender.Male);
+        profile.gender = this.gender;
         profile.urlRYM = this.url;
         profile.favoriteArtists = artistEntities;
 

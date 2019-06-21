@@ -3,10 +3,11 @@ import {
     getConnection,
 } from 'typeorm';
 
+import * as Spotify from 'spotify';
+
 import {
     SpotifyGenreEntity,
 } from '../../entities/entities';
-import * as Spotify from '../../types/spotify';
 import { SpotifyScraper } from './spotifyScraper';
 
 /**
