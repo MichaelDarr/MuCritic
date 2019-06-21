@@ -2,9 +2,12 @@ import { getRepository } from 'typeorm';
 
 import { Aggregator } from './aggregator';
 import { ProfileEntity } from '../../entities/entities';
-import { ProfileAggregation } from '../types';
 import { ReviewAggregator } from './reviewAggregator';
+import { ProfileAggregation } from '../types';
 
+/**
+ * multi-[[ReviewAggregation]] generator class for [[ProfileEntity]]
+ */
 export class ProfileAggregator extends Aggregator<ProfileEntity, ProfileAggregation> {
     protected async generateAggregate(normalized: boolean): Promise<ProfileAggregation> {
         if(this.entity.reviews == null) {
@@ -26,6 +29,11 @@ export class ProfileAggregator extends Aggregator<ProfileEntity, ProfileAggregat
         );
     }
 
+    /**
+     * @remarks
+     * This aggregator relies soley on [[ReviewAggregator]] for its data, so no additional
+     * normalization is required. Returns the raw parameter.
+     */
     protected normalize(raw: ProfileAggregation): ProfileAggregation {
         return raw;
     }

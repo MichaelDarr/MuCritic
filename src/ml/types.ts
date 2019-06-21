@@ -1,3 +1,7 @@
+/**
+ * Standardized typing for data aggregation/machine learning
+ */
+
 export interface ProfileInfo {
     gender: number;
     age: number;

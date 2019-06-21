@@ -1,3 +1,7 @@
+/**
+ * Machine learning entry point.
+ */
+
 import * as dotenv from 'dotenv';
 import { resolve } from 'path';
 import 'reflect-metadata';
@@ -16,6 +20,9 @@ require('@tensorflow/tfjs-node-gpu');
 
 dotenv.config({ path: resolve(__dirname, '../.env') });
 
+/**
+ * Currently, just a sandbox for data aggregation
+ */
 export async function learn(): Promise<void> {
     try {
         Log.notify('\nMuCritic Data Normalization\n\n');

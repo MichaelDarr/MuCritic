@@ -5,6 +5,9 @@ import { ReviewEntity } from '../../entities/entities';
 import { ReviewAggregation } from '../types';
 import { AlbumReviewAggregator } from './albumAggregator';
 
+/**
+ * [[ReviewAggregation]] generator class for [[ReviewEntity]]
+ */
 export class ReviewAggregator extends Aggregator<ReviewEntity, ReviewAggregation> {
     protected async generateAggregate(normalized: boolean): Promise<ReviewAggregation> {
         if(this.entity.album == null) {

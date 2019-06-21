@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Gender | type-scrape</title>
+	<title>ITensorInfo | type-scrape</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,51 +56,108 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="gender.html">Gender</a>
+					<a href="itensorinfo.html">ITensorInfo</a>
 				</li>
 			</ul>
-			<h1>Enumeration Gender</h1>
+			<h1>Interface ITensorInfo</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Properties of a TensorInfo.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">ITensorInfo</span>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
-							<h3>Enumeration members</h3>
+						<section class="tsd-index-section tsd-is-external">
+							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="gender.html#female" class="tsd-kind-icon">Female</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="gender.html#male" class="tsd-kind-icon">Male</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="itensorinfo.html#coosparse" class="tsd-kind-icon">coo<wbr>Sparse</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="itensorinfo.html#dtype" class="tsd-kind-icon">dtype</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="itensorinfo.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="itensorinfo.html#tensorshape" class="tsd-kind-icon">tensor<wbr>Shape</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Enumeration members</h2>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="female" class="tsd-anchor"></a>
-					<h3>Female</h3>
-					<div class="tsd-signature tsd-kind-icon">Female<span class="tsd-signature-symbol">:</span> </div>
+			<section class="tsd-panel-group tsd-member-group tsd-is-external">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="coosparse" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> coo<wbr>Sparse</h3>
+					<div class="tsd-signature tsd-kind-icon">coo<wbr>Sparse<span class="tsd-signature-symbol">:</span> <a href="tensorinfo.icoosparse.html" class="tsd-signature-type">ICooSparse</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/5e5dde0/src/helpers/types.ts#L14">helpers/types.ts:14</a></li>
+							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:321</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>TensorInfo cooSparse</p>
+						</div>
+					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="male" class="tsd-anchor"></a>
-					<h3>Male</h3>
-					<div class="tsd-signature tsd-kind-icon">Male<span class="tsd-signature-symbol">:</span> </div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="dtype" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> dtype</h3>
+					<div class="tsd-signature tsd-kind-icon">dtype<span class="tsd-signature-symbol">:</span> <a href="../enums/datatype.html" class="tsd-signature-type">DataType</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/5e5dde0/src/helpers/types.ts#L13">helpers/types.ts:13</a></li>
+							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:324</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>TensorInfo dtype</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="name" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:318</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>TensorInfo name</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="tensorshape" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> tensor<wbr>Shape</h3>
+					<div class="tsd-signature tsd-kind-icon">tensor<wbr>Shape<span class="tsd-signature-symbol">:</span> <a href="itensorshape.html" class="tsd-signature-type">ITensorShape</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:327</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>TensorInfo tensorShape</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -116,14 +173,20 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-enum">
-						<a href="gender.html" class="tsd-kind-icon">Gender</a>
+					<li class="current tsd-kind-interface tsd-is-external">
+						<a href="itensorinfo.html" class="tsd-kind-icon">ITensor<wbr>Info</a>
 						<ul>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="gender.html#female" class="tsd-kind-icon">Female</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="itensorinfo.html#coosparse" class="tsd-kind-icon">coo<wbr>Sparse</a>
 							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="gender.html#male" class="tsd-kind-icon">Male</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="itensorinfo.html#dtype" class="tsd-kind-icon">dtype</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="itensorinfo.html#name" class="tsd-kind-icon">name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="itensorinfo.html#tensorshape" class="tsd-kind-icon">tensor<wbr>Shape</a>
 							</li>
 						</ul>
 					</li>

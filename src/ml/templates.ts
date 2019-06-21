@@ -4,7 +4,9 @@ import {
     Track,
 } from './types';
 
-
+/**
+ * Creates blank templates for some select types used for data aggregation/machine learning
+ */
 export class TemplateGenerator {
     public static album(defaultVal = 0): AlbumAggregation {
         return {

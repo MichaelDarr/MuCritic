@@ -1,6 +1,10 @@
 import { Aggregation } from './types';
 import { TemplateGenerator } from './templates';
 
+/**
+ * Reports the average, min, and max for all properties from an array of aggregations. Useful for
+ * data normalization/analysis
+ */
 export function aggregateDistribution(aggregations: Aggregation[]): void {
     let average: Aggregation;
     let min: Aggregation;

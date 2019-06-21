@@ -19,7 +19,6 @@
     ],
     "exclude": ["node_modules", "src/@types"],
     "typedocOptions": {
-        "entryPoint": "./Scraper",
         "module": "commonjs",
         "mode": "file",
         "out": "docs/",

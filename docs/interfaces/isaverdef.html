@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Review | type-scrape</title>
+	<title>ISaverDef | type-scrape</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="review.html">Review</a>
+					<a href="isaverdef.html">ISaverDef</a>
 				</li>
 			</ul>
-			<h1>Class Review</h1>
+			<h1>Interface ISaverDef</h1>
 		</div>
 	</div>
 </header>
@@ -69,7 +69,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Holds review information for <a href="reviewpagescraper.html">ReviewPageScraper</a></p>
+						<p>Properties of a SaverDef.</p>
 					</div>
 				</div>
 			</section>
@@ -77,7 +77,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Review</span>
+						<span class="target">ISaverDef</span>
 					</li>
 				</ul>
 			</section>
@@ -85,114 +85,127 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
-							<h3>Constructors</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="review.html#constructor" class="tsd-kind-icon">constructor</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="review.html#album" class="tsd-kind-icon">album</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="review.html#date" class="tsd-kind-icon">date</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="review.html#identifierrym" class="tsd-kind-icon">identifierRYM</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="review.html#profile" class="tsd-kind-icon">profile</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="review.html#score" class="tsd-kind-icon">score</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="isaverdef.html#filenametensorname" class="tsd-kind-icon">filename<wbr>Tensor<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="isaverdef.html#keepcheckpointeverynhours" class="tsd-kind-icon">keep<wbr>Checkpoint<wbr>EveryNHours</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="isaverdef.html#maxtokeep" class="tsd-kind-icon">max<wbr>ToKeep</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="isaverdef.html#restoreopname" class="tsd-kind-icon">restore<wbr>OpName</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="isaverdef.html#savetensorname" class="tsd-kind-icon">save<wbr>Tensor<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="isaverdef.html#sharded" class="tsd-kind-icon">sharded</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="isaverdef.html#version" class="tsd-kind-icon">version</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
-					<a name="constructor" class="tsd-anchor"></a>
-					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Review<span class="tsd-signature-symbol">(</span>album<span class="tsd-signature-symbol">: </span><a href="albumscraper.html" class="tsd-signature-type">AlbumScraper</a>, profile<span class="tsd-signature-symbol">: </span><a href="profilescraper.html" class="tsd-signature-type">ProfileScraper</a>, score<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, identifierRYM<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, date<span class="tsd-signature-symbol">: </span><a href="simpledate.html" class="tsd-signature-type">SimpleDate</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="review.html" class="tsd-signature-type">Review</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/5e5dde0/src/helpers/classes/review.ts#L17">helpers/classes/review.ts:17</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>album: <a href="albumscraper.html" class="tsd-signature-type">AlbumScraper</a></h5>
-								</li>
-								<li>
-									<h5>profile: <a href="profilescraper.html" class="tsd-signature-type">ProfileScraper</a></h5>
-								</li>
-								<li>
-									<h5>score: <span class="tsd-signature-type">number</span></h5>
-								</li>
-								<li>
-									<h5>identifierRYM: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>date: <a href="simpledate.html" class="tsd-signature-type">SimpleDate</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="review.html" class="tsd-signature-type">Review</a></h4>
-						</li>
-					</ul>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="album" class="tsd-anchor"></a>
-					<h3>album</h3>
-					<div class="tsd-signature tsd-kind-icon">album<span class="tsd-signature-symbol">:</span> <a href="albumscraper.html" class="tsd-signature-type">AlbumScraper</a></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="filenametensorname" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> filename<wbr>Tensor<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">filename<wbr>Tensor<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/5e5dde0/src/helpers/classes/review.ts#L9">helpers/classes/review.ts:9</a></li>
+							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:289</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>SaverDef filenameTensorName</p>
+						</div>
+					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="date" class="tsd-anchor"></a>
-					<h3>date</h3>
-					<div class="tsd-signature tsd-kind-icon">date<span class="tsd-signature-symbol">:</span> <a href="simpledate.html" class="tsd-signature-type">SimpleDate</a></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="keepcheckpointeverynhours" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> keep<wbr>Checkpoint<wbr>EveryNHours</h3>
+					<div class="tsd-signature tsd-kind-icon">keep<wbr>Checkpoint<wbr>EveryNHours<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/5e5dde0/src/helpers/classes/review.ts#L13">helpers/classes/review.ts:13</a></li>
+							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:304</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>SaverDef keepCheckpointEveryNHours</p>
+						</div>
+					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="identifierrym" class="tsd-anchor"></a>
-					<h3>identifierRYM</h3>
-					<div class="tsd-signature tsd-kind-icon">identifierRYM<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="maxtokeep" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> max<wbr>ToKeep</h3>
+					<div class="tsd-signature tsd-kind-icon">max<wbr>ToKeep<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/5e5dde0/src/helpers/classes/review.ts#L15">helpers/classes/review.ts:15</a></li>
+							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:298</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>SaverDef maxToKeep</p>
+						</div>
+					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="profile" class="tsd-anchor"></a>
-					<h3>profile</h3>
-					<div class="tsd-signature tsd-kind-icon">profile<span class="tsd-signature-symbol">:</span> <a href="profilescraper.html" class="tsd-signature-type">ProfileScraper</a></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="restoreopname" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> restore<wbr>OpName</h3>
+					<div class="tsd-signature tsd-kind-icon">restore<wbr>OpName<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/5e5dde0/src/helpers/classes/review.ts#L17">helpers/classes/review.ts:17</a></li>
+							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:295</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>SaverDef restoreOpName</p>
+						</div>
+					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="score" class="tsd-anchor"></a>
-					<h3>score</h3>
-					<div class="tsd-signature tsd-kind-icon">score<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="savetensorname" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> save<wbr>Tensor<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">save<wbr>Tensor<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/5e5dde0/src/helpers/classes/review.ts#L11">helpers/classes/review.ts:11</a></li>
+							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:292</li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>SaverDef saveTensorName</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="sharded" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> sharded</h3>
+					<div class="tsd-signature tsd-kind-icon">sharded<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:301</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>SaverDef sharded</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="version" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> version</h3>
+					<div class="tsd-signature tsd-kind-icon">version<span class="tsd-signature-symbol">:</span> <a href="../enums/saverdef.checkpointformatversion.html" class="tsd-signature-type">CheckpointFormatVersion</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:307</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>SaverDef version</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -208,26 +221,29 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class">
-						<a href="review.html" class="tsd-kind-icon">Review</a>
+					<li class="current tsd-kind-interface tsd-is-external">
+						<a href="isaverdef.html" class="tsd-kind-icon">ISaver<wbr>Def</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="review.html#constructor" class="tsd-kind-icon">constructor</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="isaverdef.html#filenametensorname" class="tsd-kind-icon">filename<wbr>Tensor<wbr>Name</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="review.html#album" class="tsd-kind-icon">album</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="isaverdef.html#keepcheckpointeverynhours" class="tsd-kind-icon">keep<wbr>Checkpoint<wbr>EveryNHours</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="review.html#date" class="tsd-kind-icon">date</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="isaverdef.html#maxtokeep" class="tsd-kind-icon">max<wbr>ToKeep</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="review.html#identifierrym" class="tsd-kind-icon">identifierRYM</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="isaverdef.html#restoreopname" class="tsd-kind-icon">restore<wbr>OpName</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="review.html#profile" class="tsd-kind-icon">profile</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="isaverdef.html#savetensorname" class="tsd-kind-icon">save<wbr>Tensor<wbr>Name</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="review.html#score" class="tsd-kind-icon">score</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="isaverdef.html#sharded" class="tsd-kind-icon">sharded</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="isaverdef.html#version" class="tsd-kind-icon">version</a>
 							</li>
 						</ul>
 					</li>

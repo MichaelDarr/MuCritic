@@ -5,6 +5,9 @@ import { AlbumEntity } from '../../entities/entities';
 import { TemplateGenerator } from '../templates';
 import { AlbumAggregation } from '../types';
 
+/**
+ * [[AlbumAggregation]] generator class for [[AlbumEntity]]
+ */
 export class AlbumReviewAggregator extends Aggregator<AlbumEntity, AlbumAggregation> {
     protected async generateAggregate(): Promise<AlbumAggregation> {
         if(
@@ -25,7 +28,6 @@ export class AlbumReviewAggregator extends Aggregator<AlbumEntity, AlbumAggregat
 
         const trackCount = this.entity.tracks.length;
         const trackAggregation = TemplateGenerator.track();
-
         this.entity.tracks.forEach((track) => {
             for(const trackProp in track) {
                 if(trackProp === 'duration') {
