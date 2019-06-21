@@ -1,0 +1,132 @@
+acousticness:
+  avg: 0.3291094234703237
+  min: 0.000001439
+  max: 0.9939999999999998
+danceability:
+  avg: 0.46500801900719546
+  min: 0.052554000000000003
+  max: 0.8678000000000001
+duration:
+  avg: 5386843.972250255
+  min: 524322
+  max: 48857252
+energy:
+  avg: 0.6022281630866178
+  min: 0.015247564102564101
+  max: 0.99975
+instrumentalness:
+  avg: 0.2520343027133328
+  min: 0
+  max: 0.9518333333333335
+liveness:
+  avg: 0.22843683479782023
+  min: 0.062299999999999994
+  max: 0.98075
+loudness:
+  avg: -10.880682891520609
+  min: -38.69407692307692
+  max: 0.942625
+mode:
+  avg: 0.6926510794753628
+  min: 0
+  max: 1.0000000000000007
+speechiness:
+  avg: 0.09751975606612769
+  min: 0.028070000000000005
+  max: 0.9495
+tempo:
+  avg: 119.95182113140832
+  min: 19.08502
+  max: 170.1937857142857
+timeSignature:
+  avg: 3.86320736081492
+  min: 0.8199999999999998
+  max: 4.5
+timeSignatureVariation:
+  avg: 0.21609830507983824
+  min: 0
+  max: 4
+valence:
+  avg: 0.4599733635892343
+  min: 0.013214
+  max: 0.9061538461538462
+availableMarkets:
+  avg: 64.5509586276499
+  min: 0
+  max: 79
+copyrights:
+  avg: 1.7381432896064202
+  min: 0
+  max: 2
+albumPopularity:
+  avg: 35.30776992936429
+  min: 0
+  max: 85
+releaseYear:
+  avg: 1990.4323915237135
+  min: 1937
+  max: 2019
+issues:
+  avg: 12.890010090817494
+  min: 1
+  max: 123
+albumLists:
+  avg: 269.27699293642723
+  min: 0
+  max: 4930
+overallRank:
+  avg: 1183.835519677094
+  min: 0
+  max: 9993
+rating:
+  avg: 3.634707366296674
+  min: 1
+  max: 4.71
+ratings:
+  avg: 2165.253279515641
+  min: 1
+  max: 50957
+reviews:
+  avg: 53.18113017154329
+  min: 0
+  max: 1546
+yearRank:
+  avg: 385.2305751765893
+  min: 0
+  max: 9971
+userRating:
+  avg: 3.2111503531785637
+  min: 0.5
+  max: 5
+userDisagreement:
+  avg: -0.4235570131180629
+  min: -3.19
+  max: 1.53
+active:
+  avg: 0.6271442986881742
+  min: 0
+  max: 1
+discographySize:
+  avg: 407.5958627648836
+  min: 1
+  max: 2477
+artistLists:
+  avg: 356.0908173562056
+  min: 0
+  max: 1960
+members:
+  avg: 5.856710393541934
+  min: 1
+  max: 57
+shows:
+  avg: 50.21291624621553
+  min: 0
+  max: 687
+soloPerformer:
+  avg: 0.4172552976791036
+  min: 0
+  max: 1
+artistPopularity:
+  avg: 38.644298688193864
+  min: 0
+  max: 92
