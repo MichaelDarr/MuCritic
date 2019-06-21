@@ -8,7 +8,7 @@ import { Log } from './helpers/classes/log';
 import { connectToDatabase } from './helpers/functions/database';
 import {
     ProfileAggregator,
-} from './ml/aggregators';
+} from './ml/aggregators/profileAggregator';
 import { aggregateDistribution } from './ml/stats';
 import { ProfileEntity } from './entities/entities';
 
@@ -24,8 +24,8 @@ export async function learn(): Promise<void> {
 
         const profiles = await getRepository(ProfileEntity).find();
         const profileAggregator = new ProfileAggregator(profiles[0]);
-        const aggregations = await profileAggregator.normalize();
-        aggregateDistribution(aggregations);
+        const aggregation = await profileAggregator.aggregate();
+        aggregateDistribution(aggregation);
     } catch(err) {
         Log.err(`\nNormalization Failed!\n\nError:\n${err.message}`);
     }

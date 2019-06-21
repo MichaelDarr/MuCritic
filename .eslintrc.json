@@ -22,6 +22,7 @@
                     "getEntity",
                     "checkForLocalRecord",
                     "extractInfo",
+                    "normalize",
                     "printInfo",
                     "requestScrape",
                     "scrapeDependencies"
