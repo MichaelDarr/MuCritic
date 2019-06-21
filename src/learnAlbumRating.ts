@@ -11,10 +11,9 @@ import { getRepository } from 'typeorm';
 import { Log } from './helpers/classes/log';
 import { connectToDatabase } from './helpers/functions/database';
 import {
-    ProfileAggregator,
-} from './ml/aggregators/profileAggregator';
-import { aggregateDistribution } from './ml/stats';
-import { ProfileEntity } from './entities/entities';
+    AlbumAggregator,
+} from './ml/aggregators/albumAggregator';
+import { AlbumEntity } from './entities/entities';
 
 require('@tensorflow/tfjs-node-gpu');
 
@@ -29,10 +28,16 @@ export async function learn(): Promise<void> {
 
         await connectToDatabase();
 
-        const profiles = await getRepository(ProfileEntity).find();
-        const profileAggregator = new ProfileAggregator(profiles[0]);
-        const aggregation = await profileAggregator.aggregate();
-        aggregateDistribution(aggregation);
+        const albums = await getRepository(AlbumEntity)
+            .createQueryBuilder('album')
+            .where('album.spotifyId is not null')
+            .andWhere('album.spotifyAlbumType = :type', { type: 'album' })
+            .getMany();
+
+        const aggregations = await Promise.all(albums.map((album) => {
+            const albumAggregator = new AlbumAggregator(album);
+            return albumAggregator.aggregate();
+        }));
     } catch(err) {
         Log.err(`\nNormalization Failed!\n\nError:\n${err.message}`);
     }

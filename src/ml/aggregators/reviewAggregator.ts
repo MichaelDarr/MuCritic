@@ -3,7 +3,7 @@ import { getRepository } from 'typeorm';
 import { Aggregator } from './aggregator';
 import { ReviewEntity } from '../../entities/entities';
 import { ReviewAggregation } from '../types';
-import { AlbumReviewAggregator } from './albumAggregator';
+import { AlbumAggregator } from './albumAggregator';
 
 /**
  * [[ReviewAggregation]] generator class for [[ReviewEntity]]
@@ -21,7 +21,7 @@ export class ReviewAggregator extends Aggregator<ReviewEntity, ReviewAggregation
                 .leftJoinAndSelect('album.tracks', 'tracks')
                 .getOne();
         }
-        const albumAggregator = new AlbumReviewAggregator(this.entity.album);
+        const albumAggregator = new AlbumAggregator(this.entity.album);
         const albumAggregation = await albumAggregator.aggregate(normalized);
         return {
             ...albumAggregation,

@@ -8,10 +8,9 @@ import { AlbumAggregation } from '../types';
 /**
  * [[AlbumAggregation]] generator class for [[AlbumEntity]]
  */
-export class AlbumReviewAggregator extends Aggregator<AlbumEntity, AlbumAggregation> {
+export class AlbumAggregator extends Aggregator<AlbumEntity, AlbumAggregation> {
     protected async generateAggregate(): Promise<AlbumAggregation> {
-        if(
-            this.entity == null
+        if(this.entity == null
             || this.entity.artist == null
             || this.entity.tracks == null
         ) {
@@ -24,6 +23,13 @@ export class AlbumReviewAggregator extends Aggregator<AlbumEntity, AlbumAggregat
                     id: this.entity.id,
                 },
             });
+        }
+
+        if(this.entity == null
+            || this.entity.artist == null
+            || this.entity.tracks == null
+        ) {
+            throw new Error(`some data cannot be found for album aggregation: ${this.entity.id}`);
         }
 
         const trackCount = this.entity.tracks.length;
@@ -94,13 +100,13 @@ export class AlbumReviewAggregator extends Aggregator<AlbumEntity, AlbumAggregat
         normalized.releaseYear = Math.abs(raw.releaseYear - 1935) / 85;
 
         // RYM Album Info
-        normalized.issues = Math.min(raw.issues, 100) / 100;
-        normalized.albumLists = Math.sqrt(raw.albumLists) / 75;
+        normalized.issues = Math.sqrt(raw.issues) / 11;
+        normalized.albumLists = Math.cbrt(raw.albumLists) / 17;
         normalized.overallRank = raw.overallRank === 0
             ? 0
             : 1 - (Math.sqrt(raw.overallRank) / 150);
-        normalized.rating = (raw.rating - 1) / 3.5;
-        normalized.ratings = Math.sqrt(raw.ratings - 1) / 225;
+        normalized.rating = Math.min(raw.rating - 1, 0) / 3.5;
+        normalized.ratings = Math.cbrt(raw.ratings - 1) / 36;
         normalized.reviews = Math.sqrt(raw.reviews) / 40;
         normalized.yearRank = raw.yearRank === 0
             ? 0
