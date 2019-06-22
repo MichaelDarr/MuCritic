@@ -3,12 +3,35 @@ import { getRepository } from 'typeorm';
 import { Aggregator } from './aggregator';
 import { AlbumEntity } from '../../entities/entities';
 import { TemplateGenerator } from '../templates';
-import { AlbumAggregation } from '../types';
+import { AlbumAggregation, CsvHeader, CsvHeaders } from '../types';
 
 /**
  * [[AlbumAggregation]] generator class for [[AlbumEntity]]
  */
 export class AlbumAggregator extends Aggregator<AlbumEntity, AlbumAggregation> {
+    public static fields(): string[] {
+        const blankAlbum = TemplateGenerator.album();
+        const fields: string[] = [];
+        for(const prop in blankAlbum) {
+            if(prop in blankAlbum) {
+                fields.push(prop);
+            }
+        }
+        return fields;
+    }
+
+    public static csvHeaders(): CsvHeaders {
+        const fields = AlbumAggregator.fields();
+        const headers: CsvHeaders = [];
+        for(const field of fields) {
+            headers.push({
+                id: field,
+                title: field,
+            });
+        }
+        return headers;
+    }
+
     protected async generateAggregate(): Promise<AlbumAggregation> {
         if(this.entity == null
             || this.entity.artist == null

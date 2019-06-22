@@ -63,3 +63,10 @@ export type Aggregation =
     | AlbumAggregation
     | ReviewAggregation
     | ProfileAggregation;
+
+export interface CsvHeader {
+    id: string;
+    title: string;
+}
+
+export type CsvHeaders = CsvHeader[];

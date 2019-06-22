@@ -30,7 +30,7 @@ export async function scrapeRateYourMusic(): Promise<void> {
         await connectToDatabase();
 
         const profileURLList: string[] = await readFileToArray(
-            `./rymResources/${process.argv[2] || process.env.DEFAULT_PROFILE_FILENAME}`,
+            `./resources/${process.argv[2] || process.env.DEFAULT_PROFILE_FILENAME}`,
         );
         Log.log('Beginning scrape...');
 
