@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IAttrValue | type-scrape</title>
+	<title>ArrayCsvWriterParams | csv-writer</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">type-scrape</a>
+					<a href="../index.html" class="title">csv-writer</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -56,28 +56,21 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="iattrvalue.html">IAttrValue</a>
+					<a href="arraycsvwriterparams.html">ArrayCsvWriterParams</a>
 				</li>
 			</ul>
-			<h1>Interface IAttrValue</h1>
+			<h1>Interface ArrayCsvWriterParams</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Properties of an AttrValue.</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IAttrValue</span>
+						<span class="target">ArrayCsvWriterParams</span>
 					</li>
 				</ul>
 			</section>
@@ -88,16 +81,12 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iattrvalue.html#b" class="tsd-kind-icon">b</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iattrvalue.html#f" class="tsd-kind-icon">f</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iattrvalue.html#func" class="tsd-kind-icon">func</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iattrvalue.html#i" class="tsd-kind-icon">i</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iattrvalue.html#list" class="tsd-kind-icon">list</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iattrvalue.html#placeholder" class="tsd-kind-icon">placeholder</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iattrvalue.html#s" class="tsd-kind-icon">s</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iattrvalue.html#shape" class="tsd-kind-icon">shape</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iattrvalue.html#tensor" class="tsd-kind-icon">tensor</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="iattrvalue.html#type" class="tsd-kind-icon">type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="arraycsvwriterparams.html#append" class="tsd-kind-icon">append</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="arraycsvwriterparams.html#encoding" class="tsd-kind-icon">encoding</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="arraycsvwriterparams.html#fielddelimiter" class="tsd-kind-icon">field<wbr>Delimiter</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="arraycsvwriterparams.html#header" class="tsd-kind-icon">header</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="arraycsvwriterparams.html#path" class="tsd-kind-icon">path</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="arraycsvwriterparams.html#recorddelimiter" class="tsd-kind-icon">record<wbr>Delimiter</a></li>
 							</ul>
 						</section>
 					</div>
@@ -106,154 +95,64 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="b" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> b</h3>
-					<div class="tsd-signature tsd-kind-icon">b<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<a name="append" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> append</h3>
+					<div class="tsd-signature tsd-kind-icon">append<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:138</li>
+							<li>Defined in node_modules/csv-writer/src/lib/csv-writer-factory.ts:11</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>AttrValue b</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="f" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> f</h3>
-					<div class="tsd-signature tsd-kind-icon">f<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="encoding" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> encoding</h3>
+					<div class="tsd-signature tsd-kind-icon">encoding<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:135</li>
+							<li>Defined in node_modules/csv-writer/src/lib/csv-writer-factory.ts:10</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>AttrValue f</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="func" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> func</h3>
-					<div class="tsd-signature tsd-kind-icon">func<span class="tsd-signature-symbol">:</span> <a href="inameattrlist.html" class="tsd-signature-type">INameAttrList</a></div>
+					<a name="fielddelimiter" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> field<wbr>Delimiter</h3>
+					<div class="tsd-signature tsd-kind-icon">field<wbr>Delimiter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:153</li>
+							<li>Defined in node_modules/csv-writer/src/lib/csv-writer-factory.ts:8</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>AttrValue func</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="i" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> i</h3>
-					<div class="tsd-signature tsd-kind-icon">i<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+					<a name="header" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> header</h3>
+					<div class="tsd-signature tsd-kind-icon">header<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:132</li>
+							<li>Defined in node_modules/csv-writer/src/lib/csv-writer-factory.ts:7</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>AttrValue i</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="list" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> list</h3>
-					<div class="tsd-signature tsd-kind-icon">list<span class="tsd-signature-symbol">:</span> <a href="attrvalue.ilistvalue.html" class="tsd-signature-type">IListValue</a></div>
+					<a name="path" class="tsd-anchor"></a>
+					<h3>path</h3>
+					<div class="tsd-signature tsd-kind-icon">path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:126</li>
+							<li>Defined in node_modules/csv-writer/src/lib/csv-writer-factory.ts:6</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>AttrValue list</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="placeholder" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> placeholder</h3>
-					<div class="tsd-signature tsd-kind-icon">placeholder<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="recorddelimiter" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> record<wbr>Delimiter</h3>
+					<div class="tsd-signature tsd-kind-icon">record<wbr>Delimiter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:150</li>
+							<li>Defined in node_modules/csv-writer/src/lib/csv-writer-factory.ts:9</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>AttrValue placeholder</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="s" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> s</h3>
-					<div class="tsd-signature tsd-kind-icon">s<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:129</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>AttrValue s</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="shape" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> shape</h3>
-					<div class="tsd-signature tsd-kind-icon">shape<span class="tsd-signature-symbol">:</span> <a href="itensorshape.html" class="tsd-signature-type">ITensorShape</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:144</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>AttrValue shape</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="tensor" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> tensor</h3>
-					<div class="tsd-signature tsd-kind-icon">tensor<span class="tsd-signature-symbol">:</span> <a href="itensor.html" class="tsd-signature-type">ITensor</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:147</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>AttrValue tensor</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="type" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> type</h3>
-					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <a href="../enums/datatype.html" class="tsd-signature-type">DataType</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:141</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>AttrValue type</p>
-						</div>
-					</div>
 				</section>
 			</section>
 		</div>
@@ -270,37 +169,25 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-is-external">
-						<a href="iattrvalue.html" class="tsd-kind-icon">IAttr<wbr>Value</a>
+						<a href="arraycsvwriterparams.html" class="tsd-kind-icon">Array<wbr>Csv<wbr>Writer<wbr>Params</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="iattrvalue.html#b" class="tsd-kind-icon">b</a>
+								<a href="arraycsvwriterparams.html#append" class="tsd-kind-icon">append</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="iattrvalue.html#f" class="tsd-kind-icon">f</a>
+								<a href="arraycsvwriterparams.html#encoding" class="tsd-kind-icon">encoding</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="iattrvalue.html#func" class="tsd-kind-icon">func</a>
+								<a href="arraycsvwriterparams.html#fielddelimiter" class="tsd-kind-icon">field<wbr>Delimiter</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="iattrvalue.html#i" class="tsd-kind-icon">i</a>
+								<a href="arraycsvwriterparams.html#header" class="tsd-kind-icon">header</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="iattrvalue.html#list" class="tsd-kind-icon">list</a>
+								<a href="arraycsvwriterparams.html#path" class="tsd-kind-icon">path</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="iattrvalue.html#placeholder" class="tsd-kind-icon">placeholder</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="iattrvalue.html#s" class="tsd-kind-icon">s</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="iattrvalue.html#shape" class="tsd-kind-icon">shape</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="iattrvalue.html#tensor" class="tsd-kind-icon">tensor</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="iattrvalue.html#type" class="tsd-kind-icon">type</a>
+								<a href="arraycsvwriterparams.html#recorddelimiter" class="tsd-kind-icon">record<wbr>Delimiter</a>
 							</li>
 						</ul>
 					</li>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>AlbumReviewAggregator | type-scrape</title>
+	<title>AlbumAggregator | csv-writer</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">type-scrape</a>
+					<a href="../index.html" class="title">csv-writer</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="albumreviewaggregator.html">AlbumReviewAggregator</a>
+					<a href="albumaggregator.html">AlbumAggregator</a>
 				</li>
 			</ul>
-			<h1>Class AlbumReviewAggregator</h1>
+			<h1>Class AlbumAggregator</h1>
 		</div>
 	</div>
 </header>
@@ -80,7 +80,7 @@
 						<a href="aggregator.html" class="tsd-signature-type">Aggregator</a><span class="tsd-signature-symbol">&lt;</span><a href="albumentity.html" class="tsd-signature-type">AlbumEntity</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/albumaggregation.html" class="tsd-signature-type">AlbumAggregation</a><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">AlbumReviewAggregator</span>
+								<span class="target">AlbumAggregator</span>
 							</li>
 						</ul>
 					</li>
@@ -93,21 +93,23 @@
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><a href="albumreviewaggregator.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><a href="albumaggregator.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="albumreviewaggregator.html#entity" class="tsd-kind-icon">entity</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="albumaggregator.html#entity" class="tsd-kind-icon">entity</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="albumreviewaggregator.html#aggregate" class="tsd-kind-icon">aggregate</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected"><a href="albumreviewaggregator.html#generateaggregate" class="tsd-kind-icon">generate<wbr>Aggregate</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected"><a href="albumreviewaggregator.html#normalize" class="tsd-kind-icon">normalize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="albumaggregator.html#aggregate" class="tsd-kind-icon">aggregate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected"><a href="albumaggregator.html#generateaggregate" class="tsd-kind-icon">generate<wbr>Aggregate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected"><a href="albumaggregator.html#normalize" class="tsd-kind-icon">normalize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="albumaggregator.html#csvheaders" class="tsd-kind-icon">csv<wbr>Headers</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="albumaggregator.html#fields" class="tsd-kind-icon">fields</a></li>
 							</ul>
 						</section>
 					</div>
@@ -119,14 +121,14 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Album<wbr>Review<wbr>Aggregator<span class="tsd-signature-symbol">(</span>entity<span class="tsd-signature-symbol">: </span><a href="albumentity.html" class="tsd-signature-type">AlbumEntity</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="albumreviewaggregator.html" class="tsd-signature-type">AlbumReviewAggregator</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Album<wbr>Aggregator<span class="tsd-signature-symbol">(</span>entity<span class="tsd-signature-symbol">: </span><a href="albumentity.html" class="tsd-signature-type">AlbumEntity</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="albumaggregator.html" class="tsd-signature-type">AlbumAggregator</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="aggregator.html">Aggregator</a>.<a href="aggregator.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/88c66cf/src/ml/aggregators/aggregator.ts#L20">src/ml/aggregators/aggregator.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/data/aggregators/aggregator.ts#L20">src/data/aggregators/aggregator.ts:20</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -135,7 +137,7 @@
 									<h5>entity: <a href="albumentity.html" class="tsd-signature-type">AlbumEntity</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="albumreviewaggregator.html" class="tsd-signature-type">AlbumReviewAggregator</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="albumaggregator.html" class="tsd-signature-type">AlbumAggregator</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -149,7 +151,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="aggregator.html">Aggregator</a>.<a href="aggregator.html#entity">entity</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/88c66cf/src/ml/aggregators/aggregator.ts#L20">src/ml/aggregators/aggregator.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/data/aggregators/aggregator.ts#L20">src/data/aggregators/aggregator.ts:20</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -173,7 +175,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="aggregator.html">Aggregator</a>.<a href="aggregator.html#aggregate">aggregate</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/88c66cf/src/ml/aggregators/aggregator.ts#L32">src/ml/aggregators/aggregator.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/data/aggregators/aggregator.ts#L32">src/data/aggregators/aggregator.ts:32</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -206,7 +208,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="aggregator.html">Aggregator</a>.<a href="aggregator.html#generateaggregate">generateAggregate</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/88c66cf/src/ml/aggregators/albumAggregator.ts#L12">src/ml/aggregators/albumAggregator.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/data/aggregators/albumAggregator.ts#L35">src/data/aggregators/albumAggregator.ts:35</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/albumaggregation.html" class="tsd-signature-type">AlbumAggregation</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -224,7 +226,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="aggregator.html">Aggregator</a>.<a href="aggregator.html#normalize">normalize</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/88c66cf/src/ml/aggregators/albumAggregator.ts#L72">src/ml/aggregators/albumAggregator.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/data/aggregators/albumAggregator.ts#L101">src/data/aggregators/albumAggregator.ts:101</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -234,6 +236,40 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/albumaggregation.html" class="tsd-signature-type">AlbumAggregation</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="csvheaders" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> csv<wbr>Headers</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">csv<wbr>Headers<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../globals.html#csvheaders" class="tsd-signature-type">CsvHeaders</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/data/aggregators/albumAggregator.ts#L23">src/data/aggregators/albumAggregator.ts:23</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="../globals.html#csvheaders" class="tsd-signature-type">CsvHeaders</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="fields" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> fields</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">fields<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/data/aggregators/albumAggregator.ts#L12">src/data/aggregators/albumAggregator.ts:12</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -252,22 +288,28 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="albumreviewaggregator.html" class="tsd-kind-icon">Album<wbr>Review<wbr>Aggregator</a>
+						<a href="albumaggregator.html" class="tsd-kind-icon">Album<wbr>Aggregator</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
-								<a href="albumreviewaggregator.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="albumaggregator.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="albumreviewaggregator.html#entity" class="tsd-kind-icon">entity</a>
+								<a href="albumaggregator.html#entity" class="tsd-kind-icon">entity</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="albumreviewaggregator.html#aggregate" class="tsd-kind-icon">aggregate</a>
+								<a href="albumaggregator.html#aggregate" class="tsd-kind-icon">aggregate</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
-								<a href="albumreviewaggregator.html#generateaggregate" class="tsd-kind-icon">generate<wbr>Aggregate</a>
+								<a href="albumaggregator.html#generateaggregate" class="tsd-kind-icon">generate<wbr>Aggregate</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
-								<a href="albumreviewaggregator.html#normalize" class="tsd-kind-icon">normalize</a>
+								<a href="albumaggregator.html#normalize" class="tsd-kind-icon">normalize</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="albumaggregator.html#csvheaders" class="tsd-kind-icon">csv<wbr>Headers</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="albumaggregator.html#fields" class="tsd-kind-icon">fields</a>
 							</li>
 						</ul>
 					</li>

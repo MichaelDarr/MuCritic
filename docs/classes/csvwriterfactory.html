@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ISaverDef | type-scrape</title>
+	<title>CsvWriterFactory | csv-writer</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">type-scrape</a>
+					<a href="../index.html" class="title">csv-writer</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -56,28 +56,21 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="isaverdef.html">ISaverDef</a>
+					<a href="csvwriterfactory.html">CsvWriterFactory</a>
 				</li>
 			</ul>
-			<h1>Interface ISaverDef</h1>
+			<h1>Class CsvWriterFactory</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Properties of a SaverDef.</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ISaverDef</span>
+						<span class="target">CsvWriterFactory</span>
 					</li>
 				</ul>
 			</section>
@@ -86,126 +79,113 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section tsd-is-external">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-external"><a href="csvwriterfactory.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-private tsd-is-private-protected tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="isaverdef.html#filenametensorname" class="tsd-kind-icon">filename<wbr>Tensor<wbr>Name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="isaverdef.html#keepcheckpointeverynhours" class="tsd-kind-icon">keep<wbr>Checkpoint<wbr>EveryNHours</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="isaverdef.html#maxtokeep" class="tsd-kind-icon">max<wbr>ToKeep</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="isaverdef.html#restoreopname" class="tsd-kind-icon">restore<wbr>OpName</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="isaverdef.html#savetensorname" class="tsd-kind-icon">save<wbr>Tensor<wbr>Name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="isaverdef.html#sharded" class="tsd-kind-icon">sharded</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="isaverdef.html#version" class="tsd-kind-icon">version</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external"><a href="csvwriterfactory.html#csvstringifierfactory" class="tsd-kind-icon">csv<wbr>Stringifier<wbr>Factory</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-external">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="csvwriterfactory.html#createarraycsvwriter" class="tsd-kind-icon">create<wbr>Array<wbr>Csv<wbr>Writer</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-external"><a href="csvwriterfactory.html#createobjectcsvwriter" class="tsd-kind-icon">create<wbr>Object<wbr>Csv<wbr>Writer</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-external">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Csv<wbr>Writer<wbr>Factory<span class="tsd-signature-symbol">(</span>csvStringifierFactory<span class="tsd-signature-symbol">: </span><a href="csvstringifierfactory.html" class="tsd-signature-type">CsvStringifierFactory</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="csvwriterfactory.html" class="tsd-signature-type">CsvWriterFactory</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in node_modules/csv-writer/src/lib/csv-writer-factory.ts:24</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>csvStringifierFactory: <a href="csvstringifierfactory.html" class="tsd-signature-type">CsvStringifierFactory</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="csvwriterfactory.html" class="tsd-signature-type">CsvWriterFactory</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected tsd-is-external">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="filenametensorname" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> filename<wbr>Tensor<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">filename<wbr>Tensor<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
+					<a name="csvstringifierfactory" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> csv<wbr>Stringifier<wbr>Factory</h3>
+					<div class="tsd-signature tsd-kind-icon">csv<wbr>Stringifier<wbr>Factory<span class="tsd-signature-symbol">:</span> <a href="csvstringifierfactory.html" class="tsd-signature-type">CsvStringifierFactory</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:289</li>
+							<li>Defined in node_modules/csv-writer/src/lib/csv-writer-factory.ts:24</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>SaverDef filenameTensorName</p>
-						</div>
-					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="keepcheckpointeverynhours" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> keep<wbr>Checkpoint<wbr>EveryNHours</h3>
-					<div class="tsd-signature tsd-kind-icon">keep<wbr>Checkpoint<wbr>EveryNHours<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:304</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>SaverDef keepCheckpointEveryNHours</p>
-						</div>
-					</div>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-external">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
+					<a name="createarraycsvwriter" class="tsd-anchor"></a>
+					<h3>create<wbr>Array<wbr>Csv<wbr>Writer</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Array<wbr>Csv<wbr>Writer<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="../interfaces/arraycsvwriterparams.html" class="tsd-signature-type">ArrayCsvWriterParams</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="csvwriter.html" class="tsd-signature-type">CsvWriter</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in node_modules/csv-writer/src/lib/csv-writer-factory.ts:30</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <a href="../interfaces/arraycsvwriterparams.html" class="tsd-signature-type">ArrayCsvWriterParams</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="csvwriter.html" class="tsd-signature-type">CsvWriter</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="maxtokeep" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> max<wbr>ToKeep</h3>
-					<div class="tsd-signature tsd-kind-icon">max<wbr>ToKeep<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:298</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>SaverDef maxToKeep</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="restoreopname" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> restore<wbr>OpName</h3>
-					<div class="tsd-signature tsd-kind-icon">restore<wbr>OpName<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:295</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>SaverDef restoreOpName</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="savetensorname" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> save<wbr>Tensor<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">save<wbr>Tensor<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:292</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>SaverDef saveTensorName</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="sharded" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> sharded</h3>
-					<div class="tsd-signature tsd-kind-icon">sharded<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:301</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>SaverDef sharded</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="version" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> version</h3>
-					<div class="tsd-signature tsd-kind-icon">version<span class="tsd-signature-symbol">:</span> <a href="../enums/saverdef.checkpointformatversion.html" class="tsd-signature-type">CheckpointFormatVersion</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in node_modules/@tensorflow/tfjs-converter/dist/src/data/compiled_api.ts:307</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>SaverDef version</p>
-						</div>
-					</div>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-external">
+					<a name="createobjectcsvwriter" class="tsd-anchor"></a>
+					<h3>create<wbr>Object<wbr>Csv<wbr>Writer</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Object<wbr>Csv<wbr>Writer<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><a href="../interfaces/objectcsvwriterparams.html" class="tsd-signature-type">ObjectCsvWriterParams</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="csvwriter.html" class="tsd-signature-type">CsvWriter</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/objectmap.html" class="tsd-signature-type">ObjectMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in node_modules/csv-writer/src/lib/csv-writer-factory.ts:39</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <a href="../interfaces/objectcsvwriterparams.html" class="tsd-signature-type">ObjectCsvWriterParams</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="csvwriter.html" class="tsd-signature-type">CsvWriter</a><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/objectmap.html" class="tsd-signature-type">ObjectMap</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 		</div>
@@ -221,29 +201,20 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-is-external">
-						<a href="isaverdef.html" class="tsd-kind-icon">ISaver<wbr>Def</a>
+					<li class="current tsd-kind-class tsd-is-external">
+						<a href="csvwriterfactory.html" class="tsd-kind-icon">Csv<wbr>Writer<wbr>Factory</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="isaverdef.html#filenametensorname" class="tsd-kind-icon">filename<wbr>Tensor<wbr>Name</a>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-external">
+								<a href="csvwriterfactory.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="isaverdef.html#keepcheckpointeverynhours" class="tsd-kind-icon">keep<wbr>Checkpoint<wbr>EveryNHours</a>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-external">
+								<a href="csvwriterfactory.html#csvstringifierfactory" class="tsd-kind-icon">csv<wbr>Stringifier<wbr>Factory</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="isaverdef.html#maxtokeep" class="tsd-kind-icon">max<wbr>ToKeep</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
+								<a href="csvwriterfactory.html#createarraycsvwriter" class="tsd-kind-icon">create<wbr>Array<wbr>Csv<wbr>Writer</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="isaverdef.html#restoreopname" class="tsd-kind-icon">restore<wbr>OpName</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="isaverdef.html#savetensorname" class="tsd-kind-icon">save<wbr>Tensor<wbr>Name</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="isaverdef.html#sharded" class="tsd-kind-icon">sharded</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="isaverdef.html#version" class="tsd-kind-icon">version</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-external">
+								<a href="csvwriterfactory.html#createobjectcsvwriter" class="tsd-kind-icon">create<wbr>Object<wbr>Csv<wbr>Writer</a>
 							</li>
 						</ul>
 					</li>

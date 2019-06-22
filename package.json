@@ -5,7 +5,7 @@
   "main": "built/index.js",
   "scripts": {
     "docgen": "typedoc --experimentalDecorators src/",
-    "learn": "tsc && node --max-old-space-size=8192 built/learnAlbumRating",
+    "learn": "tsc && node --max-old-space-size=8192 built/aggregateAlbums",
     "rym": "tsc && node built/scrapeRateYourMusic",
     "serve": "tsc && node built/serveDocs",
     "spotifyData": "tsc && node built/scrapeSpotifyData",
