@@ -19,9 +19,9 @@ import { aggregateDistribution } from './data/stats';
 dotenv.config({ path: resolve(__dirname, '../.env') });
 
 /**
- * Currently, just a sandbox for data aggregation
+ * Album aggregation
  */
-export async function learn(): Promise<void> {
+export async function aggregateAlbums(): Promise<void> {
     try {
         Log.notify('\nMuCritic Data Aggregator\n\n');
 
@@ -51,4 +51,4 @@ export async function learn(): Promise<void> {
     }
 }
 
-learn();
+aggregateAlbums();

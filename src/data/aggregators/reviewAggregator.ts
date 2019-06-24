@@ -2,7 +2,7 @@ import { getRepository } from 'typeorm';
 
 import { Aggregator } from './aggregator';
 import { ReviewEntity } from '../../entities/entities';
-import { ReviewAggregation } from '../types';
+import { ReviewAggregation, CsvHeaders } from '../types';
 import { AlbumAggregator } from './albumAggregator';
 
 /**
@@ -25,7 +25,6 @@ export class ReviewAggregator extends Aggregator<ReviewEntity, ReviewAggregation
         const albumAggregation = await albumAggregator.aggregate(normalized);
         return {
             ...albumAggregation,
-            userRating: this.entity.score,
             userDisagreement: this.entity.score - this.entity.album.ratingRYM,
         };
     }
@@ -33,8 +32,19 @@ export class ReviewAggregator extends Aggregator<ReviewEntity, ReviewAggregation
     protected normalize(raw: ReviewAggregation): ReviewAggregation {
         return {
             ...raw,
-            userRating: (raw.userRating - 0.5) / 4.5,
             userDisagreement: (raw.userDisagreement + 3.5) / 5.5,
         };
+    }
+
+    public static csvHeaders(): CsvHeaders {
+        const fields = AlbumAggregator.fields();
+        const headers: CsvHeaders = [{ id: 'userDisagreement', title: 'userDisagreement' }];
+        for(const field of fields) {
+            headers.push({
+                id: field,
+                title: field,
+            });
+        }
+        return headers;
     }
 }

@@ -52,7 +52,6 @@ export interface Track {
 export interface AlbumAggregation extends AlbumRYM, AlbumSpotify, Artist, Track {}
 
 export interface ReviewAggregation extends AlbumAggregation {
-    userRating: number;
     userDisagreement: number;
 }
 

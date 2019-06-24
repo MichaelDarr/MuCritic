@@ -46,7 +46,6 @@ export class TemplateGenerator {
     public static review(defaultVal = 0): ReviewAggregation {
         const blankAlbumAggregation = TemplateGenerator.album();
         return {
-            userRating: defaultVal,
             userDisagreement: defaultVal,
             ...blankAlbumAggregation,
         };

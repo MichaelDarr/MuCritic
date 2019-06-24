@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow.keras import layers, Model
 
 
-def autoencode(
+def createAndTrainAutoencoder(
     trainingData,
     validationData,
     encodingDimension,
@@ -26,7 +26,7 @@ def autoencode(
     decoder = Model(encodedInput, decoderLayer(encodedInput))
 
     autoencoder.compile(
-        optimizer=tf.keras.optimizers.Adam(learningRate),
+        optimizer=tf.keras.optimizers.Nadam(learningRate),
         loss=lossFunction,
         metrics=['mae']
     )
@@ -40,3 +40,38 @@ def autoencode(
         validation_steps=validationSteps,
     )
     return autoencoder, encoder, decoder
+
+
+def createAndTrainPerceptron(
+    trainFeatures,
+    trainLabels,
+    perceptronDimension,
+    batchSize=256,
+    epochs=200,
+    learningRate=0.0002,
+    lossFunction='mse',
+    testingData=None,
+):
+    inputDimension = len(trainFeatures[0])
+    inputs = tf.keras.Input(shape=(inputDimension,))
+    predictions = layers.Dense(
+        1,
+        activation='relu',
+        name='perceptron-weights'
+    )(inputs)
+
+    perceptron = tf.keras.Model(inputs=inputs, outputs=predictions)
+
+    perceptron.compile(
+        optimizer=tf.optimizers.Nadam(learningRate),
+        loss='mse',
+        metrics=['mae'],
+    )
+    history = perceptron.fit(
+        trainFeatures,
+        trainLabels,
+        batch_size=batchSize,
+        epochs=epochs,
+        shuffle=True,
+    )
+    return perceptron, history

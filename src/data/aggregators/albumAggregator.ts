@@ -3,7 +3,7 @@ import { getRepository } from 'typeorm';
 import { Aggregator } from './aggregator';
 import { AlbumEntity } from '../../entities/entities';
 import { TemplateGenerator } from '../templates';
-import { AlbumAggregation, CsvHeader, CsvHeaders } from '../types';
+import { AlbumAggregation, CsvHeaders } from '../types';
 
 /**
  * [[AlbumAggregation]] generator class for [[AlbumEntity]]
