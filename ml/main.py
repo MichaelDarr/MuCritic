@@ -11,7 +11,9 @@ def main():
     autoencoder, encoder, decoder = autoencode(
         train,
         validation,
-        16
+        16,
+        epochs=150,
+        learningRate=0.0005,
     )
 
 
