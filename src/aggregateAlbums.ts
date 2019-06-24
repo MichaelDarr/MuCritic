@@ -14,8 +14,7 @@ import {
     AlbumAggregator,
 } from './data/aggregators/albumAggregator';
 import { AlbumEntity } from './entities/entities';
-
-require('@tensorflow/tfjs-node-gpu');
+import { aggregateDistribution } from './data/stats';
 
 dotenv.config({ path: resolve(__dirname, '../.env') });
 
@@ -44,7 +43,7 @@ export async function learn(): Promise<void> {
             path: './resources/data/albums-normalized.csv',
             header: AlbumAggregator.csvHeaders(),
         });
-
+        aggregateDistribution(aggregations);
         await csvWriter.writeRecords(aggregations);
         Log.success('\nData Aggregation Successful!\n');
     } catch(err) {

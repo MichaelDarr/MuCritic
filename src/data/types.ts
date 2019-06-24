@@ -45,7 +45,6 @@ export interface Track {
     mode: number;
     speechiness: number;
     tempo: number;
-    timeSignature: number;
     timeSignatureVariation: number;
     valence: number;
 }

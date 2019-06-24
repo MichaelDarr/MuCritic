@@ -20,7 +20,6 @@ export class TemplateGenerator {
             mode: defaultVal,
             speechiness: defaultVal,
             tempo: defaultVal,
-            timeSignature: defaultVal,
             timeSignatureVariation: defaultVal,
             valence: defaultVal,
             availableMarkets: defaultVal,
@@ -65,7 +64,6 @@ export class TemplateGenerator {
             mode: defaultVal,
             speechiness: defaultVal,
             tempo: defaultVal,
-            timeSignature: defaultVal,
             timeSignatureVariation: defaultVal,
             valence: defaultVal,
         };

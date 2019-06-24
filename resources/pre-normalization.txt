@@ -38,14 +38,10 @@ tempo:
   avg: 121.46910633562453
   min: 0
   max: 185.2931111111111
-timeSignature:
-  avg: 3.8639727441489025
-  min: 0
-  max: 4.666666666666667
 timeSignatureVariation:
-  avg: 0.2054288097940617
+  avg: 0.26048338277825933
   min: 0
-  max: 4
+  max: 12.860000000000008
 valence:
   avg: 0.4279109409048489
   min: 0
