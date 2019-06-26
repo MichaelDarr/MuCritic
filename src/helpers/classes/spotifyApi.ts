@@ -52,24 +52,36 @@ export class SpotifyApi {
     }
 
     /**
-     * Get the instance of this class created by [[SpotifyApi.connect]].
-     */
-    public static getConnection(): SpotifyApi {
-        if(!SpotifyApi.instance) {
-            throw new Error('Spotify API connection not intialized');
-        }
-        return SpotifyApi.instance;
-    }
-
-    /**
      * [Get an Album's Tracks](https://developer.spotify.com/documentation/web-api/reference/albums/get-albums-tracks/)
      */
     public async getAlbumTracks(
         albumId: string,
         limit = 50,
-    ): Promise<Spotify.AlbumTracksResponse> {
+    ): Promise<Spotify.TracksResponse> {
         const url = `https://api.spotify.com/v1/albums/${albumId}/tracks?limit=${limit}`;
-        return this.spotifyRequest<Spotify.AlbumTracksResponse>(url, 'GET');
+        return this.spotifyRequest<Spotify.TracksResponse>(url, 'GET');
+    }
+
+    /**
+     * [Get an Artist](https://developer.spotify.com/documentation/web-api/reference/artists/get-artist/)
+     */
+    public async getArtist(artistId: string): Promise<Spotify.ArtistResponse> {
+        const url = `https://api.spotify.com/v1/artists/${artistId}`;
+        return this.spotifyRequest<Spotify.ArtistResponse>(url, 'GET');
+    }
+
+    /**
+     * [Get an Artist's Top Tracks](https://developer.spotify.com/documentation/web-api/reference/artists/get-artists-top-tracks/)
+     *
+     * @param country
+     * [ISO 3166-1 alpha-2 country code](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
+     */
+    public async getArtistTopTracks(
+        artistId: string,
+        country = 'US',
+    ): Promise<Spotify.TracksResponse> {
+        const url = `https://api.spotify.com/v1/artists/${artistId}/top-tracks?country=${country}`;
+        return this.spotifyRequest<Spotify.TracksResponse>(url, 'GET');
     }
 
     /**
@@ -85,11 +97,29 @@ export class SpotifyApi {
     }
 
     /**
+     * Get the instance of this class created by [[SpotifyApi.connect]].
+     */
+    public static getConnection(): SpotifyApi {
+        if(!SpotifyApi.instance) {
+            throw new Error('Spotify API connection not intialized');
+        }
+        return SpotifyApi.instance;
+    }
+
+    /**
      * [Get Available Genre Seeds](https://developer.spotify.com/console/get-available-genre-seeds/)
      */
     public async getGenreSeeds(): Promise<Spotify.GenreSeedsResponse> {
         const url = 'https://api.spotify.com/v1/recommendations/available-genre-seeds';
         return this.spotifyRequest<Spotify.GenreSeedsResponse>(url, 'GET');
+    }
+
+    /**
+     * [Get Audio Features for a Track](https://developer.spotify.com/documentation/web-api/reference/tracks/get-audio-features/)
+     */
+    public async getTrackAudioFeatures(trackId: string): Promise<Spotify.AudioFeatureResponse> {
+        const url = `https://api.spotify.com/v1/audio-features/${trackId}`;
+        return this.spotifyRequest<Spotify.AudioFeatureResponse>(url, 'GET');
     }
 
     /**
@@ -102,32 +132,6 @@ export class SpotifyApi {
     ): Promise<T> {
         const url = `https://api.spotify.com/v1/search?q=${query}&type=${type}&limit=${limit}`;
         return this.spotifyRequest<T>(url, 'GET');
-    }
-
-    private async spotifyRequest<T extends Spotify.Response>(
-        url: string,
-        method: Spotify.RequestMethod,
-    ): Promise<T> {
-        const token: string = await this.getAccessToken();
-        return new Promise((resolve, reject): void => {
-            const requestOptions = {
-                url,
-                method,
-                json: true,
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            };
-            request(
-                requestOptions,
-                (error, _, body): void => {
-                    if(error) {
-                        reject(new Error(`request failed for ${url}`));
-                    }
-                    resolve(body);
-                },
-            );
-        });
     }
 
     /**
@@ -168,6 +172,32 @@ export class SpotifyApi {
                     const expirationMilliseconds = body.expires_in * 1000;
                     this.tokenExpiration = new Date(curDate.getTime() + expirationMilliseconds);
                     resolve(true);
+                },
+            );
+        });
+    }
+
+    private async spotifyRequest<T extends Spotify.Response>(
+        url: string,
+        method: Spotify.RequestMethod,
+    ): Promise<T> {
+        const token: string = await this.getAccessToken();
+        return new Promise((resolve, reject): void => {
+            const requestOptions = {
+                url,
+                method,
+                json: true,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            };
+            request(
+                requestOptions,
+                (error, _, body): void => {
+                    if(error) {
+                        reject(new Error(`request failed for ${url}`));
+                    }
+                    resolve(body);
                 },
             );
         });

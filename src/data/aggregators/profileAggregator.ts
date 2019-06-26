@@ -1,9 +1,11 @@
 import { getRepository } from 'typeorm';
 
-import { Aggregator } from './aggregator';
+import {
+    Aggregator,
+    ProfileAggregation,
+} from './aggregator';
 import { ProfileEntity } from '../../entities/entities';
 import { ReviewAggregator } from './reviewAggregator';
-import { ProfileAggregation } from '../types';
 
 /**
  * multi-[[ReviewAggregation]] generator class for [[ProfileEntity]]
@@ -36,5 +38,9 @@ export class ProfileAggregator extends Aggregator<ProfileEntity, ProfileAggregat
      */
     protected normalize(raw: ProfileAggregation): ProfileAggregation {
         return raw;
+    }
+
+    public template(): ProfileAggregation {
+        return [];
     }
 }

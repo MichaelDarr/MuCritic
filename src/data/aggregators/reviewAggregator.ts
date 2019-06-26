@@ -1,8 +1,10 @@
 import { getRepository } from 'typeorm';
 
-import { Aggregator } from './aggregator';
+import {
+    Aggregator,
+    ReviewAggregation,
+} from './aggregator';
 import { ReviewEntity } from '../../entities/entities';
-import { ReviewAggregation, CsvHeaders } from '../types';
 import { AlbumAggregator } from './albumAggregator';
 
 /**
@@ -36,15 +38,11 @@ export class ReviewAggregator extends Aggregator<ReviewEntity, ReviewAggregation
         };
     }
 
-    public static csvHeaders(): CsvHeaders {
-        const fields = AlbumAggregator.fields();
-        const headers: CsvHeaders = [{ id: 'userDisagreement', title: 'userDisagreement' }];
-        for(const field of fields) {
-            headers.push({
-                id: field,
-                title: field,
-            });
-        }
-        return headers;
+    public template(defaultVal = 0): ReviewAggregation {
+        const albumTemplate = new AlbumAggregator(null).template(defaultVal);
+        return {
+            ...albumTemplate,
+            userDisagreement: defaultVal,
+        };
     }
 }

@@ -4,7 +4,7 @@ from os import listdir
 from os.path import join
 
 ALBUM_DATA_FILE = "../resources/data/albums-normalized.csv"
-PROFILE_DATA_PATH = "../resources/data/profiles/"
+PROFILE_DATA_PATH = "../resources/data/profiles/reviews/"
 
 
 def main():

@@ -25,7 +25,8 @@
                     "normalize",
                     "printInfo",
                     "requestScrape",
-                    "scrapeDependencies"
+                    "scrapeDependencies",
+                    "template"
                 ]
             }
         ],

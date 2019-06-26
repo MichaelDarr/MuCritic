@@ -1,42 +1,19 @@
 import { getRepository } from 'typeorm';
 
-import { Aggregator } from './aggregator';
+import {
+    Aggregator,
+    AlbumAggregation,
+} from './aggregator';
+import { TrackAggregator } from './trackAggregator';
 import { AlbumEntity } from '../../entities/entities';
-import { TemplateGenerator } from '../templates';
-import { AlbumAggregation, CsvHeaders } from '../types';
 
 /**
  * [[AlbumAggregation]] generator class for [[AlbumEntity]]
  */
 export class AlbumAggregator extends Aggregator<AlbumEntity, AlbumAggregation> {
-    public static fields(): string[] {
-        const blankAlbum = TemplateGenerator.album();
-        const fields: string[] = [];
-        for(const prop in blankAlbum) {
-            if(prop in blankAlbum) {
-                fields.push(prop);
-            }
-        }
-        return fields;
-    }
-
-    public static csvHeaders(): CsvHeaders {
-        const fields = AlbumAggregator.fields();
-        const headers: CsvHeaders = [];
-        for(const field of fields) {
-            headers.push({
-                id: field,
-                title: field,
-            });
-        }
-        return headers;
-    }
-
-    protected async generateAggregate(): Promise<AlbumAggregation> {
-        if(this.entity == null
-            || this.entity.artist == null
-            || this.entity.tracks == null
-        ) {
+    protected async generateAggregate(normalized: boolean): Promise<AlbumAggregation> {
+        if(this.entity == null) throw new Error('Cannot aggregate null album');
+        if(this.entity.artist == null || this.entity.tracks == null) {
             this.entity = await getRepository(AlbumEntity).findOne({
                 relations: [
                     'artist',
@@ -48,70 +25,54 @@ export class AlbumAggregator extends Aggregator<AlbumEntity, AlbumAggregation> {
             });
         }
 
-        if(this.entity == null
-            || this.entity.artist == null
-            || this.entity.tracks == null
-        ) {
-            throw new Error(`some data cannot be found for album aggregation: ${this.entity.id}`);
-        }
+        if(this.entity.artist == null) throw new Error(`Aggregated album has no artist: ${this.entity.name}`);
+        if(this.entity.tracks == null) throw new Error(`Aggregated album has no tracks: ${this.entity.name} by ${this.entity.artist.name}`);
 
-        const trackCount = this.entity.tracks.length;
-        const trackAggregation = TemplateGenerator.track();
-        this.entity.tracks.forEach((track) => {
+        const aggregation = this.template(0);
+
+        const trackAggregators = this.entity.tracks.map(track => new TrackAggregator(track));
+        const trackAggregations = trackAggregators.map(track => track.aggregate(normalized));
+        const trackCount = trackAggregators.length;
+
+        trackAggregations.forEach((track) => {
             for(const trackProp in track) {
-                if(trackProp === 'duration') {
-                    trackAggregation[trackProp] += track[trackProp];
-                } else if(trackProp === 'timeSignature') {
-                    trackAggregation.timeSignatureVariation += (
-                        ((4 - track.timeSignature) ** 2) / trackCount
-                    );
-                } else {
-                    trackAggregation[trackProp] += (
-                        track[trackProp] / trackCount
-                    );
+                if(trackProp in aggregation) {
+                    if(trackProp === 'duration') {
+                        aggregation[trackProp] += track[trackProp];
+                    } else {
+                        aggregation[trackProp] += track[trackProp] / trackCount;
+                    }
                 }
             }
         });
 
-        return {
-            availableMarkets: this.entity.spotifyAvailableMarketCount,
-            copyrights: this.entity.spotifyCopyRightCount,
-            albumPopularity: this.entity.spotifyPopularity,
-            releaseYear: this.entity.releaseYear,
-            issues: this.entity.issueCountRYM,
-            albumLists: this.entity.listCountRYM,
-            overallRank: this.entity.overallRankRYM,
-            rating: this.entity.ratingRYM,
-            ratings: this.entity.ratingCountRYM,
-            reviews: this.entity.reviewCountRYM,
-            yearRank: this.entity.yearRankRYM,
-            active: this.entity.artist.active ? 1 : 0,
-            discographySize: this.entity.artist.discographyCountRYM,
-            artistLists: this.entity.artist.listCountRYM,
-            members: this.entity.artist.memberCount,
-            shows: this.entity.artist.showCountRYM,
-            soloPerformer: this.entity.artist.soloPerformer ? 1 : 0,
-            artistPopularity: this.entity.artist.spotifyPopularity,
-            ...trackAggregation,
-        };
+        aggregation.availableMarkets = this.entity.spotifyAvailableMarketCount;
+        aggregation.copyrights = this.entity.spotifyCopyRightCount;
+        aggregation.albumPopularity = this.entity.spotifyPopularity;
+        aggregation.releaseYear = this.entity.releaseYear;
+        aggregation.issues = this.entity.issueCountRYM;
+        aggregation.albumLists = this.entity.listCountRYM;
+        aggregation.overallRank = this.entity.overallRankRYM;
+        aggregation.rating = this.entity.ratingRYM;
+        aggregation.ratings = this.entity.ratingCountRYM;
+        aggregation.reviews = this.entity.reviewCountRYM;
+        aggregation.yearRank = this.entity.yearRankRYM;
+        aggregation.active = this.entity.artist.active ? 1 : 0;
+        aggregation.discographySize = this.entity.artist.discographyCountRYM;
+        aggregation.artistLists = this.entity.artist.listCountRYM;
+        aggregation.members = this.entity.artist.memberCount;
+        aggregation.shows = this.entity.artist.showCountRYM;
+        aggregation.soloPerformer = this.entity.artist.soloPerformer ? 1 : 0;
+        aggregation.artistPopularity = this.entity.artist.spotifyPopularity;
+
+        return aggregation;
     }
 
     protected normalize(raw: AlbumAggregation): AlbumAggregation {
-        const normalized = TemplateGenerator.album();
+        const normalized = this.template(0);
 
-        // Track Info
-        normalized.acousticness = raw.acousticness;
-        normalized.danceability = raw.danceability;
+        // Track Info (only for aggregations)
         normalized.duration = Math.sqrt(raw.duration) / 7000;
-        normalized.energy = raw.energy;
-        normalized.instrumentalness = raw.instrumentalness;
-        normalized.liveness = raw.liveness;
-        normalized.loudness = Math.sqrt(raw.loudness + 40) / 6;
-        normalized.mode = raw.mode;
-        normalized.speechiness = Math.sqrt(raw.speechiness);
-        normalized.tempo = Math.sqrt(190 - raw.tempo) / 2.25;
-        normalized.timeSignatureVariation = Math.cbrt(raw.timeSignatureVariation) / 2.4;
-        normalized.valence = raw.valence;
 
         // Spotify Album Info
         normalized.availableMarkets = raw.availableMarkets / 80;
@@ -142,5 +103,30 @@ export class AlbumAggregator extends Aggregator<AlbumEntity, AlbumAggregation> {
         normalized.artistPopularity = raw.artistPopularity / 100;
 
         return normalized;
+    }
+
+    public template(defaultVal: number): AlbumAggregation {
+        const track = new TrackAggregator(null).template(defaultVal);
+        return {
+            ...track,
+            availableMarkets: defaultVal,
+            copyrights: defaultVal,
+            albumPopularity: defaultVal,
+            releaseYear: defaultVal,
+            issues: defaultVal,
+            albumLists: defaultVal,
+            overallRank: defaultVal,
+            rating: defaultVal,
+            ratings: defaultVal,
+            reviews: defaultVal,
+            yearRank: defaultVal,
+            active: defaultVal,
+            discographySize: defaultVal,
+            artistLists: defaultVal,
+            members: defaultVal,
+            shows: defaultVal,
+            soloPerformer: defaultVal,
+            artistPopularity: defaultVal,
+        };
     }
 }

@@ -260,15 +260,23 @@ export interface ArtistBatchResponse {
     artists: ArtistBatch;
 }
 
+export interface ArtistResponse extends Artist {
+    type: 'artist';
+}
+
 export interface AudioFeatureBatchResponse {
     audio_features: AudioFeatureBatch;
+}
+
+export interface AudioFeatureResponse extends AudioFeature {
+    type: 'audio_features';
 }
 
 export interface GenreSeedsResponse {
     genres: string[];
 }
 
-export type AlbumTracksResponse = Paging<Track>;
+export type TracksResponse = Paging<Track>;
 
 export interface AlbumSearchResponse {
     albums: Paging<AlbumSimplified>;
@@ -285,7 +293,8 @@ export type SearchResponse =
 export type BatchResponse =
     | AlbumBatchResponse
     | ArtistBatchResponse
-    | AudioFeatureBatchResponse;
+    | AudioFeatureBatchResponse
+    | AudioFeatureResponse;
 
 export type InnerBatchResponse =
     | Album[]
@@ -293,7 +302,8 @@ export type InnerBatchResponse =
     | AudioFeature[];
 
 export type Response =
-    | AlbumTracksResponse
+    | ArtistResponse
+    | TracksResponse
     | BatchResponse
     | GenreSeedsResponse
     | SearchResponse;

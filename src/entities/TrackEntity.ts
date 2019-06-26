@@ -42,6 +42,9 @@ export class TrackEntity {
     })
     public energy: number;
 
+    @Column()
+    public explicit: boolean;
+
     @Column({
         type: 'float',
     })

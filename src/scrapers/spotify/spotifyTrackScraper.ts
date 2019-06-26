@@ -41,6 +41,7 @@ export class SpotifyTrackScraper extends SpotifyScraper<Spotify.AlbumTracksRespo
             const newTrack = new TrackEntity();
             newTrack.spotifyId = track.id;
             newTrack.album = this.album;
+            newTrack.explicit = track.explicit;
             this.tracks.push(newTrack);
         });
     }
