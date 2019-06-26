@@ -41,7 +41,7 @@ export async function aggregateAlbums(): Promise<void> {
         // write aggregation to csv
         const csvWriter = createObjectCsvWriter({
             path: './resources/data/albums-normalized.csv',
-            header: AlbumAggregator.csvHeaders(),
+            header: new AlbumAggregator(null).csvHeaders(),
         });
         aggregateDistribution(aggregations);
         await csvWriter.writeRecords(aggregations);

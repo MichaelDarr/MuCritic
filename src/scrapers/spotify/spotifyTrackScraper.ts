@@ -16,7 +16,7 @@ import { SpotifyScraper } from './spotifyScraper';
  * [Get an Album's Tracks](https://developer.spotify.com/documentation/web-api/reference/albums/get-albums-tracks/)
  * endpoint.
  */
-export class SpotifyTrackScraper extends SpotifyScraper<Spotify.AlbumTracksResponse> {
+export class SpotifyTrackScraper extends SpotifyScraper<Spotify.TracksResponse> {
     /**
      * Album who's tracks are requested
      */

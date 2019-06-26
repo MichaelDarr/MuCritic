@@ -1,5 +1,6 @@
-import { Aggregation } from './types';
-import { TemplateGenerator } from './templates';
+import { Aggregation } from './aggregators/aggregator';
+import { AlbumAggregator } from './aggregators/albumAggregator';
+import { ReviewAggregator } from './aggregators/reviewAggregator';
 
 /**
  * Reports the average, min, and max for all properties from an array of aggregations. Useful for
@@ -9,14 +10,16 @@ export function aggregateDistribution(aggregations: Aggregation[]): void {
     let average: Aggregation;
     let min: Aggregation;
     let max: Aggregation;
+    const blankReviewAggragator = new ReviewAggregator(null);
+    const blankAlbumAggragator = new AlbumAggregator(null);
     if('userRating' in aggregations[0]) {
-        average = TemplateGenerator.review();
-        min = TemplateGenerator.review(null);
-        max = TemplateGenerator.review(null);
+        average = blankReviewAggragator.template(0);
+        min = blankReviewAggragator.template(null);
+        max = blankReviewAggragator.template(null);
     } else {
-        average = TemplateGenerator.album();
-        min = TemplateGenerator.album(null);
-        max = TemplateGenerator.album(null);
+        average = blankAlbumAggragator.template(0);
+        min = blankAlbumAggragator.template(null);
+        max = blankAlbumAggragator.template(null);
     }
 
     aggregations.forEach((review) => {

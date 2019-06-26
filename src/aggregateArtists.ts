@@ -14,7 +14,7 @@ import {
     ProfileAggregator,
 } from './data/aggregators/profileAggregator';
 import { ProfileEntity } from './entities/entities';
-import { ReviewAggregator } from './data/aggregators/reviewAggregator';
+import { ArtistsAggregator } from './data/aggregators/artistsAggregator';
 
 dotenv.config({ path: resolve(__dirname, '../.env') });
 
@@ -33,7 +33,7 @@ export async function aggregateProfiles(): Promise<void> {
             const profileAggregator = new ProfileAggregator(profile);
             const csvWriter = createObjectCsvWriter({
                 path: `./resources/data/profiles/reviews/${profile.name}.csv`,
-                header: ReviewAggregator.csvHeaders(),
+                header: new ArtistsAggregator(null).csvHeaders(),
             });
         }));
         Log.success('\nData Aggregation Successful!\n');
