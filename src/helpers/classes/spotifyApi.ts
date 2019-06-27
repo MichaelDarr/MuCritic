@@ -79,9 +79,9 @@ export class SpotifyApi {
     public async getArtistTopTracks(
         artistId: string,
         country = 'US',
-    ): Promise<Spotify.TracksResponse> {
+    ): Promise<Spotify.TopTracksResponse> {
         const url = `https://api.spotify.com/v1/artists/${artistId}/top-tracks?country=${country}`;
-        return this.spotifyRequest<Spotify.TracksResponse>(url, 'GET');
+        return this.spotifyRequest<Spotify.TopTracksResponse>(url, 'GET');
     }
 
     /**
@@ -193,11 +193,17 @@ export class SpotifyApi {
             };
             request(
                 requestOptions,
-                (error, _, body): void => {
+                (error, response, body): void => {
                     if(error) {
                         reject(new Error(`request failed for ${url}`));
+                    } else if(body.error != null && body.error.status === 429) {
+                        const spotifyApiTemp = this;
+                        setTimeout(() => {
+                            resolve(spotifyApiTemp.spotifyRequest(url, method));
+                        }, (response.headers['Retry-After'] as unknown) as number * 1000);
+                    } else{
+                        resolve(body);
                     }
-                    resolve(body);
                 },
             );
         });

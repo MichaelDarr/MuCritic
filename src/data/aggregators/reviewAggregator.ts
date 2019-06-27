@@ -11,6 +11,10 @@ import { AlbumAggregator } from './albumAggregator';
  * [[ReviewAggregation]] generator class for [[ReviewEntity]]
  */
 export class ReviewAggregator extends Aggregator<ReviewEntity, ReviewAggregation> {
+    public constructor(review: ReviewEntity) {
+        super(review, 'review');
+    }
+
     protected async generateAggregate(normalized: boolean): Promise<ReviewAggregation> {
         if(this.entity.album == null) {
             this.entity = await getRepository(ReviewEntity)

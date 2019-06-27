@@ -13,6 +13,10 @@ import { TrackAggregator } from './trackAggregator';
  * multi-[[ReviewAggregation]] generator class for [[ProfileEntity]]
  */
 export class ArtistsAggregator extends Aggregator<ProfileEntity, ArtistsAggregation> {
+    public constructor(artist: ProfileEntity) {
+        super(artist, 'artists');
+    }
+
     private artistIds: string[];
 
     /**
@@ -29,13 +33,14 @@ export class ArtistsAggregator extends Aggregator<ProfileEntity, ArtistsAggregat
                 ],
                 where: {
                     id: this.entity.id,
-                    spotifyId: Not(IsNull()),
                 },
             });
             if(this.entity.favoriteArtists == null) throw new Error(`Aggregated profile has no spotify-listed favorite artists: ${this.entity.name}`);
-            this.artistIds = this.entity.favoriteArtists.map(artist => artist.spotifyId);
-        } else if(this.artistIds == null) {
-            throw new Error('Must send profile or id list to aggregate artists');
+            const allArtistIds = this.entity.favoriteArtists.map(artist => artist.spotifyId);
+            this.artistIds = allArtistIds.filter(artistId => artistId != null);
+        }
+        if(this.artistIds == null || this.artistIds.length < 1) {
+            return null;
         }
 
         const aggregation = this.template(null);
@@ -45,8 +50,8 @@ export class ArtistsAggregator extends Aggregator<ProfileEntity, ArtistsAggregat
         const trackAggregations = await Promise.all(
             this.artistIds.map(async (artistId): Promise<TrackAggregation> => {
                 const response = await spotifyApi.getArtistTopTracks(artistId);
-                if(response.total === 0) return null;
-                const track = response.items.shift();
+                if(response.tracks.length === 0) return null;
+                const track = response.tracks.shift();
                 const features = await spotifyApi.getTrackAudioFeatures(track.id);
                 const allTrackProperties = {
                     ...features,
@@ -57,7 +62,7 @@ export class ArtistsAggregator extends Aggregator<ProfileEntity, ArtistsAggregat
                 const trackAggregation = blankTrackAggregator.template(0);
                 for(const prop in allTrackProperties) {
                     if(prop in trackAggregation) {
-                        trackAggregation[prop] = trackAggregation[prop];
+                        trackAggregation[prop] = allTrackProperties[prop];
                     }
                 }
                 if(normalized) return blankTrackAggregator.normalize(trackAggregation);
@@ -80,11 +85,19 @@ export class ArtistsAggregator extends Aggregator<ProfileEntity, ArtistsAggregat
         const artistsInfo = await Promise.all(
             this.artistIds.map(artistId => spotifyApi.getArtist(artistId)),
         );
+        aggregation.averagePopularity = 0;
         artistsInfo.forEach((artistInfo) => {
             const { popularity } = artistInfo;
-            if(aggregation.highestPopularity < popularity) {
+            if(
+                aggregation.highestPopularity == null
+                || aggregation.highestPopularity < popularity
+            ) {
                 aggregation.highestPopularity = popularity;
-            } if(aggregation.lowestPopularity > popularity) {
+            }
+            if(
+                aggregation.lowestPopularity == null
+                || aggregation.lowestPopularity > popularity
+            ) {
                 aggregation.lowestPopularity = popularity;
             }
             aggregation.averagePopularity += popularity / artistsInfo.length;
@@ -93,9 +106,11 @@ export class ArtistsAggregator extends Aggregator<ProfileEntity, ArtistsAggregat
     }
 
     protected normalize(raw: ArtistsAggregation): ArtistsAggregation {
+        if(raw == null) return null;
         return {
             ...raw,
             duration: Math.cbrt(raw.duration) / 85,
+            explicit: 1 - Math.sqrt(1 - raw.explicit),
             averagePopularity: raw.averagePopularity / 100,
             highestPopularity: raw.highestPopularity / 100,
             lowestPopularity: raw.lowestPopularity / 100,

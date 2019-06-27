@@ -11,6 +11,10 @@ import { ReviewAggregator } from './reviewAggregator';
  * multi-[[ReviewAggregation]] generator class for [[ProfileEntity]]
  */
 export class ProfileAggregator extends Aggregator<ProfileEntity, ProfileAggregation> {
+    public constructor(profile: ProfileEntity) {
+        super(profile, 'profile');
+    }
+
     protected async generateAggregate(normalized: boolean): Promise<ProfileAggregation> {
         if(this.entity.reviews == null) {
             this.entity = await getRepository(ProfileEntity)
@@ -42,5 +46,16 @@ export class ProfileAggregator extends Aggregator<ProfileEntity, ProfileAggregat
 
     public template(): ProfileAggregation {
         return [];
+    }
+
+    public fields(): string[] {
+        const reviewAggregation = new ReviewAggregator(null).template(null);
+        const fields: string[] = [];
+        for(const prop in reviewAggregation) {
+            if(prop in reviewAggregation) {
+                fields.push(prop);
+            }
+        }
+        return fields;
     }
 }

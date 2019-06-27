@@ -1,6 +1,7 @@
 import { getRepository } from 'typeorm';
 
 import {
+    AggregationType,
     Aggregator,
     AlbumAggregation,
 } from './aggregator';
@@ -11,6 +12,10 @@ import { AlbumEntity } from '../../entities/entities';
  * [[AlbumAggregation]] generator class for [[AlbumEntity]]
  */
 export class AlbumAggregator extends Aggregator<AlbumEntity, AlbumAggregation> {
+    public constructor(album: AlbumEntity, type: AggregationType = 'album') {
+        super(album, type);
+    }
+
     protected async generateAggregate(normalized: boolean): Promise<AlbumAggregation> {
         if(this.entity == null) throw new Error('Cannot aggregate null album');
         if(this.entity.artist == null || this.entity.tracks == null) {
@@ -31,7 +36,9 @@ export class AlbumAggregator extends Aggregator<AlbumEntity, AlbumAggregation> {
         const aggregation = this.template(0);
 
         const trackAggregators = this.entity.tracks.map(track => new TrackAggregator(track));
-        const trackAggregations = trackAggregators.map(track => track.aggregate(normalized));
+        const trackAggregations = await Promise.all(
+            trackAggregators.map(track => track.aggregate(normalized)),
+        );
         const trackCount = trackAggregators.length;
 
         trackAggregations.forEach((track) => {
@@ -69,40 +76,33 @@ export class AlbumAggregator extends Aggregator<AlbumEntity, AlbumAggregation> {
     }
 
     protected normalize(raw: AlbumAggregation): AlbumAggregation {
-        const normalized = this.template(0);
-
-        // Track Info (only for aggregations)
-        normalized.duration = Math.sqrt(raw.duration) / 7000;
-
-        // Spotify Album Info
-        normalized.availableMarkets = raw.availableMarkets / 80;
-        normalized.copyrights = raw.copyrights / 2;
-        normalized.albumPopularity = Math.sqrt(raw.albumPopularity) / 10;
-        normalized.releaseYear = Math.sqrt(2020 - raw.releaseYear) / 11;
-
-        // RYM Album Info
-        normalized.issues = Math.cbrt(raw.issues) / 6;
-        normalized.albumLists = Math.cbrt(raw.albumLists) / 17;
-        normalized.overallRank = raw.overallRank === 0
-            ? 0
-            : 1 - (Math.cbrt(raw.overallRank) / 30);
-        normalized.rating = (raw.rating - 0.5) / 4.5;
-        normalized.ratings = Math.cbrt(raw.ratings - 1) / 36;
-        normalized.reviews = Math.cbrt(raw.reviews) / 11;
-        normalized.yearRank = raw.yearRank === 0
-            ? 0
-            : 1 - (Math.cbrt(raw.overallRank) / 30);
-
-        // Artist Info
-        normalized.active = raw.active;
-        normalized.discographySize = Math.sqrt(raw.discographySize - 1) / 50;
-        normalized.artistLists = Math.sqrt(raw.artistLists) / 45;
-        normalized.members = Math.cbrt(raw.members - 1) / 5;
-        normalized.shows = Math.cbrt(raw.shows) / 9;
-        normalized.soloPerformer = raw.soloPerformer;
-        normalized.artistPopularity = raw.artistPopularity / 100;
-
-        return normalized;
+        return {
+            ...raw,
+            duration: Math.sqrt(raw.duration) / 7000,
+            explicit: 1 - Math.sqrt(Math.max(1 - raw.explicit, 0)),
+            availableMarkets: raw.availableMarkets / 80,
+            copyrights: raw.copyrights / 2,
+            albumPopularity: Math.sqrt(raw.albumPopularity) / 10,
+            releaseYear: Math.sqrt(2020 - raw.releaseYear) / 11,
+            issues: Math.cbrt(raw.issues) / 6,
+            albumLists: Math.cbrt(raw.albumLists) / 17,
+            overallRank: raw.overallRank === 0
+                ? 0
+                : 1 - (Math.cbrt(raw.overallRank) / 30),
+            rating: (raw.rating - 0.5) / 4.5,
+            ratings: Math.cbrt(raw.ratings - 1) / 36,
+            reviews: Math.cbrt(raw.reviews) / 11,
+            yearRank: raw.yearRank === 0
+                ? 0
+                : 1 - (Math.cbrt(raw.overallRank) / 30),
+            active: raw.active,
+            discographySize: Math.sqrt(raw.discographySize - 1) / 50,
+            artistLists: Math.sqrt(raw.artistLists) / 45,
+            members: Math.cbrt(raw.members - 1) / 5,
+            shows: Math.cbrt(raw.shows) / 9,
+            soloPerformer: raw.soloPerformer,
+            artistPopularity: raw.artistPopularity / 100,
+        };
     }
 
     public template(defaultVal: number): AlbumAggregation {

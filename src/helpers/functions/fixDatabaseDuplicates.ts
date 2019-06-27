@@ -9,12 +9,12 @@ import {
     ProfileEntity,
     ReviewEntity,
     RymGenreEntity,
-} from './entities/entities';
+} from '../../entities/entities';
 
-import { Log } from './helpers/classes/log';
-import { connectToDatabase } from './helpers/functions/database';
+import { Log } from '../classes/log';
+import { connectToDatabase } from './database';
 
-dotenv.config({ path: resolve(__dirname, '../.env') });
+dotenv.config({ path: resolve(__dirname, '../../../.env') });
 
 /**
  * When first scraping this data, unique keys were enforced only in the scraping logic, and not in

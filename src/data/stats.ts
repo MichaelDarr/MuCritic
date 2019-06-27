@@ -12,7 +12,7 @@ export function aggregateDistribution(aggregations: Aggregation[]): void {
     let max: Aggregation;
     const blankReviewAggragator = new ReviewAggregator(null);
     const blankAlbumAggragator = new AlbumAggregator(null);
-    if('userRating' in aggregations[0]) {
+    if('userDisagreement' in aggregations[0]) {
         average = blankReviewAggragator.template(0);
         min = blankReviewAggragator.template(null);
         max = blankReviewAggragator.template(null);

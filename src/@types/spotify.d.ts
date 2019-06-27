@@ -278,6 +278,10 @@ export interface GenreSeedsResponse {
 
 export type TracksResponse = Paging<Track>;
 
+export interface TopTracksResponse {
+    tracks: Track[];
+}
+
 export interface AlbumSearchResponse {
     albums: Paging<AlbumSimplified>;
 }
@@ -303,6 +307,7 @@ export type InnerBatchResponse =
 
 export type Response =
     | ArtistResponse
+    | TopTracksResponse
     | TracksResponse
     | BatchResponse
     | GenreSeedsResponse

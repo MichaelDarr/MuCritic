@@ -1,3 +1,5 @@
+import { createObjectCsvWriter } from 'csv-writer';
+
 import { DatabaseEntities } from '../../entities/entities';
 
 /**
@@ -18,8 +20,11 @@ export abstract class Aggregator<T1 extends DatabaseEntities, T2 extends Aggrega
      */
     public entity: T1;
 
-    public constructor(entity: T1) {
+    public aggregationType: AggregationType;
+
+    public constructor(entity: T1, type: AggregationType) {
         this.entity = entity;
+        this.aggregationType = type;
     }
 
     /**
@@ -50,11 +55,19 @@ export abstract class Aggregator<T1 extends DatabaseEntities, T2 extends Aggrega
         return headers;
     }
 
+    public async writeAggregationsToCsv(aggregations: Aggregation[], fileName = 'data', baseDir = './resources/data'): Promise<void> {
+        const csvWriter = createObjectCsvWriter({
+            path: `${baseDir}/${this.aggregationType}/${fileName}.csv`,
+            header: this.csvHeaders(),
+        });
+        await csvWriter.writeRecords(aggregations);
+    }
+
     /**
      * Get a list of all fields belonging to an aggreation
      */
     public fields(): string[] {
-        const blankAggregation = this.template(null);
+        const blankAggregation = this.template(1);
         const fields: string[] = [];
         for(const prop in blankAggregation) {
             if(prop in blankAggregation) {
@@ -161,6 +174,14 @@ export type Aggregation =
     | ReviewAggregation
     | ProfileAggregation
     | TrackAggregation;
+
+export type AggregationType =
+    | 'album'
+    | 'artist'
+    | 'artists'
+    | 'review'
+    | 'profile'
+    | 'track';
 
 export interface CsvHeader {
     id: string;
