@@ -114,7 +114,9 @@ export class ProfileScraper extends RymScraper<ProfileEntity> {
             }
         }
 
-        let profile = new ProfileEntity();
+        let profile = await this.getEntity();
+        if(profile == null) profile = new ProfileEntity();
+
         profile.name = this.name;
         profile.age = this.age;
         profile.gender = this.gender;
