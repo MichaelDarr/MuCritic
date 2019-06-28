@@ -16,7 +16,7 @@ import { Log } from './log';
 export class SpotifyApi {
     private accessToken: string;
 
-    private client: Spotify.ClientCredentials;
+    private client: ClientCredentials;
 
     private static instance: SpotifyApi;
 
@@ -208,4 +208,9 @@ export class SpotifyApi {
             );
         });
     }
+}
+
+export interface ClientCredentials {
+    id: string;
+    secret: string;
 }

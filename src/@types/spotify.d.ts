@@ -5,11 +5,6 @@
 
 declare module 'spotify';
 
-export interface ClientCredentials {
-    id: string;
-    secret: string;
-}
-
 export type RequestMethod =
     | 'GET'
     | 'POST';

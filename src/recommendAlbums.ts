@@ -6,6 +6,7 @@ import * as dotenv from 'dotenv';
 import { resolve } from 'path';
 import 'reflect-metadata';
 import * as tf from '@tensorflow/tfjs';
+
 import {
     getRepository,
     IsNull,
@@ -16,6 +17,7 @@ import { AlbumAggregator } from './data/aggregators/albumAggregator';
 import { AlbumEntity } from './entities/entities';
 import { ArtistsAggregator } from './data/aggregators/artistsAggregator';
 import { Log } from './helpers/classes/log';
+import { RedisHelper } from './helpers/classes/redis';
 import { SpotifyApi } from './helpers/classes/spotifyApi';
 import { connectToDatabase } from './helpers/functions/database';
 
@@ -29,6 +31,8 @@ dotenv.config({ path: resolve(__dirname, '../.env') });
 export async function recommendAlbums(): Promise<void> {
     try {
         Log.notify('\nMuCritic Album Recommendation\n\n');
+
+        RedisHelper.connect(6379, '127.0.0.1');
         await connectToDatabase();
         await SpotifyApi.connect(
             process.env.SPOTIFY_CLIENT_ID,
@@ -74,9 +78,7 @@ export async function recommendAlbums(): Promise<void> {
                 albumId: albumEntities[i].id,
             };
         });
-        scores.sort(scorePair => scorePair.score);
-        const top = scores.slice(0, 100);
-        let position = 1;
+        const top = scores.sort(scorePair => scorePair.score).slice(0, 100);
         for await(const scorePair of top) {
             const albumEntity = await getRepository(AlbumEntity).findOne({
                 relations: [
@@ -86,8 +88,7 @@ export async function recommendAlbums(): Promise<void> {
                     id: scorePair.albumId,
                 },
             });
-            Log.success(`${position}: ${albumEntity.name} by ${albumEntity.artist.name}`);
-            position += 1;
+            Log.success(`${scorePair.score}: ${albumEntity.name} by ${albumEntity.artist.name}`);
         }
         Log.success('\nData Aggregation Successful!\n');
         process.exit(0);

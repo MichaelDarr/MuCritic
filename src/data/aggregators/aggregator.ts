@@ -1,5 +1,6 @@
 import { createObjectCsvWriter } from 'csv-writer';
 
+import { RedisHelper } from '../../helpers/classes/redis';
 import { DatabaseEntities } from '../../entities/entities';
 
 /**
@@ -22,9 +23,12 @@ export abstract class Aggregator<T1 extends DatabaseEntities, T2 extends Aggrega
 
     public aggregationType: AggregationType;
 
+    public redisClient: RedisHelper;
+
     public constructor(entity: T1, type: AggregationType) {
         this.entity = entity;
         this.aggregationType = type;
+        this.redisClient = RedisHelper.getConnection();
     }
 
     /**
@@ -34,8 +38,16 @@ export abstract class Aggregator<T1 extends DatabaseEntities, T2 extends Aggrega
      * [[Aggregator.normalize]]
      */
     public async aggregate(normalized = true): Promise<T2> {
+        const redisKey = this.redisKey(normalized);
+        if(redisKey != null) {
+            const cachedAggregation = await this.redisClient.getObject<T2>(redisKey);
+            if(cachedAggregation != null) return cachedAggregation;
+        }
         let aggregation = await this.generateAggregate(normalized);
         if(normalized) aggregation = this.normalize(aggregation);
+        if(redisKey != null) {
+            await this.redisClient.setObject(redisKey, aggregation);
+        }
         return aggregation;
     }
 
@@ -85,6 +97,13 @@ export abstract class Aggregator<T1 extends DatabaseEntities, T2 extends Aggrega
             }
         }
         return fields;
+    }
+
+    public redisKey(normalized: boolean): string {
+        if(this.entity == null) return null;
+        const keyString = `${this.aggregationType}_${this.entity.id}`;
+        if(normalized) return `${keyString}_normalized`;
+        return keyString;
     }
 
     /**
