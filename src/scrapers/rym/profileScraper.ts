@@ -46,23 +46,24 @@ export class ProfileScraper extends RymScraper<ProfileEntity> {
      */
     private extractArtists(): void {
         // extracts all content blocks from the page
-        let artistTitleBlockFound = false;
         const unserInfoBlockParsers = this.scrapeRoot
             .list('#content > table > tbody > tr > td > div', 'info blocks', true)
             .allElements();
 
         let artistParser: ParseElement;
         // iterate through content blocks, detect favorite artists header, grab artists
+        let artistTitleBlockIsNext = false;
         for (const blockParser of unserInfoBlockParsers) {
-            if(artistTitleBlockFound) {
+            if(artistTitleBlockIsNext) {
                 artistParser = blockParser;
-                artistTitleBlockFound = false;
+                artistTitleBlockIsNext = false;
             }
             if(blockParser.textContent() === 'favorite artists') {
-                artistTitleBlockFound = true;
+                artistTitleBlockIsNext = true;
             }
         }
         if(artistParser) {
+            let totalArtists = 0;
             artistParser
                 .list('div > a', 'favorite artists', true)
                 .allElements('artists')
@@ -73,8 +74,14 @@ export class ProfileScraper extends RymScraper<ProfileEntity> {
                         this.favoriteArtists.push(
                             new ArtistScraper(`https://rateyourmusic.com${artistLink}`),
                         );
+                        totalArtists += 1;
                     }
                 });
+            if(totalArtists === 0) {
+                throw new Error(`User ${this.name}'s favorite artists block contains no links`);
+            }
+        } else {
+            throw new Error(`User ${this.name} has no "favorite artists" section`);
         }
     }
 
@@ -85,11 +92,16 @@ export class ProfileScraper extends RymScraper<ProfileEntity> {
      */
     private extractUserInfo(): void {
         const userAgeAndGenderRaw = this.scrapeRoot
-            .element('.profilehii > table > tbody > tr:nth-child(2) > td', 'age/gender', true)
-            .textContent();
-        const splitUserInfo: string[] = userAgeAndGenderRaw.split(' / ');
-        this.age = Number(splitUserInfo[0]);
-        this.gender = (splitUserInfo[1] === 'Male');
+            .element('.profilehii > table > tbody > tr:nth-child(2) > td', 'age/gender', false)
+            .textContent(false, null);
+        if(userAgeAndGenderRaw != null && userAgeAndGenderRaw.split(' / ').length > 1) {
+            const splitUserInfo: string[] = userAgeAndGenderRaw.split(' / ');
+            this.age = Number(splitUserInfo[0]);
+            this.gender = (splitUserInfo[1] === 'Male');
+        } else {
+            this.age = null;
+            this.gender = null;
+        }
     }
 
     public async getEntity(): Promise<ProfileEntity> {

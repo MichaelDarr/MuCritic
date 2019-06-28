@@ -10,6 +10,7 @@ import * as tf from '@tensorflow/tfjs';
 import {
     getRepository,
     IsNull,
+    MoreThan,
     Not,
 } from 'typeorm';
 import { Aggregator } from './data/aggregators/aggregator';
@@ -43,11 +44,11 @@ export async function recommendAlbums(): Promise<void> {
         const learnTasteModel = await tf.loadLayersModel('file:///home/michael/Projects/TypeScrape/resources/models/taste/model.json');
 
         const artistIds = [
-            '1G5v3lpMz7TeoW0yGpRQHr',
-            '6eDKMXn3OBIkI8jcY7JtlI',
             '6qyi8X6MdP1lu6B1K6yh3h',
-            '72X6FHxaShda0XeQw3vbeF',
-            '63MQldklfxkjYDoUE4Tppz',
+            '56ZTgzPBDge0OvCGgMO3OY',
+            '40Yq4vzPs9VNUrIBG5Jr2i',
+            '4Z8W4fKeB5YxbusRsdQVPb',
+            '3l65Zubp9XQv2SDSL3DhTi',
         ];
         const artistsAggregator = new ArtistsAggregator(null, artistIds);
         const aggregation = await artistsAggregator.aggregate(true);
@@ -60,6 +61,8 @@ export async function recommendAlbums(): Promise<void> {
             where: {
                 spotifyId: Not(IsNull()),
                 spotifyAlbumType: 'album',
+                ratingRYM: MoreThan(3.5),
+                ratingCountRYM: MoreThan(200),
             },
         });
         const albumAggregations = await Promise.all(
@@ -78,7 +81,7 @@ export async function recommendAlbums(): Promise<void> {
                 albumId: albumEntities[i].id,
             };
         });
-        const top = scores.sort(scorePair => scorePair.score).slice(0, 100);
+        const top = scores.sort((a, b) => (b.score - a.score)).slice(0, 100);
         for await(const scorePair of top) {
             const albumEntity = await getRepository(AlbumEntity).findOne({
                 relations: [

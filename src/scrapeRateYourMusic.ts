@@ -9,6 +9,7 @@ import 'reflect-metadata';
 import { Log } from './helpers/classes/log';
 import { readFileToArray } from './helpers/functions/fileSystem';
 import { connectToDatabase } from './helpers/functions/database';
+import { LatestReviewersScraper } from './scrapers/rym/latestReviewersScraper';
 import { ProfileScraper } from './scrapers/rym/profileScraper';
 import { ReviewPageScraper } from './scrapers/rym/reviewPageScraper';
 
@@ -29,21 +30,33 @@ export async function scrapeRateYourMusic(): Promise<void> {
         Log.notify('\nmuCritic RYM Scraper\n\n');
         await connectToDatabase();
 
-        const profileURLList: string[] = await readFileToArray(
-            `./resources/${process.argv[2] || process.env.DEFAULT_PROFILE_FILENAME}`,
-        );
-        Log.log('Beginning scrape...');
+        switch(process.argv[2]) {
+            case 'file': {
+                const profileURLList: string[] = await readFileToArray(
+                    `./resources/${process.argv[3] || process.env.DEFAULT_PROFILE_FILENAME}`,
+                );
+                Log.log('Beginning profile scrape from file');
 
-        for await(const profileURL of profileURLList) {
-            if(profileURL != null && profileURL !== '') {
-                const profileScraper = new ProfileScraper(profileURL);
-                await profileScraper.scrape();
-                const reviewPageScraper = new ReviewPageScraper(profileScraper);
-                while(
-                    reviewPageScraper.pageReviewCount > 0
-                    && reviewPageScraper.sequentialFailureCount < 3
-                ) {
-                    await reviewPageScraper.scrapePage();
+                for await(const profileURL of profileURLList) {
+                    if(profileURL != null && profileURL !== '') {
+                        const profileScraper = new ProfileScraper(profileURL);
+                        await profileScraper.scrape();
+                        const reviewPageScraper = new ReviewPageScraper(profileScraper);
+                        while(
+                            reviewPageScraper.pageReviewCount > 0
+                            && reviewPageScraper.sequentialFailureCount < 3
+                        ) {
+                            await reviewPageScraper.scrapePage();
+                        }
+                    }
+                }
+                break;
+            }
+            default: {
+                Log.log('Beginning profile scrape from latest reviews');
+                const latestReviewScraper = new LatestReviewersScraper(0, 10);
+                for await(const _ of Array(100)) {
+                    await latestReviewScraper.scrape();
                 }
             }
         }

@@ -192,6 +192,7 @@ export abstract class Scraper {
      */
     public static async scrapeDependencyArr<T extends Scraper>(
         scrapers: T[],
+        forceScrape = false,
     ): Promise<ScrapersWithResults<T>> {
         const dependencies: ScrapersWithResults<T> = {
             scrapers: [],
@@ -200,7 +201,7 @@ export abstract class Scraper {
         if(scrapers != null && scrapers.length > 0) {
             for await(const scraper of scrapers) {
                 try {
-                    await scraper.scrape();
+                    await scraper.scrape(forceScrape);
                     dependencies.scrapers.push(scraper);
                     dependencies.results.concat(scraper.results);
                 } catch(err) {
