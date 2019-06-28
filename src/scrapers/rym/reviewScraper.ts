@@ -28,7 +28,7 @@ export class ReviewScraper extends Scraper {
         identifierRYM: string,
         date: SimpleDate,
     ) {
-        super(`Review of ${album.name} by user ${profile.name}`);
+        super(`Review of ${album.url} by user ${profile.name}`);
         this.album = album;
         this.profile = profile;
         this.score = score;

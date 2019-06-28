@@ -46,11 +46,10 @@ export class AlbumScraper extends RymScraper<AlbumEntity> {
         url: string,
         verbose = false,
     ) {
-        super(`RYM Album: ${url}`, verbose);
+        super(url, `RYM Album: ${url}`, verbose);
         if(url.indexOf('various_artists') !== -1 || url.indexOf('various-artists') !== -1) {
             throw new Error('Album by various artists');
         }
-        this.url = url;
         this.genreScrapers = [];
         this.listCountRYM = 0;
         this.issueCountRYM = 1;

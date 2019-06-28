@@ -82,3 +82,4 @@ package-lock.json
 screenshots/
 resources/data/*
 __pycache__
+report.*.json

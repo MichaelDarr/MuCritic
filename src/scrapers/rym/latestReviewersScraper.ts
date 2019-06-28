@@ -1,5 +1,4 @@
 import { Log } from '../../helpers/classes/log';
-import { ProfileScraper } from './profileScraper';
 import { LatestReviewsPageScraper } from './latestReviewsPageScraper';
 import { Scraper } from '../scraper';
 
@@ -10,6 +9,8 @@ import { Scraper } from '../scraper';
 export class LatestReviewersScraper extends Scraper {
     public concurrentScrapes: number;
 
+    public forceScrape: boolean;
+
     public offset: number;
 
     public static urlBase = 'http://rateyourmusic.com/latest?offset=';
@@ -17,6 +18,7 @@ export class LatestReviewersScraper extends Scraper {
     public constructor(
         initialOffset = 0,
         concurrentScrapes = 1,
+        forceScrape = false,
         verbose = false,
     ) {
         super(
@@ -24,6 +26,7 @@ export class LatestReviewersScraper extends Scraper {
             verbose,
         );
         this.concurrentScrapes = concurrentScrapes;
+        this.forceScrape = forceScrape;
         this.offset = initialOffset;
     }
 
@@ -40,7 +43,7 @@ export class LatestReviewersScraper extends Scraper {
                 pageScrapers.push(new LatestReviewsPageScraper(this.offset));
                 this.offset += 15;
             }
-            await Promise.all(pageScrapers.map(scraper => scraper.scrape(true)));
+            await Promise.all(pageScrapers.map(scraper => scraper.scrape(this.forceScrape)));
             Log.notify(`\nLastest review page scrape successful!\nNext review: #${this.offset}\n`);
         } catch(e) {
             Log.err(`\nError scraping review pages: #${this.offset}\n`);

@@ -27,6 +27,7 @@
                     "printInfo",
                     "requestScrape",
                     "scrapeDependencies",
+                    "scrapeErrorHandler",
                     "template"
                 ]
             }

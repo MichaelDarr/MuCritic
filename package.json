@@ -10,7 +10,7 @@
     "aggregateArtists": "tsc && node --max-old-space-size=8192 built/aggregate artists",
     "recommend": "tsc && node --max-old-space-size=8192 built/recommendAlbums",
     "rym": "tsc && node built/scrapeRateYourMusic file",
-    "rymAuto": "tsc && node built/scrapeRateYourMusic",
+    "rymAuto": "tsc && node --max-old-space-size=8192 built/scrapeRateYourMusic",
     "rymProfiles": "tsc && node built/scrapeRateYourMusicProfiles",
     "serve": "tsc && node built/serveDocs",
     "spotifyData": "tsc && node built/scrapeSpotifyData",

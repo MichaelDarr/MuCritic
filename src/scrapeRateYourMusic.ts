@@ -7,6 +7,7 @@ import { resolve } from 'path';
 import 'reflect-metadata';
 
 import { Log } from './helpers/classes/log';
+import { RedisHelper } from './helpers/classes/redis';
 import { readFileToArray } from './helpers/functions/fileSystem';
 import { connectToDatabase } from './helpers/functions/database';
 import { LatestReviewersScraper } from './scrapers/rym/latestReviewersScraper';
@@ -54,8 +55,9 @@ export async function scrapeRateYourMusic(): Promise<void> {
             }
             default: {
                 Log.log('Beginning profile scrape from latest reviews');
+                await RedisHelper.connect(6379, '127.0.0.1', 2);
                 const latestReviewScraper = new LatestReviewersScraper(0, 10);
-                for await(const _ of Array(100)) {
+                for(let i = 0; i < 100; i += 1) {
                     await latestReviewScraper.scrape();
                 }
             }

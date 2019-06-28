@@ -58,11 +58,11 @@ export class ReviewPageScraper extends ScraperApiScraper {
     ) {
         const urlBase = `https://rateyourmusic.com/collection/${profile.name}/r0.0-5.0/`;
         super(
+            `${urlBase}1`,
             `RYM Review Page: ${profile.name}`,
             verbose,
         );
         this.urlBase = urlBase;
-        this.url = `${urlBase}1`;
         this.currentPage = 1;
         this.reviewScrapers = [];
         this.profile = profile;
@@ -147,7 +147,7 @@ export class ReviewPageScraper extends ScraperApiScraper {
                 this.pageReviewCount += 1;
                 this.reviewScrapers.push(newReview);
             } catch(e) {
-                Log.err(`Failed to extract data from review element.\n${e}`);
+                Log.notify(`Failed to extract data from review element. Nonterminal and expected.\n${e}`);
             }
         });
     }

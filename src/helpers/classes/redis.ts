@@ -15,19 +15,20 @@ export class RedisHelper {
 
     private client: RedisClient;
 
-    private constructor(port: number, host: string) {
+    private constructor(port: number, host: string, db?: number) {
         this.client = createClient({
             host,
             port,
+            db,
         });
     }
 
-    public static async connect(port = 6379, host = '127.0.0.1'): Promise<RedisHelper> {
+    public static async connect(port = 6379, host = '127.0.0.1', db?: number): Promise<RedisHelper> {
         Log.notify('Connecting to Redis server...');
         if(RedisHelper.instance) {
             Log.notify('Overriding existing connection with new credentials');
         }
-        RedisHelper.instance = new RedisHelper(port, host);
+        RedisHelper.instance = new RedisHelper(port, host, db);
         const connectionReady = await RedisHelper.instance.connectToDB();
         if(connectionReady) {
             Log.success('Redis connection succeeded');

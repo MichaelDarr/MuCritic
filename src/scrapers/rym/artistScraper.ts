@@ -51,9 +51,8 @@ export class ArtistScraper extends RymScraper<ArtistEntity> {
         url: string,
         verbose = false,
     ) {
-        super('RYM Artist', verbose);
+        super(url, 'RYM Artist', verbose);
         this.repository = getConnection().getRepository(ArtistEntity);
-        this.url = url;
         this.soloPerformer = false;
         this.active = true;
         this.genreScrapers = [];

@@ -12,8 +12,6 @@ import { ReviewPageScraper } from './reviewPageScraper';
  * [Rate Your Music](https://rateyourmusic.com/).
  */
 export class LatestReviewsPageScraper extends ScraperApiScraper {
-    public forceScrape: boolean;
-
     public offset: number;
 
     public repository: Repository<ProfileEntity>;
@@ -25,23 +23,21 @@ export class LatestReviewsPageScraper extends ScraperApiScraper {
 
     public constructor(
         offset,
-        forceScrape = false,
         verbose = false,
     ) {
         super(
+            `http://rateyourmusic.com/latest?offset=${offset}`,
             'RYM Lastest Review Profiles',
             verbose,
         );
-        this.url = `http://rateyourmusic.com/latest?offset=${offset}`;
         this.offset = offset;
-        this.forceScrape = forceScrape;
         this.profileScrapers = [];
         this.repository = getConnection().getRepository(ProfileEntity);
     }
 
-    protected async scrapeDependencies(): Promise<void> {
+    protected async scrapeDependencies(forceScrape = false): Promise<void> {
         const res = await LatestReviewsPageScraper
-            .scrapeDependencyArr<ProfileScraper>(this.profileScrapers, this.forceScrape);
+            .scrapeDependencyArr<ProfileScraper>(this.profileScrapers, forceScrape);
         this.profileScrapers = res.scrapers;
         this.results.concat(res.results);
         for await(const scraper of this.profileScrapers) {

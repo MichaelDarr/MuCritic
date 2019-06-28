@@ -27,12 +27,15 @@ export class ProfileScraper extends RymScraper<ProfileEntity> {
         name: string,
         verbose = false,
     ) {
-        super(`RYM User: ${name}`, verbose);
+        super(
+            `https://rateyourmusic.com/~${name}`,
+            `RYM User: ${name}`,
+            verbose,
+        );
         this.name = name;
         this.dataReadFromLocal = false;
         this.favoriteArtists = [];
         this.repository = getConnection().getRepository(ProfileEntity);
-        this.url = `https://rateyourmusic.com/~${name}`;
     }
 
     protected extractInfo(): void {
@@ -70,7 +73,7 @@ export class ProfileScraper extends RymScraper<ProfileEntity> {
                 .forEach((artist): void => {
                     let artistLink = artist.href(false);
                     artistLink = encodeURI(artistLink);
-                    if(artistLink != null && artistLink !== '') {
+                    if(artistLink != null && artistLink !== '' && artistLink.split('/')[1] === 'artist') {
                         this.favoriteArtists.push(
                             new ArtistScraper(`https://rateyourmusic.com${artistLink}`),
                         );

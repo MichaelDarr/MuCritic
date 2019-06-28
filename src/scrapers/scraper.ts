@@ -131,6 +131,13 @@ export abstract class Scraper {
     }
 
     /**
+     * Intercepts any errors thrown by [[Scraper.scrape]]
+     */
+    protected scrapeErrorHandler(error: Error): Promise<void> {
+        throw error;
+    }
+
+    /**
      * Entry point for initiating an asset scrape. General scrape outline/method order:
      *
      * 1. [[Scraper.checkForLocalRecord]]
@@ -154,22 +161,26 @@ export abstract class Scraper {
      * local records
      */
     public async scrape(forceScrape = false): Promise<void> {
-        Log.notify(`Beginning Scrape of ${this.description}`);
-        const recordExists = await this.checkForLocalRecord();
-        if(recordExists && !forceScrape) {
-            this.dataReadFromLocal = true;
+        try {
+            Log.notify(`Beginning Scrape of ${this.description}`);
+            const recordExists = await this.checkForLocalRecord();
+            if(recordExists && !forceScrape) {
+                this.dataReadFromLocal = true;
+                this.results.push(new ScrapeResult(true, this.description));
+                this.scrapeSucceeded = true;
+                Log.success(`Local Record Found for ${this.description}`);
+                return;
+            }
+            await this.requestScrape();
+            this.extractInfo();
+            await this.scrapeDependencies();
+            await this.saveToLocal();
             this.results.push(new ScrapeResult(true, this.description));
             this.scrapeSucceeded = true;
-            Log.success(`Local Record Found for ${this.description}`);
-            return;
+            Log.success(`Finished Scrape of ${this.description}`);
+        } catch(error) {
+            await this.scrapeErrorHandler(error);
         }
-        await this.requestScrape();
-        this.extractInfo();
-        await this.scrapeDependencies();
-        await this.saveToLocal();
-        this.results.push(new ScrapeResult(true, this.description));
-        this.scrapeSucceeded = true;
-        Log.success(`Finished Scrape of ${this.description}`);
     }
 
     /**

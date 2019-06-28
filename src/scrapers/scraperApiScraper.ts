@@ -1,5 +1,6 @@
 import { JSDOM } from 'jsdom';
 
+import { RedisHelper } from '../helpers/classes/redis';
 import { ParseElement } from '../helpers/parsing/parseElement';
 import { Log } from '../helpers/classes/log';
 import { getRequestBody } from '../helpers/functions/network';
@@ -15,9 +16,24 @@ export abstract class ScraperApiScraper extends Scraper {
     public url: string;
 
     /**
+     * used for caching failed results, to blacklist further calls
+     */
+    public redis: RedisHelper;
+
+    /**
      * Stores the DOM retrieved by [scraperapi](https://www.scraperapi.com/)
      */
     protected scrapeRoot: ParseElement;
+
+    public constructor(
+        url: string,
+        description: string,
+        verbose?: boolean,
+    ) {
+        super(description, verbose);
+        this.url = url;
+        this.redis = RedisHelper.getConnection();
+    }
 
     /**
      * Queries [scraperapi](https://www.scraperapi.com/) for [[ScraperApiScraper.url]]
@@ -31,6 +47,11 @@ export abstract class ScraperApiScraper extends Scraper {
      * recurring calls to this function. Should never be set if called externally.
      */
     public async requestScrape(attempts = 0): Promise<void> {
+        Log.log(`Checking url blacklist for ${this.url}`);
+        const inBlacklist = await this.redis.get(this.url);
+        if(inBlacklist != null) {
+            throw new Error('URL Blacklisted\n');
+        }
         try {
             Log.log(`Requesting ${this.url}`);
             const bodyString: string = await getRequestBody(
@@ -45,8 +66,15 @@ export abstract class ScraperApiScraper extends Scraper {
                 Log.notify(`Retrying request\nURL: ${this.url}\nAttempt: ${attempts + 1}`);
                 await this.requestScrape(attempts + 1);
             } else {
-                throw new Error(`Giving up: request failed ${attempts} times:\n${this.url}.`);
+                await this.redis.set(this.url, 'blacklisted');
+                throw new Error(`Request failed ${attempts} times ${this.description}:\n${this.url} added to blacklist\n`);
             }
         }
+    }
+
+    protected async scrapeErrorHandler(error: Error): Promise<void> {
+        await this.redis.set(this.url, 'blacklisted');
+        Log.err(`Scrape of ${this.description} failed.\nError: ${error.message}\n${this.url} added to blacklist\n`);
+        throw error;
     }
 }
