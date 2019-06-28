@@ -1,4 +1,4 @@
-import { getRepository, Not, IsNull } from 'typeorm';
+import { getRepository } from 'typeorm';
 
 import {
     Aggregator,
@@ -13,11 +13,12 @@ import { TrackAggregator } from './trackAggregator';
  * multi-[[ReviewAggregation]] generator class for [[ProfileEntity]]
  */
 export class ArtistsAggregator extends Aggregator<ProfileEntity, ArtistsAggregation> {
-    public constructor(artist: ProfileEntity) {
-        super(artist, 'artists');
-    }
-
     private artistIds: string[];
+
+    public constructor(artist: ProfileEntity, artistIds: string[] = null) {
+        super(artist, 'artists');
+        this.artistIds = artistIds;
+    }
 
     /**
      * Departure from normal behavior of [[Aggregator.generateAggregate]]. This aggregator needs to

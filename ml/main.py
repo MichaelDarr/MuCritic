@@ -7,6 +7,7 @@ from data import fromCsv, pairsFromCsv
 from os import listdir
 from os.path import join, exists
 import numpy as np
+import tensorflowjs as tfjs
 
 ALBUM_DATA_FILE = "../resources/data/album/data.csv"
 PROFILE_REVIEWS_PATH = "../resources/data/profile/"
@@ -60,7 +61,7 @@ def main():
             epochs=500,
             learningRate=0.002,
         )
-        if history.history['mae'][-1] < 0.2:
+        if history.history['mae'][-1] < 0.1:
             rawWeights = (
                 perceptron
                 .get_layer('perceptron-weights')
@@ -87,10 +88,22 @@ def main():
         20,
     )
 
-    albumAutoencoder.save(MODEL_SAVE_PATH + 'album/autoEncoder.h5')
-    albumEncoder.save(MODEL_SAVE_PATH + 'album/encoder.h5')
-    albumDecoder.save(MODEL_SAVE_PATH + 'album/decoder.h5')
-    tasteNet.save(MODEL_SAVE_PATH + 'taste.h5')
+    tfjs.converters.save_keras_model(
+        albumAutoencoder,
+        MODEL_SAVE_PATH + 'album/autoEncoder.json',
+    )
+    tfjs.converters.save_keras_model(
+        albumEncoder,
+        MODEL_SAVE_PATH + 'album/encoder.json',
+    )
+    tfjs.converters.save_keras_model(
+        albumDecoder,
+        MODEL_SAVE_PATH + 'album/decoder.json',
+    )
+    tfjs.converters.save_keras_model(
+        tasteNet,
+        MODEL_SAVE_PATH + 'taste.json',
+    )
 
 
 if __name__ == "__main__":

@@ -22,7 +22,6 @@ import {
 import { Log } from './helpers/classes/log';
 import { SpotifyApi } from './helpers/classes/spotifyApi';
 import { connectToDatabase } from './helpers/functions/database';
-import { ArtistsAggregation } from './data/aggregators/aggregator';
 
 dotenv.config({ path: resolve(__dirname, '../.env') });
 
@@ -74,7 +73,10 @@ export async function aggregateAlbums(): Promise<void> {
                         const profileAggregator = new ProfileAggregator(profile);
                         const aggregations = await profileAggregator.aggregate();
                         if(aggregations != null) {
-                            await profileAggregator.writeAggregationsToCsv(aggregations, profile.name);
+                            await profileAggregator.writeAggregationsToCsv(
+                                aggregations,
+                                profile.name,
+                            );
                         }
                         return aggregations;
                     }),

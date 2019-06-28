@@ -39,6 +39,16 @@ export abstract class Aggregator<T1 extends DatabaseEntities, T2 extends Aggrega
         return aggregation;
     }
 
+    public static stripLabels(aggregation: Aggregation): number[] {
+        const aggregationArr: number[] = [];
+        for(const key in aggregation) {
+            if(key in aggregation) {
+                aggregationArr.push(aggregation[key]);
+            }
+        }
+        return aggregationArr;
+    }
+
     /**
      * Generate CSV Header objects in accordance with the
      * [CSV Writer npm package](https://www.npmjs.com/package/csv-writer)
