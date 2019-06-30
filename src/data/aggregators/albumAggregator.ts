@@ -7,13 +7,27 @@ import {
 import { ArtistAggregator } from './artistAggregator';
 import { TrackAggregator } from './trackAggregator';
 import { AlbumEntity } from '../../entities/entities';
-import { TrackEntity } from '../../entities/TrackEntity';
 
 /**
  * [[AlbumAggregation]] generator class for [[AlbumEntity]]
  */
 export const AlbumAggregator: AggregationGenerator<AlbumEntity, AlbumAggregation> = {
     aggregationType: 'album',
+    convertFromRaw: (album: AlbumEntity): AlbumAggregation => ({
+        availableMarkets: album.spotifyAvailableMarketCount,
+        copyrights: album.spotifyCopyRightCount,
+        albumPopularity: album.spotifyPopularity,
+        releaseYear: album.releaseYear,
+        issues: album.issueCountRYM,
+        albumLists: album.listCountRYM,
+        overallRank: album.overallRankRYM,
+        rating: album.ratingRYM,
+        ratings: album.ratingCountRYM,
+        reviews: album.reviewCountRYM,
+        yearRank: album.yearRankRYM,
+        artist: null,
+        tracks: null,
+    }),
     generateFromEntity: async (
         requestedAlbum: AlbumEntity,
         normalized: boolean,
@@ -35,31 +49,20 @@ export const AlbumAggregator: AggregationGenerator<AlbumEntity, AlbumAggregation
         if(album.artist == null) throw new Error(`Aggregated album has no artist: ${album.name}`);
         if(album.tracks == null) throw new Error(`Aggregated album has no tracks: ${album.name} by ${album.artist.name}`);
 
-        const trackAggregations = await Promise.all(
-            album.tracks.map(
-                (track: TrackEntity) => TrackAggregator.generateFromEntity(track, normalized),
-            ),
+        const aggregation = AlbumAggregator.convertFromRaw(album);
+        aggregation.tracks = await Promise.all(
+            album.tracks.map(track => TrackAggregator.generateFromEntity(
+                track,
+                normalized,
+            )),
         );
-        const artistAggregation = await ArtistAggregator.generateFromEntity(
+        aggregation.artist = await ArtistAggregator.generateFromEntity(
             album.artist,
             normalized,
         );
 
-        return {
-            availableMarkets: album.spotifyAvailableMarketCount,
-            copyrights: album.spotifyCopyRightCount,
-            albumPopularity: album.spotifyPopularity,
-            releaseYear: album.releaseYear,
-            issues: album.issueCountRYM,
-            albumLists: album.listCountRYM,
-            overallRank: album.overallRankRYM,
-            rating: album.ratingRYM,
-            ratings: album.ratingCountRYM,
-            reviews: album.reviewCountRYM,
-            yearRank: album.yearRankRYM,
-            tracks: trackAggregations,
-            artist: artistAggregation,
-        };
+        if(normalized) return AlbumAggregator.normalize(aggregation);
+        return aggregation;
     },
     normalize: (raw: AlbumAggregation): AlbumAggregation => ({
         ...raw,

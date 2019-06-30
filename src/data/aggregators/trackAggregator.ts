@@ -1,5 +1,6 @@
 import {
     AggregationGenerator,
+    SpotifyTrackFull,
     TrackAggregation,
 } from './aggregator';
 import { TrackEntity } from '../../entities/entities';
@@ -7,25 +8,45 @@ import { TrackEntity } from '../../entities/entities';
 /**
  * [[TrackAggregation]] generator class for [[TrackEntity]] database entries
  */
-export const TrackAggregator: AggregationGenerator<TrackEntity, TrackAggregation> = {
+export const TrackAggregator:
+AggregationGenerator<SpotifyTrackFull, TrackAggregation> = {
     aggregationType: 'track',
-    generateFromEntity: async (track: TrackEntity): Promise<TrackAggregation> => {
-        if(track == null) throw new Error('tried to aggregate null track');
-
+    convertFromRaw: (track: SpotifyTrackFull): TrackAggregation => {
         const aggregation = TrackAggregator.template(0);
-        for(const prop in track) {
+
+        let unfilteredAggregation: TrackAggregation;
+        if('features' in track) {
+            unfilteredAggregation = {
+                ...track.features,
+                timeSignature: track.features.time_signature,
+                duration: track.info.duration_ms,
+                explicit: track.info.explicit ? 1 : 0,
+            };
+        } else {
+            unfilteredAggregation = {
+                ...track,
+                timeSignature: track.timeSignature,
+                duration: track.duration,
+                explicit: track.explicit ? 1 : 0,
+            };
+        }
+
+        for(const prop in unfilteredAggregation) {
             if(prop in aggregation) {
-                let trackVal: number;
-                if(track[prop] == null) {
-                    trackVal = 0;
-                } else if(typeof track[prop] === 'boolean') {
-                    trackVal = track[prop] ? 1 : 0;
-                } else {
-                    trackVal = track[prop];
-                }
-                aggregation[prop] = trackVal;
+                aggregation[prop] = unfilteredAggregation[prop];
             }
         }
+
+        return aggregation;
+    },
+    generateFromEntity: async (
+        track: TrackEntity,
+        normalized: boolean,
+    ): Promise<TrackAggregation> => {
+        if(track == null) throw new Error('tried to aggregate null track');
+
+        const aggregation = TrackAggregator.convertFromRaw(track);
+        if(normalized) return TrackAggregator.normalize(aggregation);
         return aggregation;
     },
     normalize: (raw: TrackAggregation): TrackAggregation => {

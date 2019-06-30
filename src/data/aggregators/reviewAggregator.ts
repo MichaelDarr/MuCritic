@@ -12,6 +12,10 @@ import { AlbumAggregator } from './albumAggregator';
  */
 export const ReviewAggregator: AggregationGenerator<ReviewEntity, ReviewAggregation> = {
     aggregationType: 'review',
+    convertFromRaw: (review: ReviewEntity): ReviewAggregation => ({
+        score: review.score,
+        album: null,
+    }),
     generateFromEntity: async (
         requestedReview: ReviewEntity,
         normalized: boolean,
@@ -29,16 +33,17 @@ export const ReviewAggregator: AggregationGenerator<ReviewEntity, ReviewAggregat
                 .leftJoinAndSelect('album.tracks', 'tracks')
                 .getOne();
         }
+
         if(review.album == null) throw new Error('No album for review aggregation');
 
-        const albumAggregation = await AlbumAggregator.generateFromEntity(
+        const aggregation = ReviewAggregator.convertFromRaw(review);
+        aggregation.album = await AlbumAggregator.generateFromEntity(
             review.album,
             normalized,
         );
-        return {
-            score: review.score,
-            album: albumAggregation,
-        };
+
+        if(normalized) return ReviewAggregator.normalize(aggregation);
+        return aggregation;
     },
     normalize: (raw: ReviewAggregation): ReviewAggregation => ({
         ...raw,

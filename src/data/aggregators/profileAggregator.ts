@@ -13,6 +13,12 @@ import { ReviewAggregator } from './reviewAggregator';
  */
 export const ProfileAggregator: AggregationGenerator<ProfileEntity, ProfileAggregation> = {
     aggregationType: 'profile',
+    convertFromRaw: (profile: ProfileEntity): ProfileAggregation => ({
+        age: profile.age,
+        gender: profile.gender ? 1 : 0,
+        favoriteArtists: null,
+        reviews: null,
+    }),
     generateFromEntity: async (
         requestedProfile: ProfileEntity,
         normalized: boolean,
@@ -30,21 +36,18 @@ export const ProfileAggregator: AggregationGenerator<ProfileEntity, ProfileAggre
                 .getOne();
         }
 
-        const favoriteArtistAggregations = await Promise.all(
+        const aggregation = ProfileAggregator.convertFromRaw(profile);
+        aggregation.favoriteArtists = await Promise.all(
             profile.favoriteArtists.map(
                 artist => ArtistAggregator.generateFromEntity(artist, normalized),
             ),
         );
-        const reviewAggregations = await Promise.all(
+        aggregation.reviews = await Promise.all(
             profile.reviews.map(review => ReviewAggregator.generateFromEntity(review, normalized)),
         );
 
-        return {
-            age: profile.age,
-            gender: profile.gender ? 1 : 0,
-            favoriteArtists: favoriteArtistAggregations,
-            reviews: reviewAggregations,
-        };
+        if(normalized) return ProfileAggregator.normalize(aggregation);
+        return aggregation;
     },
     normalize: (raw: ProfileAggregation): ProfileAggregation => ({
         ...raw,

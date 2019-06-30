@@ -1,7 +1,12 @@
 import { createObjectCsvWriter } from 'csv-writer';
 
+import * as Spotify from 'spotify';
+
 import { RedisHelper } from '../../helpers/classes/redis';
-import { DatabaseEntities } from '../../entities/entities';
+import {
+    DatabaseEntities,
+    TrackEntity,
+} from '../../entities/entities';
 
 /**
  * Superclass for all data aggregators. Creates a structured method for pulling and normalizing
@@ -37,11 +42,10 @@ export class Aggregator<T1 extends AggregatableEntities, T2 extends Aggregation>
             const cachedAggregation = await this.redisClient.getObject<T2>(redisKey);
             if(cachedAggregation != null) return cachedAggregation;
         }
-        let aggregation = await this.aggregationGenerator.generateFromEntity(
+        const aggregation = await this.aggregationGenerator.generateFromEntity(
             this.entity,
             normalized,
         );
-        if(normalized) aggregation = this.aggregationGenerator.normalize(aggregation);
         if(redisKey != null) {
             await this.redisClient.setObject(redisKey, aggregation);
         }
@@ -105,10 +109,12 @@ export class Aggregator<T1 extends AggregatableEntities, T2 extends Aggregation>
     }
 
     public redisKey(normalized: boolean): string {
-        if(this.entity == null) return null;
-        const keyString = `${this.aggregationGenerator.aggregationType}_${this.entity.id}`;
-        if(normalized) return `${keyString}_normalized`;
-        return keyString;
+        if(this.entity != null && this.entity.id != null) {
+            const keyString = `${this.aggregationGenerator.aggregationType}_${this.entity.id}`;
+            if(normalized) return `${keyString}_normalized`;
+            return keyString;
+        }
+        return null;
     }
 }
 
@@ -126,7 +132,7 @@ export class Aggregator<T1 extends AggregatableEntities, T2 extends Aggregation>
  */
 export interface AggregationGenerator<T1 extends AggregatableEntities, T2 extends Aggregation> {
     aggregationType: AggregationType;
-
+    convertFromRaw(entity: T1): T2;
     /**
      * Aggregates data for an [[Aggregation]]. Implementations consist of two steps
      * 1. Ensure all necessary aggregation data is contained in [[Aggregator.entity]], fetching it
@@ -144,7 +150,19 @@ export interface AggregationGenerator<T1 extends AggregatableEntities, T2 extend
 /**
  * Typings for data aggregation
  */
-export type AggregatableEntities = DatabaseEntities;
+export type AggregatableEntities =
+    | DatabaseEntities
+    | SpotifyTrackFull;
+
+export interface SpotifyTrackFromApi {
+    id: null;
+    info: Spotify.Track;
+    features: Spotify.AudioFeature;
+}
+
+export type SpotifyTrackFull =
+    | TrackEntity
+    | SpotifyTrackFromApi;
 
 export interface TrackAggregation {
     acousticness: number;

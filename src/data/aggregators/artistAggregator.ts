@@ -9,18 +9,24 @@ import { ArtistEntity } from '../../entities/entities';
  */
 export const ArtistAggregator: AggregationGenerator<ArtistEntity, ArtistAggregation> = {
     aggregationType: 'artist',
-    generateFromEntity: async (artist: ArtistEntity): Promise<ArtistAggregation> => {
+    convertFromRaw: (artist: ArtistEntity): ArtistAggregation => ({
+        active: artist.active ? 1 : 0,
+        discographySize: artist.discographyCountRYM,
+        artistLists: artist.listCountRYM,
+        members: artist.memberCount,
+        shows: artist.showCountRYM,
+        soloPerformer: artist.soloPerformer ? 1 : 0,
+        artistPopularity: artist.spotifyPopularity,
+    }),
+    generateFromEntity: async (
+        artist: ArtistEntity,
+        normalized: boolean,
+    ): Promise<ArtistAggregation> => {
         if(artist == null) throw new Error('Cannot aggregate null artist');
 
-        return {
-            active: artist.active ? 1 : 0,
-            discographySize: artist.discographyCountRYM,
-            artistLists: artist.listCountRYM,
-            members: artist.memberCount,
-            shows: artist.showCountRYM,
-            soloPerformer: artist.soloPerformer ? 1 : 0,
-            artistPopularity: artist.spotifyPopularity,
-        };
+        const aggregation = ArtistAggregator.convertFromRaw(artist);
+        if(normalized) return ArtistAggregator.normalize(aggregation);
+        return aggregation;
     },
     normalize: (raw: ArtistAggregation): ArtistAggregation => ({
         ...raw,

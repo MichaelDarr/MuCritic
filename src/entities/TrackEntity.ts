@@ -3,7 +3,6 @@ import {
     Entity,
     PrimaryGeneratedColumn,
     ManyToOne,
-    Unique,
 } from 'typeorm';
 
 import { AlbumEntity } from './AlbumEntity';

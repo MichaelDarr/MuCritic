@@ -17,6 +17,7 @@ import {
 import { Log } from './helpers/classes/log';
 import { SpotifyApi } from './helpers/classes/spotifyApi';
 import { connectToDatabase } from './helpers/functions/database';
+import { SpotifyArtistTrackScraper } from './scrapers/spotify/spotifyArtistTracksScraper';
 
 dotenv.config({ path: resolve(__dirname, '../.env') });
 
@@ -28,15 +29,14 @@ export async function aggregateArtistTracks(): Promise<void> {
         Log.notify('\nMuCritic Data Aggregator\n\n');
         await connectToDatabase();
         await SpotifyApi.connect(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET);
-        const spotifyClient = SpotifyApi.getConnection();
 
         const artists = await getRepository(ArtistEntity).find({
             spotifyId: Not(IsNull()),
         });
         await Promise.all(
             artists.map(async (artist) => {
-                const topTracks = spotifyClient.getArtistTopTracks(artist.spotifyId);
-                // topTracks.map(track => {})
+                const scraper = new SpotifyArtistTrackScraper(artist);
+                await scraper.scrape();
             }),
         );
         Log.success('\nData Aggregation Successful!\n');
