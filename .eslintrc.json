@@ -23,12 +23,10 @@
                     "checkForLocalRecord",
                     "extractInfo",
                     "fields",
-                    "normalize",
                     "printInfo",
                     "requestScrape",
                     "scrapeDependencies",
-                    "scrapeErrorHandler",
-                    "template"
+                    "scrapeErrorHandler"
                 ]
             }
         ],

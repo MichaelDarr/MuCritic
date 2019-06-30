@@ -10,16 +10,14 @@ export function aggregateDistribution(aggregations: Aggregation[]): void {
     let average: Aggregation;
     let min: Aggregation;
     let max: Aggregation;
-    const blankReviewAggragator = new ReviewAggregator(null);
-    const blankAlbumAggragator = new AlbumAggregator(null);
     if('userDisagreement' in aggregations[0]) {
-        average = blankReviewAggragator.template(0);
-        min = blankReviewAggragator.template(null);
-        max = blankReviewAggragator.template(null);
+        average = ReviewAggregator.template(0);
+        min = ReviewAggregator.template(null);
+        max = ReviewAggregator.template(null);
     } else {
-        average = blankAlbumAggragator.template(0);
-        min = blankAlbumAggragator.template(null);
-        max = blankAlbumAggragator.template(null);
+        average = AlbumAggregator.template(0);
+        min = AlbumAggregator.template(null);
+        max = AlbumAggregator.template(null);
     }
 
     aggregations.forEach((review) => {

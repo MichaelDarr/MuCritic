@@ -16,7 +16,6 @@ import {
 import { Aggregator } from './data/aggregators/aggregator';
 import { AlbumAggregator } from './data/aggregators/albumAggregator';
 import { AlbumEntity } from './entities/entities';
-import { ArtistsAggregator } from './data/aggregators/artistsAggregator';
 import { Log } from './helpers/classes/log';
 import { RedisHelper } from './helpers/classes/redis';
 import { SpotifyApi } from './helpers/classes/spotifyApi';
@@ -50,49 +49,49 @@ export async function recommendAlbums(): Promise<void> {
             '4Z8W4fKeB5YxbusRsdQVPb',
             '3l65Zubp9XQv2SDSL3DhTi',
         ];
-        const artistsAggregator = new ArtistsAggregator(null, artistIds);
-        const aggregation = await artistsAggregator.aggregate(true);
-        if(aggregation == null) throw new Error('no artists read for album recommendation');
-        const aggregationArr: number[] = Aggregator.stripLabels(aggregation);
-        const aggregationTensor = tf.tensor(aggregationArr).as2D(1, 16);
-        const tasteRaw = learnTasteModel.predict(aggregationTensor);
-        const taste = (Array.isArray(tasteRaw)) ? tasteRaw[0] : tasteRaw;
-        const albumEntities = await getRepository(AlbumEntity).find({
-            where: {
-                spotifyId: Not(IsNull()),
-                spotifyAlbumType: 'album',
-                ratingRYM: MoreThan(3.5),
-                ratingCountRYM: MoreThan(200),
-            },
-        });
-        const albumAggregations = await Promise.all(
-            albumEntities.map(album => new AlbumAggregator(album).aggregate()),
-        );
-        const albumAggregationArrs = albumAggregations.map(agg => Aggregator.stripLabels(agg));
-        const albums = albumAggregationArrs.map((albumArr) => {
-            const tensor = tf.tensor(albumArr).as2D(1, 31);
-            const encoded = encodeAlbumModel.predict(tensor);
-            return (Array.isArray(encoded)) ? encoded[0] : encoded;
-        });
-        const scores = albums.map((album, i): AlbumScorePair => {
-            const executedPerceptron = album.mul(taste);
-            return {
-                score: executedPerceptron.sum().dataSync()[0],
-                albumId: albumEntities[i].id,
-            };
-        });
-        const top = scores.sort((a, b) => (b.score - a.score)).slice(0, 100);
-        for await(const scorePair of top) {
-            const albumEntity = await getRepository(AlbumEntity).findOne({
-                relations: [
-                    'artist',
-                ],
-                where: {
-                    id: scorePair.albumId,
-                },
-            });
-            Log.success(`${scorePair.score}: ${albumEntity.name} by ${albumEntity.artist.name}`);
-        }
+        // const artistsAggregator = new ArtistsAggregator(null, artistIds);
+        // const aggregation = await artistsAggregator.aggregate(true);
+        // if(aggregation == null) throw new Error('no artists read for album recommendation');
+        // const aggregationArr: number[] = Aggregator.stripLabels(aggregation);
+        // const aggregationTensor = tf.tensor(aggregationArr).as2D(1, 16);
+        // const tasteRaw = learnTasteModel.predict(aggregationTensor);
+        // const taste = (Array.isArray(tasteRaw)) ? tasteRaw[0] : tasteRaw;
+        // const albumEntities = await getRepository(AlbumEntity).find({
+        //     where: {
+        //         spotifyId: Not(IsNull()),
+        //         spotifyAlbumType: 'album',
+        //         ratingRYM: MoreThan(3.5),
+        //         ratingCountRYM: MoreThan(200),
+        //     },
+        // });
+        // const albumAggregations = await Promise.all(
+        //     albumEntities.map(album => new AlbumAggregator(album).aggregate()),
+        // );
+        // const albumAggregationArrs = albumAggregations.map(agg => Aggregator.stripLabels(agg));
+        // const albums = albumAggregationArrs.map((albumArr) => {
+        //     const tensor = tf.tensor(albumArr).as2D(1, 31);
+        //     const encoded = encodeAlbumModel.predict(tensor);
+        //     return (Array.isArray(encoded)) ? encoded[0] : encoded;
+        // });
+        // const scores = albums.map((album, i): AlbumScorePair => {
+        //     const executedPerceptron = album.mul(taste);
+        //     return {
+        //         score: executedPerceptron.sum().dataSync()[0],
+        //         albumId: albumEntities[i].id,
+        //     };
+        // });
+        // const top = scores.sort((a, b) => (b.score - a.score)).slice(0, 100);
+        // for await(const scorePair of top) {
+        //     const albumEntity = await getRepository(AlbumEntity).findOne({
+        //         relations: [
+        //             'artist',
+        //         ],
+        //         where: {
+        //             id: scorePair.albumId,
+        //         },
+        //     });
+        //     Log.success(`${scorePair.score}: ${albumEntity.name} by ${albumEntity.artist.name}`);
+        // }
         Log.success('\nData Aggregation Successful!\n');
         process.exit(0);
     } catch(err) {

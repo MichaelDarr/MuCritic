@@ -7,35 +7,29 @@ import { DatabaseEntities } from '../../entities/entities';
  * Superclass for all data aggregators. Creates a structured method for pulling and normalizing
  * data from the database into usable [[Aggregation]] objects.
  *
- * @typeparam T1 database entity used to create an [[Aggregation]]
- * @typeparam T2 type of [[Aggregation]] to be created
- *
- * @remarks
- * Try not to not keep too instances of these classes alive, or you are likely to run out of
- * memory. [[Aggregator.entity]] can be very large, especially if it contains many relations.
+ * @typeparam T1 entity used to create an [[Aggregation]]
+ * @typeparam T2 [[Aggregation]] format to be created
  */
-export abstract class Aggregator<T1 extends DatabaseEntities, T2 extends Aggregation> {
+export class Aggregator<T1 extends AggregatableEntities, T2 extends Aggregation> {
     /**
      * Database entity that serves as the "base" of the aggregation. For example, this would be an
      * instance of [[ProfileEntity]] for an aggregation of all reviews by a profile
      */
     public entity: T1;
 
-    public aggregationType: AggregationType;
+    public aggregationGenerator: AggregationGenerator<T1, T2>;
 
     public redisClient: RedisHelper;
 
-    public constructor(entity: T1, type: AggregationType) {
+    public constructor(entity: T1, aggregationGenerator: AggregationGenerator<T1, T2>) {
         this.entity = entity;
-        this.aggregationType = type;
+        this.aggregationGenerator = aggregationGenerator;
         this.redisClient = RedisHelper.getConnection();
     }
 
     /**
-     * High-level [[Aggregation]] creator used by all [[Aggregator]] subclasses
-     *
      * @param normalized if data in returned aggregation should be normalized using
-     * [[Aggregator.normalize]]
+     * [[EntityAggregator.normalize]]
      */
     public async aggregate(normalized = true): Promise<T2> {
         const redisKey = this.redisKey(normalized);
@@ -43,8 +37,11 @@ export abstract class Aggregator<T1 extends DatabaseEntities, T2 extends Aggrega
             const cachedAggregation = await this.redisClient.getObject<T2>(redisKey);
             if(cachedAggregation != null) return cachedAggregation;
         }
-        let aggregation = await this.generateAggregate(normalized);
-        if(normalized) aggregation = this.normalize(aggregation);
+        let aggregation = await this.aggregationGenerator.generateFromEntity(
+            this.entity,
+            normalized,
+        );
+        if(normalized) aggregation = this.aggregationGenerator.normalize(aggregation);
         if(redisKey != null) {
             await this.redisClient.setObject(redisKey, aggregation);
         }
@@ -77,22 +74,30 @@ export abstract class Aggregator<T1 extends DatabaseEntities, T2 extends Aggrega
         return headers;
     }
 
-    public async writeAggregationsToCsv(aggregations: Aggregation[], fileName = 'data', baseDir = './resources/data'): Promise<void> {
+    public async writeAggregationToCsv(
+        aggregation: T2 | T2[],
+        fileName: string,
+        baseDir: string,
+    ): Promise<void> {
         const csvWriter = createObjectCsvWriter({
-            path: `${baseDir}/${this.aggregationType}/${fileName}.csv`,
+            path: `${baseDir}/${fileName}.csv`,
             header: this.csvHeaders(),
         });
-        await csvWriter.writeRecords(aggregations);
+        if(Array.isArray(aggregation)) {
+            await csvWriter.writeRecords(aggregation);
+        } else {
+            await csvWriter.writeRecords([aggregation]);
+        }
     }
 
     /**
      * Get a list of all fields belonging to an aggreation
      */
     public fields(): string[] {
-        const blankAggregation = this.template(1);
+        const blankAggregation = this.aggregationGenerator.template(null);
         const fields: string[] = [];
         for(const prop in blankAggregation) {
-            if(prop in blankAggregation) {
+            if(typeof blankAggregation[prop] === 'number') {
                 fields.push(prop);
             }
         }
@@ -101,10 +106,26 @@ export abstract class Aggregator<T1 extends DatabaseEntities, T2 extends Aggrega
 
     public redisKey(normalized: boolean): string {
         if(this.entity == null) return null;
-        const keyString = `${this.aggregationType}_${this.entity.id}`;
+        const keyString = `${this.aggregationGenerator.aggregationType}_${this.entity.id}`;
         if(normalized) return `${keyString}_normalized`;
         return keyString;
     }
+}
+
+/**
+ * Defines how [[Aggregator]] will aggregate information from a resource.
+ *
+ * @typeparam T1 entity used to create an [[Aggregation]]
+ * @typeparam T2 [[Aggregation]] format to be created
+ *
+ * @remarks
+ * See [[AlbumAggregator]] for an example implementations of this interface. It must be exported as
+ * a simple object instead of a class, so its methods can be called staticly (static interface
+ * methods are not supported by typescript). This needs to be the case so normalization/aggregation
+ * calls to methods can be called without instantiating a new class instance, which is very useful.
+ */
+export interface AggregationGenerator<T1 extends AggregatableEntities, T2 extends Aggregation> {
+    aggregationType: AggregationType;
 
     /**
      * Aggregates data for an [[Aggregation]]. Implementations consist of two steps
@@ -115,57 +136,15 @@ export abstract class Aggregator<T1 extends DatabaseEntities, T2 extends Aggrega
      * @param normalized if data in returned aggregation should be normalized using
      * [[Aggregator.normalize]]
      */
-    protected abstract async generateAggregate(normalized: boolean): Promise<T2>;
-
-    /**
-     * Normalizes [[Aggregation]] data. This should be a static abstract, but this is
-     * [not yet implemented in typescript](https://github.com/microsoft/TypeScript/issues/14600).
-     */
-    protected abstract normalize(aggregation: T2): T2;
-
-    /**
-     * Creates blank aggregation templates. Similarly to [[Aggregator.normalize]], this should be a
-     * static abstract, but this is
-     * [not yet implemented in typescript](https://github.com/microsoft/TypeScript/issues/14600).
-     */
-    public abstract template(defaultVal: number): T2;
+    generateFromEntity(entity: T1, normalized: boolean): Promise<T2>;
+    normalize(aggregation: T2): T2;
+    template(defaultVal: number): T2;
 }
 
 /**
  * Typings for data aggregation
  */
-
-export interface ProfileInfo {
-    gender: number;
-    age: number;
-}
-
-export interface ArtistInfo {
-    active: number;
-    discographySize: number;
-    artistLists: number;
-    members: number;
-    shows: number;
-    soloPerformer: number;
-    artistPopularity: number;
-}
-
-export interface AlbumRYM {
-    issues: number;
-    albumLists: number;
-    overallRank: number;
-    rating: number;
-    ratings: number;
-    reviews: number;
-    yearRank: number;
-}
-
-export interface AlbumSpotify {
-    availableMarkets: number;
-    copyrights: number;
-    albumPopularity: number;
-    releaseYear: number;
-}
+export type AggregatableEntities = DatabaseEntities;
 
 export interface TrackAggregation {
     acousticness: number;
@@ -179,27 +158,51 @@ export interface TrackAggregation {
     mode: number;
     speechiness: number;
     tempo: number;
-    timeSignatureVariation: number;
+    timeSignature: number;
     valence: number;
 }
 
-export interface AlbumAggregation extends AlbumRYM, AlbumSpotify, ArtistInfo, TrackAggregation {}
-
-export interface ReviewAggregation extends AlbumAggregation {
-    userDisagreement: number;
+export interface AlbumAggregation {
+    availableMarkets: number;
+    copyrights: number;
+    albumPopularity: number;
+    releaseYear: number;
+    issues: number;
+    albumLists: number;
+    overallRank: number;
+    rating: number;
+    ratings: number;
+    reviews: number;
+    yearRank: number;
+    artist: ArtistAggregation;
+    tracks: TrackAggregation[];
 }
 
-export interface ArtistsAggregation extends TrackAggregation {
-    averagePopularity: number;
-    highestPopularity: number;
-    lowestPopularity: number;
+export interface ReviewAggregation {
+    score: number;
+    album: AlbumAggregation;
 }
 
-export type ProfileAggregation = ReviewAggregation[];
+export interface ArtistAggregation {
+    active: number;
+    discographySize: number;
+    artistLists: number;
+    members: number;
+    shows: number;
+    soloPerformer: number;
+    artistPopularity: number;
+}
+
+export interface ProfileAggregation {
+    age: number;
+    gender: number;
+    favoriteArtists: ArtistAggregation[];
+    reviews: ReviewAggregation[];
+}
 
 export type Aggregation =
     | AlbumAggregation
-    | ArtistsAggregation
+    | ArtistAggregation
     | ReviewAggregation
     | ProfileAggregation
     | TrackAggregation;

@@ -1,7 +1,7 @@
 import { getRepository } from 'typeorm';
 
 import {
-    Aggregator,
+    AggregationGenerator,
     ReviewAggregation,
 } from './aggregator';
 import { ReviewEntity } from '../../entities/entities';
@@ -10,16 +10,18 @@ import { AlbumAggregator } from './albumAggregator';
 /**
  * [[ReviewAggregation]] generator class for [[ReviewEntity]]
  */
-export class ReviewAggregator extends Aggregator<ReviewEntity, ReviewAggregation> {
-    public constructor(review: ReviewEntity) {
-        super(review, 'review');
-    }
-
-    protected async generateAggregate(normalized: boolean): Promise<ReviewAggregation> {
-        if(this.entity.album == null) {
-            this.entity = await getRepository(ReviewEntity)
+export const ReviewAggregator: AggregationGenerator<ReviewEntity, ReviewAggregation> = {
+    aggregationType: 'review',
+    generateFromEntity: async (
+        requestedReview: ReviewEntity,
+        normalized: boolean,
+    ): Promise<ReviewAggregation> => {
+        let review = requestedReview;
+        if(review == null) throw new Error('Cannot aggregate null review');
+        if(review.album == null) {
+            review = await getRepository(ReviewEntity)
                 .createQueryBuilder('review')
-                .where('review.id = :id', { id: this.entity.id })
+                .where('review.id = :id', { id: review.id })
                 .leftJoinAndSelect('review.album', 'album')
                 .andWhere('album.spotifyId is not null')
                 .andWhere('album.spotifyAlbumType = :type', { type: 'album' })
@@ -27,26 +29,23 @@ export class ReviewAggregator extends Aggregator<ReviewEntity, ReviewAggregation
                 .leftJoinAndSelect('album.tracks', 'tracks')
                 .getOne();
         }
-        const albumAggregator = new AlbumAggregator(this.entity.album);
-        const albumAggregation = await albumAggregator.aggregate(normalized);
-        return {
-            ...albumAggregation,
-            userDisagreement: this.entity.score - this.entity.album.ratingRYM,
-        };
-    }
+        if(review.album == null) throw new Error('No album for review aggregation');
 
-    protected normalize(raw: ReviewAggregation): ReviewAggregation {
+        const albumAggregation = await AlbumAggregator.generateFromEntity(
+            review.album,
+            normalized,
+        );
         return {
-            ...raw,
-            userDisagreement: (raw.userDisagreement + 3.5) / 5.5,
+            score: review.score,
+            album: albumAggregation,
         };
-    }
-
-    public template(defaultVal = 0): ReviewAggregation {
-        const albumTemplate = new AlbumAggregator(null).template(defaultVal);
-        return {
-            ...albumTemplate,
-            userDisagreement: defaultVal,
-        };
-    }
-}
+    },
+    normalize: (raw: ReviewAggregation): ReviewAggregation => ({
+        ...raw,
+        score: raw.score / 5,
+    }),
+    template: (defaultVal = 0): ReviewAggregation => ({
+        score: defaultVal,
+        album: AlbumAggregator.template(defaultVal),
+    }),
+};

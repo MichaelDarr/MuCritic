@@ -72,6 +72,9 @@ export abstract class ScraperApiScraper extends Scraper {
         }
     }
 
+    /**
+     * When a scrape fails, add it to the blacklist, then throw the error
+     */
     protected async scrapeErrorHandler(error: Error): Promise<void> {
         await this.redis.set(this.url, 'blacklisted');
         Log.err(`Scrape of ${this.description} failed.\nError: ${error.message}\n${this.url} added to blacklist\n`);

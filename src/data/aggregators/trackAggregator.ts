@@ -1,5 +1,5 @@
 import {
-    Aggregator,
+    AggregationGenerator,
     TrackAggregation,
 } from './aggregator';
 import { TrackEntity } from '../../entities/entities';
@@ -7,33 +7,28 @@ import { TrackEntity } from '../../entities/entities';
 /**
  * [[TrackAggregation]] generator class for [[TrackEntity]] database entries
  */
-export class TrackAggregator extends Aggregator<TrackEntity, TrackAggregation> {
-    public constructor(track: TrackEntity) {
-        super(track, 'track');
-    }
+export const TrackAggregator: AggregationGenerator<TrackEntity, TrackAggregation> = {
+    aggregationType: 'track',
+    generateFromEntity: async (track: TrackEntity): Promise<TrackAggregation> => {
+        if(track == null) throw new Error('tried to aggregate null track');
 
-    protected async generateAggregate(): Promise<TrackAggregation> {
-        if(this.entity == null) throw new Error('tried to aggregate null track');
-
-        const aggregation = this.template(0);
-        for(const trackProp in this.entity) {
-            if(trackProp in aggregation) {
+        const aggregation = TrackAggregator.template(0);
+        for(const prop in track) {
+            if(prop in aggregation) {
                 let trackVal: number;
-                if(this.entity[trackProp] == null) {
+                if(track[prop] == null) {
                     trackVal = 0;
-                } else if(typeof this.entity[trackProp] === 'boolean') {
-                    trackVal = this.entity[trackProp] ? 1 : 0;
+                } else if(typeof track[prop] === 'boolean') {
+                    trackVal = track[prop] ? 1 : 0;
                 } else {
-                    trackVal = this.entity[trackProp];
+                    trackVal = track[prop];
                 }
-                aggregation[trackProp] = trackVal;
+                aggregation[prop] = trackVal;
             }
         }
-        aggregation.timeSignatureVariation = (4 - this.entity.timeSignature) ** 2;
         return aggregation;
-    }
-
-    public normalize(raw: TrackAggregation): TrackAggregation {
+    },
+    normalize: (raw: TrackAggregation): TrackAggregation => {
         const normalized = this.template(0);
 
         normalized.acousticness = raw.acousticness;
@@ -46,28 +41,25 @@ export class TrackAggregator extends Aggregator<TrackEntity, TrackAggregation> {
         normalized.mode = raw.mode;
         normalized.speechiness = Math.sqrt(raw.speechiness);
         normalized.tempo = Math.sqrt(Math.max(185 - raw.tempo, 0)) / 13;
-        normalized.timeSignatureVariation = Math.cbrt(raw.timeSignatureVariation) / 2.4;
-        normalized.duration = raw.duration;
+        normalized.timeSignature = Math.sqrt(raw.timeSignature) / 4;
+        normalized.duration = Math.cbrt(raw.duration) / 85;
         normalized.valence = raw.valence;
 
         return normalized;
-    }
-
-    public template(defaultVal: number): TrackAggregation {
-        return {
-            acousticness: defaultVal,
-            danceability: defaultVal,
-            duration: defaultVal,
-            energy: defaultVal,
-            explicit: defaultVal,
-            instrumentalness: defaultVal,
-            liveness: defaultVal,
-            loudness: defaultVal,
-            mode: defaultVal,
-            speechiness: defaultVal,
-            tempo: defaultVal,
-            timeSignatureVariation: defaultVal,
-            valence: defaultVal,
-        };
-    }
-}
+    },
+    template: (defaultVal: number): TrackAggregation => ({
+        acousticness: defaultVal,
+        danceability: defaultVal,
+        duration: defaultVal,
+        energy: defaultVal,
+        explicit: defaultVal,
+        instrumentalness: defaultVal,
+        liveness: defaultVal,
+        loudness: defaultVal,
+        mode: defaultVal,
+        speechiness: defaultVal,
+        tempo: defaultVal,
+        timeSignature: defaultVal,
+        valence: defaultVal,
+    }),
+};

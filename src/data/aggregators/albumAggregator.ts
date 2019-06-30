@@ -1,114 +1,86 @@
 import { getRepository } from 'typeorm';
 
 import {
-    AggregationType,
-    Aggregator,
+    AggregationGenerator,
     AlbumAggregation,
 } from './aggregator';
+import { ArtistAggregator } from './artistAggregator';
 import { TrackAggregator } from './trackAggregator';
 import { AlbumEntity } from '../../entities/entities';
+import { TrackEntity } from '../../entities/TrackEntity';
 
 /**
  * [[AlbumAggregation]] generator class for [[AlbumEntity]]
  */
-export class AlbumAggregator extends Aggregator<AlbumEntity, AlbumAggregation> {
-    public constructor(album: AlbumEntity, type: AggregationType = 'album') {
-        super(album, type);
-    }
-
-    protected async generateAggregate(normalized: boolean): Promise<AlbumAggregation> {
-        if(this.entity == null) throw new Error('Cannot aggregate null album');
-        if(this.entity.artist == null || this.entity.tracks == null) {
-            this.entity = await getRepository(AlbumEntity).findOne({
+export const AlbumAggregator: AggregationGenerator<AlbumEntity, AlbumAggregation> = {
+    aggregationType: 'album',
+    generateFromEntity: async (
+        requestedAlbum: AlbumEntity,
+        normalized: boolean,
+    ): Promise<AlbumAggregation> => {
+        let album = requestedAlbum;
+        if(album == null) throw new Error('Cannot aggregate null album');
+        if(album.artist == null || album.tracks == null) {
+            album = await getRepository(AlbumEntity).findOne({
                 relations: [
                     'artist',
                     'tracks',
                 ],
                 where: {
-                    id: this.entity.id,
+                    id: album.id,
                 },
             });
         }
 
-        if(this.entity.artist == null) throw new Error(`Aggregated album has no artist: ${this.entity.name}`);
-        if(this.entity.tracks == null) throw new Error(`Aggregated album has no tracks: ${this.entity.name} by ${this.entity.artist.name}`);
+        if(album.artist == null) throw new Error(`Aggregated album has no artist: ${album.name}`);
+        if(album.tracks == null) throw new Error(`Aggregated album has no tracks: ${album.name} by ${album.artist.name}`);
 
-        const aggregation = this.template(0);
-
-        const trackAggregators = this.entity.tracks.map(track => new TrackAggregator(track));
         const trackAggregations = await Promise.all(
-            trackAggregators.map(track => track.aggregate(normalized)),
+            album.tracks.map(
+                (track: TrackEntity) => TrackAggregator.generateFromEntity(track, normalized),
+            ),
         );
-        const trackCount = trackAggregators.length;
+        const artistAggregation = await ArtistAggregator.generateFromEntity(
+            album.artist,
+            normalized,
+        );
 
-        trackAggregations.forEach((track) => {
-            for(const trackProp in track) {
-                if(trackProp in aggregation) {
-                    if(trackProp === 'duration') {
-                        aggregation[trackProp] += track[trackProp];
-                    } else {
-                        aggregation[trackProp] += track[trackProp] / trackCount;
-                    }
-                }
-            }
-        });
-
-        aggregation.availableMarkets = this.entity.spotifyAvailableMarketCount;
-        aggregation.copyrights = this.entity.spotifyCopyRightCount;
-        aggregation.albumPopularity = this.entity.spotifyPopularity;
-        aggregation.releaseYear = this.entity.releaseYear;
-        aggregation.issues = this.entity.issueCountRYM;
-        aggregation.albumLists = this.entity.listCountRYM;
-        aggregation.overallRank = this.entity.overallRankRYM;
-        aggregation.rating = this.entity.ratingRYM;
-        aggregation.ratings = this.entity.ratingCountRYM;
-        aggregation.reviews = this.entity.reviewCountRYM;
-        aggregation.yearRank = this.entity.yearRankRYM;
-        aggregation.active = this.entity.artist.active ? 1 : 0;
-        aggregation.discographySize = this.entity.artist.discographyCountRYM;
-        aggregation.artistLists = this.entity.artist.listCountRYM;
-        aggregation.members = this.entity.artist.memberCount;
-        aggregation.shows = this.entity.artist.showCountRYM;
-        aggregation.soloPerformer = this.entity.artist.soloPerformer ? 1 : 0;
-        aggregation.artistPopularity = this.entity.artist.spotifyPopularity;
-
-        return aggregation;
-    }
-
-    protected normalize(raw: AlbumAggregation): AlbumAggregation {
         return {
-            ...raw,
-            duration: Math.sqrt(raw.duration) / 7000,
-            explicit: 1 - Math.sqrt(Math.max(1 - raw.explicit, 0)),
-            availableMarkets: raw.availableMarkets / 80,
-            copyrights: raw.copyrights / 2,
-            albumPopularity: Math.sqrt(raw.albumPopularity) / 10,
-            releaseYear: Math.sqrt(2020 - raw.releaseYear) / 11,
-            issues: Math.cbrt(raw.issues) / 6,
-            albumLists: Math.cbrt(raw.albumLists) / 17,
-            overallRank: raw.overallRank === 0
-                ? 0
-                : 1 - (Math.cbrt(raw.overallRank) / 30),
-            rating: (raw.rating - 0.5) / 4.5,
-            ratings: Math.cbrt(raw.ratings - 1) / 36,
-            reviews: Math.cbrt(raw.reviews) / 11,
-            yearRank: raw.yearRank === 0
-                ? 0
-                : 1 - (Math.cbrt(raw.overallRank) / 30),
-            active: raw.active,
-            discographySize: Math.sqrt(raw.discographySize - 1) / 50,
-            artistLists: Math.sqrt(raw.artistLists) / 45,
-            members: Math.cbrt(raw.members - 1) / 5,
-            shows: Math.cbrt(raw.shows) / 9,
-            soloPerformer: raw.soloPerformer,
-            artistPopularity: raw.artistPopularity / 100,
+            availableMarkets: album.spotifyAvailableMarketCount,
+            copyrights: album.spotifyCopyRightCount,
+            albumPopularity: album.spotifyPopularity,
+            releaseYear: album.releaseYear,
+            issues: album.issueCountRYM,
+            albumLists: album.listCountRYM,
+            overallRank: album.overallRankRYM,
+            rating: album.ratingRYM,
+            ratings: album.ratingCountRYM,
+            reviews: album.reviewCountRYM,
+            yearRank: album.yearRankRYM,
+            tracks: trackAggregations,
+            artist: artistAggregation,
         };
-    }
-
-    public template(defaultVal: number): AlbumAggregation {
-        const track = new TrackAggregator(null).template(defaultVal);
+    },
+    normalize: (raw: AlbumAggregation): AlbumAggregation => ({
+        ...raw,
+        availableMarkets: raw.availableMarkets / 80,
+        copyrights: raw.copyrights / 2,
+        albumPopularity: Math.sqrt(raw.albumPopularity) / 10,
+        releaseYear: Math.sqrt(2020 - raw.releaseYear) / 11,
+        issues: Math.cbrt(raw.issues) / 6,
+        albumLists: Math.cbrt(raw.albumLists) / 17,
+        overallRank: raw.overallRank === 0
+            ? 0
+            : 1 - (Math.cbrt(raw.overallRank) / 30),
+        rating: (raw.rating - 0.5) / 4.5,
+        ratings: Math.cbrt(raw.ratings - 1) / 36,
+        reviews: Math.cbrt(raw.reviews) / 11,
+        yearRank: raw.yearRank === 0
+            ? 0
+            : 1 - (Math.cbrt(raw.overallRank) / 30),
+    }),
+    template(defaultVal: number): AlbumAggregation {
         return {
-            ...track,
             availableMarkets: defaultVal,
             copyrights: defaultVal,
             albumPopularity: defaultVal,
@@ -120,13 +92,8 @@ export class AlbumAggregator extends Aggregator<AlbumEntity, AlbumAggregation> {
             ratings: defaultVal,
             reviews: defaultVal,
             yearRank: defaultVal,
-            active: defaultVal,
-            discographySize: defaultVal,
-            artistLists: defaultVal,
-            members: defaultVal,
-            shows: defaultVal,
-            soloPerformer: defaultVal,
-            artistPopularity: defaultVal,
+            artist: ArtistAggregator.template(defaultVal),
+            tracks: [],
         };
-    }
-}
+    },
+};
