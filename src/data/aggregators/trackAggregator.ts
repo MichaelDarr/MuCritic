@@ -50,7 +50,7 @@ AggregationGenerator<SpotifyTrackFull, TrackAggregation> = {
         return aggregation;
     },
     normalize: (raw: TrackAggregation): TrackAggregation => {
-        const normalized = this.template(0);
+        const normalized = TrackAggregator.template(0);
 
         normalized.acousticness = raw.acousticness;
         normalized.danceability = raw.danceability;
