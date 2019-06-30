@@ -65,6 +65,9 @@ export class TrackEntity {
     @Column()
     public mode: number;
 
+    @Column()
+    public popularity: number;
+
     @Column({
         type: 'float',
     })
@@ -77,6 +80,9 @@ export class TrackEntity {
 
     @Column()
     public timeSignature: number;
+
+    @Column()
+    public trackNumber: number;
 
     @Column({
         type: 'float',

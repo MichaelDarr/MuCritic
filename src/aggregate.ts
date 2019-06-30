@@ -42,11 +42,6 @@ export async function aggregate(): Promise<void> {
                     AlbumAggregator,
                 );
                 const aggregation = await aggregator.aggregate();
-                await aggregator.writeAggregationToCsv(
-                    aggregation,
-                    `${album.id}`,
-                    './resources/data/album',
-                );
             }),
         );
         Log.success('\nData Aggregation Successful!\n');

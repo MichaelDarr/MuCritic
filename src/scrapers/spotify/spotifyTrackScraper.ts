@@ -42,6 +42,8 @@ export class SpotifyTrackScraper extends SpotifyScraper<Spotify.TracksResponse> 
             newTrack.spotifyId = track.id;
             newTrack.album = this.album;
             newTrack.explicit = track.explicit;
+            newTrack.popularity = track.popularity;
+            newTrack.trackNumber = track.track_number;
             this.tracks.push(newTrack);
         });
     }

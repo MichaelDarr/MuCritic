@@ -52,22 +52,23 @@ export class Aggregator<T1 extends AggregatableEntities, T2 extends Aggregation>
         return aggregation;
     }
 
-    public static stripLabels(aggregation: Aggregation): number[] {
-        const aggregationArr: number[] = [];
-        for(const key in aggregation) {
-            if(key in aggregation) {
-                aggregationArr.push(aggregation[key]);
-            }
+    public redisKey(normalized: boolean): string {
+        if(this.entity != null && this.entity.id != null) {
+            const keyString = `${this.aggregationGenerator.aggregationType}_${this.entity.id}`;
+            if(normalized) return `${keyString}_normalized`;
+            return keyString;
         }
-        return aggregationArr;
+        return null;
     }
 
     /**
      * Generate CSV Header objects in accordance with the
      * [CSV Writer npm package](https://www.npmjs.com/package/csv-writer)
      */
-    public csvHeaders(): CsvHeaders {
-        const fields = this.fields();
+    public static csvHeaders<A1 extends AggregatableEntities, A2 extends Aggregation>(
+        aggregationGenerator: AggregationGenerator<A1, A2>,
+    ): CsvHeaders {
+        const fields = Aggregator.fields(aggregationGenerator);
         const headers: CsvHeaders = [];
         for(const field of fields) {
             headers.push({
@@ -78,27 +79,13 @@ export class Aggregator<T1 extends AggregatableEntities, T2 extends Aggregation>
         return headers;
     }
 
-    public async writeAggregationToCsv(
-        aggregation: T2 | T2[],
-        fileName: string,
-        baseDir: string,
-    ): Promise<void> {
-        const csvWriter = createObjectCsvWriter({
-            path: `${baseDir}/${fileName}.csv`,
-            header: this.csvHeaders(),
-        });
-        if(Array.isArray(aggregation)) {
-            await csvWriter.writeRecords(aggregation);
-        } else {
-            await csvWriter.writeRecords([aggregation]);
-        }
-    }
-
     /**
      * Get a list of all fields belonging to an aggreation
      */
-    public fields(): string[] {
-        const blankAggregation = this.aggregationGenerator.template(null);
+    public static fields<A1 extends AggregatableEntities, A2 extends Aggregation>(
+        aggregationGenerator: AggregationGenerator<A1, A2>,
+    ): string[] {
+        const blankAggregation = aggregationGenerator.template(0);
         const fields: string[] = [];
         for(const prop in blankAggregation) {
             if(typeof blankAggregation[prop] === 'number') {
@@ -108,13 +95,31 @@ export class Aggregator<T1 extends AggregatableEntities, T2 extends Aggregation>
         return fields;
     }
 
-    public redisKey(normalized: boolean): string {
-        if(this.entity != null && this.entity.id != null) {
-            const keyString = `${this.aggregationGenerator.aggregationType}_${this.entity.id}`;
-            if(normalized) return `${keyString}_normalized`;
-            return keyString;
+    public static stripLabels(aggregation: Aggregation): number[] {
+        const aggregationArr: number[] = [];
+        for(const key in aggregation) {
+            if(key in aggregation) {
+                aggregationArr.push(aggregation[key]);
+            }
         }
-        return null;
+        return aggregationArr;
+    }
+
+    public static async writeToCsv<A1 extends AggregatableEntities, A2 extends Aggregation>(
+        aggregation: A2 | A2[],
+        aggregationGenerator: AggregationGenerator<A1, A2>,
+        fileName: string,
+        baseDir: string,
+    ): Promise<void> {
+        const csvWriter = createObjectCsvWriter({
+            path: `${baseDir}/${fileName}.csv`,
+            header: Aggregator.csvHeaders(aggregationGenerator),
+        });
+        if(Array.isArray(aggregation)) {
+            await csvWriter.writeRecords(aggregation);
+        } else {
+            await csvWriter.writeRecords([aggregation]);
+        }
     }
 }
 
@@ -132,6 +137,9 @@ export class Aggregator<T1 extends AggregatableEntities, T2 extends Aggregation>
  */
 export interface AggregationGenerator<T1 extends AggregatableEntities, T2 extends Aggregation> {
     aggregationType: AggregationType;
+    /**
+     * Converts data from a raw format into an [[Aggregation]]
+     */
     convertFromRaw(entity: T1): T2;
     /**
      * Aggregates data for an [[Aggregation]]. Implementations consist of two steps
@@ -174,19 +182,21 @@ export interface TrackAggregation {
     liveness: number;
     loudness: number;
     mode: number;
+    popularity: number;
     speechiness: number;
     tempo: number;
     timeSignature: number;
+    trackNumber: number;
     valence: number;
 }
 
 export interface AlbumAggregation {
     availableMarkets: number;
     copyrights: number;
-    albumPopularity: number;
+    popularity: number;
     releaseYear: number;
     issues: number;
-    albumLists: number;
+    lists: number;
     overallRank: number;
     rating: number;
     ratings: number;
@@ -204,11 +214,11 @@ export interface ReviewAggregation {
 export interface ArtistAggregation {
     active: number;
     discographySize: number;
-    artistLists: number;
+    lists: number;
     members: number;
     shows: number;
     soloPerformer: number;
-    artistPopularity: number;
+    popularity: number;
 }
 
 export interface ProfileAggregation {

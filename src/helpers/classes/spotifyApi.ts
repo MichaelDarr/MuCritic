@@ -89,10 +89,11 @@ export class SpotifyApi {
      * @param albumIds Comma-separated list of the Spotify IDs for the albums. Maximum: 20
      */
     public async getBatch<T extends Spotify.BatchResponse>(
-        ids: string,
+        ids: string | string[],
         batchName: string,
     ): Promise<T> {
-        const url = `https://api.spotify.com/v1/${batchName}?ids=${ids}`;
+        const idString = (Array.isArray(ids)) ? ids.join(',') : ids;
+        const url = `https://api.spotify.com/v1/${batchName}?ids=${idString}`;
         return this.spotifyRequest<T>(url, 'GET');
     }
 
@@ -195,7 +196,7 @@ export class SpotifyApi {
                 requestOptions,
                 (error, response, body): void => {
                     if(error) {
-                        reject(new Error(`request failed for ${url}`));
+                        reject(new Error(`request failed for ${url}: ${error}`));
                     } else if(body.error != null && body.error.status === 429) {
                         const spotifyApiTemp = this;
                         setTimeout(() => {

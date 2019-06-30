@@ -21,12 +21,12 @@ AggregationGenerator<SpotifyTrackFull, TrackAggregation> = {
                 timeSignature: track.features.time_signature,
                 duration: track.info.duration_ms,
                 explicit: track.info.explicit ? 1 : 0,
+                trackNumber: track.info.track_number,
+                popularity: track.info.popularity,
             };
         } else {
             unfilteredAggregation = {
                 ...track,
-                timeSignature: track.timeSignature,
-                duration: track.duration,
                 explicit: track.explicit ? 1 : 0,
             };
         }
@@ -60,9 +60,11 @@ AggregationGenerator<SpotifyTrackFull, TrackAggregation> = {
         normalized.liveness = raw.liveness;
         normalized.loudness = Math.max(raw.loudness + 40, 0) / 40;
         normalized.mode = raw.mode;
+        normalized.popularity = raw.popularity;
         normalized.speechiness = Math.sqrt(raw.speechiness);
         normalized.tempo = Math.sqrt(Math.max(185 - raw.tempo, 0)) / 13;
         normalized.timeSignature = Math.sqrt(raw.timeSignature) / 4;
+        normalized.trackNumber = raw.trackNumber / 10;
         normalized.duration = Math.cbrt(raw.duration) / 85;
         normalized.valence = raw.valence;
 
@@ -78,9 +80,11 @@ AggregationGenerator<SpotifyTrackFull, TrackAggregation> = {
         liveness: defaultVal,
         loudness: defaultVal,
         mode: defaultVal,
+        popularity: defaultVal,
         speechiness: defaultVal,
         tempo: defaultVal,
         timeSignature: defaultVal,
+        trackNumber: defaultVal,
         valence: defaultVal,
     }),
 };

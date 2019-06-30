@@ -15,6 +15,7 @@ import {
     ArtistEntity,
 } from './entities/entities';
 import { Log } from './helpers/classes/log';
+import { RedisHelper } from './helpers/classes/redis';
 import { SpotifyApi } from './helpers/classes/spotifyApi';
 import { connectToDatabase } from './helpers/functions/database';
 import { SpotifyArtistTrackScraper } from './scrapers/spotify/spotifyArtistTracksScraper';
@@ -28,17 +29,20 @@ export async function aggregateArtistTracks(): Promise<void> {
     try {
         Log.notify('\nMuCritic Data Aggregator\n\n');
         await connectToDatabase();
+        await RedisHelper.connect(6379, '127.0.0.1', 5);
         await SpotifyApi.connect(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET);
 
         const artists = await getRepository(ArtistEntity).find({
             spotifyId: Not(IsNull()),
         });
-        await Promise.all(
-            artists.map(async (artist) => {
-                const scraper = new SpotifyArtistTrackScraper(artist);
+        for await(const artist of artists) {
+            const scraper = new SpotifyArtistTrackScraper(artist);
+            try {
                 await scraper.scrape();
-            }),
-        );
+            } catch (err) {
+                Log.err(`\n${err.message}`);
+            }
+        }
         Log.success('\nData Aggregation Successful!\n');
         process.exit(0);
     } catch(err) {

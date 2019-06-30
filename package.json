@@ -16,7 +16,8 @@
     "spotifyData": "tsc && node built/scrapeSpotifyData",
     "spotifyIds": "tsc && node built/scrapeSpotifyIds",
     "spotifyGenres": "tsc && node built/scrapeSpotifyGenres",
-    "spotifyTracks": "tsc && node built/scrapeSpotifyTracks"
+    "spotifyTracks": "tsc && node built/scrapeSpotifyTracks",
+    "spotifyTopTracks": "tsc && node built/aggregateArtistTracks"
   },
   "author": "Michael Darr",
   "license": "ISC",

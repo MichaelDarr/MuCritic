@@ -16,10 +16,10 @@ export const AlbumAggregator: AggregationGenerator<AlbumEntity, AlbumAggregation
     convertFromRaw: (album: AlbumEntity): AlbumAggregation => ({
         availableMarkets: album.spotifyAvailableMarketCount,
         copyrights: album.spotifyCopyRightCount,
-        albumPopularity: album.spotifyPopularity,
+        popularity: album.spotifyPopularity,
         releaseYear: album.releaseYear,
         issues: album.issueCountRYM,
-        albumLists: album.listCountRYM,
+        lists: album.listCountRYM,
         overallRank: album.overallRankRYM,
         rating: album.ratingRYM,
         ratings: album.ratingCountRYM,
@@ -68,10 +68,10 @@ export const AlbumAggregator: AggregationGenerator<AlbumEntity, AlbumAggregation
         ...raw,
         availableMarkets: raw.availableMarkets / 80,
         copyrights: raw.copyrights / 2,
-        albumPopularity: Math.sqrt(raw.albumPopularity) / 10,
+        popularity: Math.sqrt(raw.popularity) / 10,
         releaseYear: Math.sqrt(2020 - raw.releaseYear) / 11,
         issues: Math.cbrt(raw.issues) / 6,
-        albumLists: Math.cbrt(raw.albumLists) / 17,
+        lists: Math.cbrt(raw.lists) / 17,
         overallRank: raw.overallRank === 0
             ? 0
             : 1 - (Math.cbrt(raw.overallRank) / 30),
@@ -86,10 +86,10 @@ export const AlbumAggregator: AggregationGenerator<AlbumEntity, AlbumAggregation
         return {
             availableMarkets: defaultVal,
             copyrights: defaultVal,
-            albumPopularity: defaultVal,
+            popularity: defaultVal,
             releaseYear: defaultVal,
             issues: defaultVal,
-            albumLists: defaultVal,
+            lists: defaultVal,
             overallRank: defaultVal,
             rating: defaultVal,
             ratings: defaultVal,
