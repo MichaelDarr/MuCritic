@@ -36,8 +36,10 @@ export class LatestReviewsPageScraper extends ScraperApiScraper {
     }
 
     protected async scrapeDependencies(forceScrape = false): Promise<void> {
-        const res = await LatestReviewsPageScraper
-            .scrapeDependencyArr<ProfileScraper>(this.profileScrapers, forceScrape);
+        const res = await LatestReviewsPageScraper.scrapeDependencyArr<ProfileScraper>(
+            this.profileScrapers,
+            forceScrape,
+        );
         this.profileScrapers = res.scrapers;
         this.results.concat(res.results);
         for await(const scraper of this.profileScrapers) {

@@ -11,6 +11,7 @@ def createAndTrainAutoencoder(
     epochs=200,
     learningRate=0.0002,
     lossFunction='mse',
+    metric='mae',
     validationSteps=3,
     testingData=None,
 ):
@@ -29,7 +30,7 @@ def createAndTrainAutoencoder(
     autoencoder.compile(
         optimizer=tf.keras.optimizers.Nadam(learningRate),
         loss=lossFunction,
-        metrics=['mae']
+        metrics=[metric],
     )
     autoencoder.fit(
         trainingData,
@@ -39,6 +40,57 @@ def createAndTrainAutoencoder(
         shuffle=True,
         validation_data=(validationData, validationData),
         validation_steps=validationSteps,
+    )
+    return autoencoder, encoder, decoder
+
+
+def createAndTrainLstmAutoencoder(
+    trainingData,
+    validationData,
+    sequenceLength,
+    featureCount,
+    encodingDimension,
+    batchSize=256,
+    epochs=200,
+    learningRate=0.0002,
+    lossFunction='mse',
+    metric='mae',
+    validationSteps=3,
+):
+    inputData = layers.Input(shape=(sequenceLength, featureCount))
+    encoded = layers.LSTM(
+        encodingDimension,
+        activation='relu',
+        return_sequences=False)(inputData)
+    x = layers.RepeatVector(
+        sequenceLength,
+        name='repeat-layer',
+    )(encoded)
+    x = layers.LSTM(
+        featureCount,
+        activation='relu',
+        return_sequences=True)(x)
+    decoded = layers.TimeDistributed(layers.Dense(featureCount))(x)
+
+    autoencoder = Model(inputData, decoded)
+    encodedInput = layers.Input(shape=(encodingDimension,))
+    decoderLayer = autoencoder.get_layer('repeat-layer')
+    encoder = Model(inputData, encoded)
+    decoder = Model(encodedInput, decoderLayer(encodedInput))
+
+    autoencoder.compile(
+        optimizer=tf.keras.optimizers.Nadam(learningRate),
+        loss=lossFunction,
+        metrics=[metric]
+    )
+    autoencoder.fit(
+        trainingData,
+        trainingData,
+        batch_size=batchSize,
+        epochs=epochs,
+        validation_data=(validationData, validationData),
+        validation_steps=validationSteps,
+        shuffle=True,
     )
     return autoencoder, encoder, decoder
 

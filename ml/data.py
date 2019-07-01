@@ -1,4 +1,6 @@
 import numpy as np
+from os import listdir
+from os.path import join
 
 
 def fromCsv(
@@ -21,6 +23,32 @@ def fromCsv(
     train = data[testSize + validationSize:]
 
     return train, validation, test
+
+
+def fromCsvFiles(
+    fileDirectory,
+    testSize,
+    validationSize,
+    delimiter=',',
+    fillingValues=0,
+    skipHeader=1,
+):
+    data = []
+    for filename in listdir(fileDirectory):
+        dataFile = join(fileDirectory, filename)
+        extractedData = np.genfromtxt(
+            dataFile,
+            skip_header=skipHeader,
+            filling_values=fillingValues,
+            delimiter=delimiter,
+        )
+        data.append(extractedData)
+
+    test = data[:testSize]
+    validation = data[testSize:testSize + validationSize]
+    train = data[testSize + validationSize:]
+
+    return np.array(train), np.array(validation), np.array(test)
 
 
 def pairsFromCsv(

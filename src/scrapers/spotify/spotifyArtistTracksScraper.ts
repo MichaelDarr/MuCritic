@@ -23,18 +23,22 @@ export class SpotifyArtistTrackScraper extends SpotifyScraper<Spotify.TopTracksR
 
     public normalize: boolean;
 
+    public saveDirectory: string;
+
     protected spotifyFeaturesResponse: Spotify.AudioFeatureBatchResponse;
 
     protected trackAggregations: TrackAggregation[];
 
     public constructor(
         artist: ArtistEntity,
+        saveDirectory = './resources/data/artist',
         normalize = true,
         verbose = false,
     ) {
         super(`Top Spotify tracks for artist: ${artist.name}`, verbose);
         this.artist = artist;
         this.normalize = normalize;
+        this.saveDirectory = saveDirectory;
         this.trackAggregations = [];
     }
 
@@ -50,7 +54,7 @@ export class SpotifyArtistTrackScraper extends SpotifyScraper<Spotify.TopTracksR
             this.trackAggregations,
             TrackAggregator,
             `${this.artist.id}`,
-            './resources/data/artist',
+            this.saveDirectory,
         );
     }
 

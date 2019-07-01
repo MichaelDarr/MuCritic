@@ -33,10 +33,11 @@ export async function aggregateArtistTracks(): Promise<void> {
         await SpotifyApi.connect(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET);
 
         const artists = await getRepository(ArtistEntity).find({
-            spotifyId: Not(IsNull()),
+            take: 100,
+            where: { spotifyId: Not(IsNull()) },
         });
         for await(const artist of artists) {
-            const scraper = new SpotifyArtistTrackScraper(artist);
+            const scraper = new SpotifyArtistTrackScraper(artist, './resources/data_subsets/artist');
             try {
                 await scraper.scrape();
             } catch (err) {
