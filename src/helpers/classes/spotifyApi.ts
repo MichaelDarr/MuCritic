@@ -4,6 +4,7 @@ import * as request from 'request';
 import * as Spotify from 'spotify';
 
 import { Log } from './log';
+import { RedisHelper } from './redis';
 
 /**
  * Interface for all interaction with Spotify API using the
@@ -14,11 +15,13 @@ import { Log } from './log';
  * 2. [[SpotifyApi.getConnection]]
  */
 export class SpotifyApi {
+    private static instance: SpotifyApi;
+
     private accessToken: string;
 
     private client: ClientCredentials;
 
-    private static instance: SpotifyApi;
+    private static redis: RedisHelper;
 
     private tokenExpiration: Date;
 
@@ -36,6 +39,9 @@ export class SpotifyApi {
      * [Implicit Grant Flow](https://developer.spotify.com/documentation/general/guides/authorization-guide/)
      */
     public static async connect(clientId: string, clientSecret: string): Promise<SpotifyApi> {
+        Log.notify('Connecting to local redis cache...');
+        SpotifyApi.redis = await RedisHelper.connect(6379, '127.0.0.1', 10);
+        Log.success('Cache connection succeeded');
         Log.notify('Connecting to Spotify API...');
         if(SpotifyApi.instance) {
             Log.notify('Overriding existing connection with new credentials');
@@ -182,6 +188,8 @@ export class SpotifyApi {
         url: string,
         method: Spotify.RequestMethod,
     ): Promise<T> {
+        const cachedResponse = await SpotifyApi.redis.getObject<T>(url);
+        if(cachedResponse != null) return cachedResponse;
         const token: string = await this.getAccessToken();
         return new Promise((resolve, reject): void => {
             const requestOptions = {
@@ -194,7 +202,7 @@ export class SpotifyApi {
             };
             request(
                 requestOptions,
-                (error, response, body): void => {
+                async (error, response, body): Promise<void> => {
                     if(error) {
                         reject(new Error(`request failed for ${url}: ${error}`));
                     } else if(body.error != null && body.error.status === 429) {
@@ -203,6 +211,7 @@ export class SpotifyApi {
                             resolve(spotifyApiTemp.spotifyRequest(url, method));
                         }, (response.headers['Retry-After'] as unknown) as number * 1000);
                     } else{
+                        await SpotifyApi.redis.setObject<T>(url, body);
                         resolve(body);
                     }
                 },

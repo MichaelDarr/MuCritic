@@ -90,19 +90,19 @@ def main():
 
     tfjs.converters.save_keras_model(
         albumAutoencoder,
-        MODEL_SAVE_PATH + 'album/autoEncoder.json',
+        MODEL_SAVE_PATH + 'album/autoEncoder',
     )
     tfjs.converters.save_keras_model(
         albumEncoder,
-        MODEL_SAVE_PATH + 'album/encoder.json',
+        MODEL_SAVE_PATH + 'album/encoder',
     )
     tfjs.converters.save_keras_model(
         albumDecoder,
-        MODEL_SAVE_PATH + 'album/decoder.json',
+        MODEL_SAVE_PATH + 'album/decoder',
     )
     tfjs.converters.save_keras_model(
         tasteNet,
-        MODEL_SAVE_PATH + 'taste.json',
+        MODEL_SAVE_PATH + 'taste',
     )
 
 

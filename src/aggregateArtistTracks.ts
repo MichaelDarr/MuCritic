@@ -33,17 +33,29 @@ export async function aggregateArtistTracks(): Promise<void> {
         await SpotifyApi.connect(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET);
 
         const artists = await getRepository(ArtistEntity).find({
-            take: 100,
             where: { spotifyId: Not(IsNull()) },
         });
+        let totalError: number = null;
+        let artistCount = 0;
         for await(const artist of artists) {
-            const scraper = new SpotifyArtistTrackScraper(artist, './resources/data_subsets/artist');
+            const scraper = new SpotifyArtistTrackScraper(artist, './resources/data/artist');
             try {
                 await scraper.scrape();
+                const artistError = scraper.mae();
+                if(artistError != null) {
+                    if(totalError == null) {
+                        totalError = artistError;
+                    } else {
+                        totalError += artistError;
+                    }
+                    artistCount += 1;
+                }
             } catch (err) {
                 Log.err(`\n${err.message}`);
             }
         }
+        const mae = totalError / artistCount;
+        Log.success(`FINAL MAE: ${mae}`);
         Log.success('\nData Aggregation Successful!\n');
         process.exit(0);
     } catch(err) {

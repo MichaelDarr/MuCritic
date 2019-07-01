@@ -27,7 +27,7 @@ export class SpotifyArtistTrackScraper extends SpotifyScraper<Spotify.TopTracksR
 
     protected spotifyFeaturesResponse: Spotify.AudioFeatureBatchResponse;
 
-    protected trackAggregations: TrackAggregation[];
+    public trackAggregations: TrackAggregation[];
 
     public constructor(
         artist: ArtistEntity,
@@ -72,5 +72,38 @@ export class SpotifyArtistTrackScraper extends SpotifyScraper<Spotify.TopTracksR
                 return aggregator.aggregate(this.normalize);
             }),
         );
+    }
+
+    public mae(): number {
+        const average = TrackAggregator.template(0);
+        this.trackAggregations.forEach((track) => {
+            for(const prop in track) {
+                if(prop in average) {
+                    average[prop] += (track[prop] / this.trackAggregations.length);
+                }
+            }
+        });
+
+        const errors = TrackAggregator.template(0);
+        this.trackAggregations.forEach((track) => {
+            for(const prop in track) {
+                if(prop in average) {
+                    errors[prop] += (
+                        Math.abs(track[prop] - average[prop]) / this.trackAggregations.length
+                    );
+                }
+            }
+        });
+
+        let totalError = 0;
+        let propCount = 0;
+        for(const prop in errors) {
+            if(prop in average) {
+                totalError += errors[prop];
+                propCount += 1;
+            }
+        }
+
+        return totalError / propCount;
     }
 }

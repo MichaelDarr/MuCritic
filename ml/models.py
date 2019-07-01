@@ -61,15 +61,17 @@ def createAndTrainLstmAutoencoder(
     encoded = layers.LSTM(
         encodingDimension,
         activation='relu',
-        return_sequences=False)(inputData)
+        return_sequences=False,
+    )(inputData)
     x = layers.RepeatVector(
         sequenceLength,
         name='repeat-layer',
     )(encoded)
     x = layers.LSTM(
-        featureCount,
+        encodingDimension,
         activation='relu',
-        return_sequences=True)(x)
+        return_sequences=True,
+    )(x)
     decoded = layers.TimeDistributed(layers.Dense(featureCount))(x)
 
     autoencoder = Model(inputData, decoded)

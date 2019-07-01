@@ -1,7 +1,9 @@
 from models import createAndTrainLstmAutoencoder
 from data import fromCsvFiles
+import tensorflowjs as tfjs
 
 ARTIST_DATA_FILES = "../resources/data/artist/"
+MODEL_SAVE_PATH = "../resources/models/"
 
 
 def main():
@@ -11,18 +13,31 @@ def main():
         2000,
     )
     (
-        albumAutoencoder,
-        albumEncoder,
-        albumDecoder
+        auto,
+        encoder,
+        decoder
     ) = createAndTrainLstmAutoencoder(
         train,
         validation,
-        10,
-        15,
-        24,
-        batchSize=256,
-        epochs=200,
-        learningRate=0.0005,
+        sequenceLength=10,
+        featureCount=15,
+        encodingDimension=16,
+        batchSize=128,
+        epochs=1000,
+        learningRate=0.0002,
+    )
+
+    tfjs.converters.save_keras_model(
+        auto,
+        MODEL_SAVE_PATH + 'artist/tracks/auto',
+    )
+    tfjs.converters.save_keras_model(
+        encoder,
+        MODEL_SAVE_PATH + 'artist/tracks/encoder',
+    )
+    tfjs.converters.save_keras_model(
+        decoder,
+        MODEL_SAVE_PATH + 'artist/tracks/decoder',
     )
 
 
