@@ -2,6 +2,7 @@ import * as Spotify from 'spotify';
 
 import { TrackAggregator } from '../../data/aggregators/trackAggregator';
 import {
+    AlbumEntity,
     ArtistEntity,
 } from '../../entities/entities';
 import { SpotifyScraper } from './spotifyScraper';
@@ -14,12 +15,12 @@ import {
 /**
  * Spotify Artist Track Scraper *-> CSV FILE* (not database)
  *
- * Scrapes top 10 tracks for a given artist using the Spotify's
- * [Get an Artist's Top Tracks](https://developer.spotify.com/documentation/web-api/reference/artists/get-artists-top-tracks/)
- * endpoint.
+ * Scrapes top 10 tracks for a given artist or first 6 tracks for a given album
  */
-export class SpotifyArtistTrackScraper extends SpotifyScraper<Spotify.TopTracksResponse> {
-    protected artist: ArtistEntity;
+export class SpotifyTracksToCsvScraper extends SpotifyScraper<Spotify.TracksBatchResponse> {
+    protected entity: ArtistEntity | AlbumEntity;
+
+    public minimumTracks: number;
 
     public normalize: boolean;
 
@@ -30,22 +31,34 @@ export class SpotifyArtistTrackScraper extends SpotifyScraper<Spotify.TopTracksR
     public trackAggregations: TrackAggregation[];
 
     public constructor(
-        artist: ArtistEntity,
+        entity: ArtistEntity | AlbumEntity,
         saveDirectory = './resources/data/artist',
+        minimumTracks = 10,
         normalize = true,
         verbose = false,
     ) {
-        super(`Top Spotify tracks for artist: ${artist.name}`, verbose);
-        this.artist = artist;
+        super(`Top Spotify tracks for ${entity.name}`, verbose);
+        this.entity = entity;
+        this.minimumTracks = minimumTracks;
         this.normalize = normalize;
         this.saveDirectory = saveDirectory;
         this.trackAggregations = [];
     }
 
     public async requestScrape(): Promise<void> {
-        this.spotifyResponse = await this.spotifyApi.getArtistTopTracks(this.artist.spotifyId);
-        if(this.spotifyResponse.tracks.length < 10) throw new Error('Artist scraper found less than 10 top tracks');
-        const trackIds = this.spotifyResponse.tracks.map(track => track.id);
+        let trackIds: string[];
+        if(this.entity instanceof ArtistEntity) {
+            this.spotifyResponse = await this.spotifyApi.getArtistTopTracks(this.entity.spotifyId);
+            if(this.spotifyResponse.tracks.length < 10) throw new Error('Artist scraper found less than 10 top tracks');
+            trackIds = this.spotifyResponse.tracks.map(track => track.id);
+        } else if(this.entity instanceof AlbumEntity) {
+            const simplifiedTracks = await this.spotifyApi.getAlbumTracks(this.entity.spotifyId);
+            if(simplifiedTracks.items.length < 6) throw new Error(`Album scraper found less than 6 tracks: ${this.entity.name}`);
+            trackIds = simplifiedTracks.items.slice(0, 6).map(track => track.id);
+            this.spotifyResponse = await this.spotifyApi.getBatch<Spotify.TracksBatchResponse>(trackIds, 'tracks');
+        } else {
+            throw new Error('Unexpected entity passed to Spotify CSV Scraper');
+        }
         this.spotifyFeaturesResponse = await this.spotifyApi.getBatch<Spotify.AudioFeatureBatchResponse>(trackIds, 'audio-features');
     }
 
@@ -53,7 +66,7 @@ export class SpotifyArtistTrackScraper extends SpotifyScraper<Spotify.TopTracksR
         await Aggregator.writeToCsv(
             this.trackAggregations,
             TrackAggregator,
-            `${this.artist.id}`,
+            `${this.entity.id}`,
             this.saveDirectory,
         );
     }

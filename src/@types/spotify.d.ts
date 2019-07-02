@@ -273,7 +273,7 @@ export interface GenreSeedsResponse {
 
 export type TracksResponse = Paging<Track>;
 
-export interface TopTracksResponse {
+export interface TracksBatchResponse {
     tracks: Track[];
 }
 
@@ -293,7 +293,8 @@ export type BatchResponse =
     | AlbumBatchResponse
     | ArtistBatchResponse
     | AudioFeatureBatchResponse
-    | AudioFeatureResponse;
+    | AudioFeatureResponse
+    | TracksBatchResponse;
 
 export type InnerBatchResponse =
     | Album[]
@@ -302,8 +303,7 @@ export type InnerBatchResponse =
 
 export type Response =
     | ArtistResponse
-    | TopTracksResponse
-    | TracksResponse
+    | MultiTrackResponse
     | BatchResponse
     | GenreSeedsResponse
     | SearchResponse;

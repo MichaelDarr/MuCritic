@@ -28,7 +28,7 @@ def createAndTrainAutoencoder(
     decoder = Model(encodedInput, decoderLayer(encodedInput))
 
     autoencoder.compile(
-        optimizer=tf.keras.optimizers.Nadam(learningRate),
+        optimizer=tf.keras.optimizers.Adadelta(learningRate),
         loss=lossFunction,
         metrics=[metric],
     )
@@ -50,6 +50,7 @@ def createAndTrainLstmAutoencoder(
     sequenceLength,
     featureCount,
     encodingDimension,
+    hiddenDimension=None,
     batchSize=256,
     epochs=200,
     learningRate=0.0002,
@@ -57,21 +58,55 @@ def createAndTrainLstmAutoencoder(
     metric='mae',
     validationSteps=3,
 ):
+
     inputData = layers.Input(shape=(sequenceLength, featureCount))
+    encoded = inputData
+
+    if hiddenDimension is not None:
+        encoded = layers.LSTM(
+            hiddenDimension,
+            activation='tanh',
+            recurrent_activation='sigmoid',
+            recurrent_dropout=0,
+            return_sequences=True,
+            unroll=False,
+            use_bias=True,
+        )(encoded)
     encoded = layers.LSTM(
         encodingDimension,
-        activation='relu',
+        activation='tanh',
+        recurrent_activation='sigmoid',
+        recurrent_dropout=0,
         return_sequences=False,
-    )(inputData)
+        unroll=False,
+        use_bias=True,
+    )(encoded)
+
     x = layers.RepeatVector(
         sequenceLength,
         name='repeat-layer',
     )(encoded)
+
     x = layers.LSTM(
         encodingDimension,
-        activation='relu',
+        activation='tanh',
+        recurrent_activation='sigmoid',
+        recurrent_dropout=0,
         return_sequences=True,
+        unroll=False,
+        use_bias=True,
     )(x)
+    if hiddenDimension is not None:
+        x = layers.LSTM(
+            hiddenDimension,
+            activation='tanh',
+            recurrent_activation='sigmoid',
+            recurrent_dropout=0,
+            return_sequences=True,
+            unroll=False,
+            use_bias=True,
+        )(x)
+
     decoded = layers.TimeDistributed(layers.Dense(featureCount))(x)
 
     autoencoder = Model(inputData, decoded)

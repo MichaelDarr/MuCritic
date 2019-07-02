@@ -85,9 +85,9 @@ export class SpotifyApi {
     public async getArtistTopTracks(
         artistId: string,
         country = 'US',
-    ): Promise<Spotify.TopTracksResponse> {
+    ): Promise<Spotify.TracksBatchResponse> {
         const url = `https://api.spotify.com/v1/artists/${artistId}/top-tracks?country=${country}`;
-        return this.spotifyRequest<Spotify.TopTracksResponse>(url, 'GET');
+        return this.spotifyRequest<Spotify.TracksBatchResponse>(url, 'GET');
     }
 
     /**

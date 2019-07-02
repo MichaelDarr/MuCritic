@@ -58,14 +58,14 @@ AggregationGenerator<SpotifyTrackFull, TrackAggregation> = {
         normalized.explicit = raw.explicit;
         normalized.instrumentalness = raw.instrumentalness;
         normalized.liveness = raw.liveness;
-        normalized.loudness = Math.max(raw.loudness + 40, 0) / 40;
+        normalized.loudness = Math.max((-1 * raw.loudness) + 10, 0) / 70;
         normalized.mode = raw.mode;
         normalized.popularity = raw.popularity / 100;
-        normalized.speechiness = Math.sqrt(raw.speechiness);
-        normalized.tempo = Math.sqrt(Math.max(185 - raw.tempo, 0)) / 13;
-        normalized.timeSignature = Math.sqrt(raw.timeSignature) / 4;
+        normalized.speechiness = raw.speechiness;
+        normalized.tempo = raw.tempo / 200;
+        normalized.timeSignature = raw.timeSignature / 8;
         normalized.trackNumber = raw.trackNumber / 10;
-        normalized.duration = Math.cbrt(raw.duration) / 85;
+        normalized.duration = raw.duration / 600000;
         normalized.valence = raw.valence;
 
         return normalized;
