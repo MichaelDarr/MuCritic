@@ -47,7 +47,7 @@ export async function aggregateTracks(): Promise<void> {
                 entities = await getRepository(ArtistEntity).find({
                     spotifyId: Not(IsNull()),
                 });
-                savePath += '/artist';
+                savePath += '/artist_small';
                 break;
             } default: {
                 throw new Error('must pass a type argument via the CLI to aggregate tracks');

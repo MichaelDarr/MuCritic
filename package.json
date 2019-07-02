@@ -5,9 +5,7 @@
   "main": "built/index.js",
   "scripts": {
     "docgen": "typedoc --experimentalDecorators src/",
-    "aggregateAlbums": "tsc && node --max-old-space-size=8192 built/aggregate albums",
-    "aggregateProfiles": "tsc && node --max-old-space-size=8192 built/aggregate profiles",
-    "aggregateArtists": "tsc && node --max-old-space-size=8192 built/aggregate artists",
+    "aggregateReviews": "tsc && node --max-old-space-size=8192 built/aggregateReviews",
     "recommend": "tsc && node --max-old-space-size=8192 built/recommendAlbums",
     "rym": "tsc && node built/scrapeRateYourMusic file",
     "rymAuto": "tsc && node --max-old-space-size=8192 built/scrapeRateYourMusic",

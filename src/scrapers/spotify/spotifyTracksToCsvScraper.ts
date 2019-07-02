@@ -49,7 +49,8 @@ export class SpotifyTracksToCsvScraper extends SpotifyScraper<Spotify.TracksBatc
         let trackIds: string[];
         if(this.entity instanceof ArtistEntity) {
             this.spotifyResponse = await this.spotifyApi.getArtistTopTracks(this.entity.spotifyId);
-            if(this.spotifyResponse.tracks.length < 10) throw new Error('Artist scraper found less than 10 top tracks');
+            if(this.spotifyResponse.tracks.length < 5) throw new Error('Artist scraper found less than 5 top tracks');
+            this.spotifyResponse.tracks = this.spotifyResponse.tracks.slice(0, 5);
             trackIds = this.spotifyResponse.tracks.map(track => track.id);
         } else if(this.entity instanceof AlbumEntity) {
             const simplifiedTracks = await this.spotifyApi.getAlbumTracks(this.entity.spotifyId);
