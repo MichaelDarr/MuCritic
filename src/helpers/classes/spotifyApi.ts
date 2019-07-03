@@ -171,7 +171,10 @@ export class SpotifyApi {
                     if(error) {
                         reject(new Error(error));
                     }
-                    if(!body.access_token) {
+                    if(body == null) {
+                        reject(new Error('failed to retrieve response body from Spotify'));
+                    }
+                    if(body.access_token == null) {
                         reject(new Error('failed to retrieve access token from Spotify'));
                     }
                     this.accessToken = body.access_token;

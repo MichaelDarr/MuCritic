@@ -21,10 +21,10 @@ def main():
         validation,
         sequenceLength=6,
         featureCount=15,
-        encodingDimension=24,
-        hiddenDimension=48,
-        batchSize=16,
-        epochs=1000,
+        encodingDimension=32,
+        hiddenDimension=64,
+        batchSize=32,
+        epochs=2000,
         learningRate=0.0002,
     )
 

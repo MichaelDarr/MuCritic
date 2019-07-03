@@ -68,7 +68,7 @@ export const AlbumAggregator: AggregationGenerator<AlbumEntity, AlbumAggregation
         ...raw,
         availableMarkets: raw.availableMarkets / 80,
         copyrights: raw.copyrights / 2,
-        popularity: Math.sqrt(raw.popularity) / 10,
+        popularity: raw.popularity / 100,
         releaseYear: Math.sqrt(2020 - raw.releaseYear) / 11,
         issues: Math.cbrt(raw.issues) / 6,
         lists: Math.cbrt(raw.lists) / 17,

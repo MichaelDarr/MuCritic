@@ -111,9 +111,24 @@ def createAndTrainLstmAutoencoder(
 
     autoencoder = Model(inputData, decoded)
     encodedInput = layers.Input(shape=(encodingDimension,))
-    decoderLayer = autoencoder.get_layer('repeat-layer')
+    repeatLayer = autoencoder.get_layer('repeat-layer')
+    decoderLayer = None
+    if hiddenDimension is not None:
+        decoderLayer = autoencoder.layers[-1](
+            autoencoder.layers[-2](
+                autoencoder.layers[-3](
+                    repeatLayer(encodedInput)
+                )
+            )
+        )
+    else:
+        decoderLayer = autoencoder.layers[-1](
+            autoencoder.layers[-2](
+                repeatLayer(encodedInput)
+            )
+        )
     encoder = Model(inputData, encoded)
-    decoder = Model(encodedInput, decoderLayer(encodedInput))
+    decoder = Model(encodedInput, decoderLayer)
 
     autoencoder.compile(
         optimizer=tf.keras.optimizers.Nadam(learningRate),

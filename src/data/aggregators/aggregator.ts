@@ -15,7 +15,11 @@ import {
  * @typeparam T1 entity used to create an [[Aggregation]]
  * @typeparam T2 [[Aggregation]] format to be created
  */
-export class Aggregator<T1 extends AggregatableEntities, T2 extends Aggregation> {
+export class Aggregator<
+    T1 extends AggregatableEntities,
+    T2 extends Aggregation,
+    T3 extends FlattenedAggregations = FlattenedReviewAggregation,
+> {
     /**
      * Database entity that serves as the "base" of the aggregation. For example, this would be an
      * instance of [[ProfileEntity]] for an aggregation of all reviews by a profile
@@ -65,10 +69,15 @@ export class Aggregator<T1 extends AggregatableEntities, T2 extends Aggregation>
      * Generate CSV Header objects in accordance with the
      * [CSV Writer npm package](https://www.npmjs.com/package/csv-writer)
      */
-    public static csvHeaders<A1 extends AggregatableEntities, A2 extends Aggregation>(
+    public static csvHeader<A1 extends AggregatableEntities, A2 extends Aggregation>(
         aggregationGenerator: AggregationGenerator<A1, A2>,
     ): CsvHeaders {
         const fields = Aggregator.fields(aggregationGenerator);
+        return Aggregator.csvHeaderFromArray(fields);
+    }
+
+    public static csvHeaderFromArray(fields: string[]): CsvHeaders {
+        fields.sort();
         const headers: CsvHeaders = [];
         for(const field of fields) {
             headers.push({
@@ -113,7 +122,7 @@ export class Aggregator<T1 extends AggregatableEntities, T2 extends Aggregation>
     ): Promise<void> {
         const csvWriter = createObjectCsvWriter({
             path: `${baseDir}/${fileName}.csv`,
-            header: Aggregator.csvHeaders(aggregationGenerator),
+            header: Aggregator.csvHeader(aggregationGenerator),
         });
         if(Array.isArray(aggregation)) {
             await csvWriter.writeRecords(aggregation);
@@ -135,12 +144,18 @@ export class Aggregator<T1 extends AggregatableEntities, T2 extends Aggregation>
  * methods are not supported by typescript). This needs to be the case so normalization/aggregation
  * calls to methods can be called without instantiating a new class instance, which is very useful.
  */
-export interface AggregationGenerator<T1 extends AggregatableEntities, T2 extends Aggregation> {
+export interface AggregationGenerator<
+    T1 extends AggregatableEntities,
+    T2 extends Aggregation,
+    T3 extends FlattenedAggregations = FlattenedReviewAggregation,
+> {
     aggregationType: AggregationType;
+    flatFields?: string[];
     /**
      * Converts data from a raw format into an [[Aggregation]]
      */
     convertFromRaw(entity: T1): T2;
+    flatten?(entity: T1, aggregation: T2): Promise<T3>;
     /**
      * Aggregates data for an [[Aggregation]]. Implementations consist of two steps
      * 1. Ensure all necessary aggregation data is contained in [[Aggregator.entity]], fetching it
@@ -242,6 +257,59 @@ export type AggregationType =
     | 'review'
     | 'profile'
     | 'track';
+
+export interface FlattenedReviewAggregation {
+    albumAvailableMarkets: number;
+    albumCopyrights: number;
+    albumPopularity: number;
+    albumReleaseYear: number;
+    albumIssues: number;
+    albumLists: number;
+    albumOverallRank: number;
+    albumRating: number;
+    albumRatings: number;
+    albumReviews: number;
+    albumYearRank: number;
+    artistIsActive: number;
+    artistDiscographySize: number;
+    artistListCount: number;
+    artistMemberCount: number;
+    artistShowCount: number;
+    artistIsSoloPerformer: number;
+    artistPopularity: number;
+    albumEncoding0: number;
+    albumEncoding1: number;
+    albumEncoding2: number;
+    albumEncoding3: number;
+    albumEncoding4: number;
+    albumEncoding5: number;
+    albumEncoding6: number;
+    albumEncoding8: number;
+    albumEncoding9: number;
+    albumEncoding10: number;
+    albumEncoding11: number;
+    albumEncoding12: number;
+    albumEncoding13: number;
+    albumEncoding14: number;
+    albumEncoding15: number;
+    albumEncoding16: number;
+    albumEncoding18: number;
+    albumEncoding19: number;
+    albumEncoding20: number;
+    albumEncoding21: number;
+    albumEncoding22: number;
+    albumEncoding23: number;
+    albumEncoding24: number;
+    albumEncoding25: number;
+    albumEncoding26: number;
+    albumEncoding28: number;
+    albumEncoding29: number;
+    albumEncoding30: number;
+    albumEncoding31: number;
+}
+
+export type FlattenedAggregations =
+    | FlattenedReviewAggregation;
 
 export interface CsvHeader {
     id: string;

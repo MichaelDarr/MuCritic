@@ -19,7 +19,9 @@ import { Log } from './helpers/classes/log';
 import { RedisHelper } from './helpers/classes/redis';
 import { SpotifyApi } from './helpers/classes/spotifyApi';
 import { connectToDatabase } from './helpers/functions/database';
-import { SpotifyTracksToCsvScraper } from './scrapers/spotify/spotifyTracksToCsvScraper';
+import { SpotifyEntityTracksScraper } from './scrapers/spotify/aggregators/spotifyEntityTracksScraper';
+import { SpotifyAlbumTracksScraper } from './scrapers/spotify/aggregators/spotifyAlbumTracksScraper';
+import { SpotifyArtistTracksScraper } from './scrapers/spotify/aggregators/spotifyArtistTracksScraper';
 
 dotenv.config({ path: resolve(__dirname, '../.env') });
 
@@ -53,27 +55,20 @@ export async function aggregateTracks(): Promise<void> {
                 throw new Error('must pass a type argument via the CLI to aggregate tracks');
             }
         }
-        let totalError: number = null;
-        let entityCount = 0;
         for await(const entity of entities) {
-            const scraper = new SpotifyTracksToCsvScraper(entity, savePath);
+            let scraper: SpotifyEntityTracksScraper<typeof entity>;
+            if(entity instanceof AlbumEntity) {
+                scraper = new SpotifyAlbumTracksScraper(entity, savePath);
+            } else if(entity instanceof ArtistEntity) {
+                scraper = new SpotifyArtistTracksScraper(entity, savePath);
+            }
+
             try {
                 await scraper.scrape();
-                const error = scraper.mae();
-                if(error != null) {
-                    if(totalError == null) {
-                        totalError = error;
-                    } else {
-                        totalError += error;
-                    }
-                    entityCount += 1;
-                }
             } catch (err) {
                 Log.err(`\n${err.message}`);
             }
         }
-        const mae = totalError / entityCount;
-        Log.success(`FINAL MAE: ${mae}`);
         Log.success('\nData Aggregation Successful!\n');
         process.exit(0);
     } catch(err) {
