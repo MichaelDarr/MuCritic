@@ -1,15 +1,19 @@
+import * as tf from '@tensorflow/tfjs';
 import {
+    Aggregator,
     AggregationGenerator,
+    EncodedTrackAggregation,
     SpotifyTrackFull,
     TrackAggregation,
 } from './aggregator';
 import { TrackEntity } from '../../entities/entities';
 
+require('@tensorflow/tfjs-node');
 /**
  * [[TrackAggregation]] generator class for [[TrackEntity]] database entries
  */
 export const TrackAggregator:
-AggregationGenerator<SpotifyTrackFull, TrackAggregation> = {
+AggregationGenerator<SpotifyTrackFull, TrackAggregation, EncodedTrackAggregation> = {
     aggregationType: 'track',
     convertFromRaw: (track: SpotifyTrackFull): TrackAggregation => {
         const aggregation = TrackAggregator.template(0);
@@ -38,6 +42,16 @@ AggregationGenerator<SpotifyTrackFull, TrackAggregation> = {
         }
 
         return aggregation;
+    },
+    encode: async (aggregation: TrackAggregation): Promise<EncodedTrackAggregation> => {
+        const strippedAggregation = Aggregator.stripLabels(aggregation, TrackAggregator);
+        const trackEncoder = await tf.loadLayersModel(`${process.env.MODEL_LOCATION_TRACK}/encoder/model.json`);
+        const aggregationTensor = tf
+            .tensor(strippedAggregation)
+            .as2D(1, strippedAggregation.length);
+        const encodedTensor = trackEncoder.predict(aggregationTensor) as tf.Tensor;
+        const [encodedTrack] = await encodedTensor.array() as EncodedTrackAggregation[];
+        return encodedTrack;
     },
     generateFromEntity: async (
         track: TrackEntity,

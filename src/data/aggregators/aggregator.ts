@@ -18,7 +18,7 @@ import {
 export class Aggregator<
     T1 extends AggregatableEntities,
     T2 extends Aggregation,
-    T3 extends FlattenedAggregations = FlattenedReviewAggregation,
+    T3 extends EncodedAggregations = EncodedTrackAggregation,
 > {
     /**
      * Database entity that serves as the "base" of the aggregation. For example, this would be an
@@ -77,7 +77,6 @@ export class Aggregator<
     }
 
     public static csvHeaderFromArray(fields: string[]): CsvHeaders {
-        fields.sort();
         const headers: CsvHeaders = [];
         for(const field of fields) {
             headers.push({
@@ -101,16 +100,20 @@ export class Aggregator<
                 fields.push(prop);
             }
         }
-        return fields;
+        return fields.sort();
     }
 
-    public static stripLabels(aggregation: Aggregation): number[] {
+    public static stripLabels<A1 extends AggregatableEntities, A2 extends Aggregation>(
+        aggregation: Aggregation,
+        aggregationGenerator: AggregationGenerator<A1, A2>,
+    ): number[] {
+        const fields = Aggregator.fields<A1, A2>(aggregationGenerator);
         const aggregationArr: number[] = [];
-        for(const key in aggregation) {
-            if(key in aggregation) {
-                aggregationArr.push(aggregation[key]);
+        fields.forEach((field): void => {
+            if(field in aggregation) {
+                aggregationArr.push(aggregation[field]);
             }
-        }
+        });
         return aggregationArr;
     }
 
@@ -147,7 +150,7 @@ export class Aggregator<
 export interface AggregationGenerator<
     T1 extends AggregatableEntities,
     T2 extends Aggregation,
-    T3 extends FlattenedAggregations = FlattenedReviewAggregation,
+    T3 extends EncodedAggregations = EncodedTrackAggregation,
 > {
     aggregationType: AggregationType;
     flatFields?: string[];
@@ -155,7 +158,7 @@ export interface AggregationGenerator<
      * Converts data from a raw format into an [[Aggregation]]
      */
     convertFromRaw(entity: T1): T2;
-    flatten?(entity: T1, aggregation: T2): Promise<T3>;
+    encode?(aggregation: T2): Promise<T3>;
     /**
      * Aggregates data for an [[Aggregation]]. Implementations consist of two steps
      * 1. Ensure all necessary aggregation data is contained in [[Aggregator.entity]], fetching it
@@ -204,6 +207,22 @@ export interface TrackAggregation {
     trackNumber: number;
     valence: number;
 }
+
+export type EncodedTrackAggregation = [
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+];
 
 export interface AlbumAggregation {
     availableMarkets: number;
@@ -258,58 +277,8 @@ export type AggregationType =
     | 'profile'
     | 'track';
 
-export interface FlattenedReviewAggregation {
-    albumAvailableMarkets: number;
-    albumCopyrights: number;
-    albumPopularity: number;
-    albumReleaseYear: number;
-    albumIssues: number;
-    albumLists: number;
-    albumOverallRank: number;
-    albumRating: number;
-    albumRatings: number;
-    albumReviews: number;
-    albumYearRank: number;
-    artistIsActive: number;
-    artistDiscographySize: number;
-    artistListCount: number;
-    artistMemberCount: number;
-    artistShowCount: number;
-    artistIsSoloPerformer: number;
-    artistPopularity: number;
-    albumEncoding0: number;
-    albumEncoding1: number;
-    albumEncoding2: number;
-    albumEncoding3: number;
-    albumEncoding4: number;
-    albumEncoding5: number;
-    albumEncoding6: number;
-    albumEncoding8: number;
-    albumEncoding9: number;
-    albumEncoding10: number;
-    albumEncoding11: number;
-    albumEncoding12: number;
-    albumEncoding13: number;
-    albumEncoding14: number;
-    albumEncoding15: number;
-    albumEncoding16: number;
-    albumEncoding18: number;
-    albumEncoding19: number;
-    albumEncoding20: number;
-    albumEncoding21: number;
-    albumEncoding22: number;
-    albumEncoding23: number;
-    albumEncoding24: number;
-    albumEncoding25: number;
-    albumEncoding26: number;
-    albumEncoding28: number;
-    albumEncoding29: number;
-    albumEncoding30: number;
-    albumEncoding31: number;
-}
-
-export type FlattenedAggregations =
-    | FlattenedReviewAggregation;
+export type EncodedAggregations =
+    | EncodedTrackAggregation;
 
 export interface CsvHeader {
     id: string;

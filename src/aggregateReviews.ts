@@ -10,7 +10,6 @@ import { getRepository } from 'typeorm';
 
 import {
     Aggregator,
-    FlattenedReviewAggregation,
     ReviewAggregation,
 } from './data/aggregators/aggregator';
 import { ReviewAggregator } from './data/aggregators/reviewAggregator';
@@ -41,26 +40,26 @@ export async function aggregateReviews(): Promise<void> {
         .andWhere('profile.age < 100')
         .getMany();
 
-    const allReviewData: FlattenedReviewAggregation[] = [];
-    for await(const review of reviews) {
-        const aggregator = new Aggregator<ReviewEntity, ReviewAggregation>(
-            review,
-            ReviewAggregator,
-        );
+    // const allReviewData: FlattenedReviewAggregation[] = [];
+    // for await(const review of reviews) {
+    //     const aggregator = new Aggregator<ReviewEntity, ReviewAggregation>(
+    //         review,
+    //         ReviewAggregator,
+    //     );
 
-        const aggregation = await aggregator.aggregate();
-        const flattenedAggregation = await ReviewAggregator.flatten(review, aggregation);
-        allReviewData.push(flattenedAggregation);
-        console.log(flattenedAggregation);
-        process.exit(0);
-    }
+    //     const aggregation = await aggregator.aggregate();
+    //     const flattenedAggregation = await ReviewAggregator.flatten(review, aggregation);
+    //     allReviewData.push(flattenedAggregation);
+    //     console.log(flattenedAggregation);
+    //     process.exit(0);
+    // }
 
-    const header = Aggregator.csvHeaderFromArray(ReviewAggregator.flatFields);
-    const csvWriter = createObjectCsvWriter({
-        path: './resources/data/review/all.csv',
-        header,
-    });
-    await csvWriter.writeRecords(allReviewData);
+    // const header = Aggregator.csvHeaderFromArray(ReviewAggregator.flatFields);
+    // const csvWriter = createObjectCsvWriter({
+    //     path: './resources/data/review/all.csv',
+    //     header,
+    // });
+    // await csvWriter.writeRecords(allReviewData);
 }
 
 aggregateReviews();

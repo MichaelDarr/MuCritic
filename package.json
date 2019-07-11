@@ -14,8 +14,9 @@
     "spotifyData": "tsc && node built/scrapeSpotifyData",
     "spotifyIds": "tsc && node built/scrapeSpotifyIds",
     "spotifyGenres": "tsc && node built/scrapeSpotifyGenres",
-    "spotifyAlbumTracks": "tsc && node built/aggregateTracks albums",
-    "spotifyArtistTracks": "tsc && node built/aggregateTracks artists"
+    "spotifyAlbumTracks": "tsc && node --max-old-space-size=8192 built/aggregateTracks albums",
+    "spotifyArtistTracks": "tsc && node --max-old-space-size=8192 built/aggregateTracks artists",
+    "spotifyTracks": "tsc && node --max-old-space-size=8192 built/aggregateTracks tracks"
   },
   "author": "Michael Darr",
   "license": "ISC",

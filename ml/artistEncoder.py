@@ -1,8 +1,8 @@
-from models import createAndTrainLstmAutoencoder
+from ml.models.lstmAutoencoder import lstmAutoencoder
 from data import fromCsvFiles
 import tensorflowjs as tfjs
 
-ARTIST_DATA_FILES = "../resources/data/artist_small/"
+ARTIST_DATA_FILES = "../resources/data/artist/"
 MODEL_SAVE_PATH = "../resources/models/"
 
 
@@ -16,15 +16,15 @@ def main():
         auto,
         encoder,
         decoder
-    ) = createAndTrainLstmAutoencoder(
+    ) = lstmAutoencoder(
         train,
         validation,
         sequenceLength=5,
         featureCount=15,
-        encodingDimension=24,
-        hiddenDimension=48,
+        encodingDimension=32,
+        hiddenDimension=64,
         batchSize=16,
-        epochs=1000,
+        epochs=4000,
         learningRate=0.0002,
     )
 

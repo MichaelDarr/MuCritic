@@ -1,7 +1,7 @@
 /**
  * Aggregation entry point
  */
-
+/* eslint no-fallthrough: "off" */
 import * as dotenv from 'dotenv';
 import { resolve } from 'path';
 import 'reflect-metadata';
@@ -16,28 +16,28 @@ import {
     ArtistEntity,
 } from './entities/entities';
 import { Log } from './helpers/classes/log';
-import { RedisHelper } from './helpers/classes/redis';
 import { SpotifyApi } from './helpers/classes/spotifyApi';
 import { connectToDatabase } from './helpers/functions/database';
 import { SpotifyEntityTracksScraper } from './scrapers/spotify/aggregators/spotifyEntityTracksScraper';
 import { SpotifyAlbumTracksScraper } from './scrapers/spotify/aggregators/spotifyAlbumTracksScraper';
 import { SpotifyArtistTracksScraper } from './scrapers/spotify/aggregators/spotifyArtistTracksScraper';
+import { EncodedTrackAggregation, TrackAggregation, Aggregator } from './data/aggregators/aggregator';
+import { TrackAggregator } from './data/aggregators/trackAggregator';
 
 dotenv.config({ path: resolve(__dirname, '../.env') });
 
-/**
- * first 6 album tracks aggregation
- */
 export async function aggregateTracks(): Promise<void> {
     try {
         Log.notify('\nMuCritic Data Aggregator\n\n');
         await connectToDatabase();
-        await RedisHelper.connect(6379, '127.0.0.1', 5);
         await SpotifyApi.connect(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET);
 
         let entities: AlbumEntity[] | ArtistEntity[];
         let savePath = './resources/data';
+        let tracksFlag = false;
         switch(process.argv[2]) {
+            case 'tracks':
+                tracksFlag = true;
             case 'albums': {
                 entities = await getRepository(AlbumEntity).find({
                     spotifyAlbumType: 'album',
@@ -49,16 +49,23 @@ export async function aggregateTracks(): Promise<void> {
                 entities = await getRepository(ArtistEntity).find({
                     spotifyId: Not(IsNull()),
                 });
-                savePath += '/artist_small';
+                savePath += '/artist';
                 break;
             } default: {
                 throw new Error('must pass a type argument via the CLI to aggregate tracks');
             }
         }
+
+        let trackAggregations: TrackAggregation[] = [];
         for await(const entity of entities) {
             let scraper: SpotifyEntityTracksScraper<typeof entity>;
             if(entity instanceof AlbumEntity) {
-                scraper = new SpotifyAlbumTracksScraper(entity, savePath);
+                if(tracksFlag) {
+                    savePath = null;
+                    scraper = new SpotifyAlbumTracksScraper(entity, savePath, false, null);
+                } else {
+                    scraper = new SpotifyAlbumTracksScraper(entity, `${savePath}/${entity.id}.csv`, true);
+                }
             } else if(entity instanceof ArtistEntity) {
                 scraper = new SpotifyArtistTracksScraper(entity, savePath);
             }
@@ -68,6 +75,16 @@ export async function aggregateTracks(): Promise<void> {
             } catch (err) {
                 Log.err(`\n${err.message}`);
             }
+
+            if(tracksFlag) trackAggregations = trackAggregations.concat(scraper.trackAggregations);
+        }
+        if(tracksFlag) {
+            await Aggregator.writeToCsv(
+                trackAggregations,
+                TrackAggregator,
+                'all',
+                './resources/data/track/',
+            );
         }
         Log.success('\nData Aggregation Successful!\n');
         process.exit(0);
