@@ -17,7 +17,6 @@ import {
     ReviewEntity,
 } from './entities/entities';
 import { Log } from './helpers/classes/log';
-import { RedisHelper } from './helpers/classes/redis';
 import { SpotifyApi } from './helpers/classes/spotifyApi';
 import { connectToDatabase } from './helpers/functions/database';
 
@@ -31,7 +30,6 @@ dotenv.config({ path: resolve(__dirname, '../.env') });
 export async function aggregateReviews(): Promise<void> {
     Log.notify('\nMuCritic Data Aggregator\n\n');
     await connectToDatabase();
-    await RedisHelper.connect(6379, '127.0.0.1', 50);
     await SpotifyApi.connect(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET);
 
     const profiles = await getRepository(ProfileEntity).find();

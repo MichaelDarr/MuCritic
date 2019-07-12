@@ -40,7 +40,7 @@ export class SpotifyApi {
      */
     public static async connect(clientId: string, clientSecret: string): Promise<SpotifyApi> {
         Log.notify('Connecting to local redis cache...');
-        SpotifyApi.redis = await RedisHelper.connect(6379, '127.0.0.1', 10);
+        SpotifyApi.redis = await RedisHelper.connect(6379, '127.0.0.1');
         Log.success('Cache connection succeeded');
         Log.notify('Connecting to Spotify API...');
         if(SpotifyApi.instance) {

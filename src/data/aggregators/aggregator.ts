@@ -274,6 +274,41 @@ export type EncodedAlbumTracks = [
     number,
 ];
 
+export type EncodedArtistTracks = [
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+];
+
 export type EncodedAlbum = [
     number,
     number,
@@ -341,6 +376,25 @@ export type FlatAlbumAggregation = [
     number,
     number,
     number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+];
+
+export type FlatArtistAggregation = [
     number,
     number,
     number,
@@ -436,6 +490,7 @@ export type EncodedAggregations =
 
 export type FlatAggregations =
     | FlatAlbumAggregation
+    | FlatArtistAggregation
     | FlatReviewAggregation
     | FlatTrackAggregation;
 

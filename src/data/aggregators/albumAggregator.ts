@@ -21,9 +21,9 @@ let albumTrackEncoder: tf.LayersModel = null;
 /**
  * [[AlbumAggregation]] generator class for [[AlbumEntity]]
  */
-export const AlbumAggregator:
-AggregationGenerator<
-AlbumEntity, AlbumAggregation, EncodedAlbum, FlatAlbumAggregation> = {
+export const AlbumAggregator: AggregationGenerator<
+AlbumEntity, AlbumAggregation, EncodedAlbum, FlatAlbumAggregation
+> = {
     aggregationType: 'album',
     convertFromRaw: (album: AlbumEntity): AlbumAggregation => ({
         availableMarkets: album.spotifyAvailableMarketCount,

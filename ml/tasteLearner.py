@@ -36,8 +36,8 @@ def main():
             trainFeatures,
             trainLabels,
             batchSize=2,
-            epochs=100,
-            learningRate=0.0002,
+            epochs=250,
+            learningRate=0.0001,
         )
         rawWeights = (
             profilePerceptron

@@ -7,6 +7,7 @@
     "docgen": "typedoc --experimentalDecorators src/",
     "aggregateReviews": "tsc && node --max-old-space-size=8192 built/aggregateReviews",
     "aggregateAlbums": "tsc && node --max-old-space-size=8192 built/aggregateAlbums",
+    "aggregateArtists": "tsc && node --max-old-space-size=8192 built/aggregateArtists",
     "recommend": "tsc && node --max-old-space-size=8192 built/recommendAlbums",
     "rym": "tsc && node built/scrapeRateYourMusic file",
     "rymAuto": "tsc && node --max-old-space-size=8192 built/scrapeRateYourMusic",

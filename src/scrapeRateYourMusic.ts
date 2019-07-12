@@ -55,7 +55,7 @@ export async function scrapeRateYourMusic(): Promise<void> {
             }
             default: {
                 Log.log('Beginning profile scrape from latest reviews');
-                await RedisHelper.connect(6379, '127.0.0.1', 2);
+                await RedisHelper.connect(6379, '127.0.0.1');
                 const latestReviewScraper = new LatestReviewersScraper(0, 10);
                 for await(const _ of Array(1000)) {
                     await latestReviewScraper.scrape();

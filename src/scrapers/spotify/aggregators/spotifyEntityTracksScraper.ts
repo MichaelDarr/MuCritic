@@ -9,7 +9,6 @@ import { SpotifyScraper } from '../spotifyScraper';
 import {
     Aggregator,
     EncodedTrack,
-    SpotifyTrackFromApi,
     TrackAggregation,
 } from '../../../data/aggregators/aggregator';
 

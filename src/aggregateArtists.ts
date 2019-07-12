@@ -9,10 +9,10 @@ import { getRepository, IsNull, Not } from 'typeorm';
 
 import {
     Aggregator,
-    FlatAlbumAggregation,
+    FlatArtistAggregation,
 } from './data/aggregators/aggregator';
-import { AlbumAggregator } from './data/aggregators/albumAggregator';
-import { AlbumEntity } from './entities/entities';
+import { ArtistAggregator } from './data/aggregators/artistAggregator';
+import { ArtistEntity } from './entities/entities';
 import { Log } from './helpers/classes/log';
 import { SpotifyApi } from './helpers/classes/spotifyApi';
 import { connectToDatabase } from './helpers/functions/database';
@@ -22,39 +22,40 @@ require('@tensorflow/tfjs-node');
 dotenv.config({ path: resolve(__dirname, '../.env') });
 
 /**
- * aggregate all albums into a single CSV file
+ * aggregate all artists into a single CSV file
  */
-export async function aggregateAlbums(): Promise<void> {
+export async function aggregateArtists(): Promise<void> {
     Log.notify('\nMuCritic Data Aggregator\n\n');
     await connectToDatabase();
     await SpotifyApi.connect(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET);
 
-    const albums = await getRepository(AlbumEntity).find({
-        spotifyAlbumType: 'album',
+    const artists = await getRepository(ArtistEntity).find({
         spotifyId: Not(IsNull()),
     });
 
-    const albumData: FlatAlbumAggregation[] = [];
-    for await(const album of albums) {
+    const artistData: FlatArtistAggregation[] = [];
+    for await(const artist of artists) {
         try {
             const aggregator = new Aggregator(
-                album,
-                AlbumAggregator,
+                artist,
+                ArtistAggregator,
             );
 
             const aggregation = await aggregator.aggregate();
-            albumData.push(await AlbumAggregator.flatten(aggregation, album));
+            console.log(aggregation);
+            artistData.push(await ArtistAggregator.flatten(aggregation, artist));
         } catch(err) {
-            Log.err(`\nNon-terminal Album Aggregation Failure:\n${err.message}\n`);
+            Log.err(`\nNon-terminal Artist Aggregation Failure:\n${err.message}\n`);
         }
+        console.log(artistData);
     }
 
     const csvWriter = createArrayCsvWriter({
-        path: './resources/data/album/all/data.csv',
+        path: './resources/data/artist/all/data.csv',
     });
-    await csvWriter.writeRecords(albumData);
+    await csvWriter.writeRecords(artistData);
     Log.notify('\nData Aggregation Successful\n\n');
     process.exit(0);
 }
 
-aggregateAlbums();
+aggregateArtists();

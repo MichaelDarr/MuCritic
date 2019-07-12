@@ -1,16 +1,24 @@
+import * as tf from '@tensorflow/tfjs';
+
 import {
     AggregationGenerator,
     ArtistAggregation,
     EncodedAlbum,
-    FlatAlbumAggregation,
+    EncodedArtistTracks,
+    FlatArtistAggregation,
 } from './aggregator';
+import { SpotifyArtistTracksScraper } from '../../scrapers/spotify/aggregators/spotifyArtistTracksScraper';
 import { ArtistEntity } from '../../entities/entities';
+
+require('@tensorflow/tfjs-node');
+
+let artistTrackEncoder: tf.LayersModel = null;
 
 /**
  * [[ArtistAggregator]] generator class for [[ArtistEntity]]
  */
 export const ArtistAggregator:
-AggregationGenerator<ArtistEntity, ArtistAggregation, EncodedAlbum, FlatAlbumAggregation> = {
+AggregationGenerator<ArtistEntity, ArtistAggregation, EncodedAlbum, FlatArtistAggregation> = {
     aggregationType: 'artist',
     convertFromRaw: (artist: ArtistEntity): ArtistAggregation => ({
         active: artist.active ? 1 : 0,
@@ -21,6 +29,26 @@ AggregationGenerator<ArtistEntity, ArtistAggregation, EncodedAlbum, FlatAlbumAgg
         soloPerformer: artist.soloPerformer ? 1 : 0,
         popularity: artist.spotifyPopularity,
     }),
+    flatten: async (
+        aggregation: ArtistAggregation,
+        artist: ArtistEntity,
+    ): Promise<FlatArtistAggregation> => {
+        const artistTrackAggregator = new SpotifyArtistTracksScraper(artist, null, 5, true);
+        await artistTrackAggregator.scrape();
+        const { encodedTracks } = artistTrackAggregator;
+        if(artistTrackEncoder == null) {
+            artistTrackEncoder = await tf.loadLayersModel(`${process.env.MODEL_LOCATION_ARTIST_TRACKS}/encoder/model.json`);
+        }
+        const aggregationTensor = tf
+            .tensor(encodedTracks)
+            .as3D(1, encodedTracks.length, encodedTracks[0].length);
+        const encodedTensor = artistTrackEncoder.predict(aggregationTensor) as tf.Tensor;
+        const encodedArtistTracks = await encodedTensor.array() as EncodedArtistTracks[];
+
+        return [
+            aggregation.popularity,
+        ].concat(encodedArtistTracks[0]) as FlatArtistAggregation;
+    },
     generateFromEntity: async (
         artist: ArtistEntity,
         normalized: boolean,
