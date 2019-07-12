@@ -1,13 +1,16 @@
 import {
     AggregationGenerator,
     ArtistAggregation,
+    EncodedAlbum,
+    FlatAlbumAggregation,
 } from './aggregator';
 import { ArtistEntity } from '../../entities/entities';
 
 /**
  * [[ArtistAggregator]] generator class for [[ArtistEntity]]
  */
-export const ArtistAggregator: AggregationGenerator<ArtistEntity, ArtistAggregation> = {
+export const ArtistAggregator:
+AggregationGenerator<ArtistEntity, ArtistAggregation, EncodedAlbum, FlatAlbumAggregation> = {
     aggregationType: 'artist',
     convertFromRaw: (artist: ArtistEntity): ArtistAggregation => ({
         active: artist.active ? 1 : 0,

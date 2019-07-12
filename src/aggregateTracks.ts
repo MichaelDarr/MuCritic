@@ -21,7 +21,7 @@ import { connectToDatabase } from './helpers/functions/database';
 import { SpotifyEntityTracksScraper } from './scrapers/spotify/aggregators/spotifyEntityTracksScraper';
 import { SpotifyAlbumTracksScraper } from './scrapers/spotify/aggregators/spotifyAlbumTracksScraper';
 import { SpotifyArtistTracksScraper } from './scrapers/spotify/aggregators/spotifyArtistTracksScraper';
-import { EncodedTrackAggregation, TrackAggregation, Aggregator } from './data/aggregators/aggregator';
+import { TrackAggregation, Aggregator } from './data/aggregators/aggregator';
 import { TrackAggregator } from './data/aggregators/trackAggregator';
 
 dotenv.config({ path: resolve(__dirname, '../.env') });
@@ -62,9 +62,9 @@ export async function aggregateTracks(): Promise<void> {
             if(entity instanceof AlbumEntity) {
                 if(tracksFlag) {
                     savePath = null;
-                    scraper = new SpotifyAlbumTracksScraper(entity, savePath, false, null);
+                    scraper = new SpotifyAlbumTracksScraper(entity, null, null, false);
                 } else {
-                    scraper = new SpotifyAlbumTracksScraper(entity, `${savePath}/${entity.id}.csv`, true);
+                    scraper = new SpotifyAlbumTracksScraper(entity, `${savePath}/${entity.id}.csv`);
                 }
             } else if(entity instanceof ArtistEntity) {
                 scraper = new SpotifyArtistTracksScraper(entity, savePath);

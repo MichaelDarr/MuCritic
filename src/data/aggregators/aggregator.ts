@@ -18,7 +18,8 @@ import {
 export class Aggregator<
     T1 extends AggregatableEntities,
     T2 extends Aggregation,
-    T3 extends EncodedAggregations = EncodedTrackAggregation,
+    T3 extends EncodedAggregations,
+    T4 extends FlatAggregations,
 > {
     /**
      * Database entity that serves as the "base" of the aggregation. For example, this would be an
@@ -26,11 +27,11 @@ export class Aggregator<
      */
     public entity: T1;
 
-    public aggregationGenerator: AggregationGenerator<T1, T2>;
+    public aggregationGenerator: AggregationGenerator<T1, T2, T3, T4>;
 
     public redisClient: RedisHelper;
 
-    public constructor(entity: T1, aggregationGenerator: AggregationGenerator<T1, T2>) {
+    public constructor(entity: T1, aggregationGenerator: AggregationGenerator<T1, T2, T3, T4>) {
         this.entity = entity;
         this.aggregationGenerator = aggregationGenerator;
         this.redisClient = RedisHelper.getConnection();
@@ -69,8 +70,13 @@ export class Aggregator<
      * Generate CSV Header objects in accordance with the
      * [CSV Writer npm package](https://www.npmjs.com/package/csv-writer)
      */
-    public static csvHeader<A1 extends AggregatableEntities, A2 extends Aggregation>(
-        aggregationGenerator: AggregationGenerator<A1, A2>,
+    public static csvHeader<
+        A1 extends AggregatableEntities,
+        A2 extends Aggregation,
+        A3 extends EncodedAggregations,
+        A4 extends FlatAggregations,
+    >(
+        aggregationGenerator: AggregationGenerator<A1, A2, A3, A4>,
     ): CsvHeaders {
         const fields = Aggregator.fields(aggregationGenerator);
         return Aggregator.csvHeaderFromArray(fields);
@@ -90,8 +96,13 @@ export class Aggregator<
     /**
      * Get a list of all fields belonging to an aggreation
      */
-    public static fields<A1 extends AggregatableEntities, A2 extends Aggregation>(
-        aggregationGenerator: AggregationGenerator<A1, A2>,
+    public static fields<
+        A1 extends AggregatableEntities,
+        A2 extends Aggregation,
+        A3 extends EncodedAggregations,
+        A4 extends FlatAggregations,
+    >(
+        aggregationGenerator: AggregationGenerator<A1, A2, A3, A4>,
     ): string[] {
         const blankAggregation = aggregationGenerator.template(0);
         const fields: string[] = [];
@@ -103,23 +114,33 @@ export class Aggregator<
         return fields.sort();
     }
 
-    public static stripLabels<A1 extends AggregatableEntities, A2 extends Aggregation>(
+    public static stripLabels<
+        A1 extends AggregatableEntities,
+        A2 extends Aggregation,
+        A3 extends EncodedAggregations,
+        A4 extends FlatAggregations,
+    >(
         aggregation: Aggregation,
-        aggregationGenerator: AggregationGenerator<A1, A2>,
-    ): number[] {
-        const fields = Aggregator.fields<A1, A2>(aggregationGenerator);
+        aggregationGenerator: AggregationGenerator<A1, A2, A3, A4>,
+    ): A4 {
+        const fields = Aggregator.fields(aggregationGenerator);
         const aggregationArr: number[] = [];
         fields.forEach((field): void => {
             if(field in aggregation) {
                 aggregationArr.push(aggregation[field]);
             }
         });
-        return aggregationArr;
+        return aggregationArr as A4;
     }
 
-    public static async writeToCsv<A1 extends AggregatableEntities, A2 extends Aggregation>(
+    public static async writeToCsv<
+        A1 extends AggregatableEntities,
+        A2 extends Aggregation,
+        A3 extends EncodedAggregations,
+        A4 extends FlatAggregations,
+    >(
         aggregation: A2 | A2[],
-        aggregationGenerator: AggregationGenerator<A1, A2>,
+        aggregationGenerator: AggregationGenerator<A1, A2, A3, A4>,
         fileName: string,
         baseDir: string,
     ): Promise<void> {
@@ -150,7 +171,8 @@ export class Aggregator<
 export interface AggregationGenerator<
     T1 extends AggregatableEntities,
     T2 extends Aggregation,
-    T3 extends EncodedAggregations = EncodedTrackAggregation,
+    T3 extends EncodedAggregations,
+    T4 extends FlatAggregations,
 > {
     aggregationType: AggregationType;
     flatFields?: string[];
@@ -158,7 +180,8 @@ export interface AggregationGenerator<
      * Converts data from a raw format into an [[Aggregation]]
      */
     convertFromRaw(entity: T1): T2;
-    encode?(aggregation: T2): Promise<T3>;
+    encode?(flatAggregation: T4): Promise<T3>;
+    flatten?(aggregation: T2, entity?: DatabaseEntities): Promise<T4>;
     /**
      * Aggregates data for an [[Aggregation]]. Implementations consist of two steps
      * 1. Ensure all necessary aggregation data is contained in [[Aggregator.entity]], fetching it
@@ -208,7 +231,137 @@ export interface TrackAggregation {
     valence: number;
 }
 
-export type EncodedTrackAggregation = [
+export type EncodedTrack = [
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+];
+
+export type EncodedAlbumTracks = [
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+];
+
+export type EncodedAlbum = [
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+];
+
+export type FlatReviewAggregation = [
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+];
+
+export type FlatAlbumAggregation = [
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+];
+
+export type FlatTrackAggregation = [
+    number,
+    number,
     number,
     number,
     number,
@@ -237,12 +390,12 @@ export interface AlbumAggregation {
     reviews: number;
     yearRank: number;
     artist: ArtistAggregation;
-    tracks: TrackAggregation[];
+    tracks: EncodedTrack[];
 }
 
 export interface ReviewAggregation {
     score: number;
-    album: AlbumAggregation;
+    album: EncodedAlbum;
 }
 
 export interface ArtistAggregation {
@@ -278,7 +431,13 @@ export type AggregationType =
     | 'track';
 
 export type EncodedAggregations =
-    | EncodedTrackAggregation;
+    | EncodedTrack
+    | EncodedAlbum;
+
+export type FlatAggregations =
+    | FlatAlbumAggregation
+    | FlatReviewAggregation
+    | FlatTrackAggregation;
 
 export interface CsvHeader {
     id: string;

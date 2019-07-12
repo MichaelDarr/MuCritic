@@ -1,17 +1,29 @@
+import * as tf from '@tensorflow/tfjs';
 import { getRepository } from 'typeorm';
 
+import { SpotifyAlbumTracksScraper } from '../../scrapers/spotify/aggregators/spotifyAlbumTracksScraper';
 import {
     AggregationGenerator,
     AlbumAggregation,
+    EncodedAlbumTracks,
+    EncodedAlbum,
+    FlatAlbumAggregation,
 } from './aggregator';
 import { ArtistAggregator } from './artistAggregator';
 import { TrackAggregator } from './trackAggregator';
 import { AlbumEntity } from '../../entities/entities';
 
+require('@tensorflow/tfjs-node');
+
+let albumEncoder: tf.LayersModel = null;
+let albumTrackEncoder: tf.LayersModel = null;
+
 /**
  * [[AlbumAggregation]] generator class for [[AlbumEntity]]
  */
-export const AlbumAggregator: AggregationGenerator<AlbumEntity, AlbumAggregation> = {
+export const AlbumAggregator:
+AggregationGenerator<
+AlbumEntity, AlbumAggregation, EncodedAlbum, FlatAlbumAggregation> = {
     aggregationType: 'album',
     convertFromRaw: (album: AlbumEntity): AlbumAggregation => ({
         availableMarkets: album.spotifyAvailableMarketCount,
@@ -28,6 +40,56 @@ export const AlbumAggregator: AggregationGenerator<AlbumEntity, AlbumAggregation
         artist: null,
         tracks: null,
     }),
+    encode: async (
+        flatAggregation: FlatAlbumAggregation,
+    ): Promise<EncodedAlbum> => {
+        if(albumEncoder == null) {
+            albumEncoder = await tf.loadLayersModel(`${process.env.MODEL_LOCATION_ALBUM}/encoder/model.json`);
+        }
+        const aggregationTensor = tf
+            .tensor(flatAggregation)
+            .as2D(1, flatAggregation.length);
+        const encodedTensor = albumEncoder.predict(aggregationTensor) as tf.Tensor;
+        const encodedAlbum = await encodedTensor.array() as EncodedAlbum[];
+        return encodedAlbum[0];
+    },
+    flatten: async (
+        aggregation: AlbumAggregation,
+        album: AlbumEntity,
+    ): Promise<FlatAlbumAggregation> => {
+        const albumTrackAggregator = new SpotifyAlbumTracksScraper(album, null, 6, true);
+        await albumTrackAggregator.scrape();
+        const { encodedTracks } = albumTrackAggregator;
+        if(albumTrackEncoder == null) {
+            albumTrackEncoder = await tf.loadLayersModel(`${process.env.MODEL_LOCATION_ALBUM_TRACKS}/encoder/model.json`);
+        }
+        const aggregationTensor = tf
+            .tensor(encodedTracks)
+            .as3D(1, encodedTracks.length, encodedTracks[0].length);
+        const encodedTensor = albumTrackEncoder.predict(aggregationTensor) as tf.Tensor;
+        const encodedAlbumTracks = await encodedTensor.array() as EncodedAlbumTracks[];
+
+        return [
+            aggregation.availableMarkets,
+            aggregation.copyrights,
+            aggregation.popularity,
+            aggregation.releaseYear,
+            aggregation.issues,
+            aggregation.lists,
+            aggregation.overallRank,
+            aggregation.rating,
+            aggregation.ratings,
+            aggregation.reviews,
+            aggregation.yearRank,
+            aggregation.artist.active,
+            aggregation.artist.discographySize,
+            aggregation.artist.lists,
+            aggregation.artist.members,
+            aggregation.artist.shows,
+            aggregation.artist.soloPerformer,
+            aggregation.artist.popularity,
+        ].concat(encodedAlbumTracks[0]) as FlatAlbumAggregation;
+    },
     generateFromEntity: async (
         requestedAlbum: AlbumEntity,
         normalized: boolean,
@@ -51,10 +113,14 @@ export const AlbumAggregator: AggregationGenerator<AlbumEntity, AlbumAggregation
 
         const aggregation = AlbumAggregator.convertFromRaw(album);
         aggregation.tracks = await Promise.all(
-            album.tracks.map(track => TrackAggregator.generateFromEntity(
-                track,
-                normalized,
-            )),
+            album.tracks.map(async (track) => {
+                const trackRaw = await TrackAggregator.generateFromEntity(
+                    track,
+                    true,
+                );
+                const flatTrack = await TrackAggregator.flatten(trackRaw);
+                return TrackAggregator.encode(flatTrack);
+            }),
         );
         aggregation.artist = await ArtistAggregator.generateFromEntity(
             album.artist,

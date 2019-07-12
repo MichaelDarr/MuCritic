@@ -2,7 +2,6 @@ import * as Spotify from 'spotify';
 
 import { AlbumEntity } from '../../../entities/entities';
 import { SpotifyEntityTracksScraper } from './spotifyEntityTracksScraper';
-import { AudioFeatureBatchResponse, TracksBatchResponse } from '../../../@types/spotify';
 
 /**
  * Scrapes first 6 tracks for a given album
@@ -11,13 +10,12 @@ export class SpotifyAlbumTracksScraper extends SpotifyEntityTracksScraper<AlbumE
     public constructor(
         entity: AlbumEntity,
         saveDirectory: string = null,
-        encodeTracks = false,
         trackCount = 6,
+        encode = true,
         normalize = true,
-        measureMae = false,
         verbose = false,
     ) {
-        super(`album: ${entity.name}`, entity, saveDirectory, encodeTracks, normalize, measureMae, verbose);
+        super(`album: ${entity.name}`, entity, saveDirectory, encode, normalize, verbose);
 
         this.modelPath = process.env.MODEL_LOCATION_ALBUM_TRACK_ENCODER;
         this.trackCount = trackCount;
@@ -25,7 +23,7 @@ export class SpotifyAlbumTracksScraper extends SpotifyEntityTracksScraper<AlbumE
 
     public async requestScrape(): Promise<void> {
         const simplifiedTracks = await this.spotifyApi.getAlbumTracks(this.entity.spotifyId);
-        let trackIds;
+        let trackIds: string[];
         if(this.trackCount != null) {
             if(simplifiedTracks.items.length < this.trackCount) throw new Error(`Album scraper found less than ${this.trackCount} tracks: ${this.entity.name}`);
             trackIds = simplifiedTracks.items.slice(0, this.trackCount).map(track => track.id);

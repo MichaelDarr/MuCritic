@@ -12,12 +12,11 @@ export class SpotifyArtistTracksScraper extends SpotifyEntityTracksScraper<Artis
     public constructor(
         entity: ArtistEntity,
         saveDirectory: string = null,
-        encodeTracks = false,
+        encode = true,
         normalize = true,
-        measureMae = false,
         verbose = false,
     ) {
-        super(`album: ${entity.name}`, entity, saveDirectory, encodeTracks, normalize, measureMae, verbose);
+        super(`album: ${entity.name}`, entity, saveDirectory, encode, normalize, verbose);
 
         this.modelPath = process.env.MODEL_LOCATION_ARTIST_TRACK_ENCODER;
         this.trackCount = 5;

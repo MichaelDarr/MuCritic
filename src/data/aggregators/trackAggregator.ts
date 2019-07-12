@@ -2,18 +2,22 @@ import * as tf from '@tensorflow/tfjs';
 import {
     Aggregator,
     AggregationGenerator,
-    EncodedTrackAggregation,
+    EncodedTrack,
+    FlatTrackAggregation,
     SpotifyTrackFull,
     TrackAggregation,
 } from './aggregator';
 import { TrackEntity } from '../../entities/entities';
 
 require('@tensorflow/tfjs-node');
+
+let trackEncoder: tf.LayersModel = null;
+
 /**
  * [[TrackAggregation]] generator class for [[TrackEntity]] database entries
  */
 export const TrackAggregator:
-AggregationGenerator<SpotifyTrackFull, TrackAggregation, EncodedTrackAggregation> = {
+AggregationGenerator<SpotifyTrackFull, TrackAggregation, EncodedTrack, FlatTrackAggregation> = {
     aggregationType: 'track',
     convertFromRaw: (track: SpotifyTrackFull): TrackAggregation => {
         const aggregation = TrackAggregator.template(0);
@@ -43,16 +47,20 @@ AggregationGenerator<SpotifyTrackFull, TrackAggregation, EncodedTrackAggregation
 
         return aggregation;
     },
-    encode: async (aggregation: TrackAggregation): Promise<EncodedTrackAggregation> => {
-        const strippedAggregation = Aggregator.stripLabels(aggregation, TrackAggregator);
-        const trackEncoder = await tf.loadLayersModel(`${process.env.MODEL_LOCATION_TRACK}/encoder/model.json`);
+    encode: async (aggregation: FlatTrackAggregation): Promise<EncodedTrack> => {
+        if(trackEncoder == null) {
+            trackEncoder = await tf.loadLayersModel(`${process.env.MODEL_LOCATION_TRACK}/encoder/model.json`);
+        }
         const aggregationTensor = tf
-            .tensor(strippedAggregation)
-            .as2D(1, strippedAggregation.length);
+            .tensor(aggregation)
+            .as2D(1, aggregation.length);
         const encodedTensor = trackEncoder.predict(aggregationTensor) as tf.Tensor;
-        const [encodedTrack] = await encodedTensor.array() as EncodedTrackAggregation[];
+        const [encodedTrack] = await encodedTensor.array() as EncodedTrack[];
         return encodedTrack;
     },
+    flatten: async (aggregation: TrackAggregation): Promise<FlatTrackAggregation> => (
+        Aggregator.stripLabels(aggregation, TrackAggregator)
+    ),
     generateFromEntity: async (
         track: TrackEntity,
         normalized: boolean,

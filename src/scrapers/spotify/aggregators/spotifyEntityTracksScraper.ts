@@ -1,8 +1,5 @@
-import * as tf from '@tensorflow/tfjs';
-import { createArrayCsvWriter } from 'csv-writer';
 import * as Spotify from 'spotify';
 
-import { Log } from '../../../helpers/classes/log';
 import { TrackAggregator } from '../../../data/aggregators/trackAggregator';
 import {
     AlbumEntity,
@@ -11,12 +8,10 @@ import {
 import { SpotifyScraper } from '../spotifyScraper';
 import {
     Aggregator,
-    EncodedTrackAggregation,
+    EncodedTrack,
     SpotifyTrackFromApi,
     TrackAggregation,
 } from '../../../data/aggregators/aggregator';
-
-require('@tensorflow/tfjs-node');
 
 /**
  * Spotify Track Scraper implementing a CSV writer and optional encoding via tensorflow models
@@ -24,19 +19,15 @@ require('@tensorflow/tfjs-node');
 export abstract class SpotifyEntityTracksScraper<
     T1 extends ArtistEntity | AlbumEntity
 > extends SpotifyScraper<Spotify.TracksBatchResponse> {
-    public encodedTracks: EncodedTrackAggregation[];
+    public encodedTracks: EncodedTrack[];
 
-    public encodeTracks: boolean;
+    public encode: boolean;
 
     public entity: T1;
 
     public normalize: boolean;
 
-    public measureMae: boolean;
-
     protected modelPath: string;
-
-    public reconstructionMae: number;
 
     protected saveDirectory: string;
 
@@ -50,58 +41,21 @@ export abstract class SpotifyEntityTracksScraper<
         description: string,
         entity: T1,
         saveDirectory: string = null,
-        encodeTracks = false,
+        encode = true,
         normalize = true,
-        measureMae = false,
         verbose = false,
     ) {
         super(`Top Spotify tracks for ${description}`, verbose);
 
-        this.encodeTracks = encodeTracks;
+        this.encode = encode;
         this.entity = entity;
-        this.measureMae = measureMae;
         this.normalize = normalize;
         this.saveDirectory = saveDirectory;
-        this.reconstructionMae = 0;
         this.trackAggregations = [];
     }
 
     protected async saveToLocal(): Promise<void> {
-        if(this.encodeTracks) {
-            this.encodedTracks = await Promise.all(this.trackAggregations.map(a => TrackAggregator.encode(a)));
-            const csvWriter = createArrayCsvWriter({
-                path: this.saveDirectory,
-            });
-            csvWriter.writeRecords(this.encodedTracks);
-        }
-        // if(this.modelPath != null) {
-        //     const strippedAggregations = this.trackAggregations.map(t => Aggregator.stripLabels(t, TrackAggregator));
-        //     const trackFeatureCount = strippedAggregations[0].length;
-
-        //     const albumEncoder = await tf.loadLayersModel(`${this.modelPath}/encoder/model.json`);
-        //     const aggregationTensor = tf
-        //         .tensor(strippedAggregations)
-        //         .as3D(1, this.trackCount, trackFeatureCount);
-        //     const encodedTensor = albumEncoder.predict(aggregationTensor) as tf.Tensor;
-        //     [this.encodedTracks] = await encodedTensor.array() as number[][];
-
-        //     if(this.measureMae) {
-        //         const albumDecoder = await tf.loadLayersModel(`${this.modelPath}/decoder/model.json`);
-        //         const reconstructedTensor = albumDecoder.predict(encodedTensor) as tf.Tensor;
-        //         const reconstructedTracks = await reconstructedTensor.array();
-        //         for(let i = 0; i < this.trackCount; i += 1) {
-        //             let trackErr = 0;
-        //             for(let j = 0; j < trackFeatureCount; j += 1) {
-        //                 trackErr += Math.abs(
-        //                     reconstructedTracks[0][i][j] - strippedAggregations[i][j],
-        //                 ) / trackFeatureCount;
-        //             }
-        //             this.reconstructionMae += trackErr / this.trackCount;
-        //         }
-        //         Log.notify(`Mean Absolute Reconstruction Error for ${this.entity.name}: ${this.reconstructionMae}`);
-        //     }
-        // }
-        else if(this.saveDirectory != null) {
+        if(this.saveDirectory != null) {
             await Aggregator.writeToCsv(
                 this.trackAggregations,
                 TrackAggregator,
@@ -114,7 +68,7 @@ export abstract class SpotifyEntityTracksScraper<
     public async scrapeDependencies(): Promise<void> {
         this.trackAggregations = await Promise.all(
             this.spotifyResponse.tracks.map(async (track: Spotify.Track, index: number) => {
-                const aggregator = new Aggregator<SpotifyTrackFromApi, TrackAggregation>(
+                const aggregator = new Aggregator(
                     {
                         id: null,
                         info: track,
@@ -125,5 +79,13 @@ export abstract class SpotifyEntityTracksScraper<
                 return aggregator.aggregate(this.normalize);
             }),
         );
+        if(this.encode) {
+            this.encodedTracks = await Promise.all(
+                this.trackAggregations.map(async (track) => {
+                    const flattened = await TrackAggregator.flatten(track);
+                    return TrackAggregator.encode(flattened);
+                }),
+            );
+        }
     }
 }

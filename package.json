@@ -6,6 +6,7 @@
   "scripts": {
     "docgen": "typedoc --experimentalDecorators src/",
     "aggregateReviews": "tsc && node --max-old-space-size=8192 built/aggregateReviews",
+    "aggregateAlbums": "tsc && node --max-old-space-size=8192 built/aggregateAlbums",
     "recommend": "tsc && node --max-old-space-size=8192 built/recommendAlbums",
     "rym": "tsc && node built/scrapeRateYourMusic file",
     "rymAuto": "tsc && node --max-old-space-size=8192 built/scrapeRateYourMusic",
@@ -14,6 +15,7 @@
     "spotifyData": "tsc && node built/scrapeSpotifyData",
     "spotifyIds": "tsc && node built/scrapeSpotifyIds",
     "spotifyGenres": "tsc && node built/scrapeSpotifyGenres",
+    "spotifyTrackScrape": "tsc && node --max-old-space-size=8192 built/scrapeSpotifyTracks",
     "spotifyAlbumTracks": "tsc && node --max-old-space-size=8192 built/aggregateTracks albums",
     "spotifyArtistTracks": "tsc && node --max-old-space-size=8192 built/aggregateTracks artists",
     "spotifyTracks": "tsc && node --max-old-space-size=8192 built/aggregateTracks tracks"
