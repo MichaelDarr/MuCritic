@@ -55,7 +55,7 @@ def pairsFromCsv(
     fileName,
     testSize,
     validationSize,
-    minSize,
+    minReturnSize,
     delimiter=',',
     fillingValues=0,
     skipHeader=1,
@@ -88,7 +88,7 @@ def pairsFromCsv(
         testLabels.append(test[i][0])
         testFeatures.append(test[i][1:])
 
-    while len(trainFeatures) < minSize:
+    while len(trainFeatures) < minReturnSize:
         trainLabels += trainLabels
         trainFeatures += trainFeatures
 
@@ -106,4 +106,5 @@ def pairsFromCsv(
         validationLabels,
         testFeatures,
         testLabels,
+        len(train)
     )

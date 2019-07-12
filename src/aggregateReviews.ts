@@ -63,7 +63,7 @@ export async function aggregateReviews(): Promise<void> {
         }
 
         const csvWriter = createArrayCsvWriter({
-            path: `./resources/data/profile/${profile.id}.csv`,
+            path: `./resources/data/profile/reviews/${profile.id}.csv`,
         });
         await csvWriter.writeRecords(allReviewData);
         Log.success(`finished ${profile.name}`);
