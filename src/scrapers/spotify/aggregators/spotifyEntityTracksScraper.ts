@@ -1,3 +1,5 @@
+import { createArrayCsvWriter } from 'csv-writer';
+
 import * as Spotify from 'spotify';
 
 import { TrackAggregator } from '../../../data/aggregators/trackAggregator';
@@ -55,12 +57,19 @@ export abstract class SpotifyEntityTracksScraper<
 
     protected async saveToLocal(): Promise<void> {
         if(this.saveDirectory != null) {
-            await Aggregator.writeToCsv(
-                this.trackAggregations,
-                TrackAggregator,
-                `${this.entity.id}`,
-                this.saveDirectory,
-            );
+            if(this.encodedTracks) {
+                const csvWriter = createArrayCsvWriter({
+                    path: this.saveDirectory,
+                });
+                await csvWriter.writeRecords(this.encodedTracks);
+            } else {
+                await Aggregator.writeToCsv(
+                    this.trackAggregations,
+                    TrackAggregator,
+                    `${this.entity.id}`,
+                    this.saveDirectory,
+                );
+            }
         }
     }
 

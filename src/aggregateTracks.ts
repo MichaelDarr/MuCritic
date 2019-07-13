@@ -67,7 +67,7 @@ export async function aggregateTracks(): Promise<void> {
                     scraper = new SpotifyAlbumTracksScraper(entity, `${savePath}/${entity.id}.csv`);
                 }
             } else if(entity instanceof ArtistEntity) {
-                scraper = new SpotifyArtistTracksScraper(entity, savePath);
+                scraper = new SpotifyArtistTracksScraper(entity, `${savePath}/${entity.id}.csv`);
             }
 
             try {

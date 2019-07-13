@@ -4,17 +4,21 @@ import numpy as np
 from models.perceptron import perceptron
 from dataHelpers import pairsFromCsv
 
-MIN_REVIEWS_PER_PROFILE = 20
-MIN_REVIEWS_FOR_TRAINING = 1000
+MIN_REVIEWS_PER_PROFILE = 10
+MIN_REVIEWS_FOR_TRAINING = 500
 TASTE_SAVE_PATH = "../resources/data/profile/taste/"
 PROFILE_REVIEWS_PATH = "../resources/data/profile/reviews/"
 
 
 def main():
-    allErrors = []
+    allMae = []
+    allMse = []
     for filename in listdir(PROFILE_REVIEWS_PATH):
         profileReviewsFile = join(PROFILE_REVIEWS_PATH, filename)
+        profileTasteFile = join(TASTE_SAVE_PATH, filename)
         if not exists(profileReviewsFile):
+            continue
+        if exists(profileTasteFile):
             continue
         (
             trainFeatures,
@@ -29,6 +33,7 @@ def main():
             0,
             0,
             MIN_REVIEWS_FOR_TRAINING,
+            skipHeader=0,
         )
         if trainingExampleCount < MIN_REVIEWS_PER_PROFILE:
             continue
@@ -49,16 +54,17 @@ def main():
         for weight in rawWeights:
             weightArr.append(weight[0])
         np.savetxt(
-            '{}{}'.format(TASTE_SAVE_PATH, filename),
+            profileTasteFile,
             [weightArr],
             fmt="%.10f",
             delimiter=',',
         )
-        allErrors.append(history.history['mae'][-1])
+        allMae.append(history.history['mae'][-1])
+        allMse.append(history.history['mse'][-1])
         print(
-            'Errors:{}\nAverage Error:{}'.format(
-                allErrors,
-                sum(allErrors) / len(allErrors),
+            'Average MAE:{}\nAverage MSE:{}\n'.format(
+                sum(allMae) / len(allMae),
+                sum(allMse) / len(allMse),
             )
         )
 
