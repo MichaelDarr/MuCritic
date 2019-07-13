@@ -1,5 +1,5 @@
-from ml.models.lstmAutoencoder import lstmAutoencoder
-from data import fromCsvFiles
+from models.lstmAutoencoder import lstmAutoencoder
+from dataHelpers import fromCsvFiles
 import tensorflowjs as tfjs
 
 ARTIST_DATA_FILES = "../resources/data/artist/"
@@ -11,6 +11,7 @@ def main():
         ARTIST_DATA_FILES,
         2000,
         2000,
+        skipHeader=0,
     )
     (
         auto,
@@ -20,7 +21,7 @@ def main():
         train,
         validation,
         sequenceLength=5,
-        featureCount=15,
+        featureCount=13,
         encodingDimension=32,
         hiddenDimension=64,
         batchSize=16,

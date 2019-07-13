@@ -20,10 +20,12 @@ def main():
     ) = autoencoder(
         train,
         validation,
-        16,
-        batchSize=32,
+        18,
+        activation='selu',
+        batchSize=8,
         epochs=50,
-        learningRate=0.002,
+        hiddenDimension=26,
+        learningRate=0.001,
     )
 
     tfjs.converters.save_keras_model(

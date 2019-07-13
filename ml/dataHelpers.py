@@ -75,7 +75,6 @@ def pairsFromCsv(
     validationLabels = []
     testFeatures = []
     testLabels = []
-    print(fileName)
     for i in range(len(train)):
         trainLabels.append(train[i][0])
         trainFeatures.append(train[i][1:])

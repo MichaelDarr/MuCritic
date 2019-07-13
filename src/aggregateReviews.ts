@@ -60,11 +60,15 @@ export async function aggregateReviews(): Promise<void> {
             }
         }
 
-        const csvWriter = createArrayCsvWriter({
-            path: `./resources/data/profile/reviews/${profile.id}.csv`,
-        });
-        await csvWriter.writeRecords(allReviewData);
-        Log.success(`finished ${profile.name}`);
+        if(allReviewData.length > 10) {
+            const csvWriter = createArrayCsvWriter({
+                path: `./resources/data/profile/reviews/${profile.id}.csv`,
+            });
+            await csvWriter.writeRecords(allReviewData);
+            Log.success(`finished ${profile.name}`);
+        } else {
+            Log.err(`Not enough reviews: skipping ${profile.name}`);
+        }
     }
     Log.success('\nReview Aggregation Successful!\n');
     process.exit(0);

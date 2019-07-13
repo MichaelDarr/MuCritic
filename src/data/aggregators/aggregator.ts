@@ -42,18 +42,18 @@ export class Aggregator<
      * [[EntityAggregator.normalize]]
      */
     public async aggregate(normalized = true): Promise<T2> {
-        const redisKey = this.redisKey(normalized);
-        if(redisKey != null) {
-            const cachedAggregation = await this.redisClient.getObject<T2>(redisKey);
-            if(cachedAggregation != null) return cachedAggregation;
-        }
+        // const redisKey = this.redisKey(normalized);
+        // if(redisKey != null) {
+        //     const cachedAggregation = await this.redisClient.getObject<T2>(redisKey);
+        //     if(cachedAggregation != null) return cachedAggregation;
+        // }
         const aggregation = await this.aggregationGenerator.generateFromEntity(
             this.entity,
             normalized,
         );
-        if(redisKey != null) {
-            await this.redisClient.setObject(redisKey, aggregation);
-        }
+        // if(redisKey != null) {
+        //     await this.redisClient.setObject(redisKey, aggregation);
+        // }
         return aggregation;
     }
 
