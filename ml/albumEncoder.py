@@ -20,11 +20,11 @@ def main():
     ) = autoencoder(
         train,
         validation,
-        18,
+        16,
         activation='selu',
         batchSize=8,
         epochs=50,
-        hiddenDimension=26,
+        hiddenDimension=24,
         learningRate=0.001,
     )
 

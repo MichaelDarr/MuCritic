@@ -40,9 +40,9 @@ def main():
         profilePerceptron, history = perceptron(
             trainFeatures,
             trainLabels,
-            batchSize=2,
+            batchSize=4,
             epochs=250,
-            learningRate=0.0001,
+            learningRate=0.001,
         )
         rawWeights = (
             profilePerceptron

@@ -42,12 +42,10 @@ export async function aggregateArtists(): Promise<void> {
             );
 
             const aggregation = await aggregator.aggregate();
-            console.log(aggregation);
             artistData.push(await ArtistAggregator.flatten(aggregation, artist));
         } catch(err) {
             Log.err(`\nNon-terminal Artist Aggregation Failure:\n${err.message}\n`);
         }
-        console.log(artistData);
     }
 
     const csvWriter = createArrayCsvWriter({

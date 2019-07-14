@@ -5,6 +5,7 @@ from tensorflow.keras import layers, Model
 def perceptron(
     trainFeatures,
     trainLabels,
+    activation='selu',
     batchSize=256,
     epochs=200,
     learningRate=0.0002,
@@ -14,7 +15,11 @@ def perceptron(
 ):
     inputDimension = len(trainFeatures[0])
     inputs = tf.keras.Input(shape=(inputDimension,))
-    predictions = layers.Dense(1, name='perceptron-weights')(inputs)
+    predictions = layers.Dense(
+        1,
+        activation=activation,
+        name='perceptron-weights',
+    )(inputs)
 
     perceptron = Model(inputs=inputs, outputs=predictions)
 
