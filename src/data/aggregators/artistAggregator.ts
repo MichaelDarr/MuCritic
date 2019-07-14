@@ -3,7 +3,7 @@ import * as tf from '@tensorflow/tfjs';
 import {
     AggregationGenerator,
     ArtistAggregation,
-    EncodedAlbum,
+    EncodedArtist,
     EncodedArtistTracks,
     FlatArtistAggregation,
 } from './aggregator';
@@ -12,13 +12,14 @@ import { ArtistEntity } from '../../entities/entities';
 
 require('@tensorflow/tfjs-node');
 
+let artistEncoder: tf.LayersModel = null;
 let artistTrackEncoder: tf.LayersModel = null;
 
 /**
  * [[ArtistAggregator]] generator class for [[ArtistEntity]]
  */
 export const ArtistAggregator:
-AggregationGenerator<ArtistEntity, ArtistAggregation, EncodedAlbum, FlatArtistAggregation> = {
+AggregationGenerator<ArtistEntity, ArtistAggregation, EncodedArtist, FlatArtistAggregation> = {
     aggregationType: 'artist',
     convertFromRaw: (artist: ArtistEntity): ArtistAggregation => ({
         active: artist.active ? 1 : 0,
@@ -29,6 +30,19 @@ AggregationGenerator<ArtistEntity, ArtistAggregation, EncodedAlbum, FlatArtistAg
         soloPerformer: artist.soloPerformer ? 1 : 0,
         popularity: artist.spotifyPopularity,
     }),
+    encode: async (
+        flatAggregation: FlatArtistAggregation,
+    ): Promise<EncodedArtist> => {
+        if(artistEncoder == null) {
+            artistEncoder = await tf.loadLayersModel(`${process.env.MODEL_LOCATION_ARTIST}/encoder/model.json`);
+        }
+        const aggregationTensor = tf
+            .tensor(flatAggregation)
+            .as2D(1, flatAggregation.length);
+        const encodedTensor = artistEncoder.predict(aggregationTensor) as tf.Tensor;
+        const encodedAlbum = await encodedTensor.array() as EncodedArtist[];
+        return encodedAlbum[0];
+    },
     flatten: async (
         aggregation: ArtistAggregation,
         artist: ArtistEntity,

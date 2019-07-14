@@ -44,7 +44,8 @@
                 "allowExpressions": true
             }
         ],
-        "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"]
+        "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"],
+        "no-continue": "off"
     },
     "settings": {
         "import/resolver": {

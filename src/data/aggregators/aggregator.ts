@@ -328,6 +328,25 @@ export type EncodedAlbum = [
     number,
 ];
 
+export type EncodedArtist = [
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+];
+
 export type FlatReviewAggregation = [
     number,
     number,
@@ -486,7 +505,8 @@ export type AggregationType =
 
 export type EncodedAggregations =
     | EncodedTrack
-    | EncodedAlbum;
+    | EncodedAlbum
+    | EncodedArtist;
 
 export type FlatAggregations =
     | FlatAlbumAggregation
