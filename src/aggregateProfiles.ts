@@ -6,7 +6,7 @@ import { resolve } from 'path';
 import { existsSync } from 'fs';
 import 'reflect-metadata';
 import { createArrayCsvWriter } from 'csv-writer';
-import { getRepository, IsNull, Not } from 'typeorm';
+import { getRepository } from 'typeorm';
 
 import { ProfileEntity } from './entities/entities';
 import { Log } from './helpers/classes/log';
@@ -20,20 +20,16 @@ dotenv.config({ path: resolve(__dirname, '../.env') });
 /**
  * aggregate all profile favorite artists into CSV files
  */
-export async function aggregateArtists(): Promise<void> {
+export async function aggregateProfileArtists(): Promise<void> {
     Log.notify('\nMuCritic Data Aggregator\n\n');
     await connectToDatabase();
     await SpotifyApi.connect(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET);
 
     const profiles = await getRepository(ProfileEntity).find({
         relations: ['favoriteArtists'],
-        where: {
-            'favoriteArtists.spotifyId': Not(IsNull),
-        },
     });
 
     const minArtists = 5;
-    const maxArtists = 25;
     for await(const profile of profiles) {
         const validArtists = profile.favoriteArtists.filter(artist => artist.spotifyId != null);
         if(
@@ -58,11 +54,11 @@ export async function aggregateArtists(): Promise<void> {
         const csvWriter = createArrayCsvWriter({
             path: `./resources/data/profile/artists/${profile.id}.csv`,
         });
-        await csvWriter.writeRecords(encodedArtists.slice(0, maxArtists));
+        await csvWriter.writeRecords(encodedArtists);
         Log.notify('\nData Aggregation Successful\n\n');
     }
     Log.notify('\nData Aggregation Successful\n\n');
     process.exit(0);
 }
 
-aggregateArtists();
+aggregateProfileArtists();

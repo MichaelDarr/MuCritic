@@ -1,6 +1,6 @@
 import numpy as np
 from os import listdir
-from os.path import join
+from os.path import join, isfile
 
 
 def fromCsv(
@@ -36,19 +36,75 @@ def fromCsvFiles(
     data = []
     for filename in listdir(fileDirectory):
         dataFile = join(fileDirectory, filename)
-        extractedData = np.genfromtxt(
-            dataFile,
-            skip_header=skipHeader,
-            filling_values=fillingValues,
-            delimiter=delimiter,
-        )
-        data.append(extractedData)
+        if isfile(dataFile):
+            extractedData = np.genfromtxt(
+                dataFile,
+                skip_header=skipHeader,
+                filling_values=fillingValues,
+                delimiter=delimiter,
+            )
+            data.append(extractedData)
 
     test = data[:testSize]
     validation = data[testSize:testSize + validationSize]
     train = data[testSize + validationSize:]
 
     return np.array(train), np.array(validation), np.array(test)
+
+
+def pairsFromCsvFiles(
+    fileDirectoryFeatures,
+    fileDirectoryLabels,
+    testSize,
+    validationSize,
+    delimiter=',',
+    fillingValues=0,
+    skipHeader=0,
+):
+    features = []
+    labels = []
+    for filename in listdir(fileDirectoryFeatures):
+        featureFile = join(fileDirectoryFeatures, filename)
+        labelFile = join(fileDirectoryLabels, filename)
+        if isfile(featureFile) and isfile(labelFile):
+            extractedFeatures = np.genfromtxt(
+                featureFile,
+                skip_header=skipHeader,
+                filling_values=fillingValues,
+                delimiter=delimiter,
+            )
+            extractedLabels = np.genfromtxt(
+                labelFile,
+                skip_header=skipHeader,
+                filling_values=fillingValues,
+                delimiter=delimiter,
+            )
+            features.append(extractedFeatures)
+            labels.append(extractedLabels)
+
+    testFeatures = features[:testSize]
+    validationFeatures = features[testSize:testSize + validationSize]
+    trainFeatures = features[testSize + validationSize:]
+
+    testLabels = labels[:testSize]
+    validationLabels = labels[testSize:testSize + validationSize]
+    trainLabels = labels[testSize + validationSize:]
+
+    trainFeatures = np.array(trainFeatures)
+    trainLabels = np.array(trainLabels)
+    validationFeatures = np.array(validationFeatures)
+    validationLabels = np.array(validationLabels)
+    testFeatures = np.array(testFeatures)
+    testLabels = np.array(testLabels)
+
+    return (
+        trainFeatures,
+        trainLabels,
+        validationFeatures,
+        validationLabels,
+        testFeatures,
+        testLabels,
+    )
 
 
 def pairsFromCsv(
