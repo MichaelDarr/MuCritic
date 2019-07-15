@@ -2,7 +2,20 @@ import tensorflow as tf
 from tensorflow.keras import layers, Model, models
 
 
-def perceptron(
+def getPerceptronWeights(model, layerName):
+    rawWeights = (
+        model
+        .get_layer(layerName)
+        .weights[0]
+        .numpy()
+    )
+    weightArr = []
+    for weight in rawWeights:
+        weightArr.append(weight[0])
+    return weightArr
+
+
+def dynamicPerceptron(
     trainFeatures,
     trainLabels,
     validationFeatures,
@@ -14,9 +27,9 @@ def perceptron(
     epochsPerTrain=1,
     learningRates=[0.0002],
     lossFunction='mse',
-    maxEpochs=1000,
     metrics=['mae', 'mse'],
     validationSteps=3,
+    verbose=True,
 ):
     inputDimension = len(trainFeatures[0])
     inputs = tf.keras.Input(shape=(inputDimension,))
@@ -26,12 +39,13 @@ def perceptron(
         name='perceptron-weights',
     )(inputs)
 
-    perceptron = Model(inputs=inputs, outputs=predictions)
+    blankPerceptron = Model(inputs=inputs, outputs=predictions)
 
-    outerPocketModel = None
+    outerPocketWeights = None
     outerPocketMae = None
     outerPocketMse = None
     for learningRate in learningRates:
+        perceptron = models.clone_model(blankPerceptron)
         perceptron.compile(
             optimizer=tf.optimizers.Nadam(learningRate),
             loss=lossFunction,
@@ -48,26 +62,26 @@ def perceptron(
             validation_steps=validationSteps,
             verbose=0,
         )
-        innerPocketModel = perceptron
+        innerPocketWeights = getPerceptronWeights(
+            perceptron,
+            'perceptron-weights',
+        )
         innerPocketMae = history.history['val_mae'][-1]
         innerPocketMse = history.history['val_mse'][-1]
         sequentialStagnantEpochs = 0
         currentEpoch = 0
 
-        while (
-            sequentialStagnantEpochs < stagnantEpochsAllowed and
-            currentEpoch < maxEpochs
-        ):
-            print(
-                'Epoch {:4d}/{:4d}  stale:{:2d}    mae: {:.4f}  mse: {:.4f}'
-                .format(
-                    currentEpoch,
-                    maxEpochs,
-                    sequentialStagnantEpochs,
-                    innerPocketMae,
-                    innerPocketMse,
+        while sequentialStagnantEpochs < stagnantEpochsAllowed:
+            if verbose:
+                print(
+                    'Epoch {:4d}  stale: {:2d}       mae: {:.4f}  mse: {:.4f}'
+                    .format(
+                        currentEpoch,
+                        sequentialStagnantEpochs,
+                        innerPocketMae,
+                        innerPocketMse,
+                    )
                 )
-            )
             history = perceptron.fit(
                 trainFeatures,
                 trainLabels,
@@ -79,18 +93,21 @@ def perceptron(
                 verbose=0,
             )
             if history.history['val_mae'][-1] - innerPocketMae > 0:
-                sequentialStagnantEpochs += 1
+                sequentialStagnantEpochs += epochsPerTrain
             else:
-                innerPocketModel = models.clone_model(perceptron)
+                innerPocketWeights = getPerceptronWeights(
+                    perceptron,
+                    'perceptron-weights',
+                )
                 innerPocketMae = history.history['val_mae'][-1]
                 innerPocketMse = history.history['val_mse'][-1]
                 sequentialStagnantEpochs = 0
-            currentEpoch += 1
+            currentEpoch += epochsPerTrain
         if innerPocketMae <= idealMae:
-            return innerPocketModel, innerPocketMae, innerPocketMse
-        elif innerPocketMae < outerPocketMae:
-            outerPocketModel = innerPocketModel
+            return innerPocketWeights, innerPocketMae, innerPocketMse
+        elif outerPocketMae is None or innerPocketMae < outerPocketMae:
+            outerPocketWeights = innerPocketWeights
             outerPocketMae = innerPocketMae
             outerPocketMse = innerPocketMse
 
-    return outerPocketModel, outerPocketMae, outerPocketMse
+    return outerPocketWeights, outerPocketMae, outerPocketMse
