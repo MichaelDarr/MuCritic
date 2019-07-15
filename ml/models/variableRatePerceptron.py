@@ -57,7 +57,7 @@ def printEpochReport(
     source=None,
 ):
     reportbuilder = (
-        '{}\tlearn: {:.4f}\tsmpls: {}\t{}'
+        '{}\tlearn: {:.4f}\t{} samples\tfile: {}'
         .format(
             headerText,
             histDict['learningRate'],
@@ -167,21 +167,24 @@ def variableRatePerceptron(
                     source=source,
                     sequentialStagnantEpochs=sequentialStagnantEpochs,
                 )
-        headerText = 'val_mae did not decrease'
+        headerText = 'No Improvement'
         if outerPocketHist is None:
             outerPocketWeights = innerPocketWeights
             outerPocketHist = innerPocketHist
             headerText = 'First Attempt'
         else:
+            tstDec = outerPocketHist['mae'] - innerPocketHist['mae']
             valDec = outerPocketHist['val_mae'] - innerPocketHist['val_mae']
-            trainDec = outerPocketHist['mae'] - innerPocketHist['mae']
             # best attempt if val_mae falls at least half as much as mae rises
-            if valDec > 0 and trainDec > (valDec * -2):
-                outerPocketWeights = innerPocketWeights
-                outerPocketHist = innerPocketHist
-                headerText = 'New Best Attempt'
-            elif valDec > 0:
-                headerText = 'mae increase too large'
+            # or mae is still lower than val_mae
+            if valDec > 0:
+                if(
+                    tstDec > (valDec * -2) or
+                    innerPocketHist['mae'] < innerPocketHist['val_mae']
+                ):
+                    outerPocketWeights = innerPocketWeights
+                    outerPocketHist = innerPocketHist
+                    headerText = 'New Best'
         if verbose > 1:
             printEpochReport(
                 innerPocketHist,
@@ -189,7 +192,7 @@ def variableRatePerceptron(
                 printMetrics=True,
                 sampleSize=sampleSize,
                 source=source,
-                tailText='\tepochs: {}'.format(innerPocketHist['epochs']),
+                tailText='{} epochs'.format(innerPocketHist['epochs']),
             )
     if verbose > 0:
         printEpochReport(
@@ -198,7 +201,7 @@ def variableRatePerceptron(
             printMetrics=True,
             sampleSize=sampleSize,
             source=source,
-            tailText='\tepochs: {}'.format(innerPocketHist['epochs']),
+            tailText='{} epochs'.format(innerPocketHist['epochs']),
         )
     return (
         outerPocketWeights,

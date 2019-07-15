@@ -64,7 +64,7 @@ def printSummary(histDicts, header):
         )
         learningRateString = 'Learning Rate Frequencies:'
         for rate, freq in lrFreq.items():
-            if rate > 0:
+            if freq > 0:
                 learningRateString += '{:.4f}:{}\t'.format(rate, freq)
         print(learningRateString)
 
@@ -103,9 +103,9 @@ def main():
             trainLabels,
             validationFeatures,
             validationLabels,
-            batchSize=1,
+            batchSize=2,
             epochsPerTrain=1,
-            verbose=2,
+            verbose=1,
             source=filename
         )
         savePath = join(ALL_SAVE_PATH, filename)
@@ -136,7 +136,8 @@ def main():
         allHist.append(histDict)
         printSummary(
             allHist,
-            'Finished training for user {} with {} reviews'.format(
+            'Finished training for user {} with {} reviews. New Average Stats:'
+            .format(
                 filename,
                 trainingExampleCount,
             ),
