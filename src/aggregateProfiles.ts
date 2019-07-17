@@ -29,13 +29,10 @@ export async function aggregateProfileArtists(): Promise<void> {
         relations: ['favoriteArtists'],
     });
 
-    const artistCount = 5;
+    const minArtistCount = 2;
     for await(const profile of profiles) {
         const validArtists = profile.favoriteArtists.filter(artist => artist.spotifyId != null);
-        if(
-            validArtists.length < artistCount
-            || !existsSync(`./resources/data/profile/taste/${profile.id}.csv`)
-        ) continue;
+        if(validArtists.length < minArtistCount) continue;
         const encodedArtists: EncodedArtist[] = [];
         for await(const artist of validArtists) {
             try {
@@ -54,7 +51,7 @@ export async function aggregateProfileArtists(): Promise<void> {
         const csvWriter = createArrayCsvWriter({
             path: `./resources/data/profile/artists/${profile.id}.csv`,
         });
-        await csvWriter.writeRecords(encodedArtists.slice(0, artistCount));
+        await csvWriter.writeRecords(encodedArtists);
     }
     Log.notify('\nData Aggregation Successful\n\n');
     process.exit(0);

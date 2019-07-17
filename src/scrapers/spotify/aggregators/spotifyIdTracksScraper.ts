@@ -24,7 +24,7 @@ export abstract class SpotifyEntityTracksScraper<
 
     public encode: boolean;
 
-    public entity: T1;
+    public spotifyId: string;
 
     public normalize: boolean;
 
@@ -40,7 +40,7 @@ export abstract class SpotifyEntityTracksScraper<
 
     public constructor(
         description: string,
-        entity: T1,
+        spotifyId: string,
         saveDirectory: string = null,
         encode = true,
         normalize = true,
@@ -49,7 +49,7 @@ export abstract class SpotifyEntityTracksScraper<
         super(`Top Spotify tracks for ${description}`, verbose);
 
         this.encode = encode;
-        this.entity = entity;
+        this.spotifyId = spotifyId;
         this.normalize = normalize;
         this.saveDirectory = saveDirectory;
         this.trackAggregations = [];
@@ -66,7 +66,7 @@ export abstract class SpotifyEntityTracksScraper<
                 await Aggregator.writeToCsv(
                     this.trackAggregations,
                     TrackAggregator,
-                    `${this.entity.id}`,
+                    `${this.description}`,
                     this.saveDirectory,
                 );
             }

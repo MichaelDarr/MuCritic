@@ -57,7 +57,7 @@ AlbumEntity, AlbumAggregation, EncodedAlbum, FlatAlbumAggregation
         aggregation: AlbumAggregation,
         album: AlbumEntity,
     ): Promise<FlatAlbumAggregation> => {
-        const albumTrackAggregator = new SpotifyAlbumTracksScraper(album, null, 6, true);
+        const albumTrackAggregator = new SpotifyAlbumTracksScraper(album.spotifyId, null, 6, true);
         await albumTrackAggregator.scrape();
         const { encodedTracks } = albumTrackAggregator;
         if(albumTrackEncoder == null) {

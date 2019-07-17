@@ -2,8 +2,8 @@ from models.denseNet import denseNet
 from dataHelpers import pairsFromCsvFiles
 import tensorflowjs as tfjs
 
-PROFILE_TASTE_DATA_PATH = "../resources/data/profile/taste/"
-PROFILE_ARTISTS_DATA_PATH = "../resources/data/profile/artists/encoded/"
+PROFILE_TASTE_BUCKETS_PATH = "../resources/data/profile/taste/"
+PROFILE_ENCODED_ARTISTS_PATH = "../resources/data/profile/encodedArtists/"
 MODEL_SAVE_PATH = "../resources/models/taste"
 
 
@@ -16,28 +16,29 @@ def main():
         testFeatures,
         testLabels,
     ) = pairsFromCsvFiles(
-        PROFILE_ARTISTS_DATA_PATH,
-        PROFILE_TASTE_DATA_PATH,
-        0,
-        40,
+        PROFILE_ENCODED_ARTISTS_PATH,
+        PROFILE_TASTE_BUCKETS_PATH,
+        15,
+        15,
         skipHeader=0,
+        labelBuckets=['2', '3', '4'],
     )
-
     model = denseNet(
         trainFeatures,
         trainLabels,
         validationFeatures,
         validationLabels,
-        [19, 18, 17],
-        activation=None,
-        batchSize=2,
-        epochs=1000,
-        learningRate=0.005,
+        activation='relu',
+        batchSize=1,
+        dropoutRate=0,
+        epochs=100,
+        learningRate=0.0005,
+        regularizationRate=0.1,
     )
 
     tfjs.converters.save_keras_model(
         model,
-        MODEL_SAVE_PATH + 'artist/tracks/model',
+        MODEL_SAVE_PATH,
     )
 
 

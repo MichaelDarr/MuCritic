@@ -46,8 +46,9 @@ AggregationGenerator<ArtistEntity, ArtistAggregation, EncodedArtist, FlatArtistA
     flatten: async (
         aggregation: ArtistAggregation,
         artist: ArtistEntity,
+        spotifyId?: string,
     ): Promise<FlatArtistAggregation> => {
-        const artistTrackAggregator = new SpotifyArtistTracksScraper(artist, null, 5, true);
+        const artistTrackAggregator = new SpotifyArtistTracksScraper(spotifyId, null, 5, true);
         await artistTrackAggregator.scrape();
         const { encodedTracks } = artistTrackAggregator;
         if(artistTrackEncoder == null) {

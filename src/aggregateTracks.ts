@@ -18,7 +18,7 @@ import {
 import { Log } from './helpers/classes/log';
 import { SpotifyApi } from './helpers/classes/spotifyApi';
 import { connectToDatabase } from './helpers/functions/database';
-import { SpotifyEntityTracksScraper } from './scrapers/spotify/aggregators/spotifyEntityTracksScraper';
+import { SpotifyEntityTracksScraper } from './scrapers/spotify/aggregators/spotifyIdTracksScraper';
 import { SpotifyAlbumTracksScraper } from './scrapers/spotify/aggregators/spotifyAlbumTracksScraper';
 import { SpotifyArtistTracksScraper } from './scrapers/spotify/aggregators/spotifyArtistTracksScraper';
 import { TrackAggregation, Aggregator } from './data/aggregators/aggregator';
@@ -62,12 +62,12 @@ export async function aggregateTracks(): Promise<void> {
             if(entity instanceof AlbumEntity) {
                 if(tracksFlag) {
                     savePath = null;
-                    scraper = new SpotifyAlbumTracksScraper(entity, null, null, false);
+                    scraper = new SpotifyAlbumTracksScraper(entity.spotifyId, null, null, false);
                 } else {
-                    scraper = new SpotifyAlbumTracksScraper(entity, `${savePath}/${entity.id}.csv`);
+                    scraper = new SpotifyAlbumTracksScraper(entity.spotifyId, `${savePath}/${entity.id}.csv`);
                 }
             } else if(entity instanceof ArtistEntity) {
-                scraper = new SpotifyArtistTracksScraper(entity, `${savePath}/${entity.id}.csv`);
+                scraper = new SpotifyArtistTracksScraper(entity.spotifyId, `${savePath}/${entity.id}.csv`);
             }
 
             try {

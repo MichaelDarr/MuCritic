@@ -28,6 +28,36 @@ def fromCsv(
     return train, validation, test
 
 
+def fromCsvBuckets(
+    baseDirectory,
+    bucketNames,
+    testSize,
+    validationSize,
+    delimiter=',',
+    fillingValues=0,
+    skipHeader=1,
+):
+    data = []
+    for bucket in bucketNames:
+        for filename in listdir(join(baseDirectory, bucket)):
+            extractedData = np.genfromtxt(
+                join(baseDirectory, bucket, filename),
+                skip_header=skipHeader,
+                filling_values=fillingValues,
+                delimiter=delimiter,
+            )
+            data.append(extractedData)
+
+    if validationSize == -1:
+        validationSize = int(len(data) / 5)
+
+    test = data[:testSize]
+    validation = data[testSize:testSize + validationSize]
+    train = data[testSize + validationSize:]
+
+    return np.array(train), np.array(validation), np.array(test)
+
+
 def fromCsvFiles(
     fileDirectory,
     testSize,
@@ -63,13 +93,22 @@ def pairsFromCsvFiles(
     delimiter=',',
     fillingValues=0,
     skipHeader=0,
+    labelBuckets=None,
 ):
     features = []
     labels = []
     for filename in listdir(fileDirectoryFeatures):
         featureFile = join(fileDirectoryFeatures, filename)
-        labelFile = join(fileDirectoryLabels, filename)
-        if isfile(featureFile) and isfile(labelFile):
+        labelFile = None
+        if labelBuckets:
+            for bucket in labelBuckets:
+                labelBucketFile = join(fileDirectoryLabels, bucket, filename)
+                if isfile(labelBucketFile):
+                    labelFile = labelBucketFile
+                    break
+        else:
+            labelFile = join(fileDirectoryLabels, filename)
+        if isfile(featureFile) and labelFile and isfile(labelFile):
             extractedFeatures = np.genfromtxt(
                 featureFile,
                 skip_header=skipHeader,

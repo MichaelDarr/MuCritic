@@ -31,10 +31,17 @@ export class Aggregator<
 
     public redisClient: RedisHelper;
 
-    public constructor(entity: T1, aggregationGenerator: AggregationGenerator<T1, T2, T3, T4>) {
+    public spotifyId: string;
+
+    public constructor(
+        entity: T1,
+        aggregationGenerator: AggregationGenerator<T1, T2, T3, T4>,
+        spotifyId?: string,
+    ) {
         this.entity = entity;
         this.aggregationGenerator = aggregationGenerator;
         this.redisClient = RedisHelper.getConnection();
+        this.spotifyId = spotifyId;
     }
 
     /**
@@ -50,6 +57,7 @@ export class Aggregator<
         const aggregation = await this.aggregationGenerator.generateFromEntity(
             this.entity,
             normalized,
+            this.spotifyId,
         );
         // if(redisKey != null) {
         //     await this.redisClient.setObject(redisKey, aggregation);
@@ -181,7 +189,7 @@ export interface AggregationGenerator<
      */
     convertFromRaw(entity: T1): T2;
     encode?(flatAggregation: T4): Promise<T3>;
-    flatten?(aggregation: T2, entity?: DatabaseEntities): Promise<T4>;
+    flatten?(aggregation: T2, entity?: DatabaseEntities, spotifyId?: string): Promise<T4>;
     /**
      * Aggregates data for an [[Aggregation]]. Implementations consist of two steps
      * 1. Ensure all necessary aggregation data is contained in [[Aggregator.entity]], fetching it
@@ -191,7 +199,7 @@ export interface AggregationGenerator<
      * @param normalized if data in returned aggregation should be normalized using
      * [[Aggregator.normalize]]
      */
-    generateFromEntity(entity: T1, normalized: boolean): Promise<T2>;
+    generateFromEntity(entity: T1, normalized: boolean, spotifyId?: string): Promise<T2>;
     normalize(aggregation: T2): T2;
     template(defaultVal: number): T2;
 }

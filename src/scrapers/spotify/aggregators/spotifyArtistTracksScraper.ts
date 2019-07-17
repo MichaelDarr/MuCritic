@@ -1,7 +1,7 @@
 import * as Spotify from 'spotify';
 
 import { ArtistEntity } from '../../../entities/entities';
-import { SpotifyEntityTracksScraper } from './spotifyEntityTracksScraper';
+import { SpotifyEntityTracksScraper } from './spotifyIdTracksScraper';
 
 /**
  * Spotify Artist Track Scraper *-> CSV FILE* (not database)
@@ -10,22 +10,22 @@ import { SpotifyEntityTracksScraper } from './spotifyEntityTracksScraper';
  */
 export class SpotifyArtistTracksScraper extends SpotifyEntityTracksScraper<ArtistEntity> {
     public constructor(
-        entity: ArtistEntity,
+        spotifyId: string,
         saveDirectory: string = null,
         trackCount = 5,
         encode = true,
         normalize = true,
         verbose = false,
     ) {
-        super(`artist: ${entity.name}`, entity, saveDirectory, encode, normalize, verbose);
+        super('artist', spotifyId, saveDirectory, encode, normalize, verbose);
 
         this.modelPath = process.env.MODEL_LOCATION_ARTIST_TRACK_ENCODER;
         this.trackCount = trackCount;
     }
 
     public async requestScrape(): Promise<void> {
-        this.spotifyResponse = await this.spotifyApi.getArtistTopTracks(this.entity.spotifyId);
-        if(this.spotifyResponse.tracks.length < this.trackCount) throw new Error(`Artist scraper found less than ${this.trackCount} top tracks: ${this.entity.name}`);
+        this.spotifyResponse = await this.spotifyApi.getArtistTopTracks(this.spotifyId);
+        if(this.spotifyResponse.tracks.length < this.trackCount) throw new Error(`Artist scraper found less than ${this.trackCount} top tracks`);
         this.spotifyResponse.tracks = this.spotifyResponse.tracks.slice(0, this.trackCount);
         const trackIds = this.spotifyResponse.tracks.map(track => track.id);
 

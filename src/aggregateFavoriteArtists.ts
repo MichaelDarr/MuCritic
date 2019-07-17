@@ -33,10 +33,7 @@ export async function aggregateFavoriteArtists(): Promise<void> {
     const artistCount = 5;
     for await(const profile of profiles) {
         const validArtists = profile.favoriteArtists.filter(artist => artist.spotifyId != null);
-        if(
-            validArtists.length < artistCount
-            || !existsSync(`./resources/data/profile/taste/${profile.id}.csv`)
-        ) continue;
+        if(validArtists.length < artistCount) continue;
         const encodedArtistArray: EncodedArtist[] = [];
         for await(const artist of validArtists) {
             try {
@@ -59,7 +56,7 @@ export async function aggregateFavoriteArtists(): Promise<void> {
         const encodedTensor = multiArtistEncoder.predict(aggregationTensor) as tf.Tensor;
         const encodedArtists = await encodedTensor.array() as [];
         const csvWriter = createArrayCsvWriter({
-            path: `./resources/data/profile/artists/encoded/${profile.id}.csv`,
+            path: `./resources/data/profile/encodedArtists/${profile.id}.csv`,
         });
         await csvWriter.writeRecords(encodedArtists);
     }

@@ -1,14 +1,17 @@
 from os import listdir
 from os.path import join, exists
 import numpy as np
-from models.variableRatePerceptron import variableRatePerceptron
+from models.variableEpochPerceptron import (
+    variableEpochPerceptron,
+    summary,
+)
 from dataHelpers import pairsFromCsv
 
-BUCKET_1_MAE_CAP = 0.04
-BUCKET_2_MAE_CAP = 0.07
-BUCKET_3_MAE_CAP = 0.1
-BUCKET_4_MAE_CAP = 0.13
-BUCKET_5_MAE_CAP = 0.16
+BUCKET_1_MAE_CAP = 0.05
+BUCKET_2_MAE_CAP = 0.08
+BUCKET_3_MAE_CAP = 0.11
+BUCKET_4_MAE_CAP = 0.14
+BUCKET_5_MAE_CAP = 0.17
 BASE_SAVE_PATH = '../resources/data/profile/taste/'
 ALL_SAVE_PATH = BASE_SAVE_PATH + 'all/'
 BUCKET_1_SAVE_PATH = BASE_SAVE_PATH + '1/'
@@ -17,56 +20,8 @@ BUCKET_3_SAVE_PATH = BASE_SAVE_PATH + '3/'
 BUCKET_4_SAVE_PATH = BASE_SAVE_PATH + '4/'
 BUCKET_5_SAVE_PATH = BASE_SAVE_PATH + '5/'
 BUCKET_6_SAVE_PATH = BASE_SAVE_PATH + '6/'
-MIN_REVIEWS_PER_PROFILE = 24
 TASTE_BLACKLIST_SAVE_PATH = "../resources/data/profile/taste/"
 PROFILE_REVIEWS_PATH = "../resources/data/profile/reviews/"
-
-
-def printSummary(histDicts, header):
-    if len(histDicts) > 0:
-        maeAvg = 0
-        mseAvg = 0
-        valMaeAvg = 0
-        valMseAvg = 0
-        epochs = 0
-        lrFreq = {
-            0.0001: 0,
-            0.0002: 0,
-            0.0005: 0,
-            0.001: 0,
-            0.002: 0,
-            0.005: 0,
-            0.01: 0,
-            0.02: 0,
-            0.05: 0,
-            0.1: 0,
-            0.2: 0,
-            0.5: 0,
-            1: 0,
-        }
-        for histDict in histDicts:
-            maeAvg += histDict['mae'] / len(histDicts)
-            mseAvg += histDict['mse'] / len(histDicts)
-            valMaeAvg += histDict['val_mae'] / len(histDicts)
-            valMseAvg += histDict['val_mse'] / len(histDicts)
-            epochs += histDict['epochs'] / len(histDicts)
-            lrFreq[histDict['learningRate']] += 1
-        print(
-            '''{}\n{} epochs\tt_mae: {:.4f}\tt_mse: {:.4f}\
-            v_mae: {:.4f}\tv_mse: {:.4f}'''.format(
-                header,
-                epochs,
-                maeAvg,
-                mseAvg,
-                valMaeAvg,
-                valMseAvg,
-            )
-        )
-        learningRateString = 'Learning Rate Frequencies:'
-        for rate, freq in lrFreq.items():
-            if freq > 0:
-                learningRateString += '{:.4f}:{}\t'.format(rate, freq)
-        print(learningRateString)
 
 
 def main():
@@ -92,33 +47,33 @@ def main():
             -1,
             skipHeader=0,
         )
-        if trainingExampleCount < MIN_REVIEWS_PER_PROFILE:
-            continue
         print('\nBeginning training for user {} ({} reviews)'.format(
             filename,
             trainingExampleCount,
         ))
-        profileWeights, histDict = variableRatePerceptron(
+        profileWeights, histDict = variableEpochPerceptron(
             trainFeatures,
             trainLabels,
             validationFeatures,
             validationLabels,
             batchSize=2,
             epochsPerTrain=1,
-            verbose=1,
-            source=filename
+            verbose=0,
+            source=filename,
+            dropoutRate=0.3,
+            regularlizationFactor=0.1,
         )
         savePath = join(ALL_SAVE_PATH, filename)
         bucketSavePath = BUCKET_6_SAVE_PATH
-        if histDict['val_mae'] < BUCKET_1_MAE_CAP:
+        if histDict['mae'] < BUCKET_1_MAE_CAP:
             bucketSavePath = BUCKET_1_SAVE_PATH
-        elif histDict['val_mae'] < BUCKET_2_MAE_CAP:
+        elif histDict['mae'] < BUCKET_2_MAE_CAP:
             bucketSavePath = BUCKET_2_SAVE_PATH
-        elif histDict['val_mae'] < BUCKET_3_MAE_CAP:
+        elif histDict['mae'] < BUCKET_3_MAE_CAP:
             bucketSavePath = BUCKET_3_SAVE_PATH
-        elif histDict['val_mae'] < BUCKET_4_MAE_CAP:
+        elif histDict['mae'] < BUCKET_4_MAE_CAP:
             bucketSavePath = BUCKET_4_SAVE_PATH
-        elif histDict['val_mae'] < BUCKET_5_MAE_CAP:
+        elif histDict['mae'] < BUCKET_5_MAE_CAP:
             bucketSavePath = BUCKET_5_SAVE_PATH
         bucketSavePath = join(bucketSavePath, filename)
         np.savetxt(
@@ -134,9 +89,10 @@ def main():
             delimiter=',',
         )
         allHist.append(histDict)
-        printSummary(
+        summary(
+            histDict,
             allHist,
-            'Finished training for user {} with {} reviews. New Average Stats:'
+            'Finished training for user {} with {} reviews.'
             .format(
                 filename,
                 trainingExampleCount,

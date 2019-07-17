@@ -17,8 +17,6 @@ import { Log } from './helpers/classes/log';
 import { SpotifyApi } from './helpers/classes/spotifyApi';
 import { connectToDatabase } from './helpers/functions/database';
 
-require('@tensorflow/tfjs-node');
-
 dotenv.config({ path: resolve(__dirname, '../.env') });
 
 /**

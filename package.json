@@ -10,7 +10,7 @@
     "aggregateArtists": "tsc && node --max-old-space-size=8192 built/aggregateArtists",
     "aggregateProfiles": "tsc && node --max-old-space-size=8192 built/aggregateProfiles",
     "aggregateFavoriteArtists": "tsc && node --max-old-space-size=8192 built/aggregateFavoriteArtists",
-    "recommend": "tsc && node --max-old-space-size=8192 built/recommendAlbums",
+    "recommend": "tsc && node --max-old-space-size=8192 built/recommender",
     "rym": "tsc && node built/scrapeRateYourMusic file",
     "rymAuto": "tsc && node --max-old-space-size=8192 built/scrapeRateYourMusic",
     "rymProfiles": "tsc && node built/scrapeRateYourMusicProfiles",
