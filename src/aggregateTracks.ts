@@ -1,6 +1,3 @@
-/**
- * Aggregation entry point
- */
 /* eslint no-fallthrough: "off" */
 import * as dotenv from 'dotenv';
 import { resolve } from 'path';

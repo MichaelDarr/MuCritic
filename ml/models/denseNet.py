@@ -14,7 +14,7 @@ def denseNet(
     epochs=5000,
     learningRate=0.0002,
     lossFunction='mse',
-    metrics=['mae', 'mse'],
+    metrics=['mae'],
     testingData=None,
     validationSteps=3,
     regularizationRate=0.1,

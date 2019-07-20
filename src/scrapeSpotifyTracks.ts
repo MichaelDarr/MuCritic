@@ -1,7 +1,3 @@
-/**
- * Spotify album track data scraper entry point
- */
-
 import * as dotenv from 'dotenv';
 import { resolve } from 'path';
 import {

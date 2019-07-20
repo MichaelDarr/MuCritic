@@ -1,14 +1,15 @@
-from tensorflow.keras import layers, optimizers, Model
-import numpy as np
+from tensorflow.keras import layers, optimizers, regularizers, Model
 
 
 def autoencoder(
     trainingData,
     validationData,
     encodingDimension,
+    trainingLabels=None,
+    validationLabels=None,
     activation='relu',
     batchSize=256,
-    denoise=False,
+    dropoutRate=0.3,
     epochs=200,
     hiddenDimension=None,
     learningRate=0.0002,
@@ -16,18 +17,21 @@ def autoencoder(
     metrics=['mae', 'mse'],
     testingData=None,
     validationSteps=3,
+    regularizationRate=0,
 ):
     inputDimension = len(trainingData[0])
     inputData = layers.Input(shape=(inputDimension,))
-    encoded = inputData
+    encoded = layers.Dropout(dropoutRate)(inputData)
     if hiddenDimension is not None:
         encoded = layers.Dense(
             hiddenDimension,
-            activation=activation
+            activation=activation,
+            kernel_regularizer=regularizers.l2(regularizationRate),
         )(encoded)
     encoded = layers.Dense(
         encodingDimension,
-        activation=activation
+        activation=activation,
+        kernel_regularizer=regularizers.l2(regularizationRate),
     )(inputData)
     decoded = encoded
     if hiddenDimension is not None:
@@ -48,24 +52,22 @@ def autoencoder(
     encoder = Model(inputData, encoded)
     decoder = Model(encodedInput, decoderLayer)
 
-    trainingDataTargets = trainingData
-    if denoise:
-        noise = np.random.normal(loc=0.5, scale=0.5, size=trainingData.shape)
-        trainingDataTargets = trainingData + noise
-        trainingDataTargets = np.clip(trainingDataTargets, 0., 1.)
-
     autoencoder.compile(
         optimizer=optimizers.Nadam(learningRate),
         loss=lossFunction,
         metrics=metrics,
     )
+    if trainingLabels is None:
+        trainingLabels = trainingData
+    if validationLabels is None:
+        validationLabels = validationData
     autoencoder.fit(
         trainingData,
-        trainingDataTargets,
+        trainingLabels,
         batch_size=batchSize,
         epochs=epochs,
         shuffle=True,
-        validation_data=(validationData, validationData),
+        validation_data=(validationData, validationLabels),
         validation_steps=validationSteps,
     )
     return autoencoder, encoder, decoder

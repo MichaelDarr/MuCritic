@@ -9,12 +9,7 @@ def getPerceptronWeights(model, layerName):
         .weights[0]
         .numpy()
     )
-    weightArr = [(
-        model
-        .get_layer(layerName)
-        .weights[1]
-        .numpy()[0]
-    )]
+    weightArr = []
     for weight in rawWeights:
         weightArr.append(weight[0])
     return weightArr
@@ -101,16 +96,17 @@ def variableEpochPerceptron(
     validationFeatures,
     validationLabels,
     source=None,
-    staleEpochsAllowed=100,
+    staleEpochsAllowed=200,
     batchSize=16,
     epochsPerTrain=1,
-    learningRates=[0.02, 0.002, 0.0002],
+    learningRates=[0.02],
     lossFunction='mse',
     metrics=['mae', 'mse'],
     validationSteps=3,
     regularlizationFactor=0.01,
     dropoutRate=0.3,
     verbose=0,
+    useBias=True,
 ):
     inputDimension = len(trainFeatures[0])
     inputs = tf.keras.Input(shape=(inputDimension,))
@@ -119,6 +115,7 @@ def variableEpochPerceptron(
         1,
         name='perceptron-weights',
         kernel_regularizer=tf.keras.regularizers.l2(regularlizationFactor),
+        use_bias=useBias,
     )(dropout)
 
     perceptron = Model(inputs=inputs, outputs=predictions)
@@ -170,11 +167,16 @@ def variableEpochPerceptron(
                 sequentialStagnantEpochs = 0
             else:
                 sequentialStagnantEpochs += epochsPerTrain
-            if verbose > 0:
+            if verbose > 1:
                 printEpochReport(
                     pocketHist,
                     sequentialStagnantEpochs,
                 )
+        if verbose > 0:
+            printEpochReport(
+                pocketHist,
+                0,
+            )
         if(
             outerPocketHist is None or
             histIsImprovement(outerPocketHist, pocketHist)

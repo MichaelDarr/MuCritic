@@ -1,9 +1,5 @@
-/**
- * Aggregation entry point
- */
 import * as dotenv from 'dotenv';
 import { resolve } from 'path';
-import { existsSync } from 'fs';
 import 'reflect-metadata';
 import * as tf from '@tensorflow/tfjs';
 import { createArrayCsvWriter } from 'csv-writer';

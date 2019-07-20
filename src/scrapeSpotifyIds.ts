@@ -1,7 +1,3 @@
-/**
- * Spotify ID scraper entry point
- */
-
 import * as dotenv from 'dotenv';
 import { resolve } from 'path';
 import { getConnection } from 'typeorm';

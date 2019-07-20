@@ -1,6 +1,3 @@
-/**
- * Aggregation entry point
- */
 import * as dotenv from 'dotenv';
 import { resolve } from 'path';
 import 'reflect-metadata';
@@ -9,18 +6,15 @@ import { getRepository, IsNull, Not } from 'typeorm';
 
 import {
     Aggregator,
-    EncodedAlbum,
     EncodedArtist,
 } from './data/aggregators/aggregator';
 import { AlbumAggregator } from './data/aggregators/albumAggregator';
 import { ArtistAggregator } from './data/aggregators/artistAggregator';
-import {
-    AlbumEntity,
-    ArtistEntity,
-} from './entities/entities';
+import { AlbumEntity } from './entities/entities';
 import { Log } from './helpers/classes/log';
 import { SpotifyApi } from './helpers/classes/spotifyApi';
 import { connectToDatabase } from './helpers/functions/database';
+import { RedisHelper } from './helpers/classes/redis';
 
 require('@tensorflow/tfjs-node');
 
@@ -30,6 +24,8 @@ export async function recommend(artistIds: string[]): Promise<void> {
     Log.notify('\nMuCritic Album Recommender\n\n');
     await connectToDatabase();
     await SpotifyApi.connect(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET);
+
+    const redisClient = RedisHelper.getConnection();
 
     const artistData: EncodedArtist[] = [];
     for await(const artistId of artistIds) {
@@ -45,8 +41,28 @@ export async function recommend(artistIds: string[]): Promise<void> {
     const encodedAlbumTensor = artistEncoder.predict(artistTensor) as tf.Tensor;
 
     const tasteMapper = await tf.loadLayersModel(`${process.env.MODEL_LOCATION_TASTE}/model.json`);
+    const rymTasteTensor = tf.tensor([
+        -0.0054366281,
+        -0.0115027968,
+        -0.0042289789,
+        0.0064023617,
+        0.0159894247,
+        -0.0089542195,
+        -0.0339227095,
+        -0.0067667011,
+        0.0159843862,
+        0.0272882357,
+        0.0075859660,
+        -0.0158114079,
+        -0.0599396564,
+        -0.0006291876,
+        0.0214630514,
+        0.0131756635,
+    ]).reshape([16, 1]);
     let tasteTensor = tasteMapper.predict(encodedAlbumTensor) as tf.Tensor;
+    console.log(tasteTensor.arraySync())
     tasteTensor = tasteTensor.reshape([16, 1]);
+    tasteTensor = tasteTensor.add(tasteTensor).add(rymTasteTensor);
 
     const model = tf.sequential();
     model.add(tf.layers.dense({
@@ -70,16 +86,26 @@ export async function recommend(artistIds: string[]): Promise<void> {
         score: number;
     }
     const results: SingleResult[] = [];
+    const usedIdList: string[] = [];
     for await(const album of albums) {
+        if(usedIdList.indexOf(album.spotifyId) !== -1) continue;
         try {
-            const aggregator = new Aggregator(
-                album,
-                AlbumAggregator,
-            );
+            let encodedData: number[];
+            const redisKey = `${album.name}.${album.artist.name}.aggregation.v1`;
+            const cachedResponse = await redisClient.getObject(redisKey);
+            if(cachedResponse != null) {
+                encodedData = cachedResponse as number[];
+            } else {
+                const aggregator = new Aggregator(
+                    album,
+                    AlbumAggregator,
+                );
 
-            const aggregation = await aggregator.aggregate();
-            const flatAggregation = await AlbumAggregator.flatten(aggregation, album);
-            const encodedData = await AlbumAggregator.encode(flatAggregation);
+                const aggregation = await aggregator.aggregate();
+                const flatAggregation = await AlbumAggregator.flatten(aggregation, album);
+                encodedData = await AlbumAggregator.encode(flatAggregation);
+                await redisClient.setObject(redisKey, encodedData);
+            }
             const dataTensor = tf.tensor2d(encodedData, [1, 16]);
             const scoreTensor = model.predict(dataTensor) as tf.Tensor;
             const score = scoreTensor.arraySync()[0][0];
@@ -87,28 +113,24 @@ export async function recommend(artistIds: string[]): Promise<void> {
                 label: `${album.name} by ${album.artist.name}`,
                 score,
             });
+            usedIdList.push(album.spotifyId);
         } catch(err) {
             Log.err(`\nNon-terminal Album Aggregation Failure:\n${err.message}\n`);
         }
     }
-    results.sort((a, b) => b.score - a.score);
-    results.slice(0, 5).forEach(result => console.log(result.label));
-    console.log();
-    results.slice(50, 55).forEach(result => console.log(result.label));
-    console.log();
-    results.slice(100, 105).forEach(result => console.log(result.label));
-    console.log();
-    results.slice(500, 505).forEach(result => console.log(result.label));
-    console.log();
-    results.slice(1000, 1005).forEach(result => console.log(result.label));
+    console.log('TOP');
+    results.slice(0, 20).forEach(result => console.log(`${result.label}`));
+    results.sort((a, b) => a.score - b.score);
+    console.log('BOTTOM');
+    results.slice(0, 20).forEach(result => console.log(`${result.label}`));
 
     process.exit(0);
 }
 
 recommend([
-    '6qyi8X6MdP1lu6B1K6yh3h',
-    '1G5v3lpMz7TeoW0yGpRQHr',
-    '72X6FHxaShda0XeQw3vbeF',
-    '6kDMoHTcBICPILP2aclPWZ',
-    '1oR9pQhucVTJyi5lH2Y2iT',
+    '6sFIWsNpZYqfjUpaCgueju',
+    '06HL4z0CvFAxyc27GXpf02',
+    '3CjlHNtplJyTf9npxaPl5w',
+    '66CXWjxzNUsdJxJ2JdwvnR',
+    '1HY2Jd0NmPuamShAr6KMms',
 ]);

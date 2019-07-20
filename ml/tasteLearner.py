@@ -20,7 +20,6 @@ BUCKET_3_SAVE_PATH = BASE_SAVE_PATH + '3/'
 BUCKET_4_SAVE_PATH = BASE_SAVE_PATH + '4/'
 BUCKET_5_SAVE_PATH = BASE_SAVE_PATH + '5/'
 BUCKET_6_SAVE_PATH = BASE_SAVE_PATH + '6/'
-TASTE_BLACKLIST_SAVE_PATH = "../resources/data/profile/taste/"
 PROFILE_REVIEWS_PATH = "../resources/data/profile/reviews/"
 
 

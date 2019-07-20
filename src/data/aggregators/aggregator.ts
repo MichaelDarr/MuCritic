@@ -421,6 +421,35 @@ export type FlatAlbumAggregation = [
     number,
 ];
 
+export type FlatLeaklessAlbumAggregation = [
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+];
+
 export type FlatArtistAggregation = [
     number,
     number,
@@ -474,6 +503,13 @@ export interface AlbumAggregation {
     tracks: EncodedTrack[];
 }
 
+export interface AlbumAggregationLeakless {
+    popularity: number;
+    releaseYear: number;
+    artist: ArtistAggregationLeakless;
+    tracks: EncodedTrack[];
+}
+
 export interface ReviewAggregation {
     score: number;
     album: EncodedAlbum;
@@ -489,6 +525,10 @@ export interface ArtistAggregation {
     popularity: number;
 }
 
+export interface ArtistAggregationLeakless {
+    popularity: number;
+}
+
 export interface ProfileAggregation {
     age: number;
     gender: number;
@@ -498,7 +538,9 @@ export interface ProfileAggregation {
 
 export type Aggregation =
     | AlbumAggregation
+    | AlbumAggregationLeakless
     | ArtistAggregation
+    | ArtistAggregationLeakless
     | ReviewAggregation
     | ProfileAggregation
     | TrackAggregation;
@@ -518,6 +560,7 @@ export type EncodedAggregations =
 
 export type FlatAggregations =
     | FlatAlbumAggregation
+    | FlatLeaklessAlbumAggregation
     | FlatArtistAggregation
     | FlatReviewAggregation
     | FlatTrackAggregation;

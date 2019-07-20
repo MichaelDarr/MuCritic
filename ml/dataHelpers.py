@@ -94,6 +94,7 @@ def pairsFromCsvFiles(
     fillingValues=0,
     skipHeader=0,
     labelBuckets=None,
+    skipBiasInLabels=False,
 ):
     features = []
     labels = []
@@ -122,7 +123,10 @@ def pairsFromCsvFiles(
                 delimiter=delimiter,
             )
             features.append(extractedFeatures)
-            labels.append(extractedLabels)
+            if skipBiasInLabels:
+                labels.append(extractedLabels[1:])
+            else:
+                labels.append(extractedLabels)
 
     testFeatures = features[:testSize]
     validationFeatures = features[testSize:testSize + validationSize]

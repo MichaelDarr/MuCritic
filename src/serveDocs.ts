@@ -1,7 +1,3 @@
-/**
- * Serves documentation on localhost
- */
-
 import * as dotenv from 'dotenv';
 import * as express from 'express';
 import { resolve } from 'path';
