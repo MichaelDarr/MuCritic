@@ -1,8 +1,10 @@
 import { Base64 } from 'js-base64';
 import * as request from 'request';
 
+import * as Spotify from 'spotify';
+
 import { Log } from './log';
-import * as Spotify from '../../types/spotify';
+import { RedisHelper } from './redis';
 
 /**
  * Interface for all interaction with Spotify API using the
@@ -13,11 +15,13 @@ import * as Spotify from '../../types/spotify';
  * 2. [[SpotifyApi.getConnection]]
  */
 export class SpotifyApi {
+    private static instance: SpotifyApi;
+
     private accessToken: string;
 
-    private client: Spotify.ClientCredentials;
+    private client: ClientCredentials;
 
-    private static instance: SpotifyApi;
+    private static redis: RedisHelper;
 
     private tokenExpiration: Date;
 
@@ -35,6 +39,9 @@ export class SpotifyApi {
      * [Implicit Grant Flow](https://developer.spotify.com/documentation/general/guides/authorization-guide/)
      */
     public static async connect(clientId: string, clientSecret: string): Promise<SpotifyApi> {
+        Log.notify('Connecting to local redis cache...');
+        SpotifyApi.redis = await RedisHelper.connect(6379, '127.0.0.1');
+        Log.success('Cache connection succeeded');
         Log.notify('Connecting to Spotify API...');
         if(SpotifyApi.instance) {
             Log.notify('Overriding existing connection with new credentials');
@@ -51,6 +58,52 @@ export class SpotifyApi {
     }
 
     /**
+     * [Get an Album's Tracks](https://developer.spotify.com/documentation/web-api/reference/albums/get-albums-tracks/)
+     */
+    public async getAlbumTracks(
+        albumId: string,
+        limit = 50,
+    ): Promise<Spotify.TracksResponse> {
+        const url = `https://api.spotify.com/v1/albums/${albumId}/tracks?limit=${limit}`;
+        return this.spotifyRequest<Spotify.TracksResponse>(url, 'GET');
+    }
+
+    /**
+     * [Get an Artist](https://developer.spotify.com/documentation/web-api/reference/artists/get-artist/)
+     */
+    public async getArtist(artistId: string): Promise<Spotify.ArtistResponse> {
+        const url = `https://api.spotify.com/v1/artists/${artistId}`;
+        return this.spotifyRequest<Spotify.ArtistResponse>(url, 'GET');
+    }
+
+    /**
+     * [Get an Artist's Top Tracks](https://developer.spotify.com/documentation/web-api/reference/artists/get-artists-top-tracks/)
+     *
+     * @param country
+     * [ISO 3166-1 alpha-2 country code](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
+     */
+    public async getArtistTopTracks(
+        artistId: string,
+        country = 'US',
+    ): Promise<Spotify.TracksBatchResponse> {
+        const url = `https://api.spotify.com/v1/artists/${artistId}/top-tracks?country=${country}`;
+        return this.spotifyRequest<Spotify.TracksBatchResponse>(url, 'GET');
+    }
+
+    /**
+     * [Get Several Albums](https://developer.spotify.com/documentation/web-api/reference/albums/get-several-albums/)
+     * @param albumIds Comma-separated list of the Spotify IDs for the albums. Maximum: 20
+     */
+    public async getBatch<T extends Spotify.BatchResponse>(
+        ids: string | string[],
+        batchName: string,
+    ): Promise<T> {
+        const idString = (Array.isArray(ids)) ? ids.join(',') : ids;
+        const url = `https://api.spotify.com/v1/${batchName}?ids=${idString}`;
+        return this.spotifyRequest<T>(url, 'GET');
+    }
+
+    /**
      * Get the instance of this class created by [[SpotifyApi.connect]].
      */
     public static getConnection(): SpotifyApi {
@@ -61,72 +114,31 @@ export class SpotifyApi {
     }
 
     /**
-     * [Get an Album's Tracks](https://developer.spotify.com/documentation/web-api/reference/albums/get-albums-tracks/)
-     */
-    public async albumTracksRequest(
-        albumId: string,
-        limit = 50,
-    ): Promise<Spotify.AlbumTracksResponse> {
-        const url = `https://api.spotify.com/v1/albums/${albumId}/tracks?limit=${limit}`;
-        return this.spotifyRequest<Spotify.AlbumTracksResponse>(url, 'GET');
-    }
-
-    /**
-     * [Get Several Albums](https://developer.spotify.com/documentation/web-api/reference/albums/get-several-albums/)
-     * @param albumIds Comma-separated list of the Spotify IDs for the albums. Maximum: 20
-     */
-    public async batchRequest<T extends Spotify.BatchResponse>(
-        ids: string,
-        batchName: string,
-    ): Promise<T> {
-        const url = `https://api.spotify.com/v1/${batchName}?ids=${ids}`;
-        return this.spotifyRequest<T>(url, 'GET');
-    }
-
-    /**
      * [Get Available Genre Seeds](https://developer.spotify.com/console/get-available-genre-seeds/)
      */
-    public async genreSeedsRequest(): Promise<Spotify.GenreSeedsResponse> {
+    public async getGenreSeeds(): Promise<Spotify.GenreSeedsResponse> {
         const url = 'https://api.spotify.com/v1/recommendations/available-genre-seeds';
         return this.spotifyRequest<Spotify.GenreSeedsResponse>(url, 'GET');
     }
 
     /**
+     * [Get Audio Features for a Track](https://developer.spotify.com/documentation/web-api/reference/tracks/get-audio-features/)
+     */
+    public async getTrackAudioFeatures(trackId: string): Promise<Spotify.AudioFeatureResponse> {
+        const url = `https://api.spotify.com/v1/audio-features/${trackId}`;
+        return this.spotifyRequest<Spotify.AudioFeatureResponse>(url, 'GET');
+    }
+
+    /**
      * @param query [spotify docs](https://developer.spotify.com/documentation/web-api/reference/search/search/)
      */
-    public async searchRequest<T extends Spotify.SearchResponse>(
+    public async search<T extends Spotify.SearchResponse>(
         query: string,
         type: Spotify.SearchType,
         limit: number,
     ): Promise<T> {
         const url = `https://api.spotify.com/v1/search?q=${query}&type=${type}&limit=${limit}`;
         return this.spotifyRequest<T>(url, 'GET');
-    }
-
-    private async spotifyRequest<T extends Spotify.Response>(
-        url: string,
-        method: Spotify.RequestMethod,
-    ): Promise<T> {
-        const token: string = await this.getAccessToken();
-        return new Promise((resolve, reject): void => {
-            const requestOptions = {
-                url,
-                method,
-                json: true,
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            };
-            request(
-                requestOptions,
-                (error, _, body): void => {
-                    if(error) {
-                        reject(new Error(`request failed for ${url}`));
-                    }
-                    resolve(body);
-                },
-            );
-        });
     }
 
     /**
@@ -159,7 +171,10 @@ export class SpotifyApi {
                     if(error) {
                         reject(new Error(error));
                     }
-                    if(!body.access_token) {
+                    if(body == null) {
+                        reject(new Error('failed to retrieve response body from Spotify'));
+                    }
+                    if(body.access_token == null) {
                         reject(new Error('failed to retrieve access token from Spotify'));
                     }
                     this.accessToken = body.access_token;
@@ -171,4 +186,44 @@ export class SpotifyApi {
             );
         });
     }
+
+    private async spotifyRequest<T extends Spotify.Response>(
+        url: string,
+        method: Spotify.RequestMethod,
+    ): Promise<T> {
+        const cachedResponse = await SpotifyApi.redis.getObject<T>(url);
+        if(cachedResponse != null) return cachedResponse;
+        const token: string = await this.getAccessToken();
+        return new Promise((resolve, reject): void => {
+            const requestOptions = {
+                url,
+                method,
+                json: true,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            };
+            request(
+                requestOptions,
+                async (error, response, body): Promise<void> => {
+                    if(error) {
+                        reject(new Error(`request failed for ${url}: ${error}`));
+                    } else if(body.error != null && body.error.status === 429) {
+                        const spotifyApiTemp = this;
+                        setTimeout(() => {
+                            resolve(spotifyApiTemp.spotifyRequest(url, method));
+                        }, (response.headers['Retry-After'] as unknown) as number * 1000);
+                    } else{
+                        await SpotifyApi.redis.setObject<T>(url, body);
+                        resolve(body);
+                    }
+                },
+            );
+        });
+    }
+}
+
+export interface ClientCredentials {
+    id: string;
+    secret: string;
 }

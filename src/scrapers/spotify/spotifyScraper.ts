@@ -1,4 +1,4 @@
-import * as Spotify from '../../types/spotify';
+import * as Spotify from 'spotify';
 import { Scraper } from '../scraper';
 import { SpotifyApi } from '../../helpers/classes/spotifyApi';
 

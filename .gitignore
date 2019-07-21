@@ -80,3 +80,7 @@ tests/baselines/reference/dt
 TEST-results.xml
 package-lock.json
 screenshots/
+resources/data/*
+resources/data_subsets/*
+__pycache__
+report.*.json

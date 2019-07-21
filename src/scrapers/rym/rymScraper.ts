@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
 
-import { RymDatabaseEntities } from '../../types/types';
+import { RymDatabaseEntities } from '../../entities/entities';
 import { ScraperApiScraper } from '../scraperApiScraper';
 
 /**

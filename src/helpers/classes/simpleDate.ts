@@ -1,4 +1,5 @@
-import * as Spotify from '../../types/spotify';
+import * as Spotify from 'spotify';
+
 import { stringToNum } from '../functions/typeManips';
 
 /**

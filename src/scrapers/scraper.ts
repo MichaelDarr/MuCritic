@@ -3,7 +3,6 @@ import {
     ResultBatch,
     ScrapeResult,
 } from '../helpers/classes/result';
-import { ScrapersWithResults } from '../types/types';
 
 /**
  * Superclass for all "scrapers"
@@ -132,6 +131,13 @@ export abstract class Scraper {
     }
 
     /**
+     * Intercepts any errors thrown by [[Scraper.scrape]]
+     */
+    protected scrapeErrorHandler(error: Error): Promise<void> {
+        throw error;
+    }
+
+    /**
      * Entry point for initiating an asset scrape. General scrape outline/method order:
      *
      * 1. [[Scraper.checkForLocalRecord]]
@@ -155,22 +161,26 @@ export abstract class Scraper {
      * local records
      */
     public async scrape(forceScrape = false): Promise<void> {
-        Log.notify(`Beginning Scrape of ${this.description}`);
-        const recordExists = await this.checkForLocalRecord();
-        if(recordExists && !forceScrape) {
-            this.dataReadFromLocal = true;
+        try {
+            Log.notify(`Beginning Scrape of ${this.description}`);
+            const recordExists = await this.checkForLocalRecord();
+            if(recordExists && !forceScrape) {
+                this.dataReadFromLocal = true;
+                this.results.push(new ScrapeResult(true, this.description));
+                this.scrapeSucceeded = true;
+                Log.success(`Local Record Found for ${this.description}`);
+                return;
+            }
+            await this.requestScrape();
+            this.extractInfo();
+            await this.scrapeDependencies();
+            await this.saveToLocal();
             this.results.push(new ScrapeResult(true, this.description));
             this.scrapeSucceeded = true;
-            Log.success(`Local Record Found for ${this.description}`);
-            return;
+            Log.success(`Finished Scrape of ${this.description}`);
+        } catch(error) {
+            await this.scrapeErrorHandler(error);
         }
-        await this.requestScrape();
-        this.extractInfo();
-        await this.scrapeDependencies();
-        await this.saveToLocal();
-        this.results.push(new ScrapeResult(true, this.description));
-        this.scrapeSucceeded = true;
-        Log.success(`Finished Scrape of ${this.description}`);
     }
 
     /**
@@ -193,6 +203,7 @@ export abstract class Scraper {
      */
     public static async scrapeDependencyArr<T extends Scraper>(
         scrapers: T[],
+        forceScrape = false,
     ): Promise<ScrapersWithResults<T>> {
         const dependencies: ScrapersWithResults<T> = {
             scrapers: [],
@@ -201,7 +212,7 @@ export abstract class Scraper {
         if(scrapers != null && scrapers.length > 0) {
             for await(const scraper of scrapers) {
                 try {
-                    await scraper.scrape();
+                    await scraper.scrape(forceScrape);
                     dependencies.scrapers.push(scraper);
                     dependencies.results.concat(scraper.results);
                 } catch(err) {
@@ -216,4 +227,9 @@ export abstract class Scraper {
         }
         return dependencies;
     }
+}
+
+export interface ScrapersWithResults<T extends Scraper> {
+    results: ResultBatch;
+    scrapers: T[];
 }

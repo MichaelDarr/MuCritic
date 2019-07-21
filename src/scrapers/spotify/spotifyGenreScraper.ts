@@ -3,10 +3,11 @@ import {
     getConnection,
 } from 'typeorm';
 
+import * as Spotify from 'spotify';
+
 import {
     SpotifyGenreEntity,
 } from '../../entities/entities';
-import * as Spotify from '../../types/spotify';
 import { SpotifyScraper } from './spotifyScraper';
 
 /**
@@ -43,7 +44,7 @@ export class SpotifyGenreScraper extends SpotifyScraper<Spotify.GenreSeedsRespon
     }
 
     public async requestScrape(): Promise<void> {
-        this.spotifyResponse = await this.spotifyApi.genreSeedsRequest();
+        this.spotifyResponse = await this.spotifyApi.getGenreSeeds();
     }
 
     protected async saveToLocal(): Promise<void> {

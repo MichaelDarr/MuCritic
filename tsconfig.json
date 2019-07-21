@@ -3,22 +3,21 @@
         "outDir": "./built",
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "allowJs": true,
         "target": "es5",
         "lib": ["es2015", "dom"],
-        "types" : ["node"]
+        "skipLibCheck": true,
+        "types": ["node"],
+        "module": "commonjs",
+        "baseUrl": "./",
+        "paths": {
+            "*": ["src/@types/*"]
+        }
     },
     "include": [
-        "src/fixDatabaseDuplicates.ts",
-        "src/scrapeRateYourMusic.ts",
-        "src/scrapeSpotifyData.ts",
-        "src/scrapeSpotifyGenres.ts",
-        "src/scrapeSpotifyIds.ts",
-        "src/scrapeSpotifyTracks.ts",
-        "src/serveDocs.ts",
+        "src/**/*",
     ],
+    "exclude": ["node_modules", "src/@types"],
     "typedocOptions": {
-        "entryPoint": "./Scraper",
         "module": "commonjs",
         "mode": "file",
         "out": "docs/",

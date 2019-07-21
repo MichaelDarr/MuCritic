@@ -1,7 +1,7 @@
 import { getConnection } from 'typeorm';
 
-import * as Spotify from '../../types/spotify';
-import { SpotifyBatchEntities } from '../../types/types';
+import * as Spotify from 'spotify';
+import { SpotifyBatchEntities } from '../../entities/entities';
 import { SpotifyScraper } from './spotifyScraper';
 
 /**
@@ -44,7 +44,7 @@ export abstract class SpotifyBatchScraper<
      */
     public async requestScrape(): Promise<void> {
         const idString = this.entities.map(entity => entity.spotifyId).join();
-        this.spotifyResponse = await this.spotifyApi.batchRequest<T2>(
+        this.spotifyResponse = await this.spotifyApi.getBatch<T2>(
             idString,
             this.batchDescription,
         );

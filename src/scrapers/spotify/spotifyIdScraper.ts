@@ -3,12 +3,13 @@ import {
     getConnection,
 } from 'typeorm';
 
+import * as Spotify from 'spotify';
+
 import {
     AlbumEntity,
     ArtistEntity,
 } from '../../entities/entities';
 import { Log } from '../../helpers/classes/log';
-import * as Spotify from '../../types/spotify';
 import { SpotifyScraper } from './spotifyScraper';
 
 /**
@@ -133,7 +134,7 @@ export class SpotifyIdScraper extends SpotifyScraper<Spotify.AlbumSearchResponse
         let queryString = `album:${this.album.name} artist:${this.artist.name}`;
         queryString = encodeURIComponent(queryString);
         const spotifyResponse: Spotify.SearchResponse = (
-            await this.spotifyApi.searchRequest<Spotify.AlbumSearchResponse>(queryString, 'album', 3)
+            await this.spotifyApi.search<Spotify.AlbumSearchResponse>(queryString, 'album', 3)
         );
         if(spotifyResponse.albums.items.length === 0) {
             throw new Error(`No results for album: ${this.album.name} by ${this.artist.name}`);

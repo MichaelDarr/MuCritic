@@ -1,8 +1,4 @@
-/**
- * Spotify album data scraper entry point
- */
-
-import * as dontenv from 'dotenv';
+import * as dotenv from 'dotenv';
 import { resolve } from 'path';
 import {
     getConnection,
@@ -20,7 +16,7 @@ import { SpotifyApi } from './helpers/classes/spotifyApi';
 import { SpotifyAlbumBatchScraper } from './scrapers/spotify/spotifyAlbumBatchScraper';
 import { SpotifyArtistBatchScraper } from './scrapers/spotify/spotifyArtistBatchScraper';
 
-dontenv.config({ path: resolve(__dirname, '../.env') });
+dotenv.config({ path: resolve(__dirname, '../.env') });
 
 /**
  * Uses the spotifyId field for all album and artist records in database to read and store all

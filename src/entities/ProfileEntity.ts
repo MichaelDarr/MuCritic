@@ -25,14 +25,18 @@ export class ProfileEntity {
     @PrimaryGeneratedColumn()
     public id: number;
 
-    @Column()
+    @Column({
+        nullable: true,
+    })
     public age: number;
 
     /**
      * @remarks
      * True for male, false for female
      */
-    @Column()
+    @Column({
+        nullable: true,
+    })
     public gender: boolean;
 
     @Column()

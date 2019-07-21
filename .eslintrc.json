@@ -13,15 +13,20 @@
         "semi": "off",
         "no-await-in-loop": "off",
         "import/prefer-default-export": "off",
+        "import/no-unresolved": {
+            "amd": true
+        },
         "class-methods-use-this": [
             1, {
                 "exceptMethods": [
                     "getEntity",
                     "checkForLocalRecord",
                     "extractInfo",
+                    "fields",
                     "printInfo",
                     "requestScrape",
-                    "scrapeDependencies"
+                    "scrapeDependencies",
+                    "scrapeErrorHandler"
                 ]
             }
         ],
@@ -39,7 +44,8 @@
                 "allowExpressions": true
             }
         ],
-        "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"]
+        "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"],
+        "no-continue": "off"
     },
     "settings": {
         "import/resolver": {

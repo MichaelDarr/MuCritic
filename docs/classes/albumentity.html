@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>AlbumEntity | type-scrape</title>
+	<title>AlbumEntity | csv-writer</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">type-scrape</a>
+					<a href="../index.html" class="title">csv-writer</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -90,7 +90,6 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#artist" class="tsd-kind-icon">artist</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#genres" class="tsd-kind-icon">genres</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#id" class="tsd-kind-icon">id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#issuecountrym" class="tsd-kind-icon">issue<wbr>CountRYM</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#listcountrym" class="tsd-kind-icon">list<wbr>CountRYM</a></li>
@@ -98,9 +97,20 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#overallrankrym" class="tsd-kind-icon">overall<wbr>RankRYM</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#ratingcountrym" class="tsd-kind-icon">rating<wbr>CountRYM</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#ratingrym" class="tsd-kind-icon">ratingRYM</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#releaseday" class="tsd-kind-icon">release<wbr>Day</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#releasemonth" class="tsd-kind-icon">release<wbr>Month</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#releaseyear" class="tsd-kind-icon">release<wbr>Year</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#reviewcountrym" class="tsd-kind-icon">review<wbr>CountRYM</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#reviews" class="tsd-kind-icon">reviews</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#rymgenres" class="tsd-kind-icon">rym<wbr>Genres</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#spotifyalbumtype" class="tsd-kind-icon">spotify<wbr>Album<wbr>Type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#spotifyavailablemarketcount" class="tsd-kind-icon">spotify<wbr>Available<wbr>Market<wbr>Count</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#spotifycopyrightcount" class="tsd-kind-icon">spotify<wbr>Copy<wbr>Right<wbr>Count</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#spotifyid" class="tsd-kind-icon">spotify<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#spotifylabel" class="tsd-kind-icon">spotify<wbr>Label</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#spotifypopularity" class="tsd-kind-icon">spotify<wbr>Popularity</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#tracks" class="tsd-kind-icon">tracks</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#upcidentifier" class="tsd-kind-icon">upc<wbr>Identifier</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#urlrym" class="tsd-kind-icon">urlRYM</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="albumentity.html#yearrankrym" class="tsd-kind-icon">year<wbr>RankRYM</a></li>
 							</ul>
@@ -116,17 +126,7 @@
 					<div class="tsd-signature tsd-kind-icon">artist<span class="tsd-signature-symbol">:</span> <a href="artistentity.html" class="tsd-signature-type">ArtistEntity</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/5e5dde0/src/entities/AlbumEntity.ts#L89">entities/AlbumEntity.ts:89</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="genres" class="tsd-anchor"></a>
-					<h3>genres</h3>
-					<div class="tsd-signature tsd-kind-icon">genres<span class="tsd-signature-symbol">:</span> <a href="genreentity.html" class="tsd-signature-type">GenreEntity</a><span class="tsd-signature-symbol">[]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/5e5dde0/src/entities/AlbumEntity.ts#L93">entities/AlbumEntity.ts:93</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L172">src/entities/AlbumEntity.ts:172</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -136,7 +136,7 @@
 					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/5e5dde0/src/entities/AlbumEntity.ts#L26">entities/AlbumEntity.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L29">src/entities/AlbumEntity.ts:29</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -153,7 +153,7 @@
 					<div class="tsd-signature tsd-kind-icon">issue<wbr>CountRYM<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/5e5dde0/src/entities/AlbumEntity.ts#L29">entities/AlbumEntity.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L32">src/entities/AlbumEntity.ts:32</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -163,7 +163,7 @@
 					<div class="tsd-signature tsd-kind-icon">list<wbr>CountRYM<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/5e5dde0/src/entities/AlbumEntity.ts#L32">entities/AlbumEntity.ts:32</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L35">src/entities/AlbumEntity.ts:35</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -173,7 +173,7 @@
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/5e5dde0/src/entities/AlbumEntity.ts#L35">entities/AlbumEntity.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L38">src/entities/AlbumEntity.ts:38</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -183,7 +183,7 @@
 					<div class="tsd-signature tsd-kind-icon">overall<wbr>RankRYM<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/5e5dde0/src/entities/AlbumEntity.ts#L42">entities/AlbumEntity.ts:42</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L45">src/entities/AlbumEntity.ts:45</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -199,7 +199,7 @@
 					<div class="tsd-signature tsd-kind-icon">rating<wbr>CountRYM<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/5e5dde0/src/entities/AlbumEntity.ts#L61">entities/AlbumEntity.ts:61</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L62">src/entities/AlbumEntity.ts:62</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -214,7 +214,7 @@
 					<div class="tsd-signature tsd-kind-icon">ratingRYM<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/5e5dde0/src/entities/AlbumEntity.ts#L53">entities/AlbumEntity.ts:53</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L56">src/entities/AlbumEntity.ts:56</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -229,12 +229,63 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="releaseday" class="tsd-anchor"></a>
+					<h3>release<wbr>Day</h3>
+					<div class="tsd-signature tsd-kind-icon">release<wbr>Day<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L162">src/entities/AlbumEntity.ts:162</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>remarks</dt>
+							<dd><p>nullable</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="releasemonth" class="tsd-anchor"></a>
+					<h3>release<wbr>Month</h3>
+					<div class="tsd-signature tsd-kind-icon">release<wbr>Month<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L153">src/entities/AlbumEntity.ts:153</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>remarks</dt>
+							<dd><p>nullable</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="releaseyear" class="tsd-anchor"></a>
+					<h3>release<wbr>Year</h3>
+					<div class="tsd-signature tsd-kind-icon">release<wbr>Year<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L144">src/entities/AlbumEntity.ts:144</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>remarks</dt>
+							<dd><p>nullable</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="reviewcountrym" class="tsd-anchor"></a>
 					<h3>review<wbr>CountRYM</h3>
 					<div class="tsd-signature tsd-kind-icon">review<wbr>CountRYM<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/5e5dde0/src/entities/AlbumEntity.ts#L67">entities/AlbumEntity.ts:67</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L68">src/entities/AlbumEntity.ts:68</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -249,9 +300,70 @@
 					<div class="tsd-signature tsd-kind-icon">reviews<span class="tsd-signature-symbol">:</span> <a href="reviewentity.html" class="tsd-signature-type">ReviewEntity</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/5e5dde0/src/entities/AlbumEntity.ts#L96">entities/AlbumEntity.ts:96</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L179">src/entities/AlbumEntity.ts:179</a></li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="rymgenres" class="tsd-anchor"></a>
+					<h3>rym<wbr>Genres</h3>
+					<div class="tsd-signature tsd-kind-icon">rym<wbr>Genres<span class="tsd-signature-symbol">:</span> <a href="rymgenreentity.html" class="tsd-signature-type">RymGenreEntity</a><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L176">src/entities/AlbumEntity.ts:176</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="spotifyalbumtype" class="tsd-anchor"></a>
+					<h3>spotify<wbr>Album<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">spotify<wbr>Album<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L89">src/entities/AlbumEntity.ts:89</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>remarks</dt>
+							<dd><p>nullable</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="spotifyavailablemarketcount" class="tsd-anchor"></a>
+					<h3>spotify<wbr>Available<wbr>Market<wbr>Count</h3>
+					<div class="tsd-signature tsd-kind-icon">spotify<wbr>Available<wbr>Market<wbr>Count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L98">src/entities/AlbumEntity.ts:98</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>remarks</dt>
+							<dd><p>nullable</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="spotifycopyrightcount" class="tsd-anchor"></a>
+					<h3>spotify<wbr>Copy<wbr>Right<wbr>Count</h3>
+					<div class="tsd-signature tsd-kind-icon">spotify<wbr>Copy<wbr>Right<wbr>Count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L107">src/entities/AlbumEntity.ts:107</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>remarks</dt>
+							<dd><p>nullable</p>
+							</dd>
+						</dl>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="spotifyid" class="tsd-anchor"></a>
@@ -259,7 +371,68 @@
 					<div class="tsd-signature tsd-kind-icon">spotify<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/5e5dde0/src/entities/AlbumEntity.ts#L76">entities/AlbumEntity.ts:76</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L80">src/entities/AlbumEntity.ts:80</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>remarks</dt>
+							<dd><p>nullable</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="spotifylabel" class="tsd-anchor"></a>
+					<h3>spotify<wbr>Label</h3>
+					<div class="tsd-signature tsd-kind-icon">spotify<wbr>Label<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L126">src/entities/AlbumEntity.ts:126</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>remarks</dt>
+							<dd><p>nullable</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="spotifypopularity" class="tsd-anchor"></a>
+					<h3>spotify<wbr>Popularity</h3>
+					<div class="tsd-signature tsd-kind-icon">spotify<wbr>Popularity<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L135">src/entities/AlbumEntity.ts:135</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>remarks</dt>
+							<dd><p>nullable</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="tracks" class="tsd-anchor"></a>
+					<h3>tracks</h3>
+					<div class="tsd-signature tsd-kind-icon">tracks<span class="tsd-signature-symbol">:</span> <a href="trackentity.html" class="tsd-signature-type">TrackEntity</a><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L182">src/entities/AlbumEntity.ts:182</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="upcidentifier" class="tsd-anchor"></a>
+					<h3>upc<wbr>Identifier</h3>
+					<div class="tsd-signature tsd-kind-icon">upc<wbr>Identifier<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L117">src/entities/AlbumEntity.ts:117</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -276,7 +449,7 @@
 					<div class="tsd-signature tsd-kind-icon">urlRYM<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/5e5dde0/src/entities/AlbumEntity.ts#L79">entities/AlbumEntity.ts:79</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L71">src/entities/AlbumEntity.ts:71</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -286,7 +459,7 @@
 					<div class="tsd-signature tsd-kind-icon">year<wbr>RankRYM<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/5e5dde0/src/entities/AlbumEntity.ts#L86">entities/AlbumEntity.ts:86</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/entities/AlbumEntity.ts#L169">src/entities/AlbumEntity.ts:169</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -317,9 +490,6 @@
 								<a href="albumentity.html#artist" class="tsd-kind-icon">artist</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="albumentity.html#genres" class="tsd-kind-icon">genres</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="albumentity.html#id" class="tsd-kind-icon">id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
@@ -341,13 +511,46 @@
 								<a href="albumentity.html#ratingrym" class="tsd-kind-icon">ratingRYM</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="albumentity.html#releaseday" class="tsd-kind-icon">release<wbr>Day</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="albumentity.html#releasemonth" class="tsd-kind-icon">release<wbr>Month</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="albumentity.html#releaseyear" class="tsd-kind-icon">release<wbr>Year</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="albumentity.html#reviewcountrym" class="tsd-kind-icon">review<wbr>CountRYM</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="albumentity.html#reviews" class="tsd-kind-icon">reviews</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="albumentity.html#rymgenres" class="tsd-kind-icon">rym<wbr>Genres</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="albumentity.html#spotifyalbumtype" class="tsd-kind-icon">spotify<wbr>Album<wbr>Type</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="albumentity.html#spotifyavailablemarketcount" class="tsd-kind-icon">spotify<wbr>Available<wbr>Market<wbr>Count</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="albumentity.html#spotifycopyrightcount" class="tsd-kind-icon">spotify<wbr>Copy<wbr>Right<wbr>Count</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="albumentity.html#spotifyid" class="tsd-kind-icon">spotify<wbr>Id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="albumentity.html#spotifylabel" class="tsd-kind-icon">spotify<wbr>Label</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="albumentity.html#spotifypopularity" class="tsd-kind-icon">spotify<wbr>Popularity</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="albumentity.html#tracks" class="tsd-kind-icon">tracks</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="albumentity.html#upcidentifier" class="tsd-kind-icon">upc<wbr>Identifier</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="albumentity.html#urlrym" class="tsd-kind-icon">urlRYM</a>

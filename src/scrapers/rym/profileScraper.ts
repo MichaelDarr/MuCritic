@@ -7,7 +7,6 @@ import {
 } from '../../entities/entities';
 import { Log } from '../../helpers/classes/log';
 import { ParseElement } from '../../helpers/parsing/parseElement';
-import { Gender } from '../../types/types';
 import { RymScraper } from './rymScraper';
 
 /**
@@ -20,7 +19,7 @@ export class ProfileScraper extends RymScraper<ProfileEntity> {
 
     public favoriteArtists: ArtistScraper[];
 
-    public gender: Gender;
+    public gender: boolean;
 
     public name: string;
 
@@ -28,12 +27,15 @@ export class ProfileScraper extends RymScraper<ProfileEntity> {
         name: string,
         verbose = false,
     ) {
-        super(`RYM User: ${name}`, verbose);
+        super(
+            `https://rateyourmusic.com/~${name}`,
+            `RYM User: ${name}`,
+            verbose,
+        );
         this.name = name;
         this.dataReadFromLocal = false;
         this.favoriteArtists = [];
         this.repository = getConnection().getRepository(ProfileEntity);
-        this.url = `https://rateyourmusic.com/~${name}`;
     }
 
     protected extractInfo(): void {
@@ -47,35 +49,42 @@ export class ProfileScraper extends RymScraper<ProfileEntity> {
      */
     private extractArtists(): void {
         // extracts all content blocks from the page
-        let artistTitleBlockFound = false;
         const unserInfoBlockParsers = this.scrapeRoot
             .list('#content > table > tbody > tr > td > div', 'info blocks', true)
             .allElements();
 
         let artistParser: ParseElement;
         // iterate through content blocks, detect favorite artists header, grab artists
+        let artistTitleBlockIsNext = false;
         for (const blockParser of unserInfoBlockParsers) {
-            if(artistTitleBlockFound) {
+            if(artistTitleBlockIsNext) {
                 artistParser = blockParser;
-                artistTitleBlockFound = false;
+                artistTitleBlockIsNext = false;
             }
             if(blockParser.textContent() === 'favorite artists') {
-                artistTitleBlockFound = true;
+                artistTitleBlockIsNext = true;
             }
         }
         if(artistParser) {
+            let totalArtists = 0;
             artistParser
                 .list('div > a', 'favorite artists', true)
                 .allElements('artists')
                 .forEach((artist): void => {
                     let artistLink = artist.href(false);
                     artistLink = encodeURI(artistLink);
-                    if(artistLink != null && artistLink !== '') {
+                    if(artistLink != null && artistLink !== '' && artistLink.split('/')[1] === 'artist') {
                         this.favoriteArtists.push(
                             new ArtistScraper(`https://rateyourmusic.com${artistLink}`),
                         );
+                        totalArtists += 1;
                     }
                 });
+            if(totalArtists === 0) {
+                throw new Error(`User ${this.name}'s favorite artists block contains no links`);
+            }
+        } else {
+            throw new Error(`User ${this.name} has no "favorite artists" section`);
         }
     }
 
@@ -86,11 +95,16 @@ export class ProfileScraper extends RymScraper<ProfileEntity> {
      */
     private extractUserInfo(): void {
         const userAgeAndGenderRaw = this.scrapeRoot
-            .element('.profilehii > table > tbody > tr:nth-child(2) > td', 'age/gender', true)
-            .textContent();
-        const splitUserInfo: string[] = userAgeAndGenderRaw.split(' / ');
-        this.age = Number(splitUserInfo[0]);
-        this.gender = Gender[splitUserInfo[1]];
+            .element('.profilehii > table > tbody > tr:nth-child(2) > td', 'age/gender', false)
+            .textContent(false, null);
+        if(userAgeAndGenderRaw != null && userAgeAndGenderRaw.split(' / ').length > 1) {
+            const splitUserInfo: string[] = userAgeAndGenderRaw.split(' / ');
+            this.age = Number(splitUserInfo[0]);
+            this.gender = (splitUserInfo[1] === 'Male');
+        } else {
+            this.age = null;
+            this.gender = null;
+        }
     }
 
     public async getEntity(): Promise<ProfileEntity> {
@@ -100,7 +114,7 @@ export class ProfileScraper extends RymScraper<ProfileEntity> {
     public printInfo(): void {
         Log.log(`Username: ${this.name}`);
         Log.log(`Age: ${this.age}`);
-        Log.log(`Gender: ${this.gender === Gender.Male ? 'Male' : 'Female'}`);
+        Log.log(`Gender: ${this.gender ? 'Male' : 'Female'}`);
     }
 
     public async saveToLocal(): Promise<void> {
@@ -115,10 +129,12 @@ export class ProfileScraper extends RymScraper<ProfileEntity> {
             }
         }
 
-        let profile = new ProfileEntity();
+        let profile = await this.getEntity();
+        if(profile == null) profile = new ProfileEntity();
+
         profile.name = this.name;
         profile.age = this.age;
-        profile.gender = (this.gender === Gender.Male);
+        profile.gender = this.gender;
         profile.urlRYM = this.url;
         profile.favoriteArtists = artistEntities;
 

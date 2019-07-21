@@ -1,8 +1,4 @@
-/**
- * Spotify ID scraper entry point
- */
-
-import * as dontenv from 'dotenv';
+import * as dotenv from 'dotenv';
 import { resolve } from 'path';
 import { getConnection } from 'typeorm';
 
@@ -12,7 +8,7 @@ import { Log } from './helpers/classes/log';
 import { SpotifyApi } from './helpers/classes/spotifyApi';
 import { SpotifyIdScraper } from './scrapers/spotify/spotifyIdScraper';
 
-dontenv.config({ path: resolve(__dirname, '../.env') });
+dotenv.config({ path: resolve(__dirname, '../.env') });
 
 /**
  * Uses the Spotify API to populate spotifyId field for all album and artist records in database

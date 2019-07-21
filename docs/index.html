@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>type-scrape</title>
+	<title>csv-writer</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">type-scrape</a>
+					<a href="index.html" class="title">csv-writer</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -56,7 +56,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1> type-scrape</h1>
+			<h1> csv-writer</h1>
 		</div>
 	</div>
 </header>
@@ -64,8 +64,263 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 id="typescrape">TypeScrape</h1>
-				<h2 id="documentation"><a href="https://michaeldarr.github.io/TypeScrape">documentation</a></h2>
+				<p><a href="https://travis-ci.org/ryu1kn/csv-writer"><img src="https://travis-ci.org/ryu1kn/csv-writer.svg?branch=master" alt="Build Status"></a>
+					<a href="https://coveralls.io/github/ryu1kn/csv-writer?branch=master"><img src="https://coveralls.io/repos/github/ryu1kn/csv-writer/badge.svg?branch=master" alt="Coverage Status"></a>
+				<a href="https://codeclimate.com/github/ryu1kn/csv-writer"><img src="https://codeclimate.com/github/ryu1kn/csv-writer/badges/gpa.svg" alt="Code Climate"></a></p>
+				<h1 id="csv-writer">CSV Writer</h1>
+				<p>Convert objects/arrays into a CSV string or write them into a file.
+				It respects <a href="https://tools.ietf.org/html/rfc4180">RFC 4180</a> for the output CSV format.</p>
+				<h2 id="prerequisite">Prerequisite</h2>
+				<ul>
+					<li>Node version 4 or above</li>
+				</ul>
+				<h2 id="usage">Usage</h2>
+				<p>The example below shows how you can write records defined as the array of objects into a file.</p>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> createCsvWriter = <span class="hljs-built_in">require</span>(<span class="hljs-string">'csv-writer'</span>).createObjectCsvWriter;
+<span class="hljs-keyword">const</span> csvWriter = createCsvWriter({
+    <span class="hljs-attr">path</span>: <span class="hljs-string">'path/to/file.csv'</span>,
+    <span class="hljs-attr">header</span>: [
+        {<span class="hljs-attr">id</span>: <span class="hljs-string">'name'</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'NAME'</span>},
+        {<span class="hljs-attr">id</span>: <span class="hljs-string">'lang'</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'LANGUAGE'</span>}
+    ]
+});
+
+<span class="hljs-keyword">const</span> records = [
+    {<span class="hljs-attr">name</span>: <span class="hljs-string">'Bob'</span>,  <span class="hljs-attr">lang</span>: <span class="hljs-string">'French, English'</span>},
+    {<span class="hljs-attr">name</span>: <span class="hljs-string">'Mary'</span>, <span class="hljs-attr">lang</span>: <span class="hljs-string">'English'</span>}
+];
+
+csvWriter.writeRecords(records)       <span class="hljs-comment">// returns a promise</span>
+    .then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'...Done'</span>);
+    });
+
+<span class="hljs-comment">// This will produce a file path/to/file.csv with following contents:</span>
+<span class="hljs-comment">//</span>
+<span class="hljs-comment">//   NAME,LANGUAGE</span>
+<span class="hljs-comment">//   Bob,"French, English"</span>
+<span class="hljs-comment">//   Mary,English</span></code></pre>
+				<p>You can keep writing records into the same file by calling <code>writeRecords</code> multiple times
+				(but need to wait for the fulfillment of the <code>promise</code> of the previous <code>writeRecords</code> call).</p>
+				<pre><code class="language-js"><span class="hljs-built_in">Promise</span>.resolve()
+    .then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> csvWriter.writeRecords(records1))
+    .then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> csvWriter.writeRecords(records2))
+    ...</code></pre>
+				<p>However, if you need to keep writing large data to a certain file, you would want to create
+					node&#39;s transform stream and use <code>CsvStringifier</code>, which is explained later, inside it
+				, and pipe the stream into a file write stream.</p>
+				<p>If you don&#39;t want to write a header line, don&#39;t give <code>title</code> to header elements and just give field IDs as a string.</p>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> createCsvWriter = <span class="hljs-built_in">require</span>(<span class="hljs-string">'csv-writer'</span>).createObjectCsvWriter;
+<span class="hljs-keyword">const</span> csvWriter = createCsvWriter({
+    <span class="hljs-attr">path</span>: <span class="hljs-string">'path/to/file.csv'</span>,
+    <span class="hljs-attr">header</span>: [<span class="hljs-string">'name'</span>, <span class="hljs-string">'lang'</span>]
+});</code></pre>
+				<p>If each record is defined as an array, use <code>createArrayCsvWriter</code> to get an <code>csvWriter</code>.</p>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> createCsvWriter = <span class="hljs-built_in">require</span>(<span class="hljs-string">'csv-writer'</span>).createArrayCsvWriter;
+<span class="hljs-keyword">const</span> csvWriter = createCsvWriter({
+    <span class="hljs-attr">header</span>: [<span class="hljs-string">'NAME'</span>, <span class="hljs-string">'LANGUAGE'</span>],
+    <span class="hljs-attr">path</span>: <span class="hljs-string">'path/to/file.csv'</span>
+});
+
+<span class="hljs-keyword">const</span> records = [
+    [<span class="hljs-string">'Bob'</span>,  <span class="hljs-string">'French, English'</span>],
+    [<span class="hljs-string">'Mary'</span>, <span class="hljs-string">'English'</span>]
+];
+
+csvWriter.writeRecords(records)       <span class="hljs-comment">// returns a promise</span>
+    .then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'...Done'</span>);
+    });
+
+<span class="hljs-comment">// This will produce a file path/to/file.csv with following contents:</span>
+<span class="hljs-comment">//</span>
+<span class="hljs-comment">//   NAME,LANGUAGE</span>
+<span class="hljs-comment">//   Bob,"French, English"</span>
+<span class="hljs-comment">//   Mary,English</span></code></pre>
+				<p>If you just want to get a CSV string but don&#39;t want to write into a file,
+					you can use <code>createObjectCsvStringifier</code> (or <code>createArrayCsvStringifier</code>)
+				to get an <code>csvStringifier</code>.</p>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> createCsvStringifier = <span class="hljs-built_in">require</span>(<span class="hljs-string">'csv-writer'</span>).createObjectCsvStringifier;
+<span class="hljs-keyword">const</span> csvStringifier = createCsvStringifier({
+    <span class="hljs-attr">header</span>: [
+        {<span class="hljs-attr">id</span>: <span class="hljs-string">'name'</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'NAME'</span>},
+        {<span class="hljs-attr">id</span>: <span class="hljs-string">'lang'</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'LANGUAGE'</span>}
+    ]
+});
+
+<span class="hljs-keyword">const</span> records = [
+    {<span class="hljs-attr">name</span>: <span class="hljs-string">'Bob'</span>,  <span class="hljs-attr">lang</span>: <span class="hljs-string">'French, English'</span>},
+    {<span class="hljs-attr">name</span>: <span class="hljs-string">'Mary'</span>, <span class="hljs-attr">lang</span>: <span class="hljs-string">'English'</span>}
+];
+
+<span class="hljs-built_in">console</span>.log(csvStringifier.getHeaderString());
+<span class="hljs-comment">// =&gt; 'NAME,LANGUAGE\n'</span>
+
+<span class="hljs-built_in">console</span>.log(csvStringifier.stringifyRecords(records));
+<span class="hljs-comment">// =&gt; 'Bob,"French, English"\nMary,English\n'</span></code></pre>
+				<h2 id="api">API</h2>
+				<h3 id="createobjectcsvwriter-params-">createObjectCsvWriter(params)</h3>
+				<h5 id="parameters-">Parameters:</h5>
+				<ul>
+					<li><p>params <code>&lt;Object&gt;</code></p>
+						<ul>
+							<li><p>path <code>&lt;string&gt;</code></p>
+								<p>  Path to a write file</p>
+							</li>
+							<li><p>header <code>&lt;Array&lt;{id, title}|string&gt;&gt;</code></p>
+								<p>  Array of objects (<code>id</code> and <code>title</code> properties) or strings (field IDs).
+								A header line will be written to the file only if given as an array of objects.</p>
+							</li>
+							<li><p>fieldDelimiter <code>&lt;string&gt;</code> (optional)</p>
+								<p>  Default: <code>,</code>. Only either comma <code>,</code> or semicolon <code>;</code> is allowed.</p>
+							</li>
+							<li><p>recordDelimiter <code>&lt;string&gt;</code> (optional)</p>
+								<p>  Default: <code>\n</code>. Only either LF (<code>\n</code>) or CRLF (<code>\r\n</code>) is allowed.</p>
+							</li>
+							<li><p>encoding <code>&lt;string&gt;</code> (optional)</p>
+								<p>  Default: <code>utf8</code>.</p>
+							</li>
+							<li><p>append <code>&lt;boolean&gt;</code> (optional)</p>
+								<p>  Default: <code>false</code>. When <code>true</code>, it will append CSV records to the specified file.
+								If the file doesn&#39;t exist, it will create one.</p>
+								<p>  <strong>NOTE:</strong> A header line will not be written to the file if <code>true</code> is given.</p>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<h5 id="returns-">Returns:</h5>
+				<ul>
+					<li><code>&lt;CsvWriter&gt;</code></li>
+				</ul>
+				<h3 id="createarraycsvwriter-params-">createArrayCsvWriter(params)</h3>
+				<h5 id="parameters-">Parameters:</h5>
+				<ul>
+					<li><p>params <code>&lt;Object&gt;</code></p>
+						<ul>
+							<li><p>path <code>&lt;string&gt;</code></p>
+								<p>  Path to a write file</p>
+							</li>
+							<li><p>header <code>&lt;Array&lt;string&gt;&gt;</code> (optional)</p>
+								<p>  Array of field titles</p>
+							</li>
+							<li><p>fieldDelimiter <code>&lt;string&gt;</code> (optional)</p>
+								<p>  Default: <code>,</code>. Only either comma <code>,</code> or semicolon <code>;</code> is allowed.</p>
+							</li>
+							<li><p>recordDelimiter <code>&lt;string&gt;</code> (optional)</p>
+								<p>  Default: <code>\n</code>. Only either LF (<code>\n</code>) or CRLF (<code>\r\n</code>) is allowed.</p>
+							</li>
+							<li><p>encoding <code>&lt;string&gt;</code> (optional)</p>
+								<p>  Default: <code>utf8</code>.</p>
+							</li>
+							<li><p>append <code>&lt;boolean&gt;</code> (optional)</p>
+								<p>  Default: <code>false</code>. When <code>true</code>, it will append CSV records to the specified file.
+								If the file doesn&#39;t exist, it will create one.</p>
+								<p>  <strong>NOTE:</strong> A header line will not be written to the file if <code>true</code> is given.</p>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<h5 id="returns-">Returns:</h5>
+				<ul>
+					<li><code>&lt;CsvWriter&gt;</code></li>
+				</ul>
+				<h3 id="csvwriter-writerecords-records-">CsvWriter#writeRecords(records)</h3>
+				<h5 id="parameters-">Parameters:</h5>
+				<ul>
+					<li><p>records <code>&lt;Iterator&lt;Object|Array&gt;&gt;</code></p>
+						<p>  Depending on which function was used to create a <code>csvWriter</code> (i.e. <code>createObjectCsvWriter</code> or <code>createArrayCsvWriter</code>),
+						records will be either a collection of objects or arrays. As long as the collection is iterable, it doesn&#39;t need to be an array.</p>
+					</li>
+				</ul>
+				<h5 id="returns-">Returns:</h5>
+				<ul>
+					<li><code>&lt;Promise&gt;</code></li>
+				</ul>
+				<h3 id="createobjectcsvstringifier-params-">createObjectCsvStringifier(params)</h3>
+				<h5 id="parameters-">Parameters:</h5>
+				<ul>
+					<li><p>params <code>&lt;Object&gt;</code></p>
+						<ul>
+							<li><p>header <code>&lt;Array&lt;{id, title}|string&gt;&gt;</code></p>
+								<p>  Array of objects (<code>id</code> and <code>title</code> properties) or strings (field IDs)</p>
+							</li>
+							<li><p>fieldDelimiter <code>&lt;string&gt;</code> (optional)</p>
+								<p>  Default: <code>,</code>. Only either comma <code>,</code> or semicolon <code>;</code> is allowed.</p>
+							</li>
+							<li><p>recordDelimiter <code>&lt;string&gt;</code> (optional)</p>
+								<p>  Default: <code>\n</code>. Only either LF (<code>\n</code>) or CRLF (<code>\r\n</code>) is allowed.</p>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<h5 id="returns-">Returns:</h5>
+				<ul>
+					<li><code>&lt;ObjectCsvStringifier&gt;</code></li>
+				</ul>
+				<h3 id="objectcsvstringifier-getheaderstring-">ObjectCsvStringifier#getHeaderString()</h3>
+				<h5 id="returns-">Returns:</h5>
+				<ul>
+					<li><code>&lt;string&gt;</code></li>
+				</ul>
+				<h3 id="objectcsvstringifier-stringifyrecords-records-">ObjectCsvStringifier#stringifyRecords(records)</h3>
+				<h5 id="parameters-">Parameters:</h5>
+				<ul>
+					<li>records <code>&lt;Array&lt;Object&gt;&gt;</code></li>
+				</ul>
+				<h5 id="returns-">Returns:</h5>
+				<ul>
+					<li><code>&lt;string&gt;</code></li>
+				</ul>
+				<h3 id="createarraycsvstringifier-params-">createArrayCsvStringifier(params)</h3>
+				<h5 id="parameters-">Parameters:</h5>
+				<ul>
+					<li><p>params <code>&lt;Object&gt;</code></p>
+						<ul>
+							<li><p>header <code>&lt;Array&lt;string&gt;&gt;</code> (optional)</p>
+								<p>  Array of field titles</p>
+							</li>
+							<li><p>fieldDelimiter <code>&lt;string&gt;</code> (optional)</p>
+								<p>  Default: <code>,</code>. Only either comma <code>,</code> or semicolon <code>;</code> is allowed.</p>
+							</li>
+							<li><p>recordDelimiter <code>&lt;string&gt;</code> (optional)</p>
+								<p>  Default: <code>\n</code>. Only either LF (<code>\n</code>) or CRLF (<code>\r\n</code>) is allowed.</p>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<h5 id="returns-">Returns:</h5>
+				<ul>
+					<li><code>&lt;ArrayCsvStringifier&gt;</code></li>
+				</ul>
+				<h3 id="arraycsvstringifier-getheaderstring-">ArrayCsvStringifier#getHeaderString()</h3>
+				<h5 id="returns-">Returns:</h5>
+				<ul>
+					<li><code>&lt;string&gt;</code></li>
+				</ul>
+				<h3 id="arraycsvstringifier-stringifyrecords-records-">ArrayCsvStringifier#stringifyRecords(records)</h3>
+				<h5 id="parameters-">Parameters:</h5>
+				<ul>
+					<li>records <code>&lt;Array&lt;Array&lt;string&gt;&gt;&gt;</code></li>
+				</ul>
+				<h5 id="returns-">Returns:</h5>
+				<ul>
+					<li><code>&lt;string&gt;</code></li>
+				</ul>
+				<h2 id="request-features-or-report-bugs">Request Features or Report Bugs</h2>
+				<p>Feature requests and bug reports are very welcome: <a href="https://github.com/ryu1kn/csv-writer/issues">https://github.com/ryu1kn/csv-writer/issues</a></p>
+				<p>A couple of requests from me when you raise an issue on GitHub.</p>
+				<ul>
+					<li><strong>Requesting a feature:</strong> Please try to provide the context of why you want the feature. Such as,
+						in what situation the feature could help you and how, or how the lack of the feature is causing an inconvenience to you.
+					I can&#39;t start thinking of introducing it until I understand how it helps you 🙂</li>
+					<li><strong>Reporting a bug:</strong> If you could provide a runnable code snippet that reproduces the bug, it would be very helpful!</li>
+				</ul>
+				<h2 id="development">Development</h2>
+				<h3 id="prerequisite">Prerequisite</h3>
+				<ul>
+					<li>Node version 8 or above</li>
+					<li>Docker</li>
+				</ul>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -78,11 +333,11 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum">
-						<a href="enums/apiservice.html" class="tsd-kind-icon">Api<wbr>Service</a>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/aggregator.html" class="tsd-kind-icon">Aggregator</a>
 					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/gender.html" class="tsd-kind-icon">Gender</a>
+					<li class=" tsd-kind-class">
+						<a href="classes/albumaggregator.html" class="tsd-kind-icon">Album<wbr>Aggregator</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/albumentity.html" class="tsd-kind-icon">Album<wbr>Entity</a>
@@ -93,14 +348,32 @@
 					<li class=" tsd-kind-class">
 						<a href="classes/apiresult.html" class="tsd-kind-icon">Api<wbr>Result</a>
 					</li>
+					<li class=" tsd-kind-class tsd-is-external">
+						<a href="classes/arraycsvstringifier.html" class="tsd-kind-icon">Array<wbr>Csv<wbr>Stringifier</a>
+					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/artistentity.html" class="tsd-kind-icon">Artist<wbr>Entity</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/artistscraper.html" class="tsd-kind-icon">Artist<wbr>Scraper</a>
 					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/genreentity.html" class="tsd-kind-icon">Genre<wbr>Entity</a>
+					<li class=" tsd-kind-class tsd-has-type-parameter tsd-is-external">
+						<a href="classes/csvstringifier.html" class="tsd-kind-icon">Csv<wbr>Stringifier</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-external">
+						<a href="classes/csvstringifierfactory.html" class="tsd-kind-icon">Csv<wbr>Stringifier<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter tsd-is-external">
+						<a href="classes/csvwriter.html" class="tsd-kind-icon">Csv<wbr>Writer</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-external">
+						<a href="classes/csvwriterfactory.html" class="tsd-kind-icon">Csv<wbr>Writer<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-external">
+						<a href="classes/fieldstringifier.html" class="tsd-kind-icon">Field<wbr>Stringifier</a>
+					</li>
+					<li class=" tsd-kind-class tsd-is-external">
+						<a href="classes/filewriter.html" class="tsd-kind-icon">File<wbr>Writer</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/genrescraper.html" class="tsd-kind-icon">Genre<wbr>Scraper</a>
@@ -108,11 +381,17 @@
 					<li class=" tsd-kind-class">
 						<a href="classes/log.html" class="tsd-kind-icon">Log</a>
 					</li>
+					<li class=" tsd-kind-class tsd-is-external">
+						<a href="classes/objectcsvstringifier.html" class="tsd-kind-icon">Object<wbr>Csv<wbr>Stringifier</a>
+					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/parseelement.html" class="tsd-kind-icon">Parse<wbr>Element</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/parselist.html" class="tsd-kind-icon">Parse<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/profileaggregator.html" class="tsd-kind-icon">Profile<wbr>Aggregator</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/profileentity.html" class="tsd-kind-icon">Profile<wbr>Entity</a>
@@ -124,13 +403,19 @@
 						<a href="classes/resultbatch.html" class="tsd-kind-icon">Result<wbr>Batch</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/review.html" class="tsd-kind-icon">Review</a>
+						<a href="classes/reviewaggregator.html" class="tsd-kind-icon">Review<wbr>Aggregator</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/reviewentity.html" class="tsd-kind-icon">Review<wbr>Entity</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/reviewpagescraper.html" class="tsd-kind-icon">Review<wbr>Page<wbr>Scraper</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/reviewscraper.html" class="tsd-kind-icon">Review<wbr>Scraper</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/rymgenreentity.html" class="tsd-kind-icon">Rym<wbr>Genre<wbr>Entity</a>
 					</li>
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="classes/rymscraper.html" class="tsd-kind-icon">Rym<wbr>Scraper</a>
@@ -148,7 +433,22 @@
 						<a href="classes/simpledate.html" class="tsd-kind-icon">Simple<wbr>Date</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/spotifyalbumbatchscraper.html" class="tsd-kind-icon">Spotify<wbr>Album<wbr>Batch<wbr>Scraper</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/spotifyapi.html" class="tsd-kind-icon">Spotify<wbr>Api</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/spotifyartistbatchscraper.html" class="tsd-kind-icon">Spotify<wbr>Artist<wbr>Batch<wbr>Scraper</a>
+					</li>
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="classes/spotifybatchscraper.html" class="tsd-kind-icon">Spotify<wbr>Batch<wbr>Scraper</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/spotifygenreentity.html" class="tsd-kind-icon">Spotify<wbr>Genre<wbr>Entity</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/spotifygenrescraper.html" class="tsd-kind-icon">Spotify<wbr>Genre<wbr>Scraper</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/spotifyidscraper.html" class="tsd-kind-icon">Spotify<wbr>IdScraper</a>
@@ -156,53 +456,137 @@
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="classes/spotifyscraper.html" class="tsd-kind-icon">Spotify<wbr>Scraper</a>
 					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/spotifyalbumartistpairsimplified.html" class="tsd-kind-icon">Spotify<wbr>Album<wbr>Artist<wbr>Pair<wbr>Simplified</a>
+					<li class=" tsd-kind-class">
+						<a href="classes/spotifytrackscraper.html" class="tsd-kind-icon">Spotify<wbr>Track<wbr>Scraper</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/templategenerator.html" class="tsd-kind-icon">Template<wbr>Generator</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/trackentity.html" class="tsd-kind-icon">Track<wbr>Entity</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/spotifyalbumsimplified.html" class="tsd-kind-icon">Spotify<wbr>Album<wbr>Simplified</a>
+						<a href="interfaces/albumaggregation.html" class="tsd-kind-icon">Album<wbr>Aggregation</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/spotifyartist.html" class="tsd-kind-icon">Spotify<wbr>Artist</a>
+						<a href="interfaces/albumrym.html" class="tsd-kind-icon">AlbumRYM</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/spotifyartistsimplified.html" class="tsd-kind-icon">Spotify<wbr>Artist<wbr>Simplified</a>
+						<a href="interfaces/albumspotify.html" class="tsd-kind-icon">Album<wbr>Spotify</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/arraycsvstringifierparams.html" class="tsd-kind-icon">Array<wbr>Csv<wbr>Stringifier<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/arraycsvwriterparams.html" class="tsd-kind-icon">Array<wbr>Csv<wbr>Writer<wbr>Params</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/spotifyclientcredentials.html" class="tsd-kind-icon">Spotify<wbr>Client<wbr>Credentials</a>
+						<a href="interfaces/artist.html" class="tsd-kind-icon">Artist</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/spotifyimage.html" class="tsd-kind-icon">Spotify<wbr>Image</a>
+						<a href="interfaces/csvheader.html" class="tsd-kind-icon">Csv<wbr>Header</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/objectcsvstringifierparams.html" class="tsd-kind-icon">Object<wbr>Csv<wbr>Stringifier<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-is-external">
+						<a href="interfaces/objectcsvwriterparams.html" class="tsd-kind-icon">Object<wbr>Csv<wbr>Writer<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter tsd-is-external">
+						<a href="interfaces/objectmap.html" class="tsd-kind-icon">Object<wbr>Map</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/spotifysearchalbum.html" class="tsd-kind-icon">Spotify<wbr>Search<wbr>Album</a>
+						<a href="interfaces/profileinfo.html" class="tsd-kind-icon">Profile<wbr>Info</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/spotifysearchartist.html" class="tsd-kind-icon">Spotify<wbr>Search<wbr>Artist</a>
+						<a href="interfaces/reviewaggregation.html" class="tsd-kind-icon">Review<wbr>Aggregation</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/scraperswithresults.html" class="tsd-kind-icon">Scrapers<wbr>With<wbr>Results</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/track.html" class="tsd-kind-icon">Track</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#aggregation" class="tsd-kind-icon">Aggregation</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#csvheaders" class="tsd-kind-icon">Csv<wbr>Headers</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#field" class="tsd-kind-icon">Field</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external tsd-is-not-exported">
+						<a href="globals.html#nullableerror" class="tsd-kind-icon">Nullable<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#objectheaderitem" class="tsd-kind-icon">Object<wbr>Header<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-external">
+						<a href="globals.html#objectstringifierheader" class="tsd-kind-icon">Object<wbr>Stringifier<wbr>Header</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#profileaggregation" class="tsd-kind-icon">Profile<wbr>Aggregation</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#rymdatabaseentities" class="tsd-kind-icon">Rym<wbr>Database<wbr>Entities</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#spotifyalbumtype" class="tsd-kind-icon">Spotify<wbr>Album<wbr>Type</a>
+						<a href="globals.html#spotifybatchentities" class="tsd-kind-icon">Spotify<wbr>Batch<wbr>Entities</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#spotifydatabaseentities" class="tsd-kind-icon">Spotify<wbr>Database<wbr>Entities</a>
 					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#spotifyrequestmethod" class="tsd-kind-icon">Spotify<wbr>Request<wbr>Method</a>
+					<li class=" tsd-kind-variable tsd-is-external tsd-is-not-exported">
+						<a href="globals.html#default_encoding" class="tsd-kind-icon">DEFAULT_<wbr>ENCODING</a>
 					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#spotifyresponse" class="tsd-kind-icon">Spotify<wbr>Response</a>
+					<li class=" tsd-kind-variable tsd-is-external tsd-is-not-exported">
+						<a href="globals.html#default_field_delimiter" class="tsd-kind-icon">DEFAULT_<wbr>FIELD_<wbr>DELIMITER</a>
 					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#spotifysearchresponse" class="tsd-kind-icon">Spotify<wbr>Search<wbr>Response</a>
+					<li class=" tsd-kind-variable tsd-is-external tsd-is-not-exported">
+						<a href="globals.html#default_initial_append_flag" class="tsd-kind-icon">DEFAULT_<wbr>INITIAL_<wbr>APPEND_<wbr>FLAG</a>
 					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#spotifysearchtype" class="tsd-kind-icon">Spotify<wbr>Search<wbr>Type</a>
+					<li class=" tsd-kind-variable tsd-is-external tsd-is-not-exported">
+						<a href="globals.html#default_record_delimiter" class="tsd-kind-icon">DEFAULT_<wbr>RECORD_<wbr>DELIMITER</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external tsd-is-not-exported">
+						<a href="globals.html#valid_field_delimiters" class="tsd-kind-icon">VALID_<wbr>FIELD_<wbr>DELIMITERS</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external tsd-is-not-exported">
+						<a href="globals.html#valid_record_delimiters" class="tsd-kind-icon">VALID_<wbr>RECORD_<wbr>DELIMITERS</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external tsd-is-not-exported">
+						<a href="globals.html#csvstringifierfactory" class="tsd-kind-icon">csv<wbr>Stringifier<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external tsd-is-not-exported">
+						<a href="globals.html#csvwriterfactory" class="tsd-kind-icon">csv<wbr>Writer<wbr>Factory</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-is-external tsd-is-not-exported">
+						<a href="globals.html#writefilepromise" class="tsd-kind-icon">write<wbr>File<wbr>Promise</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external tsd-is-not-exported">
+						<a href="globals.html#_validatefielddelimiter" class="tsd-kind-icon">_validate<wbr>Field<wbr>Delimiter</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external tsd-is-not-exported">
+						<a href="globals.html#_validaterecorddelimiter" class="tsd-kind-icon">_validate<wbr>Record<wbr>Delimiter</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#aggregatedistribution" class="tsd-kind-icon">aggregate<wbr>Distribution</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#connecttodatabase" class="tsd-kind-icon">connect<wbr>ToDatabase</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#createarraycsvstringifier" class="tsd-kind-icon">create<wbr>Array<wbr>Csv<wbr>Stringifier</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#createarraycsvwriter" class="tsd-kind-icon">create<wbr>Array<wbr>Csv<wbr>Writer</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#createobjectcsvstringifier" class="tsd-kind-icon">create<wbr>Object<wbr>Csv<wbr>Stringifier</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#createobjectcsvwriter" class="tsd-kind-icon">create<wbr>Object<wbr>Csv<wbr>Writer</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#extractcountfrompair" class="tsd-kind-icon">extract<wbr>Count<wbr>From<wbr>Pair</a>
@@ -216,11 +600,23 @@
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#isnullorundef" class="tsd-kind-icon">is<wbr>Null<wbr>OrUndef</a>
 					</li>
+					<li class=" tsd-kind-function tsd-is-external tsd-is-not-exported">
+						<a href="globals.html#isobject" class="tsd-kind-icon">is<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#learn" class="tsd-kind-icon">learn</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#promisify" class="tsd-kind-icon">promisify</a>
+					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#readfiletoarray" class="tsd-kind-icon">read<wbr>File<wbr>ToArray</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#scraperateyourmusic" class="tsd-kind-icon">scrape<wbr>Rate<wbr>Your<wbr>Music</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#scrapespotifydata" class="tsd-kind-icon">scrape<wbr>Spotify<wbr>Data</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#scrapespotifyids" class="tsd-kind-icon">scrape<wbr>Spotify<wbr>Ids</a>
