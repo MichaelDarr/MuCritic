@@ -1,3 +1,3 @@
-# TypeScrape
+# Mucritic v2.0
 
-## [documentation](https://michaeldarr.github.io/TypeScrape)
+## [documentation(slightly outdated)](https://michaeldarr.github.io/TypeScrape)
