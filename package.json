@@ -9,6 +9,7 @@
     "aggregateReviewsLeakless": "tsc && node --max-old-space-size=8192 built/aggregateReviewsLeakless",
     "aggregateReviewMasterLeakless": "tsc && node --max-old-space-size=8192 built/aggregateReviewMasterLeakless",
     "aggregateReviewMaster": "tsc && node --max-old-space-size=8192 built/aggregateReviewMaster",
+    "aggregateWebAlbums": "tsc && node --max-old-space-size=8192 built/aggregateWebAlbums",
     "aggregateAlbums": "tsc && node --max-old-space-size=8192 built/aggregateAlbums",
     "aggregateAlbumsLeakless": "tsc && node --max-old-space-size=8192 built/aggregateAlbumsLeakless",
     "aggregateArtists": "tsc && node --max-old-space-size=8192 built/aggregateArtists",

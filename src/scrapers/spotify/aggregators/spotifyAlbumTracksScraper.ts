@@ -16,8 +16,6 @@ export class SpotifyAlbumTracksScraper extends SpotifyEntityTracksScraper<AlbumE
         verbose = false,
     ) {
         super('album', spotifyId, saveDirectory, encode, normalize, verbose);
-
-        this.modelPath = process.env.MODEL_LOCATION_ALBUM_TRACK_ENCODER;
         this.trackCount = trackCount;
     }
 
