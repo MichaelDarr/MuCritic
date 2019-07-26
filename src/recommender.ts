@@ -128,9 +128,9 @@ export async function recommend(artistNames: string[]): Promise<void> {
 }
 
 recommend([
-    'Death Grips',
-    'clipping.',
-    'LCD Soundsystem',
-    'The Avalanches',
-    'Gorillaz',
+    'The Midnight',
+    'FM-84',
+    'Gunship',
+    'Carpenter Brut',
+    'Perturbator',
 ]);

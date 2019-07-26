@@ -19,7 +19,7 @@ def fromCsv(
     )
 
     if validationSize == -1:
-        validationSize = int(len(data) / 5)
+        validationSize = int(len(data) / 10)
 
     test = data[:testSize]
     validation = data[testSize:testSize + validationSize]

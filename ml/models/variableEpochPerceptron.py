@@ -23,6 +23,7 @@ def historyDict(history, epochs, learningRate):
             'mse': 10,
             'val_mae': 10,
             'val_mse': 10,
+            'lr': 0,
         }
     return {
         'epochs': epochs,
@@ -30,6 +31,7 @@ def historyDict(history, epochs, learningRate):
         'mse': history.history['mse'][-1],
         'val_mae': history.history['val_mae'][-1],
         'val_mse': history.history['val_mse'][-1],
+        'lr': learningRate,
     }
 
 
@@ -41,13 +43,15 @@ def printEpochReport(
     if stale != 0:
         epochString += '({} stale)'.format(stale)
     print(
-        '{:20s}\tt_mae: {:.4f}\tt_mse: {:.4f}\tv_mae: {:.4f}\tv_mse: {:.4f}'
+        '''{:20s}\tt_mae: {:.4f}\tt_mse: {:.4f}\tv_mae: {:.4f}\tv_mse: {:.4f}\
+        \tlr: {}'''
         .format(
             epochString,
             histDict['mae'],
             histDict['mse'],
             histDict['val_mae'],
             histDict['val_mse'],
+            histDict['lr'],
         )
     )
 
