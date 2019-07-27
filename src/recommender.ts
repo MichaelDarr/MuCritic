@@ -64,7 +64,25 @@ export async function recommend(artistNames: string[]): Promise<void> {
 
     let tasteTensor = tasteMapper.predict(encodedArtistTensor) as tf.Tensor;
     tasteTensor = tasteTensor.reshape([16, 1]);
-    tasteTensor = tasteTensor.mul(tf.scalar(-1));
+    const rymTaste = tf.tensor2d([
+        [-0.2658042312],
+        [-0.2918781042],
+        [0.4476911426],
+        [0.0354586020],
+        [0.1686497927],
+        [0.2152237296],
+        [-0.4066027105],
+        [0.1940803975],
+        [0.0597865917],
+        [0.4049637318],
+        [-0.0558041073],
+        [-0.2366468459],
+        [0.0106893238],
+        [-0.4115174115],
+        [0.1501134783],
+        [-0.2174658924],
+    ]);
+    tasteTensor = tf.sub(tasteTensor, rymTaste);
 
     const model = tf.sequential();
     model.add(tf.layers.dense({
@@ -128,9 +146,9 @@ export async function recommend(artistNames: string[]): Promise<void> {
 }
 
 recommend([
-    'The Midnight',
-    'FM-84',
-    'Gunship',
-    'Carpenter Brut',
-    'Perturbator',
+    'Carly Rae Jepsen',
+    'Taylor Swift',
+    'CHVRCHES',
+    'Ariana Grande',
+    'Lady Gaga',
 ]);
