@@ -59,7 +59,6 @@ AggregationGenerator<ArtistEntity, ArtistAggregation, EncodedArtist, FlatArtistA
             .as3D(1, encodedTracks.length, encodedTracks[0].length);
         const encodedTensor = artistTrackEncoder.predict(aggregationTensor) as tf.Tensor;
         const encodedArtistTracks = await encodedTensor.array() as EncodedArtistTracks[];
-
         return [
             aggregation.popularity,
         ].concat(encodedArtistTracks[0]) as FlatArtistAggregation;

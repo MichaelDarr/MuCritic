@@ -28,8 +28,6 @@ export abstract class SpotifyEntityTracksScraper<
 
     public normalize: boolean;
 
-    protected modelPath: string;
-
     protected saveDirectory: string;
 
     protected spotifyFeaturesResponse: Spotify.AudioFeatureBatchResponse;

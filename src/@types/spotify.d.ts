@@ -259,6 +259,11 @@ export interface ArtistResponse extends Artist {
     type: 'artist';
 }
 
+
+export interface AlbumResponse extends Album {
+    type: 'album';
+}
+
 export interface AudioFeatureBatchResponse {
     audio_features: AudioFeatureBatch;
 }

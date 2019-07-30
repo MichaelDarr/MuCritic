@@ -2,7 +2,12 @@ import * as dotenv from 'dotenv';
 import { resolve } from 'path';
 import 'reflect-metadata';
 import * as tf from '@tensorflow/tfjs';
-import { getRepository, IsNull, Not } from 'typeorm';
+import {
+    getRepository,
+    IsNull,
+    LessThan,
+    Not,
+} from 'typeorm';
 
 import * as Spotify from 'spotify';
 
@@ -25,7 +30,10 @@ dotenv.config({ path: resolve(__dirname, '../.env') });
 export async function recommend(artistNames: string[]): Promise<void> {
     Log.notify('\nMuCritic Album Recommender\n\n');
     await connectToDatabase();
-    const spotifyHelper = await SpotifyApi.connect(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET);
+    const spotifyHelper = await SpotifyApi.connect(
+        process.env.SPOTIFY_CLIENT_ID,
+        process.env.SPOTIFY_CLIENT_SECRET,
+    );
 
     const redisClient = RedisHelper.getConnection();
 
@@ -33,27 +41,48 @@ export async function recommend(artistNames: string[]): Promise<void> {
     for await(const artistName of artistNames) {
         const spotifyArtist = await spotifyHelper.search<Spotify.ArtistSearchResponse>(artistName, 'artist', 10);
         let artistId: string;
+        let artistPopularity: number;
         for(const artist of spotifyArtist.artists.items) {
             if(artist.name === artistName && artistId == null) artistId = artist.id;
+            artistPopularity = artist.popularity / 100;
         }
         if(artistId == null) throw new Error(`Could not find Spotify artist ${artistName}`);
         const aggregation = ArtistAggregator.template(0);
         const flat = await ArtistAggregator.flatten(aggregation, null, artistId);
-        artistData.push(await ArtistAggregator.encode(flat));
+        flat[0] = artistPopularity;
+        const encodedArtist = await ArtistAggregator.encode(flat);
+        artistData.push(encodedArtist);
     }
 
     const artistEncoder = await tf.loadLayersModel(`${process.env.MODEL_LOCATION_MULTI_ARTIST}/encoder/model.json`);
     const artistTensor = tf
         .tensor(artistData)
         .as3D(1, artistData.length, artistData[0].length);
-    const encodedAlbumTensor = artistEncoder.predict(artistTensor) as tf.Tensor;
+    const encodedArtistTensor = artistEncoder.predict(artistTensor) as tf.Tensor;
 
     const tasteMapper = await tf.loadLayersModel(`${process.env.MODEL_LOCATION_TASTE}/model.json`);
 
-    let tasteTensor = tasteMapper.predict(encodedAlbumTensor) as tf.Tensor;
+    let tasteTensor = tasteMapper.predict(encodedArtistTensor) as tf.Tensor;
     tasteTensor = tasteTensor.reshape([16, 1]);
-    tasteTensor = tasteTensor.mul(tf.scalar(-1));
-    console.log(tasteTensor.arraySync());
+    const rymTaste = tf.tensor2d([
+        [-0.2658042312],
+        [-0.2918781042],
+        [0.4476911426],
+        [0.0354586020],
+        [0.1686497927],
+        [0.2152237296],
+        [-0.4066027105],
+        [0.1940803975],
+        [0.0597865917],
+        [0.4049637318],
+        [-0.0558041073],
+        [-0.2366468459],
+        [0.0106893238],
+        [-0.4115174115],
+        [0.1501134783],
+        [-0.2174658924],
+    ]);
+    tasteTensor = tf.sub(tasteTensor, rymTaste);
 
     const model = tf.sequential();
     model.add(tf.layers.dense({
@@ -69,6 +98,7 @@ export async function recommend(artistNames: string[]): Promise<void> {
         where: {
             spotifyAlbumType: 'album',
             spotifyId: Not(IsNull()),
+            spotifyPopularity: LessThan(50),
         },
     });
 
@@ -116,9 +146,9 @@ export async function recommend(artistNames: string[]): Promise<void> {
 }
 
 recommend([
-    "Big Black",
-    "Beat Happening",
-    "Ween",
-    "Death Grips",
-    "Fugazi",
+    'Carly Rae Jepsen',
+    'Taylor Swift',
+    'CHVRCHES',
+    'Ariana Grande',
+    'Lady Gaga',
 ]);

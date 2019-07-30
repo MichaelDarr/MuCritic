@@ -8,10 +8,10 @@ from models.variableEpochPerceptron import (
 from dataHelpers import pairsFromCsv
 
 BUCKET_1_MAE_CAP = 0.05
-BUCKET_2_MAE_CAP = 0.08
-BUCKET_3_MAE_CAP = 0.11
-BUCKET_4_MAE_CAP = 0.14
-BUCKET_5_MAE_CAP = 0.17
+BUCKET_2_MAE_CAP = 0.10
+BUCKET_3_MAE_CAP = 0.15
+BUCKET_4_MAE_CAP = 0.20
+BUCKET_5_MAE_CAP = 0.25
 BASE_SAVE_PATH = '../resources/data/profile/taste/'
 ALL_SAVE_PATH = BASE_SAVE_PATH + 'all/'
 BUCKET_1_SAVE_PATH = BASE_SAVE_PATH + '1/'
@@ -32,6 +32,7 @@ def main():
             continue
         if exists(profileTasteFile):
             continue
+
         (
             trainFeatures,
             trainLabels,
@@ -46,10 +47,18 @@ def main():
             -1,
             skipHeader=0,
         )
+
         print('\nBeginning training for user {} ({} reviews)'.format(
             filename,
             trainingExampleCount,
         ))
+
+        learningRates = [0.002]
+        if trainingExampleCount < 2000:
+            learningRates.append(0.02)
+        if trainingExampleCount < 500:
+            learningRates.append(0.2)
+
         profileWeights, histDict = variableEpochPerceptron(
             trainFeatures,
             trainLabels,
@@ -57,11 +66,14 @@ def main():
             validationLabels,
             batchSize=2,
             epochsPerTrain=1,
+            learningRates=learningRates,
             verbose=0,
             source=filename,
-            dropoutRate=0.3,
-            regularlizationFactor=0.1,
+            dropoutRate=0.1,
+            regularlizationFactor=0.01,
+            useBias=False,
         )
+
         savePath = join(ALL_SAVE_PATH, filename)
         bucketSavePath = BUCKET_6_SAVE_PATH
         if histDict['mae'] < BUCKET_1_MAE_CAP:
@@ -75,6 +87,7 @@ def main():
         elif histDict['mae'] < BUCKET_5_MAE_CAP:
             bucketSavePath = BUCKET_5_SAVE_PATH
         bucketSavePath = join(bucketSavePath, filename)
+
         np.savetxt(
             savePath,
             [profileWeights],
@@ -87,6 +100,7 @@ def main():
             fmt="%.10f",
             delimiter=',',
         )
+
         allHist.append(histDict)
         summary(
             histDict,
