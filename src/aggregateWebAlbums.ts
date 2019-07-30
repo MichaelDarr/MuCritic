@@ -22,7 +22,7 @@ dotenv.config({ path: resolve(__dirname, '../.env') });
 export async function aggregateWebAlbums(): Promise<void> {
     Log.notify('\nMuCritic Album Recommender\n\n');
     await connectToDatabase();
-    const spotifyHelper = await SpotifyApi.connect(
+    const spotifyApi = await SpotifyApi.connect(
         process.env.SPOTIFY_CLIENT_ID,
         process.env.SPOTIFY_CLIENT_SECRET,
     );
@@ -95,6 +95,7 @@ export async function aggregateWebAlbums(): Promise<void> {
         'encoded_15',
     ];
     const results: AggregationFields[] = [];
+    const resultsNoMetal: AggregationFields[] = [];
     for await(const album of albums) {
         try {
             let encodedData: number[];
@@ -111,6 +112,13 @@ export async function aggregateWebAlbums(): Promise<void> {
                 const flatAggregation = await AlbumAggregator.flatten(aggregation, album);
                 encodedData = await AlbumAggregator.encode(flatAggregation);
                 await redisClient.setObject(redisKey, encodedData);
+            }
+            const artistData = await spotifyApi.getArtist(album.artist.spotifyId);
+            let metalFlag = false;
+            if(artistData.genres != null && artistData.genres.length > 0) {
+                artistData.genres.forEach((genre): void => {
+                    if(genre.includes('metal')) metalFlag = true;
+                });
             }
             const newAggregation = [
                 album.spotifyId,
@@ -138,7 +146,13 @@ export async function aggregateWebAlbums(): Promise<void> {
                         }
                     }
                 });
-                if(!isDuplicate) results.push(newAggregation);
+                if(
+                    !isDuplicate
+                    && album.artist.discographyCountRYM < 100
+                ) {
+                    results.push(newAggregation);
+                    if(!metalFlag) resultsNoMetal.push(newAggregation);
+                }
             }
         } catch(err) {
             Log.err(`\nNon-terminal Album Aggregation Failure:\n${err.message}\n`);
@@ -146,10 +160,17 @@ export async function aggregateWebAlbums(): Promise<void> {
     }
 
     const csvWriter = createArrayCsvWriter({
-        path: './web_data.csv',
+        path: './resources/album_data.csv',
         header: csvHeaders,
     });
     await csvWriter.writeRecords(results);
+
+
+    const csvWriterNoMetal = createArrayCsvWriter({
+        path: './resources/album_data_no_metal.csv',
+        header: csvHeaders,
+    });
+    await csvWriterNoMetal.writeRecords(resultsNoMetal);
 
     process.exit(0);
 }

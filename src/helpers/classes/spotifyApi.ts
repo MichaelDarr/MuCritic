@@ -77,6 +77,14 @@ export class SpotifyApi {
     }
 
     /**
+     * [Get an Album](https://developer.spotify.com/documentation/web-api/reference/albums/get-album/)
+     */
+    public async getAlbum(albumId: string): Promise<Spotify.AlbumResponse> {
+        const url = `https://api.spotify.com/v1/albums/${albumId}`;
+        return this.spotifyRequest<Spotify.AlbumResponse>(url, 'GET');
+    }
+
+    /**
      * [Get an Artist's Top Tracks](https://developer.spotify.com/documentation/web-api/reference/artists/get-artists-top-tracks/)
      *
      * @param country
