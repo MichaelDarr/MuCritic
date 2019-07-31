@@ -49,22 +49,25 @@ export class Aggregator<
      * [[EntityAggregator.normalize]]
      */
     public async aggregate(normalized = true): Promise<T2> {
-        // const redisKey = this.redisKey(normalized);
-        // if(redisKey != null) {
-        //     const cachedAggregation = await this.redisClient.getObject<T2>(redisKey);
-        //     if(cachedAggregation != null) return cachedAggregation;
-        // }
+        const redisKey = this.redisKey(normalized);
+        if(redisKey != null) {
+            const cachedAggregation = await this.redisClient.getObject<T2>(redisKey);
+            if(cachedAggregation != null) return cachedAggregation;
+        }
         const aggregation = await this.aggregationGenerator.generateFromEntity(
             this.entity,
             normalized,
             this.spotifyId,
         );
-        // if(redisKey != null) {
-        //     await this.redisClient.setObject(redisKey, aggregation);
-        // }
+        if(redisKey != null) {
+            await this.redisClient.setObject(redisKey, aggregation);
+        }
         return aggregation;
     }
 
+    /**
+     * generates a unique & predictable cache key for the aggregation
+     */
     public redisKey(normalized: boolean): string {
         if(this.entity != null && this.entity.id != null) {
             const keyString = `${this.aggregationGenerator.aggregationType}_${this.entity.id}`;
@@ -102,7 +105,7 @@ export class Aggregator<
     }
 
     /**
-     * Get a list of all fields belonging to an aggreation
+     * Gets a list of all fields belonging to an aggreation
      */
     public static fields<
         A1 extends AggregatableEntities,
@@ -122,6 +125,9 @@ export class Aggregator<
         return fields.sort();
     }
 
+    /**
+     * transforms an aggregation object to a simple, storable array in a deterministic manner
+     */
     public static stripLabels<
         A1 extends AggregatableEntities,
         A2 extends Aggregation,
@@ -205,8 +211,9 @@ export interface AggregationGenerator<
 }
 
 /**
- * Typings for data aggregation
+ * Types for data aggregation
  */
+
 export type AggregatableEntities =
     | DatabaseEntities
     | SpotifyTrackFull;

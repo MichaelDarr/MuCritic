@@ -1,7 +1,7 @@
 import * as Spotify from 'spotify';
 
 import { AlbumEntity } from '../../../entities/entities';
-import { SpotifyEntityTracksScraper } from './spotifyIdTracksScraper';
+import { SpotifyEntityTracksScraper } from './spotifyEntityTracksScraper';
 
 /**
  * Scrapes first 6 tracks for a given album

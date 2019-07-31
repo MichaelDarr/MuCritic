@@ -1,12 +1,10 @@
 import * as Spotify from 'spotify';
 
 import { ArtistEntity } from '../../../entities/entities';
-import { SpotifyEntityTracksScraper } from './spotifyIdTracksScraper';
+import { SpotifyEntityTracksScraper } from './spotifyEntityTracksScraper';
 
 /**
- * Spotify Artist Track Scraper *-> CSV FILE* (not database)
- *
- * Scrapes top 10 tracks for a given artist or first 6 tracks for a given album
+ * Scrapes top 5 tracks for a given artist
  */
 export class SpotifyArtistTracksScraper extends SpotifyEntityTracksScraper<ArtistEntity> {
     public constructor(

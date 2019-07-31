@@ -15,7 +15,7 @@ import {
 import { Log } from './helpers/classes/log';
 import { SpotifyApi } from './helpers/classes/spotifyApi';
 import { connectToDatabase } from './helpers/functions/database';
-import { SpotifyEntityTracksScraper } from './scrapers/spotify/aggregators/spotifyIdTracksScraper';
+import { SpotifyEntityTracksScraper } from './scrapers/spotify/aggregators/spotifyEntityTracksScraper';
 import { SpotifyAlbumTracksScraper } from './scrapers/spotify/aggregators/spotifyAlbumTracksScraper';
 import { SpotifyArtistTracksScraper } from './scrapers/spotify/aggregators/spotifyArtistTracksScraper';
 import { TrackAggregation, Aggregator } from './data/aggregator';
