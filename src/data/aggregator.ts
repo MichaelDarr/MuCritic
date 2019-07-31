@@ -2,11 +2,11 @@ import { createObjectCsvWriter } from 'csv-writer';
 
 import * as Spotify from 'spotify';
 
-import { RedisHelper } from '../../helpers/classes/redis';
+import { RedisHelper } from '../helpers/classes/redis';
 import {
     DatabaseEntities,
     TrackEntity,
-} from '../../entities/entities';
+} from '../entities/entities';
 
 /**
  * Superclass for all data aggregators. Creates a structured method for pulling and normalizing
@@ -252,7 +252,7 @@ export type EncodedTrack = [
     number,
     number,
     number,
-    number,
+    number
 ];
 
 export type EncodedAlbumTracks = [
@@ -279,7 +279,7 @@ export type EncodedAlbumTracks = [
     number,
     number,
     number,
-    number,
+    number
 ];
 
 export type EncodedArtistTracks = [
@@ -314,7 +314,7 @@ export type EncodedArtistTracks = [
     number,
     number,
     number,
-    number,
+    number
 ];
 
 export type EncodedAlbum = [
@@ -333,7 +333,7 @@ export type EncodedAlbum = [
     number,
     number,
     number,
-    number,
+    number
 ];
 
 export type EncodedArtist = [
@@ -352,7 +352,7 @@ export type EncodedArtist = [
     number,
     number,
     number,
-    number,
+    number
 ];
 
 export type FlatReviewAggregation = [
@@ -372,7 +372,7 @@ export type FlatReviewAggregation = [
     number,
     number,
     number,
-    number,
+    number
 ];
 
 export type FlatAlbumAggregation = [
@@ -418,7 +418,7 @@ export type FlatAlbumAggregation = [
     number,
     number,
     number,
-    number,
+    number
 ];
 
 export type FlatArtistAggregation = [
@@ -437,7 +437,7 @@ export type FlatArtistAggregation = [
     number,
     number,
     number,
-    number,
+    number
 ];
 
 export type FlatTrackAggregation = [
@@ -455,7 +455,7 @@ export type FlatTrackAggregation = [
     number,
     number,
     number,
-    number,
+    number
 ];
 
 export interface AlbumAggregation {

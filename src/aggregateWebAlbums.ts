@@ -4,13 +4,12 @@ import 'reflect-metadata';
 import {
     getRepository,
     IsNull,
-    LessThan,
     Not,
 } from 'typeorm';
 import { createArrayCsvWriter } from 'csv-writer';
 
-import { Aggregator } from './data/aggregators/aggregator';
-import { AlbumAggregator } from './data/aggregators/albumAggregator';
+import { Aggregator } from './data/aggregator';
+import { AlbumAggregator } from './data/albumAggregator';
 import { AlbumEntity } from './entities/entities';
 import { Log } from './helpers/classes/log';
 import { SpotifyApi } from './helpers/classes/spotifyApi';
@@ -19,6 +18,9 @@ import { RedisHelper } from './helpers/classes/redis';
 
 dotenv.config({ path: resolve(__dirname, '../.env') });
 
+/**
+ * Generates a CSV file of processed, encoded albums for web consumption
+ */
 export async function aggregateWebAlbums(): Promise<void> {
     Log.notify('\nMuCritic Album Recommender\n\n');
     await connectToDatabase();
@@ -34,38 +36,9 @@ export async function aggregateWebAlbums(): Promise<void> {
         where: {
             spotifyAlbumType: 'album',
             spotifyId: Not(IsNull()),
-            spotifyPopularity: LessThan(50),
         },
     });
 
-    type AggregationFields = [
-        string,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-        number,
-    ];
     const csvHeaders = [
         'spotifyId',
         'popularity',
@@ -94,8 +67,8 @@ export async function aggregateWebAlbums(): Promise<void> {
         'encoded_14',
         'encoded_15',
     ];
-    const results: AggregationFields[] = [];
-    const resultsNoMetal: AggregationFields[] = [];
+    const results = [];
+    const resultsNoMetal = [];
     for await(const album of albums) {
         try {
             let encodedData: number[];
@@ -131,7 +104,7 @@ export async function aggregateWebAlbums(): Promise<void> {
                 album.artist.discographyCountRYM,
                 album.artist.memberCount,
                 album.artist.spotifyPopularity,
-            ].concat(encodedData) as AggregationFields;
+            ].concat(encodedData);
             let nullFlag = false;
             newAggregation.forEach((prop) => {
                 if(prop == null) nullFlag = true;

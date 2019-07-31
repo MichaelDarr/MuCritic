@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ScraperApiScraper | csv-writer</title>
+	<title>ScraperApiScraper | MuCritic</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">csv-writer</a>
+					<a href="../index.html" class="title">MuCritic</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -88,6 +88,9 @@
 									<li>
 										<a href="reviewpagescraper.html" class="tsd-signature-type">ReviewPageScraper</a>
 									</li>
+									<li>
+										<a href="latestreviewspagescraper.html" class="tsd-signature-type">LatestReviewsPageScraper</a>
+									</li>
 								</ul>
 							</li>
 						</ul>
@@ -98,10 +101,10 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-inherited">
+						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><a href="scraperapiscraper.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="scraperapiscraper.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -109,6 +112,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="scraperapiscraper.html#datareadfromlocal" class="tsd-kind-icon">data<wbr>Read<wbr>From<wbr>Local</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="scraperapiscraper.html#description" class="tsd-kind-icon">description</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="scraperapiscraper.html#redis" class="tsd-kind-icon">redis</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="scraperapiscraper.html#results" class="tsd-kind-icon">results</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="scraperapiscraper.html#scraperoot" class="tsd-kind-icon">scrape<wbr>Root</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="scraperapiscraper.html#scrapesucceeded" class="tsd-kind-icon">scrape<wbr>Succeeded</a></li>
@@ -127,47 +131,39 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="scraperapiscraper.html#savetolocal" class="tsd-kind-icon">save<wbr>ToLocal</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="scraperapiscraper.html#scrape" class="tsd-kind-icon">scrape</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="scraperapiscraper.html#scrapedependencies" class="tsd-kind-icon">scrape<wbr>Dependencies</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected"><a href="scraperapiscraper.html#scrapeerrorhandler" class="tsd-kind-icon">scrape<wbr>Error<wbr>Handler</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-static"><a href="scraperapiscraper.html#scrapedependencyarr" class="tsd-kind-icon">scrape<wbr>Dependency<wbr>Arr</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Scraper<wbr>Api<wbr>Scraper<span class="tsd-signature-symbol">(</span>description<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, verbose<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="scraperapiscraper.html" class="tsd-signature-type">ScraperApiScraper</a></li>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Scraper<wbr>Api<wbr>Scraper<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, description<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, verbose<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="scraperapiscraper.html" class="tsd-signature-type">ScraperApiScraper</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#constructor">constructor</a></p>
+								<p>Overrides <a href="scraper.html">Scraper</a>.<a href="scraper.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/scrapers/scraper.ts#L45">src/scrapers/scraper.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/scraperApiScraper.ts#L26">scrapers/scraperApiScraper.ts:26</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
+									<h5>url: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
 									<h5>description: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>see <a href="scraper.html#description">Scraper.description</a></p>
-										</div>
-									</div>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> verbose: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>see <a href="scraper.html#verbose">Scraper.verbose</a></p>
-										</div>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="scraperapiscraper.html" class="tsd-signature-type">ScraperApiScraper</a></h4>
@@ -184,7 +180,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#datareadfromlocal">dataReadFromLocal</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/scrapers/scraper.ts#L24">src/scrapers/scraper.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/scraper.ts#L24">scrapers/scraper.ts:24</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -202,12 +198,27 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#description">description</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/scrapers/scraper.ts#L34">src/scrapers/scraper.ts:34</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/scraper.ts#L34">scrapers/scraper.ts:34</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>A simple, human-readble description of <em>what</em> is being scraped. Used for logging.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="redis" class="tsd-anchor"></a>
+					<h3>redis</h3>
+					<div class="tsd-signature tsd-kind-icon">redis<span class="tsd-signature-symbol">:</span> <a href="redishelper.html" class="tsd-signature-type">RedisHelper</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/scraperApiScraper.ts#L21">scrapers/scraperApiScraper.ts:21</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>used for caching failed results, to blacklist further calls</p>
 						</div>
 					</div>
 				</section>
@@ -218,7 +229,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#results">results</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/scrapers/scraper.ts#L29">src/scrapers/scraper.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/scraper.ts#L29">scrapers/scraper.ts:29</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -233,7 +244,7 @@
 					<div class="tsd-signature tsd-kind-icon">scrape<wbr>Root<span class="tsd-signature-symbol">:</span> <a href="parseelement.html" class="tsd-signature-type">ParseElement</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/scrapers/scraperApiScraper.ts#L20">src/scrapers/scraperApiScraper.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/scraperApiScraper.ts#L26">scrapers/scraperApiScraper.ts:26</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -249,7 +260,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#scrapesucceeded">scrapeSucceeded</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/scrapers/scraper.ts#L45">src/scrapers/scraper.ts:45</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/scraper.ts#L45">scrapers/scraper.ts:45</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -265,7 +276,7 @@
 					<div class="tsd-signature tsd-kind-icon">url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/scrapers/scraperApiScraper.ts#L15">src/scrapers/scraperApiScraper.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/scraperApiScraper.ts#L16">scrapers/scraperApiScraper.ts:16</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -281,7 +292,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#verbose">verbose</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/scrapers/scraper.ts#L39">src/scrapers/scraper.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/scraper.ts#L39">scrapers/scraper.ts:39</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -304,7 +315,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#checkforlocalrecord">checkForLocalRecord</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/scrapers/scraper.ts#L67">src/scrapers/scraper.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/scraper.ts#L67">scrapers/scraper.ts:67</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -328,7 +339,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#extractinfo">extractInfo</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/scrapers/scraper.ts#L82">src/scrapers/scraper.ts:82</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/scraper.ts#L82">scrapers/scraper.ts:82</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -360,7 +371,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#printinfo">printInfo</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/scrapers/scraper.ts#L89">src/scrapers/scraper.ts:89</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/scraper.ts#L89">scrapers/scraper.ts:89</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -383,7 +394,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#printresult">printResult</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/scrapers/scraper.ts#L96">src/scrapers/scraper.ts:96</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/scraper.ts#L96">scrapers/scraper.ts:96</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -406,7 +417,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="scraper.html">Scraper</a>.<a href="scraper.html#requestscrape">requestScrape</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/scrapers/scraperApiScraper.ts#L33">src/scrapers/scraperApiScraper.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/scraperApiScraper.ts#L49">scrapers/scraperApiScraper.ts:49</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -445,7 +456,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#savetolocal">saveToLocal</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/scrapers/scraper.ts#L129">src/scrapers/scraper.ts:129</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/scraper.ts#L129">scrapers/scraper.ts:129</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -476,7 +487,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#scrape">scrape</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/scrapers/scraper.ts#L156">src/scrapers/scraper.ts:156</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/scraper.ts#L163">scrapers/scraper.ts:163</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -529,7 +540,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#scrapedependencies">scrapeDependencies</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/scrapers/scraper.ts#L186">src/scrapers/scraper.ts:186</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/scraper.ts#L197">scrapers/scraper.ts:197</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -550,18 +561,47 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
+					<a name="scrapeerrorhandler" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> scrape<wbr>Error<wbr>Handler</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
+						<li class="tsd-signature tsd-kind-icon">scrape<wbr>Error<wbr>Handler<span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Overrides <a href="scraper.html">Scraper</a>.<a href="scraper.html#scrapeerrorhandler">scrapeErrorHandler</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/scraperApiScraper.ts#L78">scrapers/scraperApiScraper.ts:78</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>When a scrape fails, add it to the blacklist, then throw the error</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>error: <span class="tsd-signature-type">Error</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-static">
 					<a name="scrapedependencyarr" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> scrape<wbr>Dependency<wbr>Arr</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">scrape<wbr>Dependency<wbr>Arr&lt;T&gt;<span class="tsd-signature-symbol">(</span>scrapers<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/scraperswithresults.html" class="tsd-signature-type">ScrapersWithResults</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">scrape<wbr>Dependency<wbr>Arr&lt;T&gt;<span class="tsd-signature-symbol">(</span>scrapers<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span>, forceScrape<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/scraperswithresults.html" class="tsd-signature-type">ScrapersWithResults</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#scrapedependencyarr">scrapeDependencyArr</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/scrapers/scraper.ts#L193">src/scrapers/scraper.ts:193</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/scraper.ts#L204">scrapers/scraper.ts:204</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -579,6 +619,9 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>scrapers: <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> forceScrape: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/scraperswithresults.html" class="tsd-signature-type">ScrapersWithResults</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -602,7 +645,7 @@
 					<li class="current tsd-kind-class">
 						<a href="scraperapiscraper.html" class="tsd-kind-icon">Scraper<wbr>Api<wbr>Scraper</a>
 						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 								<a href="scraperapiscraper.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
@@ -610,6 +653,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="scraperapiscraper.html#description" class="tsd-kind-icon">description</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="scraperapiscraper.html#redis" class="tsd-kind-icon">redis</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="scraperapiscraper.html#results" class="tsd-kind-icon">results</a>
@@ -649,6 +695,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a href="scraperapiscraper.html#scrapedependencies" class="tsd-kind-icon">scrape<wbr>Dependencies</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
+								<a href="scraperapiscraper.html#scrapeerrorhandler" class="tsd-kind-icon">scrape<wbr>Error<wbr>Handler</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-static">
 								<a href="scraperapiscraper.html#scrapedependencyarr" class="tsd-kind-icon">scrape<wbr>Dependency<wbr>Arr</a>

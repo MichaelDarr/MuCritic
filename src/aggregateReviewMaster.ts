@@ -7,8 +7,8 @@ import { getRepository } from 'typeorm';
 import {
     Aggregator,
     FlatReviewAggregation,
-} from './data/aggregators/aggregator';
-import { ReviewAggregator } from './data/aggregators/reviewAggregator';
+} from './data/aggregator';
+import { ReviewAggregator } from './data/reviewAggregator';
 import { ReviewEntity } from './entities/entities';
 import { Log } from './helpers/classes/log';
 import { SpotifyApi } from './helpers/classes/spotifyApi';

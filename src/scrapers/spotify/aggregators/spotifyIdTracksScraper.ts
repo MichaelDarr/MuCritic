@@ -2,7 +2,7 @@ import { createArrayCsvWriter } from 'csv-writer';
 
 import * as Spotify from 'spotify';
 
-import { TrackAggregator } from '../../../data/aggregators/trackAggregator';
+import { TrackAggregator } from '../../../data/trackAggregator';
 import {
     AlbumEntity,
     ArtistEntity,
@@ -12,7 +12,7 @@ import {
     Aggregator,
     EncodedTrack,
     TrackAggregation,
-} from '../../../data/aggregators/aggregator';
+} from '../../../data/aggregator';
 
 /**
  * Spotify Track Scraper implementing a CSV writer and optional encoding via tensorflow models

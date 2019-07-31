@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Aggregator | csv-writer</title>
+	<title>Aggregator | MuCritic</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">csv-writer</a>
+					<a href="../index.html" class="title">MuCritic</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -59,7 +59,7 @@
 					<a href="aggregator.html">Aggregator</a>
 				</li>
 			</ul>
-			<h1>Class Aggregator&lt;T1, T2&gt;</h1>
+			<h1>Class Aggregator&lt;T1, T2, T3, T4&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -72,22 +72,16 @@
 						<p>Superclass for all data aggregators. Creates a structured method for pulling and normalizing
 						data from the database into usable <a href="../globals.html#aggregation">Aggregation</a> objects.</p>
 					</div>
-					<dl class="tsd-comment-tags">
-						<dt>remarks</dt>
-						<dd><p>Try not to not keep too instances of these classes alive, or you are likely to run out of
-							memory. <a href="aggregator.html#entity">Aggregator.entity</a> can be very large, especially if it contains many relations.</p>
-						</dd>
-					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-type-parameters">
 				<h3>Type parameters</h3>
 				<ul class="tsd-type-parameters">
 					<li>
-						<h4>T1<span class="tsd-signature-symbol">: </span><a href="../globals.html#rymdatabaseentities" class="tsd-signature-type">RymDatabaseEntities</a></h4>
+						<h4>T1<span class="tsd-signature-symbol">: </span><a href="../globals.html#aggregatableentities" class="tsd-signature-type">AggregatableEntities</a></h4>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
-								<p>database entity used to create an <a href="../globals.html#aggregation">Aggregation</a></p>
+								<p>entity used to create an <a href="../globals.html#aggregation">Aggregation</a></p>
 							</div>
 						</div>
 					</li>
@@ -95,9 +89,15 @@
 						<h4>T2<span class="tsd-signature-symbol">: </span><a href="../globals.html#aggregation" class="tsd-signature-type">Aggregation</a></h4>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
-								<p>type of <a href="../globals.html#aggregation">Aggregation</a> to be created</p>
+								<p><a href="../globals.html#aggregation">Aggregation</a> format to be created</p>
 							</div>
 						</div>
+					</li>
+					<li>
+						<h4>T3<span class="tsd-signature-symbol">: </span><a href="../globals.html#encodedaggregations" class="tsd-signature-type">EncodedAggregations</a></h4>
+					</li>
+					<li>
+						<h4>T4<span class="tsd-signature-symbol">: </span><a href="../globals.html#flataggregations" class="tsd-signature-type">FlatAggregations</a></h4>
 					</li>
 				</ul>
 			</section>
@@ -106,17 +106,6 @@
 				<ul class="tsd-hierarchy">
 					<li>
 						<span class="target">Aggregator</span>
-						<ul class="tsd-hierarchy">
-							<li>
-								<a href="albumaggregator.html" class="tsd-signature-type">AlbumAggregator</a>
-							</li>
-							<li>
-								<a href="reviewaggregator.html" class="tsd-signature-type">ReviewAggregator</a>
-							</li>
-							<li>
-								<a href="profileaggregator.html" class="tsd-signature-type">ProfileAggregator</a>
-							</li>
-						</ul>
 					</li>
 				</ul>
 			</section>
@@ -133,15 +122,22 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="aggregator.html#aggregationgenerator" class="tsd-kind-icon">aggregation<wbr>Generator</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="aggregator.html#entity" class="tsd-kind-icon">entity</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="aggregator.html#redisclient" class="tsd-kind-icon">redis<wbr>Client</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="aggregator.html#spotifyid" class="tsd-kind-icon">spotify<wbr>Id</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="aggregator.html#aggregate" class="tsd-kind-icon">aggregate</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="aggregator.html#generateaggregate" class="tsd-kind-icon">generate<wbr>Aggregate</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><a href="aggregator.html#normalize" class="tsd-kind-icon">normalize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="aggregator.html#rediskey" class="tsd-kind-icon">redis<wbr>Key</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="aggregator.html#csvheader" class="tsd-kind-icon">csv<wbr>Header</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="aggregator.html#csvheaderfromarray" class="tsd-kind-icon">csv<wbr>Header<wbr>From<wbr>Array</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="aggregator.html#fields" class="tsd-kind-icon">fields</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="aggregator.html#striplabels" class="tsd-kind-icon">strip<wbr>Labels</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="aggregator.html#writetocsv" class="tsd-kind-icon">write<wbr>ToCsv</a></li>
 							</ul>
 						</section>
 					</div>
@@ -153,19 +149,25 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Aggregator<span class="tsd-signature-symbol">(</span>entity<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T1</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="aggregator.html" class="tsd-signature-type">Aggregator</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Aggregator<span class="tsd-signature-symbol">(</span>entity<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T1</span>, aggregationGenerator<span class="tsd-signature-symbol">: </span><a href="../interfaces/aggregationgenerator.html" class="tsd-signature-type">AggregationGenerator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T1</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T2</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T3</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T4</span><span class="tsd-signature-symbol">&gt;</span>, spotifyId<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="aggregator.html" class="tsd-signature-type">Aggregator</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/data/aggregators/aggregator.ts#L20">src/data/aggregators/aggregator.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/data/aggregators/aggregator.ts#L34">data/aggregators/aggregator.ts:34</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>entity: <span class="tsd-signature-type">T1</span></h5>
+								</li>
+								<li>
+									<h5>aggregationGenerator: <a href="../interfaces/aggregationgenerator.html" class="tsd-signature-type">AggregationGenerator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T1</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T2</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T3</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T4</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> spotifyId: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="aggregator.html" class="tsd-signature-type">Aggregator</a></h4>
@@ -176,12 +178,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="aggregationgenerator" class="tsd-anchor"></a>
+					<h3>aggregation<wbr>Generator</h3>
+					<div class="tsd-signature tsd-kind-icon">aggregation<wbr>Generator<span class="tsd-signature-symbol">:</span> <a href="../interfaces/aggregationgenerator.html" class="tsd-signature-type">AggregationGenerator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T1</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T2</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T3</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">T4</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/data/aggregators/aggregator.ts#L30">data/aggregators/aggregator.ts:30</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="entity" class="tsd-anchor"></a>
 					<h3>entity</h3>
 					<div class="tsd-signature tsd-kind-icon">entity<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T1</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/data/aggregators/aggregator.ts#L20">src/data/aggregators/aggregator.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/data/aggregators/aggregator.ts#L28">data/aggregators/aggregator.ts:28</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -190,6 +202,26 @@
 							instance of <a href="profileentity.html">ProfileEntity</a> for an aggregation of all reviews by a profile</p>
 						</div>
 					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="redisclient" class="tsd-anchor"></a>
+					<h3>redis<wbr>Client</h3>
+					<div class="tsd-signature tsd-kind-icon">redis<wbr>Client<span class="tsd-signature-symbol">:</span> <a href="redishelper.html" class="tsd-signature-type">RedisHelper</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/data/aggregators/aggregator.ts#L32">data/aggregators/aggregator.ts:32</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="spotifyid" class="tsd-anchor"></a>
+					<h3>spotify<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">spotify<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/data/aggregators/aggregator.ts#L34">data/aggregators/aggregator.ts:34</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -204,13 +236,10 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/data/aggregators/aggregator.ts#L32">src/data/aggregators/aggregator.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/data/aggregators/aggregator.ts#L51">data/aggregators/aggregator.ts:51</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>High-level <a href="../globals.html#aggregation">Aggregation</a> creator used by all <a href="aggregator.html">Aggregator</a> subclasses</p>
-								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
@@ -218,7 +247,7 @@
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> normalized: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>if data in returned aggregation should be normalized using
-										<a href="aggregator.html#normalize">Aggregator.normalize</a></p>
+										[[EntityAggregator.normalize]]</p>
 									</div>
 								</li>
 							</ul>
@@ -226,69 +255,224 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-					<a name="generateaggregate" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> <span class="tsd-flag ts-flagAbstract">Abstract</span> generate<wbr>Aggregate</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon">generate<wbr>Aggregate<span class="tsd-signature-symbol">(</span>normalized<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T2</span><span class="tsd-signature-symbol">&gt;</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="rediskey" class="tsd-anchor"></a>
+					<h3>redis<wbr>Key</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">redis<wbr>Key<span class="tsd-signature-symbol">(</span>normalized<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/data/aggregators/aggregator.ts#L47">src/data/aggregators/aggregator.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/data/aggregators/aggregator.ts#L68">data/aggregators/aggregator.ts:68</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Aggregates data for an <a href="../globals.html#aggregation">Aggregation</a>. Implementations consist of two steps</p>
-									<ol>
-										<li>Ensure all necessary aggregation data is contained in <a href="aggregator.html#entity">Aggregator.entity</a>, fetching it
-										if not found.</li>
-										<li>Load all of this data into appropriate <a href="../globals.html#aggregation">Aggregation</a> (to be returned)</li>
-									</ol>
-								</div>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>normalized: <span class="tsd-signature-type">boolean</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>if data in returned aggregation should be normalized using
-										<a href="aggregator.html#normalize">Aggregator.normalize</a></p>
-									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T2</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-					<a name="normalize" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> <span class="tsd-flag ts-flagAbstract">Abstract</span> normalize</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-						<li class="tsd-signature tsd-kind-icon">normalize<span class="tsd-signature-symbol">(</span>aggregation<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T2</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T2</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+					<a name="csvheader" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> csv<wbr>Header</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">csv<wbr>Header&lt;A1, A2, A3, A4&gt;<span class="tsd-signature-symbol">(</span>aggregationGenerator<span class="tsd-signature-symbol">: </span><a href="../interfaces/aggregationgenerator.html" class="tsd-signature-type">AggregationGenerator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A1</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A2</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A3</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A4</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../globals.html#csvheaders" class="tsd-signature-type">CsvHeaders</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/data/aggregators/aggregator.ts#L53">src/data/aggregators/aggregator.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/data/aggregators/aggregator.ts#L81">data/aggregators/aggregator.ts:81</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Normalizes <a href="../globals.html#aggregation">Aggregation</a> data. This really should be a static abstract, but this is
-									<a href="https://github.com/microsoft/TypeScript/issues/14600">not yet implemented in typescript</a>.</p>
+									<p>Generate CSV Header objects in accordance with the
+									<a href="https://www.npmjs.com/package/csv-writer">CSV Writer npm package</a></p>
 								</div>
 							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>A1<span class="tsd-signature-symbol">: </span><a href="../globals.html#aggregatableentities" class="tsd-signature-type">AggregatableEntities</a></h4>
+								</li>
+								<li>
+									<h4>A2<span class="tsd-signature-symbol">: </span><a href="../globals.html#aggregation" class="tsd-signature-type">Aggregation</a></h4>
+								</li>
+								<li>
+									<h4>A3<span class="tsd-signature-symbol">: </span><a href="../globals.html#encodedaggregations" class="tsd-signature-type">EncodedAggregations</a></h4>
+								</li>
+								<li>
+									<h4>A4<span class="tsd-signature-symbol">: </span><a href="../globals.html#flataggregations" class="tsd-signature-type">FlatAggregations</a></h4>
+								</li>
+							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>aggregation: <span class="tsd-signature-type">T2</span></h5>
+									<h5>aggregationGenerator: <a href="../interfaces/aggregationgenerator.html" class="tsd-signature-type">AggregationGenerator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A1</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A2</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A3</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A4</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T2</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../globals.html#csvheaders" class="tsd-signature-type">CsvHeaders</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="csvheaderfromarray" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> csv<wbr>Header<wbr>From<wbr>Array</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">csv<wbr>Header<wbr>From<wbr>Array<span class="tsd-signature-symbol">(</span>fields<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../globals.html#csvheaders" class="tsd-signature-type">CsvHeaders</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/data/aggregators/aggregator.ts#L93">data/aggregators/aggregator.ts:93</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>fields: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../globals.html#csvheaders" class="tsd-signature-type">CsvHeaders</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+					<a name="fields" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> fields</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">fields&lt;A1, A2, A3, A4&gt;<span class="tsd-signature-symbol">(</span>aggregationGenerator<span class="tsd-signature-symbol">: </span><a href="../interfaces/aggregationgenerator.html" class="tsd-signature-type">AggregationGenerator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A1</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A2</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A3</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A4</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/data/aggregators/aggregator.ts#L107">data/aggregators/aggregator.ts:107</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get a list of all fields belonging to an aggreation</p>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>A1<span class="tsd-signature-symbol">: </span><a href="../globals.html#aggregatableentities" class="tsd-signature-type">AggregatableEntities</a></h4>
+								</li>
+								<li>
+									<h4>A2<span class="tsd-signature-symbol">: </span><a href="../globals.html#aggregation" class="tsd-signature-type">Aggregation</a></h4>
+								</li>
+								<li>
+									<h4>A3<span class="tsd-signature-symbol">: </span><a href="../globals.html#encodedaggregations" class="tsd-signature-type">EncodedAggregations</a></h4>
+								</li>
+								<li>
+									<h4>A4<span class="tsd-signature-symbol">: </span><a href="../globals.html#flataggregations" class="tsd-signature-type">FlatAggregations</a></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aggregationGenerator: <a href="../interfaces/aggregationgenerator.html" class="tsd-signature-type">AggregationGenerator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A1</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A2</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A3</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A4</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+					<a name="striplabels" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> strip<wbr>Labels</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">strip<wbr>Labels&lt;A1, A2, A3, A4&gt;<span class="tsd-signature-symbol">(</span>aggregation<span class="tsd-signature-symbol">: </span><a href="../globals.html#aggregation" class="tsd-signature-type">Aggregation</a>, aggregationGenerator<span class="tsd-signature-symbol">: </span><a href="../interfaces/aggregationgenerator.html" class="tsd-signature-type">AggregationGenerator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A1</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A2</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A3</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A4</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">A4</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/data/aggregators/aggregator.ts#L125">data/aggregators/aggregator.ts:125</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>A1<span class="tsd-signature-symbol">: </span><a href="../globals.html#aggregatableentities" class="tsd-signature-type">AggregatableEntities</a></h4>
+								</li>
+								<li>
+									<h4>A2<span class="tsd-signature-symbol">: </span><a href="../globals.html#aggregation" class="tsd-signature-type">Aggregation</a></h4>
+								</li>
+								<li>
+									<h4>A3<span class="tsd-signature-symbol">: </span><a href="../globals.html#encodedaggregations" class="tsd-signature-type">EncodedAggregations</a></h4>
+								</li>
+								<li>
+									<h4>A4<span class="tsd-signature-symbol">: </span><a href="../globals.html#flataggregations" class="tsd-signature-type">FlatAggregations</a></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aggregation: <a href="../globals.html#aggregation" class="tsd-signature-type">Aggregation</a></h5>
+								</li>
+								<li>
+									<h5>aggregationGenerator: <a href="../interfaces/aggregationgenerator.html" class="tsd-signature-type">AggregationGenerator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A1</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A2</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A3</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A4</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">A4</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+					<a name="writetocsv" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> write<wbr>ToCsv</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">write<wbr>ToCsv&lt;A1, A2, A3, A4&gt;<span class="tsd-signature-symbol">(</span>aggregation<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">A2</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">A2</span><span class="tsd-signature-symbol">[]</span>, aggregationGenerator<span class="tsd-signature-symbol">: </span><a href="../interfaces/aggregationgenerator.html" class="tsd-signature-type">AggregationGenerator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A1</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A2</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A3</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A4</span><span class="tsd-signature-symbol">&gt;</span>, fileName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, baseDir<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/data/aggregators/aggregator.ts#L144">data/aggregators/aggregator.ts:144</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>A1<span class="tsd-signature-symbol">: </span><a href="../globals.html#aggregatableentities" class="tsd-signature-type">AggregatableEntities</a></h4>
+								</li>
+								<li>
+									<h4>A2<span class="tsd-signature-symbol">: </span><a href="../globals.html#aggregation" class="tsd-signature-type">Aggregation</a></h4>
+								</li>
+								<li>
+									<h4>A3<span class="tsd-signature-symbol">: </span><a href="../globals.html#encodedaggregations" class="tsd-signature-type">EncodedAggregations</a></h4>
+								</li>
+								<li>
+									<h4>A4<span class="tsd-signature-symbol">: </span><a href="../globals.html#flataggregations" class="tsd-signature-type">FlatAggregations</a></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>aggregation: <span class="tsd-signature-type">A2</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">A2</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li>
+									<h5>aggregationGenerator: <a href="../interfaces/aggregationgenerator.html" class="tsd-signature-type">AggregationGenerator</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A1</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A2</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A3</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">A4</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>fileName: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>baseDir: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -313,16 +497,37 @@
 								<a href="aggregator.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="aggregator.html#aggregationgenerator" class="tsd-kind-icon">aggregation<wbr>Generator</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="aggregator.html#entity" class="tsd-kind-icon">entity</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="aggregator.html#redisclient" class="tsd-kind-icon">redis<wbr>Client</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="aggregator.html#spotifyid" class="tsd-kind-icon">spotify<wbr>Id</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="aggregator.html#aggregate" class="tsd-kind-icon">aggregate</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-								<a href="aggregator.html#generateaggregate" class="tsd-kind-icon">generate<wbr>Aggregate</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="aggregator.html#rediskey" class="tsd-kind-icon">redis<wbr>Key</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-protected">
-								<a href="aggregator.html#normalize" class="tsd-kind-icon">normalize</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+								<a href="aggregator.html#csvheader" class="tsd-kind-icon">csv<wbr>Header</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="aggregator.html#csvheaderfromarray" class="tsd-kind-icon">csv<wbr>Header<wbr>From<wbr>Array</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+								<a href="aggregator.html#fields" class="tsd-kind-icon">fields</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+								<a href="aggregator.html#striplabels" class="tsd-kind-icon">strip<wbr>Labels</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
+								<a href="aggregator.html#writetocsv" class="tsd-kind-icon">write<wbr>ToCsv</a>
 							</li>
 						</ul>
 					</li>

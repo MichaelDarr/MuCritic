@@ -9,13 +9,16 @@ import { ProfileEntity } from './entities/entities';
 import { Log } from './helpers/classes/log';
 import { SpotifyApi } from './helpers/classes/spotifyApi';
 import { connectToDatabase } from './helpers/functions/database';
-import { Aggregator, EncodedArtist } from './data/aggregators/aggregator';
-import { ArtistAggregator } from './data/aggregators/artistAggregator';
+import { Aggregator, EncodedArtist } from './data/aggregator';
+import { ArtistAggregator } from './data/artistAggregator';
 
 require('@tensorflow/tfjs-node');
 
 dotenv.config({ path: resolve(__dirname, '../.env') });
 
+/**
+ * aggregate all profile encoded favorite artists into CSV files
+ */
 export async function aggregateFavoriteArtists(): Promise<void> {
     Log.notify('\nMuCritic Data Aggregator\n\n');
     await connectToDatabase();

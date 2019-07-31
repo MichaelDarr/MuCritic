@@ -7,8 +7,8 @@ import { getRepository, IsNull, Not } from 'typeorm';
 import {
     Aggregator,
     FlatArtistAggregation,
-} from './data/aggregators/aggregator';
-import { ArtistAggregator } from './data/aggregators/artistAggregator';
+} from './data/aggregator';
+import { ArtistAggregator } from './data/artistAggregator';
 import { ArtistEntity } from './entities/entities';
 import { Log } from './helpers/classes/log';
 import { SpotifyApi } from './helpers/classes/spotifyApi';

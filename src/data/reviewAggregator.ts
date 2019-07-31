@@ -6,7 +6,7 @@ import {
     FlatReviewAggregation,
     ReviewAggregation,
 } from './aggregator';
-import { ReviewEntity } from '../../entities/entities';
+import { ReviewEntity } from '../entities/entities';
 import { AlbumAggregator } from './albumAggregator';
 
 /**

@@ -8,8 +8,8 @@ import { ProfileEntity } from './entities/entities';
 import { Log } from './helpers/classes/log';
 import { SpotifyApi } from './helpers/classes/spotifyApi';
 import { connectToDatabase } from './helpers/functions/database';
-import { Aggregator, EncodedArtist } from './data/aggregators/aggregator';
-import { ArtistAggregator } from './data/aggregators/artistAggregator';
+import { Aggregator, EncodedArtist } from './data/aggregator';
+import { ArtistAggregator } from './data/artistAggregator';
 
 dotenv.config({ path: resolve(__dirname, '../.env') });
 

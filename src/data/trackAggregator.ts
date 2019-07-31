@@ -7,7 +7,7 @@ import {
     SpotifyTrackFull,
     TrackAggregation,
 } from './aggregator';
-import { TrackEntity } from '../../entities/entities';
+import { TrackEntity } from '../entities/entities';
 
 require('@tensorflow/tfjs-node');
 

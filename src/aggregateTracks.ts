@@ -18,11 +18,15 @@ import { connectToDatabase } from './helpers/functions/database';
 import { SpotifyEntityTracksScraper } from './scrapers/spotify/aggregators/spotifyIdTracksScraper';
 import { SpotifyAlbumTracksScraper } from './scrapers/spotify/aggregators/spotifyAlbumTracksScraper';
 import { SpotifyArtistTracksScraper } from './scrapers/spotify/aggregators/spotifyArtistTracksScraper';
-import { TrackAggregation, Aggregator } from './data/aggregators/aggregator';
-import { TrackAggregator } from './data/aggregators/trackAggregator';
+import { TrackAggregation, Aggregator } from './data/aggregator';
+import { TrackAggregator } from './data/trackAggregator';
 
 dotenv.config({ path: resolve(__dirname, '../.env') });
 
+/**
+ * Generate CSV files of track information (all tracks, album tracks, or artist tracks). Receieves
+ * 'tracks', 'albums', or 'artists' via the first cli argument
+ */
 export async function aggregateTracks(): Promise<void> {
     try {
         Log.notify('\nMuCritic Data Aggregator\n\n');

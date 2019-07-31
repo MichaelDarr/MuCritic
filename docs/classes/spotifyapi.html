@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>SpotifyApi | csv-writer</title>
+	<title>SpotifyApi | MuCritic</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">csv-writer</a>
+					<a href="../index.html" class="title">MuCritic</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -104,15 +104,20 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="spotifyapi.html#client" class="tsd-kind-icon">client</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="spotifyapi.html#tokenexpiration" class="tsd-kind-icon">token<wbr>Expiration</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="spotifyapi.html#instance" class="tsd-kind-icon">instance</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="spotifyapi.html#redis" class="tsd-kind-icon">redis</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="spotifyapi.html#getaccesstoken" class="tsd-kind-icon">get<wbr>Access<wbr>Token</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="spotifyapi.html#getalbum" class="tsd-kind-icon">get<wbr>Album</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="spotifyapi.html#getalbumtracks" class="tsd-kind-icon">get<wbr>Album<wbr>Tracks</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="spotifyapi.html#getartist" class="tsd-kind-icon">get<wbr>Artist</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="spotifyapi.html#getartisttoptracks" class="tsd-kind-icon">get<wbr>Artist<wbr>Top<wbr>Tracks</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="spotifyapi.html#getbatch" class="tsd-kind-icon">get<wbr>Batch</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="spotifyapi.html#getgenreseeds" class="tsd-kind-icon">get<wbr>Genre<wbr>Seeds</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="spotifyapi.html#gettrackaudiofeatures" class="tsd-kind-icon">get<wbr>Track<wbr>Audio<wbr>Features</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="spotifyapi.html#requestnewaccesstoken" class="tsd-kind-icon">request<wbr>New<wbr>Access<wbr>Token</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="spotifyapi.html#search" class="tsd-kind-icon">search</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-private"><a href="spotifyapi.html#spotifyrequest" class="tsd-kind-icon">spotify<wbr>Request</a></li>
@@ -135,7 +140,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/helpers/classes/spotifyApi.ts#L23">src/helpers/classes/spotifyApi.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/helpers/classes/spotifyApi.ts#L26">helpers/classes/spotifyApi.ts:26</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -160,17 +165,17 @@
 					<div class="tsd-signature tsd-kind-icon">access<wbr>Token<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/helpers/classes/spotifyApi.ts#L17">src/helpers/classes/spotifyApi.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/helpers/classes/spotifyApi.ts#L20">helpers/classes/spotifyApi.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="client" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> client</h3>
-					<div class="tsd-signature tsd-kind-icon">client<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ClientCredentials</span></div>
+					<div class="tsd-signature tsd-kind-icon">client<span class="tsd-signature-symbol">:</span> <a href="../interfaces/clientcredentials.html" class="tsd-signature-type">ClientCredentials</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/helpers/classes/spotifyApi.ts#L19">src/helpers/classes/spotifyApi.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/helpers/classes/spotifyApi.ts#L22">helpers/classes/spotifyApi.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -180,7 +185,7 @@
 					<div class="tsd-signature tsd-kind-icon">token<wbr>Expiration<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/helpers/classes/spotifyApi.ts#L23">src/helpers/classes/spotifyApi.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/helpers/classes/spotifyApi.ts#L26">helpers/classes/spotifyApi.ts:26</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -190,7 +195,17 @@
 					<div class="tsd-signature tsd-kind-icon">instance<span class="tsd-signature-symbol">:</span> <a href="spotifyapi.html" class="tsd-signature-type">SpotifyApi</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/helpers/classes/spotifyApi.ts#L21">src/helpers/classes/spotifyApi.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/helpers/classes/spotifyApi.ts#L18">helpers/classes/spotifyApi.ts:18</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
+					<a name="redis" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> <span class="tsd-flag ts-flagPrivate">Private</span> redis</h3>
+					<div class="tsd-signature tsd-kind-icon">redis<span class="tsd-signature-symbol">:</span> <a href="redishelper.html" class="tsd-signature-type">RedisHelper</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/helpers/classes/spotifyApi.ts#L24">helpers/classes/spotifyApi.ts:24</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -207,7 +222,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/helpers/classes/spotifyApi.ts#L136">src/helpers/classes/spotifyApi.ts:136</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/helpers/classes/spotifyApi.ts#L155">helpers/classes/spotifyApi.ts:155</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -220,16 +235,44 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getalbumtracks" class="tsd-anchor"></a>
-					<h3>get<wbr>Album<wbr>Tracks</h3>
+					<a name="getalbum" class="tsd-anchor"></a>
+					<h3>get<wbr>Album</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Album<wbr>Tracks<span class="tsd-signature-symbol">(</span>albumId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, limit<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Spotify.AlbumTracksResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Album<span class="tsd-signature-symbol">(</span>albumId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AlbumResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/helpers/classes/spotifyApi.ts#L67">src/helpers/classes/spotifyApi.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/helpers/classes/spotifyApi.ts#L82">helpers/classes/spotifyApi.ts:82</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p><a href="https://developer.spotify.com/documentation/web-api/reference/albums/get-album/">Get an Album</a></p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>albumId: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AlbumResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getalbumtracks" class="tsd-anchor"></a>
+					<h3>get<wbr>Album<wbr>Tracks</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Album<wbr>Tracks<span class="tsd-signature-symbol">(</span>albumId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, limit<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Spotify.TracksResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/helpers/classes/spotifyApi.ts#L63">helpers/classes/spotifyApi.ts:63</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -246,7 +289,69 @@
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> limit: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;50</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Spotify.AlbumTracksResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Spotify.TracksResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getartist" class="tsd-anchor"></a>
+					<h3>get<wbr>Artist</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Artist<span class="tsd-signature-symbol">(</span>artistId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ArtistResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/helpers/classes/spotifyApi.ts#L74">helpers/classes/spotifyApi.ts:74</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p><a href="https://developer.spotify.com/documentation/web-api/reference/artists/get-artist/">Get an Artist</a></p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>artistId: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ArtistResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getartisttoptracks" class="tsd-anchor"></a>
+					<h3>get<wbr>Artist<wbr>Top<wbr>Tracks</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Artist<wbr>Top<wbr>Tracks<span class="tsd-signature-symbol">(</span>artistId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, country<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TracksBatchResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/helpers/classes/spotifyApi.ts#L93">helpers/classes/spotifyApi.ts:93</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p><a href="https://developer.spotify.com/documentation/web-api/reference/artists/get-artists-top-tracks/">Get an Artist&#39;s Top Tracks</a></p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>artistId: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> country: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;US&quot;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p><a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO 3166-1 alpha-2 country code</a></p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TracksBatchResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -254,13 +359,13 @@
 					<a name="getbatch" class="tsd-anchor"></a>
 					<h3>get<wbr>Batch</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Batch&lt;T&gt;<span class="tsd-signature-symbol">(</span>ids<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, batchName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Batch&lt;T&gt;<span class="tsd-signature-symbol">(</span>ids<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, batchName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/helpers/classes/spotifyApi.ts#L79">src/helpers/classes/spotifyApi.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/helpers/classes/spotifyApi.ts#L105">helpers/classes/spotifyApi.ts:105</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -277,7 +382,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>ids: <span class="tsd-signature-type">string</span></h5>
+									<h5>ids: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 								<li>
 									<h5>batchName: <span class="tsd-signature-type">string</span></h5>
@@ -297,7 +402,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/helpers/classes/spotifyApi.ts#L90">src/helpers/classes/spotifyApi.ts:90</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/helpers/classes/spotifyApi.ts#L127">helpers/classes/spotifyApi.ts:127</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -306,6 +411,34 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">GenreSeedsResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="gettrackaudiofeatures" class="tsd-anchor"></a>
+					<h3>get<wbr>Track<wbr>Audio<wbr>Features</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Track<wbr>Audio<wbr>Features<span class="tsd-signature-symbol">(</span>trackId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AudioFeatureResponse</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/helpers/classes/spotifyApi.ts#L135">helpers/classes/spotifyApi.ts:135</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p><a href="https://developer.spotify.com/documentation/web-api/reference/tracks/get-audio-features/">Get Audio Features for a Track</a></p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>trackId: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">AudioFeatureResponse</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -319,7 +452,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/helpers/classes/spotifyApi.ts#L143">src/helpers/classes/spotifyApi.ts:143</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/helpers/classes/spotifyApi.ts#L162">helpers/classes/spotifyApi.ts:162</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -336,7 +469,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/helpers/classes/spotifyApi.ts#L98">src/helpers/classes/spotifyApi.ts:98</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/helpers/classes/spotifyApi.ts#L143">helpers/classes/spotifyApi.ts:143</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -376,7 +509,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/helpers/classes/spotifyApi.ts#L107">src/helpers/classes/spotifyApi.ts:107</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/helpers/classes/spotifyApi.ts#L198">helpers/classes/spotifyApi.ts:198</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -408,7 +541,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/helpers/classes/spotifyApi.ts#L38">src/helpers/classes/spotifyApi.ts:38</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/helpers/classes/spotifyApi.ts#L41">helpers/classes/spotifyApi.ts:41</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -441,7 +574,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/TypeScrape/blob/163da0c/src/helpers/classes/spotifyApi.ts#L57">src/helpers/classes/spotifyApi.ts:57</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/helpers/classes/spotifyApi.ts#L117">helpers/classes/spotifyApi.ts:117</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -485,17 +618,32 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
 								<a href="spotifyapi.html#instance" class="tsd-kind-icon">instance</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private tsd-is-static">
+								<a href="spotifyapi.html#redis" class="tsd-kind-icon">redis</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="spotifyapi.html#getaccesstoken" class="tsd-kind-icon">get<wbr>Access<wbr>Token</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="spotifyapi.html#getalbum" class="tsd-kind-icon">get<wbr>Album</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="spotifyapi.html#getalbumtracks" class="tsd-kind-icon">get<wbr>Album<wbr>Tracks</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="spotifyapi.html#getartist" class="tsd-kind-icon">get<wbr>Artist</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="spotifyapi.html#getartisttoptracks" class="tsd-kind-icon">get<wbr>Artist<wbr>Top<wbr>Tracks</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 								<a href="spotifyapi.html#getbatch" class="tsd-kind-icon">get<wbr>Batch</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="spotifyapi.html#getgenreseeds" class="tsd-kind-icon">get<wbr>Genre<wbr>Seeds</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="spotifyapi.html#gettrackaudiofeatures" class="tsd-kind-icon">get<wbr>Track<wbr>Audio<wbr>Features</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="spotifyapi.html#requestnewaccesstoken" class="tsd-kind-icon">request<wbr>New<wbr>Access<wbr>Token</a>

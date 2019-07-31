@@ -1,7 +1,7 @@
 import * as tf from '@tensorflow/tfjs';
 import { getRepository } from 'typeorm';
 
-import { SpotifyAlbumTracksScraper } from '../../scrapers/spotify/aggregators/spotifyAlbumTracksScraper';
+import { SpotifyAlbumTracksScraper } from '../scrapers/spotify/aggregators/spotifyAlbumTracksScraper';
 import {
     AggregationGenerator,
     AlbumAggregation,
@@ -11,7 +11,7 @@ import {
 } from './aggregator';
 import { ArtistAggregator } from './artistAggregator';
 import { TrackAggregator } from './trackAggregator';
-import { AlbumEntity } from '../../entities/entities';
+import { AlbumEntity } from '../entities/entities';
 
 require('@tensorflow/tfjs-node');
 

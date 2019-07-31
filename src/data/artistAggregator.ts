@@ -7,8 +7,8 @@ import {
     EncodedArtistTracks,
     FlatArtistAggregation,
 } from './aggregator';
-import { SpotifyArtistTracksScraper } from '../../scrapers/spotify/aggregators/spotifyArtistTracksScraper';
-import { ArtistEntity } from '../../entities/entities';
+import { SpotifyArtistTracksScraper } from '../scrapers/spotify/aggregators/spotifyArtistTracksScraper';
+import { ArtistEntity } from '../entities/entities';
 
 require('@tensorflow/tfjs-node');
 

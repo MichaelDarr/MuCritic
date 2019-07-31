@@ -1,6 +1,6 @@
-import { Aggregation } from './aggregators/aggregator';
-import { AlbumAggregator } from './aggregators/albumAggregator';
-import { ReviewAggregator } from './aggregators/reviewAggregator';
+import { Aggregation } from './aggregator';
+import { AlbumAggregator } from './albumAggregator';
+import { ReviewAggregator } from './reviewAggregator';
 
 /**
  * Reports the average, min, and max for all properties from an array of aggregations. Useful for

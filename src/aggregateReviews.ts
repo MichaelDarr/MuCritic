@@ -7,8 +7,8 @@ import { getRepository } from 'typeorm';
 import {
     Aggregator,
     FlatReviewAggregation,
-} from './data/aggregators/aggregator';
-import { ReviewAggregator } from './data/aggregators/reviewAggregator';
+} from './data/aggregator';
+import { ReviewAggregator } from './data/reviewAggregator';
 import {
     ProfileEntity,
     ReviewEntity,
@@ -22,7 +22,7 @@ require('@tensorflow/tfjs-node');
 dotenv.config({ path: resolve(__dirname, '../.env') });
 
 /**
- * aggregate all reviews into CSV files
+ * aggregate all reviews for all user profiles into CSV files
  */
 export async function aggregateReviews(): Promise<void> {
     Log.notify('\nMuCritic Data Aggregator\n\n');

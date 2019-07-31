@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>SpotifyAlbumBatchScraper | MuCritic</title>
+	<title>SpotifyArtistTracksScraper | MuCritic</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="spotifyalbumbatchscraper.html">SpotifyAlbumBatchScraper</a>
+					<a href="spotifyartisttracksscraper.html">SpotifyArtistTracksScraper</a>
 				</li>
 			</ul>
-			<h1>Class SpotifyAlbumBatchScraper</h1>
+			<h1>Class SpotifyArtistTracksScraper</h1>
 		</div>
 	</div>
 </header>
@@ -69,21 +69,19 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Spotify Album Batch Scraper</p>
+						<p>Spotify Artist Track Scraper <em>-&gt; CSV FILE</em> (not database)</p>
 					</div>
-					<p>Scrapes 20 Albums at a time via Spotify&#39;s
-						<a href="https://developer.spotify.com/documentation/web-api/reference/albums/get-several-albums/">Get Several Albums</a>
-					endpoint.</p>
+					<p>Scrapes top 10 tracks for a given artist or first 6 tracks for a given album</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="spotifybatchscraper.html" class="tsd-signature-type">SpotifyBatchScraper</a><span class="tsd-signature-symbol">&lt;</span><a href="albumentity.html" class="tsd-signature-type">AlbumEntity</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">AlbumBatchResponse</span><span class="tsd-signature-symbol">&gt;</span>
+						<a href="spotifyentitytracksscraper.html" class="tsd-signature-type">SpotifyEntityTracksScraper</a><span class="tsd-signature-symbol">&lt;</span><a href="artistentity.html" class="tsd-signature-type">ArtistEntity</a><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">SpotifyAlbumBatchScraper</span>
+								<span class="target">SpotifyArtistTracksScraper</span>
 							</li>
 						</ul>
 					</li>
@@ -96,36 +94,42 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="spotifyalbumbatchscraper.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="spotifyartisttracksscraper.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="spotifyalbumbatchscraper.html#batchdescription" class="tsd-kind-icon">batch<wbr>Description</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="spotifyalbumbatchscraper.html#datareadfromlocal" class="tsd-kind-icon">data<wbr>Read<wbr>From<wbr>Local</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="spotifyalbumbatchscraper.html#description" class="tsd-kind-icon">description</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="spotifyalbumbatchscraper.html#entities" class="tsd-kind-icon">entities</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="spotifyalbumbatchscraper.html#results" class="tsd-kind-icon">results</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="spotifyalbumbatchscraper.html#scrapesucceeded" class="tsd-kind-icon">scrape<wbr>Succeeded</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="spotifyalbumbatchscraper.html#spotifyapi" class="tsd-kind-icon">spotify<wbr>Api</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="spotifyalbumbatchscraper.html#spotifyresponse" class="tsd-kind-icon">spotify<wbr>Response</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="spotifyalbumbatchscraper.html#verbose" class="tsd-kind-icon">verbose</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="spotifyartisttracksscraper.html#datareadfromlocal" class="tsd-kind-icon">data<wbr>Read<wbr>From<wbr>Local</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="spotifyartisttracksscraper.html#description" class="tsd-kind-icon">description</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="spotifyartisttracksscraper.html#encode" class="tsd-kind-icon">encode</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="spotifyartisttracksscraper.html#encodedtracks" class="tsd-kind-icon">encoded<wbr>Tracks</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="spotifyartisttracksscraper.html#normalize" class="tsd-kind-icon">normalize</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="spotifyartisttracksscraper.html#results" class="tsd-kind-icon">results</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="spotifyartisttracksscraper.html#savedirectory" class="tsd-kind-icon">save<wbr>Directory</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="spotifyartisttracksscraper.html#scrapesucceeded" class="tsd-kind-icon">scrape<wbr>Succeeded</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="spotifyartisttracksscraper.html#spotifyapi" class="tsd-kind-icon">spotify<wbr>Api</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="spotifyartisttracksscraper.html#spotifyfeaturesresponse" class="tsd-kind-icon">spotify<wbr>Features<wbr>Response</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="spotifyartisttracksscraper.html#spotifyid" class="tsd-kind-icon">spotify<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="spotifyartisttracksscraper.html#spotifyresponse" class="tsd-kind-icon">spotify<wbr>Response</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="spotifyartisttracksscraper.html#trackaggregations" class="tsd-kind-icon">track<wbr>Aggregations</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="spotifyartisttracksscraper.html#trackcount" class="tsd-kind-icon">track<wbr>Count</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="spotifyartisttracksscraper.html#verbose" class="tsd-kind-icon">verbose</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="spotifyalbumbatchscraper.html#checkforlocalrecord" class="tsd-kind-icon">check<wbr>For<wbr>Local<wbr>Record</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected"><a href="spotifyalbumbatchscraper.html#extractinfo" class="tsd-kind-icon">extract<wbr>Info</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="spotifyalbumbatchscraper.html#printinfo" class="tsd-kind-icon">print<wbr>Info</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="spotifyalbumbatchscraper.html#printresult" class="tsd-kind-icon">print<wbr>Result</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="spotifyalbumbatchscraper.html#requestscrape" class="tsd-kind-icon">request<wbr>Scrape</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-protected"><a href="spotifyalbumbatchscraper.html#savetolocal" class="tsd-kind-icon">save<wbr>ToLocal</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="spotifyalbumbatchscraper.html#scrape" class="tsd-kind-icon">scrape</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="spotifyalbumbatchscraper.html#scrapedependencies" class="tsd-kind-icon">scrape<wbr>Dependencies</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="spotifyalbumbatchscraper.html#scrapeerrorhandler" class="tsd-kind-icon">scrape<wbr>Error<wbr>Handler</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-static"><a href="spotifyalbumbatchscraper.html#scrapedependencyarr" class="tsd-kind-icon">scrape<wbr>Dependency<wbr>Arr</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="spotifyartisttracksscraper.html#checkforlocalrecord" class="tsd-kind-icon">check<wbr>For<wbr>Local<wbr>Record</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="spotifyartisttracksscraper.html#extractinfo" class="tsd-kind-icon">extract<wbr>Info</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="spotifyartisttracksscraper.html#printinfo" class="tsd-kind-icon">print<wbr>Info</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="spotifyartisttracksscraper.html#printresult" class="tsd-kind-icon">print<wbr>Result</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="spotifyartisttracksscraper.html#requestscrape" class="tsd-kind-icon">request<wbr>Scrape</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-protected"><a href="spotifyartisttracksscraper.html#savetolocal" class="tsd-kind-icon">save<wbr>ToLocal</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="spotifyartisttracksscraper.html#scrape" class="tsd-kind-icon">scrape</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="spotifyartisttracksscraper.html#scrapedependencies" class="tsd-kind-icon">scrape<wbr>Dependencies</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="spotifyartisttracksscraper.html#scrapeerrorhandler" class="tsd-kind-icon">scrape<wbr>Error<wbr>Handler</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-static"><a href="spotifyartisttracksscraper.html#scrapedependencyarr" class="tsd-kind-icon">scrape<wbr>Dependency<wbr>Arr</a></li>
 							</ul>
 						</section>
 					</div>
@@ -137,48 +141,44 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Spotify<wbr>Album<wbr>Batch<wbr>Scraper<span class="tsd-signature-symbol">(</span>albums<span class="tsd-signature-symbol">: </span><a href="albumentity.html" class="tsd-signature-type">AlbumEntity</a><span class="tsd-signature-symbol">[]</span>, verbose<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="spotifyalbumbatchscraper.html" class="tsd-signature-type">SpotifyAlbumBatchScraper</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Spotify<wbr>Artist<wbr>Tracks<wbr>Scraper<span class="tsd-signature-symbol">(</span>spotifyId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, saveDirectory<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, trackCount<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, encode<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, normalize<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span>, verbose<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="spotifyartisttracksscraper.html" class="tsd-signature-type">SpotifyArtistTracksScraper</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="spotifybatchscraper.html">SpotifyBatchScraper</a>.<a href="spotifybatchscraper.html#constructor">constructor</a></p>
+								<p>Overrides <a href="spotifyentitytracksscraper.html">SpotifyEntityTracksScraper</a>.<a href="spotifyentitytracksscraper.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/spotify/spotifyAlbumBatchScraper.ts#L17">scrapers/spotify/spotifyAlbumBatchScraper.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/spotify/aggregators/spotifyArtistTracksScraper.ts#L11">scrapers/spotify/aggregators/spotifyArtistTracksScraper.ts:11</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>albums: <a href="albumentity.html" class="tsd-signature-type">AlbumEntity</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>spotifyId: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> saveDirectory: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;null</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> trackCount: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;5</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> encode: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> normalize: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;true</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> verbose: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="spotifyalbumbatchscraper.html" class="tsd-signature-type">SpotifyAlbumBatchScraper</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="spotifyartisttracksscraper.html" class="tsd-signature-type">SpotifyArtistTracksScraper</a></h4>
 						</li>
 					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-					<a name="batchdescription" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> batch<wbr>Description</h3>
-					<div class="tsd-signature tsd-kind-icon">batch<wbr>Description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="spotifybatchscraper.html">SpotifyBatchScraper</a>.<a href="spotifybatchscraper.html#batchdescription">batchDescription</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/spotify/spotifyBatchScraper.ts#L26">scrapers/spotify/spotifyBatchScraper.ts:26</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Spotify batch API enpoint name, such as &#39;albums&#39; or &#39;artists&#39;. used for URL resolution</p>
-						</div>
-					</div>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="datareadfromlocal" class="tsd-anchor"></a>
 					<h3>data<wbr>Read<wbr>From<wbr>Local</h3>
@@ -213,21 +213,38 @@
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-					<a name="entities" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> entities</h3>
-					<div class="tsd-signature tsd-kind-icon">entities<span class="tsd-signature-symbol">:</span> <a href="albumentity.html" class="tsd-signature-type">AlbumEntity</a><span class="tsd-signature-symbol">[]</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="encode" class="tsd-anchor"></a>
+					<h3>encode</h3>
+					<div class="tsd-signature tsd-kind-icon">encode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="spotifybatchscraper.html">SpotifyBatchScraper</a>.<a href="spotifybatchscraper.html#entities">entities</a></p>
+						<p>Inherited from <a href="spotifyentitytracksscraper.html">SpotifyEntityTracksScraper</a>.<a href="spotifyentitytracksscraper.html#encode">encode</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/spotify/spotifyBatchScraper.ts#L21">scrapers/spotify/spotifyBatchScraper.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/spotify/aggregators/spotifyIdTracksScraper.ts#L25">scrapers/spotify/aggregators/spotifyIdTracksScraper.ts:25</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>up to 20 batch-requestable entities with Spotify Ids to be requested</p>
-						</div>
-					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="encodedtracks" class="tsd-anchor"></a>
+					<h3>encoded<wbr>Tracks</h3>
+					<div class="tsd-signature tsd-kind-icon">encoded<wbr>Tracks<span class="tsd-signature-symbol">:</span> <a href="../globals.html#encodedtrack" class="tsd-signature-type">EncodedTrack</a><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="spotifyentitytracksscraper.html">SpotifyEntityTracksScraper</a>.<a href="spotifyentitytracksscraper.html#encodedtracks">encodedTracks</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/spotify/aggregators/spotifyIdTracksScraper.ts#L23">scrapers/spotify/aggregators/spotifyIdTracksScraper.ts:23</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="normalize" class="tsd-anchor"></a>
+					<h3>normalize</h3>
+					<div class="tsd-signature tsd-kind-icon">normalize<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="spotifyentitytracksscraper.html">SpotifyEntityTracksScraper</a>.<a href="spotifyentitytracksscraper.html#normalize">normalize</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/spotify/aggregators/spotifyIdTracksScraper.ts#L29">scrapers/spotify/aggregators/spotifyIdTracksScraper.ts:29</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="results" class="tsd-anchor"></a>
@@ -244,6 +261,17 @@
 							<p>Contains all results generated by <a href="scraper.html#scrape">Scraper.scrape</a>, including recursive calls.</p>
 						</div>
 					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="savedirectory" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> save<wbr>Directory</h3>
+					<div class="tsd-signature tsd-kind-icon">save<wbr>Directory<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="spotifyentitytracksscraper.html">SpotifyEntityTracksScraper</a>.<a href="spotifyentitytracksscraper.html#savedirectory">saveDirectory</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/spotify/aggregators/spotifyIdTracksScraper.ts#L31">scrapers/spotify/aggregators/spotifyIdTracksScraper.ts:31</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="scrapesucceeded" class="tsd-anchor"></a>
@@ -274,9 +302,31 @@
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="spotifyfeaturesresponse" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> spotify<wbr>Features<wbr>Response</h3>
+					<div class="tsd-signature tsd-kind-icon">spotify<wbr>Features<wbr>Response<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">AudioFeatureBatchResponse</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="spotifyentitytracksscraper.html">SpotifyEntityTracksScraper</a>.<a href="spotifyentitytracksscraper.html#spotifyfeaturesresponse">spotifyFeaturesResponse</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/spotify/aggregators/spotifyIdTracksScraper.ts#L33">scrapers/spotify/aggregators/spotifyIdTracksScraper.ts:33</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="spotifyid" class="tsd-anchor"></a>
+					<h3>spotify<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">spotify<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="spotifyentitytracksscraper.html">SpotifyEntityTracksScraper</a>.<a href="spotifyentitytracksscraper.html#spotifyid">spotifyId</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/spotify/aggregators/spotifyIdTracksScraper.ts#L27">scrapers/spotify/aggregators/spotifyIdTracksScraper.ts:27</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="spotifyresponse" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> spotify<wbr>Response</h3>
-					<div class="tsd-signature tsd-kind-icon">spotify<wbr>Response<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">AlbumBatchResponse</span></div>
+					<div class="tsd-signature tsd-kind-icon">spotify<wbr>Response<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TracksBatchResponse</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="spotifyscraper.html">SpotifyScraper</a>.<a href="spotifyscraper.html#spotifyresponse">spotifyResponse</a></p>
 						<ul>
@@ -288,6 +338,28 @@
 							<p>Spotify data populated by calls to <a href="spotifyidscraper.html#requestscrape">SpotifyIdScraper.requestScrape</a></p>
 						</div>
 					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="trackaggregations" class="tsd-anchor"></a>
+					<h3>track<wbr>Aggregations</h3>
+					<div class="tsd-signature tsd-kind-icon">track<wbr>Aggregations<span class="tsd-signature-symbol">:</span> <a href="../interfaces/trackaggregation.html" class="tsd-signature-type">TrackAggregation</a><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="spotifyentitytracksscraper.html">SpotifyEntityTracksScraper</a>.<a href="spotifyentitytracksscraper.html#trackaggregations">trackAggregations</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/spotify/aggregators/spotifyIdTracksScraper.ts#L35">scrapers/spotify/aggregators/spotifyIdTracksScraper.ts:35</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="trackcount" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> track<wbr>Count</h3>
+					<div class="tsd-signature tsd-kind-icon">track<wbr>Count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="spotifyentitytracksscraper.html">SpotifyEntityTracksScraper</a>.<a href="spotifyentitytracksscraper.html#trackcount">trackCount</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/spotify/aggregators/spotifyIdTracksScraper.ts#L37">scrapers/spotify/aggregators/spotifyIdTracksScraper.ts:37</a></li>
+						</ul>
+					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="verbose" class="tsd-anchor"></a>
@@ -332,20 +404,34 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="extractinfo" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> extract<wbr>Info</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 						<li class="tsd-signature tsd-kind-icon">extract<wbr>Info<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="scraper.html">Scraper</a>.<a href="scraper.html#extractinfo">extractInfo</a></p>
+								<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#extractinfo">extractInfo</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/spotify/spotifyAlbumBatchScraper.ts#L25">scrapers/spotify/spotifyAlbumBatchScraper.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/scraper.ts#L82">scrapers/scraper.ts:82</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Extracts information from a scraped resource <strong>synchronously</strong></p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>remarks</dt>
+									<dd><p>Must be called after <a href="scraper.html#requestscrape">Scraper.requestScrape</a>.</p>
+										<p>Extracted info should be stored into class properties, to be
+											saved later by <a href="scraper.html#savetolocal">Scraper.saveToLocal</a>. Stores constructed (<strong>but not .scrape()&#39;ed</strong>)
+											instances of any more recursive scrapes extracted from this one, to later be scraped by
+										<a href="scraper.html#scrapedependencies">Scraper.scrapeDependencies</a>. By default, this method does nothing.</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -396,27 +482,20 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="requestscrape" class="tsd-anchor"></a>
 					<h3>request<wbr>Scrape</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon">request<wbr>Scrape<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="spotifybatchscraper.html">SpotifyBatchScraper</a>.<a href="spotifybatchscraper.html#requestscrape">requestScrape</a></p>
 								<p>Overrides <a href="scraper.html">Scraper</a>.<a href="scraper.html#requestscrape">requestScrape</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/spotify/spotifyBatchScraper.ts#L45">scrapers/spotify/spotifyBatchScraper.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/spotify/aggregators/spotifyArtistTracksScraper.ts#L24">scrapers/spotify/aggregators/spotifyArtistTracksScraper.ts:24</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>pull spotify info using a comma-separated string concatination of every
-									<a href="spotifybatchscraper.html#entities">SpotifyBatchScraper.entities</a>.spotifyId</p>
-								</div>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
@@ -430,10 +509,10 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="spotifybatchscraper.html">SpotifyBatchScraper</a>.<a href="spotifybatchscraper.html#savetolocal">saveToLocal</a></p>
+								<p>Inherited from <a href="spotifyentitytracksscraper.html">SpotifyEntityTracksScraper</a>.<a href="spotifyentitytracksscraper.html#savetolocal">saveToLocal</a></p>
 								<p>Overrides <a href="scraper.html">Scraper</a>.<a href="scraper.html#savetolocal">saveToLocal</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/spotify/spotifyBatchScraper.ts#L53">scrapers/spotify/spotifyBatchScraper.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/spotify/aggregators/spotifyIdTracksScraper.ts#L56">scrapers/spotify/aggregators/spotifyIdTracksScraper.ts:56</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -493,35 +572,22 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 					<a name="scrapedependencies" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagProtected">Protected</span> scrape<wbr>Dependencies</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<h3>scrape<wbr>Dependencies</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 						<li class="tsd-signature tsd-kind-icon">scrape<wbr>Dependencies<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="scraper.html">Scraper</a>.<a href="scraper.html#scrapedependencies">scrapeDependencies</a></p>
+								<p>Inherited from <a href="spotifyentitytracksscraper.html">SpotifyEntityTracksScraper</a>.<a href="spotifyentitytracksscraper.html#scrapedependencies">scrapeDependencies</a></p>
+								<p>Overrides <a href="scraper.html">Scraper</a>.<a href="scraper.html#scrapedependencies">scrapeDependencies</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/scraper.ts#L197">scrapers/scraper.ts:197</a></li>
+									<li>Defined in <a href="https://github.com/MichaelDarr/MuCritic/blob/6c2b5b2/src/scrapers/spotify/aggregators/spotifyIdTracksScraper.ts#L74">scrapers/spotify/aggregators/spotifyIdTracksScraper.ts:74</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Executes <a href="scraper.html#scrape">Scraper.scrape</a> on any recursive scrapes found in the initial scrape.
-										Defaults to simply resolving an empty promise, so subclasses with no dependencies don&#39;t have
-									to implement this function. See <a href="scraper.html#scrape">Scraper.scrape</a> for more information on implementation.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>remarks</dt>
-									<dd><p>This method must be called after <a href="scraper.html#requestscrape">Scraper.requestScrape</a> and
-										<a href="scraper.html#extractinfo">Scraper.extractInfo</a></p>
-									</dd>
-								</dl>
-							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>the entity that was saved</p>
 						</li>
 					</ul>
 				</section>
@@ -607,67 +673,85 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="spotifyalbumbatchscraper.html" class="tsd-kind-icon">Spotify<wbr>Album<wbr>Batch<wbr>Scraper</a>
+						<a href="spotifyartisttracksscraper.html" class="tsd-kind-icon">Spotify<wbr>Artist<wbr>Tracks<wbr>Scraper</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-								<a href="spotifyalbumbatchscraper.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="spotifyartisttracksscraper.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="spotifyartisttracksscraper.html#datareadfromlocal" class="tsd-kind-icon">data<wbr>Read<wbr>From<wbr>Local</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="spotifyartisttracksscraper.html#description" class="tsd-kind-icon">description</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="spotifyartisttracksscraper.html#encode" class="tsd-kind-icon">encode</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="spotifyartisttracksscraper.html#encodedtracks" class="tsd-kind-icon">encoded<wbr>Tracks</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="spotifyartisttracksscraper.html#normalize" class="tsd-kind-icon">normalize</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="spotifyartisttracksscraper.html#results" class="tsd-kind-icon">results</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-								<a href="spotifyalbumbatchscraper.html#batchdescription" class="tsd-kind-icon">batch<wbr>Description</a>
+								<a href="spotifyartisttracksscraper.html#savedirectory" class="tsd-kind-icon">save<wbr>Directory</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="spotifyalbumbatchscraper.html#datareadfromlocal" class="tsd-kind-icon">data<wbr>Read<wbr>From<wbr>Local</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="spotifyalbumbatchscraper.html#description" class="tsd-kind-icon">description</a>
+								<a href="spotifyartisttracksscraper.html#scrapesucceeded" class="tsd-kind-icon">scrape<wbr>Succeeded</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-								<a href="spotifyalbumbatchscraper.html#entities" class="tsd-kind-icon">entities</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="spotifyalbumbatchscraper.html#results" class="tsd-kind-icon">results</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="spotifyalbumbatchscraper.html#scrapesucceeded" class="tsd-kind-icon">scrape<wbr>Succeeded</a>
+								<a href="spotifyartisttracksscraper.html#spotifyapi" class="tsd-kind-icon">spotify<wbr>Api</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-								<a href="spotifyalbumbatchscraper.html#spotifyapi" class="tsd-kind-icon">spotify<wbr>Api</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-								<a href="spotifyalbumbatchscraper.html#spotifyresponse" class="tsd-kind-icon">spotify<wbr>Response</a>
+								<a href="spotifyartisttracksscraper.html#spotifyfeaturesresponse" class="tsd-kind-icon">spotify<wbr>Features<wbr>Response</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="spotifyalbumbatchscraper.html#verbose" class="tsd-kind-icon">verbose</a>
+								<a href="spotifyartisttracksscraper.html#spotifyid" class="tsd-kind-icon">spotify<wbr>Id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="spotifyartisttracksscraper.html#spotifyresponse" class="tsd-kind-icon">spotify<wbr>Response</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="spotifyartisttracksscraper.html#trackaggregations" class="tsd-kind-icon">track<wbr>Aggregations</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="spotifyartisttracksscraper.html#trackcount" class="tsd-kind-icon">track<wbr>Count</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="spotifyartisttracksscraper.html#verbose" class="tsd-kind-icon">verbose</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="spotifyalbumbatchscraper.html#checkforlocalrecord" class="tsd-kind-icon">check<wbr>For<wbr>Local<wbr>Record</a>
+								<a href="spotifyartisttracksscraper.html#checkforlocalrecord" class="tsd-kind-icon">check<wbr>For<wbr>Local<wbr>Record</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-protected">
-								<a href="spotifyalbumbatchscraper.html#extractinfo" class="tsd-kind-icon">extract<wbr>Info</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="spotifyalbumbatchscraper.html#printinfo" class="tsd-kind-icon">print<wbr>Info</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="spotifyartisttracksscraper.html#extractinfo" class="tsd-kind-icon">extract<wbr>Info</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="spotifyalbumbatchscraper.html#printresult" class="tsd-kind-icon">print<wbr>Result</a>
+								<a href="spotifyartisttracksscraper.html#printinfo" class="tsd-kind-icon">print<wbr>Info</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-								<a href="spotifyalbumbatchscraper.html#requestscrape" class="tsd-kind-icon">request<wbr>Scrape</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="spotifyartisttracksscraper.html#printresult" class="tsd-kind-icon">print<wbr>Result</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
+								<a href="spotifyartisttracksscraper.html#requestscrape" class="tsd-kind-icon">request<wbr>Scrape</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited tsd-is-protected">
-								<a href="spotifyalbumbatchscraper.html#savetolocal" class="tsd-kind-icon">save<wbr>ToLocal</a>
+								<a href="spotifyartisttracksscraper.html#savetolocal" class="tsd-kind-icon">save<wbr>ToLocal</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="spotifyalbumbatchscraper.html#scrape" class="tsd-kind-icon">scrape</a>
+								<a href="spotifyartisttracksscraper.html#scrape" class="tsd-kind-icon">scrape</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+								<a href="spotifyartisttracksscraper.html#scrapedependencies" class="tsd-kind-icon">scrape<wbr>Dependencies</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-								<a href="spotifyalbumbatchscraper.html#scrapedependencies" class="tsd-kind-icon">scrape<wbr>Dependencies</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
-								<a href="spotifyalbumbatchscraper.html#scrapeerrorhandler" class="tsd-kind-icon">scrape<wbr>Error<wbr>Handler</a>
+								<a href="spotifyartisttracksscraper.html#scrapeerrorhandler" class="tsd-kind-icon">scrape<wbr>Error<wbr>Handler</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited tsd-is-static">
-								<a href="spotifyalbumbatchscraper.html#scrapedependencyarr" class="tsd-kind-icon">scrape<wbr>Dependency<wbr>Arr</a>
+								<a href="spotifyartisttracksscraper.html#scrapedependencyarr" class="tsd-kind-icon">scrape<wbr>Dependency<wbr>Arr</a>
 							</li>
 						</ul>
 					</li>

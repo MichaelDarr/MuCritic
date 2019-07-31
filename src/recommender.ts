@@ -5,7 +5,6 @@ import * as tf from '@tensorflow/tfjs';
 import {
     getRepository,
     IsNull,
-    LessThan,
     Not,
 } from 'typeorm';
 
@@ -14,9 +13,9 @@ import * as Spotify from 'spotify';
 import {
     Aggregator,
     EncodedArtist,
-} from './data/aggregators/aggregator';
-import { AlbumAggregator } from './data/aggregators/albumAggregator';
-import { ArtistAggregator } from './data/aggregators/artistAggregator';
+} from './data/aggregator';
+import { AlbumAggregator } from './data/albumAggregator';
+import { ArtistAggregator } from './data/artistAggregator';
 import { AlbumEntity } from './entities/entities';
 import { Log } from './helpers/classes/log';
 import { SpotifyApi } from './helpers/classes/spotifyApi';
@@ -27,8 +26,15 @@ require('@tensorflow/tfjs-node');
 
 dotenv.config({ path: resolve(__dirname, '../.env') });
 
+/**
+ * Run the model, generating album scores for all artists. All models must be generated & all
+ * datasets must be present
+ *
+ * @param artistNames 5 artists from which to generate recommendations
+ */
 export async function recommend(artistNames: string[]): Promise<void> {
     Log.notify('\nMuCritic Album Recommender\n\n');
+
     await connectToDatabase();
     const spotifyHelper = await SpotifyApi.connect(
         process.env.SPOTIFY_CLIENT_ID,
@@ -37,6 +43,7 @@ export async function recommend(artistNames: string[]): Promise<void> {
 
     const redisClient = RedisHelper.getConnection();
 
+    // search for artists using the Spotify API, then encode them
     const artistData: EncodedArtist[] = [];
     for await(const artistName of artistNames) {
         const spotifyArtist = await spotifyHelper.search<Spotify.ArtistSearchResponse>(artistName, 'artist', 10);
@@ -60,10 +67,12 @@ export async function recommend(artistNames: string[]): Promise<void> {
         .as3D(1, artistData.length, artistData[0].length);
     const encodedArtistTensor = artistEncoder.predict(artistTensor) as tf.Tensor;
 
+    // generate taste from the received artists
     const tasteMapper = await tf.loadLayersModel(`${process.env.MODEL_LOCATION_TASTE}/model.json`);
-
     let tasteTensor = tasteMapper.predict(encodedArtistTensor) as tf.Tensor;
     tasteTensor = tasteTensor.reshape([16, 1]);
+
+    // remove the "average" taste from learned one
     const rymTaste = tf.tensor2d([
         [-0.2658042312],
         [-0.2918781042],
@@ -93,12 +102,12 @@ export async function recommend(artistNames: string[]): Promise<void> {
         weights: [tasteTensor],
     }));
 
+    // Get albums and generate scores
     const albums = await getRepository(AlbumEntity).find({
         relations: ['artist'],
         where: {
             spotifyAlbumType: 'album',
             spotifyId: Not(IsNull()),
-            spotifyPopularity: LessThan(50),
         },
     });
 
