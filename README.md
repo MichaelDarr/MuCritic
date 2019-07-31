@@ -1,6 +1,7 @@
-# Mucritic v2.0
+# μCritic Album Recommendation System
 
-## [documentation(slightly outdated)](https://michaeldarr.github.io/TypeScrape)
+## [Deployed Web App](https://michaeldarr.github.io/MuCritic_App/)
 
-## Models (more will be added as diagrams are completed)
-![model diagram 1](https://i.imgur.com/dKYAfbH.jpg"TasteNet")
+## [About the Model](https://michaeldarr.github.io/MuCritic_App/#/about)
+
+## [Technical Documentation](https://michaeldarr.github.io/TypeScrape)
