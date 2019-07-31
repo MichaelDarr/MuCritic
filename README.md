@@ -4,4 +4,4 @@
 
 ### [About the Model](https://michaeldarr.github.io/MuCritic_App/#/about)
 
-### [Technical Documentation](https://michaeldarr.github.io/TypeScrape)
+### [Technical Documentation](https://michaeldarr.github.io/MuCritic)
